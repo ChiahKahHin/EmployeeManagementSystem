@@ -4,6 +4,10 @@
     Home Page
 @endsection
 
+@section("pageTitle")
+    Dashboard
+@endsection
+
 @section("content")
 	
 <div class="card-box pd-20 height-100-p mb-30">
