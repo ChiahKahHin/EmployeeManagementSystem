@@ -1,7 +1,7 @@
 @extends("layouts.template")
 
 @section("title")
-    Home Page
+    Dashboard
 @endsection
 
 @section("pageTitle")

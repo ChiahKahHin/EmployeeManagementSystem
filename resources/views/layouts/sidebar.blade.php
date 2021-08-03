@@ -1,17 +1,24 @@
 <div class="left-side-bar">
-	{{-- <div class="brand-logo">
-		<a href="{{ route('home') }}">
-			<p style="font-size: 16px">EMS</p>
-		</a>
-		<div class="close-sidebar" data-toggle="left-sidebar-close">
-			<i class="ion-close-round"></i>
-		</div>
-	</div> --}}
+	<div>
+		<ul>
+			{{-- <li>
+				<div class="dropdown-divider"></div>
+			</li> --}}
+			<li>
+				<div class="sidebar-small-cap" style="text-align: center; padding: 1.25rem 0 1rem 0;">
+					<a href="{{ route('home') }}" style="color:white;">Emp. Management System</a>
+				</div>
+			</li>
+			<li>
+				<div class="dropdown-divider"></div>
+			</li>
+		</ul>
+	</div>
 
 	<div class="menu-block customscroll">
 		<div class="sidebar-menu">
 			<ul id="accordion-menu">
-				<li>
+				{{-- <li>
 					<div class="dropdown-divider"></div>
 				</li>
 				<li>
@@ -19,7 +26,7 @@
 				</li>
 				<li>
 					<div class="dropdown-divider"></div>
-				</li>
+				</li> --}}
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
