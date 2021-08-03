@@ -1,9 +1,6 @@
 <div class="left-side-bar">
 	<div>
 		<ul>
-			{{-- <li>
-				<div class="dropdown-divider"></div>
-			</li> --}}
 			<li>
 				<div class="sidebar-small-cap" style="text-align: center; padding: 1.25rem 0 1rem 0;">
 					<a href="{{ route('home') }}" style="color:white;">Emp. Management System</a>
@@ -18,15 +15,6 @@
 	<div class="menu-block customscroll">
 		<div class="sidebar-menu">
 			<ul id="accordion-menu">
-				{{-- <li>
-					<div class="dropdown-divider"></div>
-				</li>
-				<li>
-					<div class="sidebar-small-cap" style="text-align: center; padding: 0;">Emp. Management System</div>
-				</li>
-				<li>
-					<div class="dropdown-divider"></div>
-				</li> --}}
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
