@@ -3,7 +3,7 @@
 		<ul>
 			<li>
 				<div class="sidebar-small-cap" style="text-align: center; padding: 1.25rem 0 1rem 0;">
-					<a href="{{ route('home') }}" style="color:white;">Emp. Management System</a>
+					<a href="{{ route('adminDashboard') }}" style="color:white;">Emp. Management System</a>
 				</div>
 			</li>
 			<li>
