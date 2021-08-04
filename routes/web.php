@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\LogoutController;
+use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('home');
+Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::post('/', [LoginController::class, 'store']);
+
+Route::get('/logout', [LogoutController::class, 'index'])->name('logout');
+
+Route::get('/adminDashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
