@@ -26,7 +26,7 @@ class LoginController extends Controller
         ]);
 
         if(!auth()->attempt($request->only('username', 'password'), $request->remember)) {
-            return redirect()->route("login")->withInput()->with("message", "Invalid login details");
+            return redirect()->route("login")->withInput()->with("message", "Invalid login credentials");
         }
 
         if(Auth::user()->isAdmin()){

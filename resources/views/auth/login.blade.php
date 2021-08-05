@@ -5,11 +5,6 @@
 	<meta charset="utf-8">
 	<title>EMS | Login Page</title>
 
-	<!-- Site favicon -->
-	{{-- <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png"> --}}
-
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -34,7 +29,7 @@
 	<div class="login-header box-shadow">
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<div class="brand-logo">
-				<h3 class="text-primary" style="padding-top: 1rem;">Employee Management System</h3>
+				<h3 class="text-primary" style="padding-top: 1rem; padding-left: 1rem">Employee Management System</h3>
 			</div>
 		</div>
 	</div>
@@ -46,35 +41,14 @@
 				</div>
 				<div class="col-md-6 col-lg-5">
 					<div class="login-box bg-white box-shadow border-radius-10">
-						{{-- <div class="login-title">
-							<h2 class="text-center text-primary">Login To Employee Management System</h2>
-						</div> --}}
-						@php
-							// dd({{ session("message") }})
-						@endphp
+						
 						@if (session("message"))
-							<p class="text-danger text-center" style="padding-bottom: 10px;">{{ session("message") }}</p>
+							<p class="text-danger" style="padding-bottom: 10px;">{{ session("message") }}</p>
 						@endif
 						<form action="{{ route('login') }}" method="POST">
 							@csrf
-							{{-- <div class="select-role">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
-									<label class="btn active">
-										<input type="radio" name="options" id="admin">
-										<div class="icon"><img src="vendors/images/briefcase.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Manager
-									</label>
-									<label class="btn">
-										<input type="radio" name="options" id="user">
-										<div class="icon"><img src="vendors/images/person.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Employee
-									</label>
-								</div>
-							</div> --}}
 							<div class="input-group custom" @error("username") style="margin-bottom: 0;" @enderror>
-								<input type="text" name="username" class="form-control form-control-lg @error("username") border-danger @enderror" placeholder="Username">
+								<input type="text" name="username" class="form-control form-control-lg @error("username") border-danger @enderror" value="{{ old('username') }}" placeholder="Username">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
@@ -84,8 +58,9 @@
 									{{ $message }}
 								</div>
 							@enderror
+
 							<div class="input-group custom"  @error("password") style="margin-bottom: 0;" @enderror>
-								<input type="password" name="password" class="form-control form-control-lg @error("password") border-danger @enderror"" placeholder="**********">
+								<input type="password" name="password" class="form-control form-control-lg @error("password") border-danger @enderror" placeholder="**********">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
@@ -94,7 +69,8 @@
 							<div class="text-danger text-sm" style="margin-bottom: 25px;">
 								{{ $message }}
 							</div>
-						@enderror
+							@enderror
+
 							<div class="row pb-30">
 								<div class="col-6">
 									<div class="custom-control custom-checkbox">
@@ -109,17 +85,8 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group mb-0">
-										<!--
-											use code for form submit
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-											<a class="btn btn-primary btn-lg btn-block" href="index.html">Sign In</a>
-										-->
 										<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 									</div>
-									{{-- <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
-									<div class="input-group mb-0">
-										<a class="btn btn-outline-primary btn-lg btn-block" href="register.html">Register To Create Account</a>
-									</div> --}}
 								</div>
 							</div>
 						</form>
