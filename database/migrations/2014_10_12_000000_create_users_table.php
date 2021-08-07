@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->string('firstname');
+            $table->string('lastname');
             $table->string('password');
             $table->integer('role');
             $table->rememberToken();
@@ -28,23 +30,25 @@ class CreateUsersTable extends Migration
         User::create([
             "username" => "admin",
             "email" => "admin@gmail.com",
+            "firstname" => "Peter",
+            "lastname" => "Tan",
             "password" => Hash::make("123"),
             "role" => 0
         ]);
 
-        User::create([
-            "username" => "manager",
-            "email" => "manager@gmail.com",
-            "password" => Hash::make("123"),
-            "role" => 1
-        ]);
+        // User::create([
+        //     "username" => "manager",
+        //     "email" => "manager@gmail.com",
+        //     "password" => Hash::make("123"),
+        //     "role" => 1
+        // ]);
 
-        User::create([
-            "username" => "emp",
-            "email" => "emp@gmail.com",
-            "password" => Hash::make("123"),
-            "role" => 2
-        ]);
+        // User::create([
+        //     "username" => "emp",
+        //     "email" => "emp@gmail.com",
+        //     "password" => Hash::make("123"),
+        //     "role" => 2
+        // ]);
     }
 
     /**
