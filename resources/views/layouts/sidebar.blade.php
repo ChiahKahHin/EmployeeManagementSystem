@@ -30,7 +30,7 @@
 							<span class="micon dw dw-add-user"></span><span class="mtext">Admin</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="">Add Admin</a></li>
+							<li><a href="{{ route('addAdmin') }}">Add Admin</a></li>
 							<li><a href="">Manage Admin</a></li>
 						</ul>
 					</li>

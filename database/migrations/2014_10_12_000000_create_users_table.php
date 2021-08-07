@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('contactNumber');
+            $table->date('dateOfBirth');
             $table->string('password');
             $table->integer('role');
             $table->rememberToken();
@@ -30,8 +32,10 @@ class CreateUsersTable extends Migration
         User::create([
             "username" => "admin",
             "email" => "admin@gmail.com",
-            "firstname" => "Peter",
-            "lastname" => "Tan",
+            "firstname" => "Kah Hin",
+            "lastname" => "Chiah",
+            "contactNumber" => "012-4783997",
+            "dateOfBirth" => "2000-7-7",
             "password" => Hash::make("123"),
             "role" => 0
         ]);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\AdminDashboardController;
@@ -22,3 +23,6 @@ Route::post('/', [LoginController::class, 'store']);
 Route::get('/logout', [LogoutController::class, 'index'])->name('logout');
 
 Route::get('/adminDashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
+
+Route::get('/addAdmin', [AdminController::class, 'addAdminForm'])->name('addAdmin');
+Route::post('/addAdmin', [AdminController::class, 'addAdmin']);
