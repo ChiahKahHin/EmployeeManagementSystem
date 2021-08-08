@@ -57,4 +57,29 @@ class AdminController extends Controller
 
         return view('editAdmin', ['admins' => $admins]);
     }
+
+    public function editAdmin(Request $request, $id)
+    {
+        $this->validate($request, [
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
+            'dateOfBirth' => 'required|before:today',
+            'email' => 'required|email|max:255|unique:users,email,'.$id.'',
+            'username' => 'required|max:255|unique:users,username,'.$id.''
+        ]);
+        
+        $admin = User::findOrFail($id);
+        $admin->firstname = $request->firstname;
+        $admin->lastname = $request->lastname;
+        $admin->contactNumber = $request->contactNumber;
+        $admin->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $admin->email = $request->email;
+        $admin->username = $request->username;
+        $admin->password = Hash::make($request->password);
+        $admin->role = 0;
+        $admin->save();
+
+       return redirect()->route('editAdmin', ['id' => $id])->with('message', 'Admin details updated successfully!');
+    }
 }

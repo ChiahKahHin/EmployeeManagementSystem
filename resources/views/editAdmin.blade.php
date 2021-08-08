@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <form action="{{ route('addAdmin') }}" method="POST">
+        <form action="{{ route('editAdmin', ['id' => $admins->id]) }}" method="POST">
 			@csrf
             <div class="form-group">
                 <div class="row">
@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Date of Birth</label>
-                        <input class="form-control date-picker @error('dateOfBirth') form-control-danger @enderror" type="text" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', $admins->dateOfBirth) }}">
+                        <input class="form-control date-picker @error('dateOfBirth') form-control-danger @enderror" type="text" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', date("d F Y", strtotime($admins->dateOfBirth))) }}">
 						
 						@error("dateOfBirth")
 							<div class="text-danger text-sm">
