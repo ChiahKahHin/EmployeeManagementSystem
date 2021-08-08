@@ -27,3 +27,5 @@ Route::get('/adminDashboard', [AdminDashboardController::class, 'index'])->name(
 Route::get('/addAdmin', [AdminController::class, 'addAdminForm'])->name('addAdmin');
 Route::post('/addAdmin', [AdminController::class, 'addAdmin']);
 Route::get('/manageAdmin', [AdminController::class, 'manageAdmin'])->name('manageAdmin');
+Route::get('/editAdmin/{id}', [AdminController::class, 'editAdminForm'])->name('editAdmin');
+Route::post('/editAdmin/{id}', [AdminController::class, 'editAdmin']);

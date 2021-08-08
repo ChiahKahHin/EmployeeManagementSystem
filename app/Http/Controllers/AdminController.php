@@ -50,4 +50,11 @@ class AdminController extends Controller
         
         return view('manageAdmin', ['admins' => $admins]);
     }
+
+    public function editAdminForm($id)
+    {
+        $admins = User::findOrFail($id);
+
+        return view('editAdmin', ['admins' => $admins]);
+    }
 }
