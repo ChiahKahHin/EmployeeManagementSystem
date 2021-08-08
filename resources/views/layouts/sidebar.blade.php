@@ -31,7 +31,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addAdmin') }}">Add Admin</a></li>
-							<li><a href="">Manage Admin</a></li>
+							<li><a href="{{ route('manageAdmin') }}">Manage Admin</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
