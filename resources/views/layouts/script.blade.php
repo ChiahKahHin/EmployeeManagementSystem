@@ -12,13 +12,13 @@
 <script src="{{ asset('vendors/scripts/datatable-setting.js') }}"></script>
 
 <!-- Buttons for Export datatable -->
-<script src="{{ asset('src/plugins/datatables/js/dataTables.buttons.min.js') }}"></script>
+{{-- <script src="{{ asset('src/plugins/datatables/js/dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/buttons.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/buttons.flash.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('src/plugins/datatables/js/vfs_fonts.js') }}"></script>
+<script src="{{ asset('src/plugins/datatables/js/vfs_fonts.js') }}"></script> --}}
 
 <!-- Apexchart -->
 <script src="{{ asset('src/plugins/apexcharts/apexcharts.min.js') }}"></script>

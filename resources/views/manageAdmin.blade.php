@@ -22,6 +22,7 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Email</th>
+                        <th>Username</th>
                         <th>Contact Number</th>
                         <th class="datatable-nosort">Action</th>
                     </tr>
@@ -37,6 +38,7 @@
 						<td class="table-plus">{{ $admin->firstname }} {{ $admin->lastname }}</td>
                         <td>{{ $age }}</td>
                         <td>{{ $admin->email }}</td>
+                        <td>{{ $admin->username }}</td>
                         <td>{{ $admin->contactNumber }} </td>
                         <td>
 							<div class="dropdown">
@@ -44,9 +46,9 @@
 									<i class="dw dw-more"></i>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-									<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
+									{{-- <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a> --}}
 									<a class="dropdown-item" href="{{ route('editAdmin', ['id' => $admin->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
-									<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
+									<a class="dropdown-item deleteAdmin" id="{{ $admin->id }}" value="{{ $admin->username }}"><i class="dw dw-delete-3"></i> Delete</a>
 								</div>
 							</div>
 						</td>
@@ -57,4 +59,37 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).on('click', '.deleteAdmin', function() {
+            var adminID = $(this).attr('id');
+            var adminUsername = $(this).attr('value');
+            swal({
+                title: 'Delete this admin?',
+                text: 'Username: ' + adminUsername,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: "btn btn-danger",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.value){
+                    swal({
+                        title: "Deleted!",
+                        text: "Admin removed from database",
+                        type: "success",
+                        showCancelButton: false,
+                        timer: 1500
+                    }).then(function(){
+                        window.location.href = "/deleteAdmin/" + adminID;
+                    });
+                }
+                else{
+                    swal("Cancelled", "Admin is not removed from database", "error");
+                }
+            });
+        });
+    </script>
+    
 @endsection

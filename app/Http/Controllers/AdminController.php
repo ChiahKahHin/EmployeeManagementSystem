@@ -82,4 +82,12 @@ class AdminController extends Controller
 
        return redirect()->route('editAdmin', ['id' => $id])->with('message', 'Admin details updated successfully!');
     }
+
+    public function deleteAdmin($id)
+    {
+        $admin = User::findOrFail($id);
+        $admin->delete();
+
+        return redirect()->route('manageAdmin');
+    }
 }
