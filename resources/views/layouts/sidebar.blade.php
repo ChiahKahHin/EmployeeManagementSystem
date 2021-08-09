@@ -36,14 +36,14 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-library"></span><span class="mtext">Tables</span>
+							<span class="micon dw dw-user-2"></span><span class="mtext">Department</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="basic-table.html">Basic Tables</a></li>
-							<li><a href="datatable.html">DataTables</a></li>
+							<li><a href="{{ route('addDepartment') }}">Add Department</a></li>
+							<li><a href="{{ route('manageDepartment') }}">Manage Department</a></li>
 						</ul>
 					</li>
-					<li>
+					{{-- <li>
 						<a href="calendar.html" class="dropdown-toggle no-arrow">
 							<span class="micon dw dw-calendar1"></span><span class="mtext">Calendar</span>
 						</a>
@@ -154,12 +154,12 @@
 							<li><a href="javascript:;">Level 1</a></li>
 							<li><a href="javascript:;">Level 1</a></li>
 						</ul>
-					</li>
+					</li> --}}
 					<li>
 						<div class="dropdown-divider"></div>
 					</li>
 					<li>
-						<div class="sidebar-small-cap">Extra</div>
+						<div class="sidebar-small-cap">Section Divider</div>
 					</li>
 				@endif
 			</ul>
