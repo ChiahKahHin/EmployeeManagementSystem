@@ -60,4 +60,59 @@ class EmployeeController extends Controller
 
         return redirect()->route('addEmployee')->with('message', 'Employee added successfully!');
     }
+
+    public function manageEmployee()
+    {
+        $employees  = User::all()->where('role', '!=', '0');
+        $departments = Department::all();
+
+        return view('manageEmployee', ['employees' => $employees, 'departments' => $departments]);
+    }
+
+    public function editEmployeeForm($id)
+    {
+        $employees = User::findOrFail($id);
+        $departments = Department::all();
+
+        return view('editEmployee', ['employees' => $employees, 'departments' => $departments]);
+    }
+
+    public function editEmployee(Request $request, $id)
+    {
+        $this->validate($request, [
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
+            'dateOfBirth' => 'required|before:today',
+            'gender' => 'required',
+            'address' => 'required|max:255',
+            'department' => 'required',
+        ]);
+
+        $employee = User::findOrFail($id);
+        $employee->firstname = $request->firstname;
+        $employee->lastname = $request->lastname;
+        $employee->contactNumber = $request->contactNumber;
+        $employee->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $employee->gender = $request->gender;
+        $employee->address = $request->address;
+        $employee->department = $request->department;
+        if($request->manager == null){
+            $employee->role = 3;
+        }
+        else{
+            $employee->role = $request->manager;
+        }
+        $employee->save();
+        
+        return redirect()->route('editEmployee', ['id' => $id])->with('message', 'Employee details updated successfully!');
+    }
+
+    public function deleteEmployee($id)
+    {
+        $employee = User::findOrFail($id);
+        $employee->delete();
+
+        return redirect()->route('manageEmployee');
+    }
 }

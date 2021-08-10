@@ -49,7 +49,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addEmployee') }}">Add Employee</a></li>
-							<li><a href="">Manage Employee</a></li>
+							<li><a href="{{ route('manageEmployee') }}">Manage Employee</a></li>
 						</ul>
 					</li>
 					{{-- <li>
