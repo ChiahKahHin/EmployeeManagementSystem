@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\User;
+use App\Notifications\EmployeeCreatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,6 +55,8 @@ class EmployeeController extends Controller
             $employee->role = $request->manager;
         }
         $employee->save();
+        
+        $employee->notify(new EmployeeCreatedNotification($request->firstname, $request->username, $request->password));
 
         return redirect()->route('addEmployee')->with('message', 'Employee added successfully!');
     }
