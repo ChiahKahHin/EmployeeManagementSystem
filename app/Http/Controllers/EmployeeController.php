@@ -126,4 +126,11 @@ class EmployeeController extends Controller
 
         return redirect()->route('manageEmployee');
     }
+
+    public function viewEmployee($id)
+    {
+        $employees = User::findOrFail($id);
+        
+        return view('viewEmployee', ['employees' => $employees]);
+    }
 }

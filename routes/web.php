@@ -59,3 +59,4 @@ Route::get('/manageEmployee', [EmployeeController::class, 'manageEmployee'])->na
 Route::get('/editEmployee/{id}', [EmployeeController::class, 'editEmployeeForm'])->name('editEmployee');
 Route::post('/editEmployee/{id}', [EmployeeController::class, 'editEmployee']);
 Route::get('/deleteEmployee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('deleteEmployee');
+Route::get('/viewEmployee/{id}', [EmployeeController::class, 'viewEmployee'])->name('viewEmployee');

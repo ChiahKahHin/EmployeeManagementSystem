@@ -52,6 +52,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getDepartment() {
+        return $this->belongsTo(Department::class, "department");
+    }
+
     public function isAdmin(){
         return ($this->role == 0) ? true : false; 
     }
