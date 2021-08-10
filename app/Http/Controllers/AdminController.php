@@ -76,7 +76,6 @@ class AdminController extends Controller
         $admin->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
         $admin->email = $request->email;
         $admin->username = $request->username;
-        $admin->password = Hash::make($request->password);
         $admin->role = 0;
         $admin->save();
 
