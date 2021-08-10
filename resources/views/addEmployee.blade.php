@@ -259,8 +259,8 @@
 				document.getElementById('manager1').disabled = true;
 			}
 			if(check){
-				@if (old('department'))
-					@if (old('department') == 1)
+				@if (old('manager'))
+					@if (old('manager') == 1)
 						document.getElementById('manager').checked = true;
 					@else
 						document.getElementById('manager1').checked = true;	

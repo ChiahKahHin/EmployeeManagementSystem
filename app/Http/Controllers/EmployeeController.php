@@ -48,7 +48,7 @@ class EmployeeController extends Controller
         $employee->password = Hash::make($request->password);
         $employee->department = $request->department;
         if($request->manager == null){
-            $employee->role = 0;
+            $employee->role = 3;
         }
         else{
             $employee->role = $request->manager;
