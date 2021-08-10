@@ -34,7 +34,11 @@ class EmployeeController extends Controller
             'username' => 'required|max:255|unique:users,username',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|confirmed|min:8|max:255',
+            'employeeID' => 'required|max:255|unique:users,employeeID',
             'department' => 'required',
+        ],
+        [
+            'employeeID.unique' => 'The employee ID has already been taken'
         ]);
 
         $employee = new User();
@@ -47,6 +51,7 @@ class EmployeeController extends Controller
         $employee->username = $request->username;
         $employee->email = $request->email;
         $employee->password = Hash::make($request->password);
+        $employee->employeeID = $request->employeeID;
         $employee->department = $request->department;
         if($request->manager == null){
             $employee->role = 3;
@@ -86,8 +91,13 @@ class EmployeeController extends Controller
             'dateOfBirth' => 'required|before:today',
             'gender' => 'required',
             'address' => 'required|max:255',
+            'employeeID' => 'required|max:255|unique:users,employeeID,'.$id.'',
             'department' => 'required',
-        ]);
+        ],
+        [
+            'employeeID.unique' => 'The employee ID has already been taken'
+        ]
+        );
 
         $employee = User::findOrFail($id);
         $employee->firstname = $request->firstname;
@@ -96,6 +106,7 @@ class EmployeeController extends Controller
         $employee->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
         $employee->gender = $request->gender;
         $employee->address = $request->address;
+        $employee->employeeID = $request->employeeID;
         $employee->department = $request->department;
         if($request->manager == null){
             $employee->role = 3;

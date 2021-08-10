@@ -150,6 +150,17 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-6">
+                        <label>Employee ID</label>
+                        <input class="form-control @error('employeeID') form-control-danger @enderror" type="text" name="employeeID" placeholder="Enter employee ID (employee ID must be unique)" value="{{ old('employeeID', $employees->employeeID) }}">
+
+						@error("employeeID")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror
+                    </div>
+					
+					<div class="col-md-6">
 						<label>Department</label>
 						
 						<select class="form-control @error('department') form-control-danger @enderror" id="department" name="department" onchange="checkDepartment();">
@@ -166,7 +177,11 @@
 							</div>
 						@enderror	
                     </div>
+				</div>
+			</div>
 
+			<div class="form-group">
+				<div class="row">
 					<div class="col-md-6">
 						<label>Manager Role? <i>(Optional)</i></label>
 						<div class="custom-control custom-radio mb-5">

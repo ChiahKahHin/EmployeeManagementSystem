@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->string('employeeID')->unique()->nullable();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('contactNumber');
@@ -45,7 +46,8 @@ class CreateUsersTable extends Migration
 
         User::create([
             "username" => "emp",
-            "email" => "emp@gmail.com",
+            "email" => "kahhinchiah123@gmail.com",
+            "employeeID" => "E001",
             "firstname" => "Peter",
             "lastname" => "Tan",
             "contactNumber" => "012-4783998",

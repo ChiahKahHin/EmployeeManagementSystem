@@ -19,6 +19,7 @@
                     <tr>
 						<th>#</th>
                         {{-- <th class="table-plus datatable-nosort">Name</th> --}}
+                        <th>Employee ID</th>
                         <th>Name</th>
                         <th>Age</th>
                         <th>Gender</th>
@@ -38,15 +39,12 @@
 							@if ($department->id == $employee->department)
 								@php
 									$departmentName = $department->departmentName;
-								@endphp	
-							@else
-								@php
-									$departmentName = "N/A";
 								@endphp
 							@endif
 						@endforeach
                     <tr>
 						<td>{{ $loop->iteration }}</td>
+                        <td>{{ $employee->employeeID }}</td>
 						<td class="table-plus">{{ ucwords($employee->firstname) }} {{ ucwords($employee->lastname) }}</td>
                         <td>{{ $age }}</td>
                         <td>{{ ucwords($employee->gender) }}</td>
