@@ -25,6 +25,9 @@ class User extends Authenticatable
         'lastname',
         'contactNumber',
         'dateOfBirth',
+        'gender',
+        'address',
+        'department',
         'password',
         'role'
     ];

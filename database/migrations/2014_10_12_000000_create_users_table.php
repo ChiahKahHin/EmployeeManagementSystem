@@ -23,6 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('lastname');
             $table->string('contactNumber');
             $table->date('dateOfBirth');
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
+            $table->integer('department')->nullable();
             $table->string('password');
             $table->integer('role');
             $table->rememberToken();
@@ -31,7 +34,7 @@ class CreateUsersTable extends Migration
 
         User::create([
             "username" => "admin",
-            "email" => "admin@gmail.com",
+            "email" => "kahhinchiah@gmail.com",
             "firstname" => "Kah Hin",
             "lastname" => "Chiah",
             "contactNumber" => "012-4783997",
@@ -41,40 +44,30 @@ class CreateUsersTable extends Migration
         ]);
 
         User::create([
-            "username" => "admin1",
-            "email" => "admin1@gmail.com",
+            "username" => "emp",
+            "email" => "emp@gmail.com",
             "firstname" => "Peter",
             "lastname" => "Tan",
             "contactNumber" => "012-4783998",
             "dateOfBirth" => "2000-7-7",
+            "gender" => "male",
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "department" => 1,
             "password" => Hash::make("123"),
-            "role" => 0
-        ]);
-
-        User::create([
-            "username" => "admin2",
-            "email" => "admin2@gmail.com",
-            "firstname" => "John",
-            "lastname" => "Chiah",
-            "contactNumber" => "012-4783999",
-            "dateOfBirth" => "2000-7-7",
-            "password" => Hash::make("123"),
-            "role" => 0
+            "role" => 3
         ]);
 
         // User::create([
-        //     "username" => "manager",
-        //     "email" => "manager@gmail.com",
+        //     "username" => "admin2",
+        //     "email" => "admin2@gmail.com",
+        //     "firstname" => "John",
+        //     "lastname" => "Chiah",
+        //     "contactNumber" => "012-4783999",
+        //     "dateOfBirth" => "2000-7-7",
         //     "password" => Hash::make("123"),
-        //     "role" => 1
+        //     "role" => 0
         // ]);
 
-        // User::create([
-        //     "username" => "emp",
-        //     "email" => "emp@gmail.com",
-        //     "password" => Hash::make("123"),
-        //     "role" => 2
-        // ]);
     }
 
     /**
