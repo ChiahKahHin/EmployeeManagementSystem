@@ -5,6 +5,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,3 +51,7 @@ Route::get('/manageDepartment', [DepartmentController::class, 'manageDepartment'
 Route::get('/editDepartment/{id}', [DepartmentController::class, 'editDepartmentForm'])->name('editDepartment');
 Route::post('/editDepartment/{id}', [DepartmentController::class, 'editDepartment']);
 Route::get('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment'])->name('deleteAdmin');
+
+//Manage Employee
+Route::get('/addEmployee', [EmployeeController::class, 'addEmployeeForm'])->name('addEmployee');
+Route::post('/addEmployee', [EmployeeController::class, 'addEmployee']);

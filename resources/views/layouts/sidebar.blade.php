@@ -27,7 +27,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-add-user"></span><span class="mtext">Admin</span>
+							<span class="micon dw dw-id-card1"></span><span class="mtext">Admin</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addAdmin') }}">Add Admin</a></li>
@@ -36,11 +36,20 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-user-2"></span><span class="mtext">Department</span>
+							<span class="micon dw dw-group"></span><span class="mtext">Department</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addDepartment') }}">Add Department</a></li>
 							<li><a href="{{ route('manageDepartment') }}">Manage Department</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-add-user"></span><span class="mtext">Employee</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('addEmployee') }}">Add Employee</a></li>
+							<li><a href="">Manage Employee</a></li>
 						</ul>
 					</li>
 					{{-- <li>
