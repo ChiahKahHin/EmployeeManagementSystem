@@ -82,6 +82,29 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
+						<label>Gender</label>
+						@php
+							$genders = array("male", "female");
+						@endphp
+						<select class="form-control @error('gender') form-control-danger @enderror" name="gender">
+							<option value="" selected disabled hidden>Select gender</option>
+							@foreach ($genders as $gender)
+								<option value="{{ $gender }}" {{ (old('gender') == $gender ? "selected": null) }}>{{ ucfirst($gender) }}</option>
+							@endforeach
+						</select>
+						
+						@error("gender")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
                         <label>Email</label>
                         <input class="form-control @error('email') form-control-danger @enderror" type="email" name="email" autocomplete="off" placeholder="Enter email address (e.g. admin@gmail.com)" value="{{ old('email') }}">
 

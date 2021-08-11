@@ -26,6 +26,7 @@ class AdminController extends Controller
             'lastname' => 'required|max:255',
             'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'dateOfBirth' => 'required|before:today',
+            'gender' => 'required',
             'email' => 'required|email|max:255|unique:users,email',
             'username' => 'required|max:255|unique:users,username',
             'password' => 'required|confirmed|min:8|max:255'
@@ -36,9 +37,11 @@ class AdminController extends Controller
         $admin->lastname = $request->lastname;
         $admin->contactNumber = $request->contactNumber;
         $admin->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $admin->gender = $request->gender;
         $admin->email = $request->email;
         $admin->username = $request->username;
         $admin->password = Hash::make($request->password);
+        $admin->department = 1;
         $admin->role = 0;
         $admin->save();
         return redirect()->route('addAdmin')->with('message', 'Admin added successfully!');
@@ -65,6 +68,7 @@ class AdminController extends Controller
             'lastname' => 'required|max:255',
             'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'dateOfBirth' => 'required|before:today',
+            'gender' => 'required',
             'email' => 'required|email|max:255|unique:users,email,'.$id.'',
             'username' => 'required|max:255|unique:users,username,'.$id.''
         ]);
@@ -74,6 +78,7 @@ class AdminController extends Controller
         $admin->lastname = $request->lastname;
         $admin->contactNumber = $request->contactNumber;
         $admin->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $admin->gender = $request->gender;
         $admin->email = $request->email;
         $admin->username = $request->username;
         $admin->role = 0;
@@ -88,5 +93,12 @@ class AdminController extends Controller
         $admin->delete();
 
         return redirect()->route('manageAdmin');
+    }
+
+    public function viewAdmin($id)
+    {
+        $admin = User::findOrFail($id);
+        
+        return view('viewAdmin', ['admin' => $admin]);
     }
 }
