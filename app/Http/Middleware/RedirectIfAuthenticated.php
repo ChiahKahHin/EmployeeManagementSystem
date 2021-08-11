@@ -27,6 +27,9 @@ class RedirectIfAuthenticated
                 if(Auth::user()->isAdmin()){
                     return redirect()->route("adminDashboard");
                 }
+                elseif(Auth::user()->isHrManager()){
+                    return redirect()->route("hrManagerDashboard");
+                }
             }
         }
 
