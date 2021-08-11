@@ -43,6 +43,7 @@ Route::get('/manageAdmin', [AdminController::class, 'manageAdmin'])->name('manag
 Route::get('/editAdmin/{id}', [AdminController::class, 'editAdminForm'])->name('editAdmin');
 Route::post('/editAdmin/{id}', [AdminController::class, 'editAdmin']);
 Route::get('/deleteAdmin/{id}', [AdminController::class, 'deleteAdmin'])->name('deleteAdmin');
+Route::get('/viewAdmin/{id}', [AdminController::class, 'viewAdmin'])->name('viewAdmin');
 
 //Manage Department
 Route::get('/addDepartment', [DepartmentController::class, 'addDepartmentForm'])->name('addDepartment');
