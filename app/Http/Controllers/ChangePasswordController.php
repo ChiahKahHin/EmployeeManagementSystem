@@ -22,7 +22,6 @@ class ChangePasswordController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'oldPassword' => 'required',
             'oldPassword' => [new MatchOldPassword],
             'password' => 'required|confirmed|min:8|max:255',
         ]);
