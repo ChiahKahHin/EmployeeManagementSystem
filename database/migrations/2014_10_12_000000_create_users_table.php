@@ -40,23 +40,53 @@ class CreateUsersTable extends Migration
             "lastname" => "Chiah",
             "contactNumber" => "012-4783997",
             "dateOfBirth" => "2000-7-7",
+            "gender" => "male",
+            "department" => 1,
+            "password" => Hash::make("123"),
+            "role" => 0
+        ]);
+
+        User::create([
+            "username" => "admin1",
+            "email" => "kahhinchiah123@gmail.com",
+            "firstname" => "Kah Hin",
+            "lastname" => "Chiah",
+            "contactNumber" => "012-4783998",
+            "dateOfBirth" => "2000-7-7",
+            "gender" => "male",
+            "department" => 1,
             "password" => Hash::make("123"),
             "role" => 0
         ]);
 
         User::create([
             "username" => "emp",
-            "email" => "kahhinchiah123@gmail.com",
+            "email" => "kahhinchiah12345@gmail.com",
             "employeeID" => "E001",
             "firstname" => "Peter",
             "lastname" => "Tan",
-            "contactNumber" => "012-4783998",
+            "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
-            "department" => 1,
+            "department" => 3,
             "password" => Hash::make("123"),
             "role" => 3
+        ]);
+
+        User::create([
+            "username" => "emp1",
+            "email" => "kahhinchiah0707@gmail.com",
+            "employeeID" => "E002",
+            "firstname" => "Peter",
+            "lastname" => "Tan",
+            "contactNumber" => "012-4783999",
+            "dateOfBirth" => "2000-7-7",
+            "gender" => "male",
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "department" => 2,
+            "password" => Hash::make("123"),
+            "role" => 1
         ]);
 
         // User::create([
