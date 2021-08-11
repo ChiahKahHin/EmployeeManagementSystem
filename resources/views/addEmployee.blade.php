@@ -1,7 +1,7 @@
 @extends("layouts.template")
 
 @section('title')
-    EMS | Add Employee
+    {{ Auth::user()->getRoleName() }} | Add Employee
 @endsection
 
 @section('pageTitle')

@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-    EMS | View Admin Details
+    {{ Auth::user()->getRoleName() }} | View Admin Details
 @endsection
 
 @section('pageTitle')

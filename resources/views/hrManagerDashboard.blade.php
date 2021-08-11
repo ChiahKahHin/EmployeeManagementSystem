@@ -1,7 +1,7 @@
 @extends("layouts.template")
 
 @section("title")
-    Human Resource Manager | Dashboard
+    {{ Auth::user()->getRoleName() }} | Dashboard
 @endsection
 
 @section("pageTitle")

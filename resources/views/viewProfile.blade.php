@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-	EMS | View Profile
+	{{ Auth::user()->getRoleName() }} | View Profile
 @endsection
 
 @section('pageTitle')

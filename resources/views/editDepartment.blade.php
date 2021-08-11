@@ -1,7 +1,7 @@
 @extends("layouts.template")
 
 @section('title')
-    EMS | Edit Department
+    {{ Auth::user()->getRoleName() }} | Edit Department
 @endsection
 
 @section('pageTitle')

@@ -71,4 +71,23 @@ class User extends Authenticatable
     public function isEmployee(){
         return ($this->role == 3) ? true : false; 
     }
+
+    public function getRoleName(){
+        $roleName = null;
+
+        if($this->role == 0){
+            $roleName = "Admin";
+        }
+        elseif($this->role == 1){
+            $roleName = "Human Resource Manager";
+        }
+        elseif($this->role == 2){
+            $departmentName = $this->getDepartment->departmentName;
+            $roleName = $departmentName . " Manager";
+        }
+        else{
+            $roleName = "Employee";
+        }
+        return $roleName;
+    }
 }

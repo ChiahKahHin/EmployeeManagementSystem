@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-	EMS | Change Password
+	{{ Auth::user()->getRoleName() }} | Change Password
 @endsection
 
 @section('pageTitle')

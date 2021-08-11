@@ -1,7 +1,7 @@
 @extends("layouts.template")
 
 @section("title")
-    Employee | Dashboard
+	{{ Auth::user()->getRoleName() }} | Dashboard
 @endsection
 
 @section("pageTitle")

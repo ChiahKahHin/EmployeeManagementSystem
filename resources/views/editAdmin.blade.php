@@ -1,7 +1,7 @@
 @extends("layouts.template")
 
 @section('title')
-    Admin | Edit Admin
+    {{ Auth::user()->getRoleName() }} | Edit Admin
 @endsection
 
 @section('pageTitle')

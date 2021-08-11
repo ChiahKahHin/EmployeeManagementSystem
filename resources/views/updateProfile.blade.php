@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-	EMS | Update Profile
+	{{ Auth::user()->getRoleName() }} | Update Profile
 @endsection
 
 @section('pageTitle')
