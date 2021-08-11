@@ -40,7 +40,7 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-md-6">
-					<img src="vendors/images/forgot-password.png" alt="">
+					<img src="{{ asset('vendors/images/forgot-password.png') }}" alt="">
 				</div>
 				<div class="col-md-6">
 					<div class="login-box bg-white box-shadow border-radius-10">
@@ -77,7 +77,7 @@
 							</div>
 							@enderror
 
-							<h6 class="mb-20">Enter your new confirm password</h6>
+							<h6 class="mb-20">Enter your confirm new password</h6>
 							<div class="input-group custom"  @error("password_confirmation") style="margin-bottom: 0;" @enderror>
 								<input type="password" name="password_confirmation" class="form-control form-control-lg @error("password_confirmation") border-danger @enderror" placeholder="**********">
 								<div class="input-group-append custom">
