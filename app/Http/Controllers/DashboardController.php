@@ -12,6 +12,8 @@ class DashboardController extends Controller
         $this->middleware(['auth']);
         $this->middleware(['admin'])->only(['adminDashboard']);
         $this->middleware(['hrManager'])->only(['hrManagerDashboard']);
+        $this->middleware(['manager'])->only(['managerDashboard']);
+        $this->middleware(['employee'])->only(['employeeDashboard']);
     }
 
     public function adminDashboard()
@@ -22,5 +24,15 @@ class DashboardController extends Controller
     public function hrManagerDashboard()
     {
         return view('hrManagerDashboard');
+    }
+
+    public function managerDashboard()
+    {
+        return view('managerDashboard');
+    }
+
+    public function employeeDashboard()
+    {
+        return view('employeeDashboard');
     }
 }

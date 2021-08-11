@@ -33,10 +33,10 @@ class LoginController extends Controller
                 return redirect()->route("hrManagerDashboard");
             }
             elseif(Auth::user()->isManager()){
-                return "null";
+                return redirect()->route("managerDashboard");
             }
             elseif(Auth::user()->isEmployee()){
-                return "null";
+                return redirect()->route("employeeDashboard");
             }
         }
         else{

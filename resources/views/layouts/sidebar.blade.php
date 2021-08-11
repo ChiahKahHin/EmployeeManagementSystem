@@ -7,8 +7,10 @@
 								{{ route('adminDashboard') }}
 							@elseif (Auth::user()->isHrManager())
 								{{ route('hrManagerDashboard') }}
+							@elseif (Auth::user()->isManager())
+								{{ route('managerDashboard') }}
 							@else
-						
+								{{ route('employeeDashboard') }}
 							@endif" 
 					style="color:white;">Emp. Management System</a>
 				</div>
@@ -27,9 +29,11 @@
 								{{ route('adminDashboard') }}"
 							@elseif (Auth::user()->isHrManager())
 								{{ route('hrManagerDashboard') }}"
+							@elseif (Auth::user()->isManager())
+								{{ route('managerDashboard') }}
 							@else
-					
-							@endif
+								{{ route('employeeDashboard') }}
+							@endif" 
 					
 						class="dropdown-toggle no-arrow">
 						<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
