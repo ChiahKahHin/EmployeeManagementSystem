@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,8 +36,13 @@ Route::get('/forgetPassword/{token}', [ForgetPasswordController::class, 'resetPa
 Route::post('/forgetPassword/{token}', [ForgetPasswordController::class, 'changePassword']);
 
 //Change Password
-Route::get('changePassword', [ChangePasswordController::class, 'index'])->name('changePassword');
-Route::post('changePassword', [ChangePasswordController::class, 'store']);
+Route::get('/changePassword', [ChangePasswordController::class, 'index'])->name('changePassword');
+Route::post('/changePassword', [ChangePasswordController::class, 'store']);
+
+//View & Update Profile
+Route::get('/viewProfile', [ProfileController::class, 'viewProfile'])->name('viewProfile');
+Route::get('/updateProfile', [ProfileController::class, 'updateProfileForm'])->name('updateProfile');
+Route::post('/updateProfile', [ProfileController::class, 'updateProfile']);
 
 //Dashboard
 Route::get('/adminDashboard', [DashboardController::class, 'adminDashboard'])->name('adminDashboard');
