@@ -19,7 +19,7 @@ class HrManager
     {
         $user = Auth::user();
 
-        if ($user->isHrManager())
+        if ($user->isHrManager() || $user->isAdmin())
             return $next($request);
 
         return redirect()->route("login");
