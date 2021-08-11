@@ -35,13 +35,6 @@
 							$year = explode("-", $employee->dateOfBirth);
 							$age = date('Y') - $year[0];
 						@endphp
-						@foreach ($departments as $department)
-							@if ($department->id == $employee->department)
-								@php
-									$departmentName = $department->departmentName;
-								@endphp
-							@endif
-						@endforeach
                     <tr>
 						<td>{{ $loop->iteration }}</td>
                         <td>{{ $employee->employeeID }}</td>
@@ -50,7 +43,7 @@
                         <td>{{ ucwords($employee->gender) }}</td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->contactNumber }} </td>
-                        <td>{{ ucwords($departmentName) }}</td>
+                        <td>{{ ucwords($employee->getDepartment->departmentName) }}</td>
                         <td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

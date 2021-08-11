@@ -69,9 +69,8 @@ class EmployeeController extends Controller
     public function manageEmployee()
     {
         $employees  = User::all()->where('role', '!=', '0');
-        $departments = Department::all();
 
-        return view('manageEmployee', ['employees' => $employees, 'departments' => $departments]);
+        return view('manageEmployee', ['employees' => $employees]);
     }
 
     public function editEmployeeForm($id)
