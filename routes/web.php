@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
@@ -32,6 +33,10 @@ Route::get('/forgetPassword', [ForgetPasswordController::class, 'index'])->name(
 Route::post('/forgetPassword', [ForgetPasswordController::class, 'notifyEmail']);
 Route::get('/forgetPassword/{token}', [ForgetPasswordController::class, 'resetPassword'])->name('password.reset');
 Route::post('/forgetPassword/{token}', [ForgetPasswordController::class, 'changePassword']);
+
+//Change Password
+Route::get('changePassword', [ChangePasswordController::class, 'index'])->name('changePassword');
+Route::post('changePassword', [ChangePasswordController::class, 'store']);
 
 //Dashboard
 Route::get('/adminDashboard', [DashboardController::class, 'adminDashboard'])->name('adminDashboard');
