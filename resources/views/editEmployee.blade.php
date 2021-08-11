@@ -125,7 +125,7 @@
                 <div class="row">
 					<div class="col-md-6">
                         <label>Username</label>
-                        <input class="form-control @error('username') form-control-danger @enderror" type="text" name="username" placeholder="Enter username (username must be unique)" value="{{ old('username', $employees->username) }}" readonly>
+                        <input class="form-control @error('username') form-control-danger @enderror" type="text" name="username" placeholder="Enter username (username must be unique)" value="{{ old('username', $employees->username) }}">
 
 						@error("username")
 							<div class="text-danger text-sm">
@@ -136,7 +136,7 @@
 
                     <div class="col-md-6">
                         <label>Email</label>
-                        <input class="form-control @error('email') form-control-danger @enderror" type="email" name="email" autocomplete="off" placeholder="Enter email address (e.g. employee@gmail.com)" value="{{ old('email', $employees->email) }}" readonly>
+                        <input class="form-control @error('email') form-control-danger @enderror" type="email" name="email" autocomplete="off" placeholder="Enter email address (e.g. employee@gmail.com)" value="{{ old('email', $employees->email) }}">
 
 						@error("email")
 							<div class="text-danger text-sm">

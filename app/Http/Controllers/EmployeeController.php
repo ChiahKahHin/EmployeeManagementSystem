@@ -90,6 +90,8 @@ class EmployeeController extends Controller
             'dateOfBirth' => 'required|before:today',
             'gender' => 'required',
             'address' => 'required|max:255',
+            'username' => 'required|max:255|unique:users,username,'.$id.'',
+            'email' => 'required|email|max:255|unique:users,email,'.$id.'',
             'employeeID' => 'required|max:255|unique:users,employeeID,'.$id.'',
             'department' => 'required',
         ],
@@ -105,6 +107,8 @@ class EmployeeController extends Controller
         $employee->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
         $employee->gender = $request->gender;
         $employee->address = $request->address;
+        $employee->username = $request->username;
+        $employee->email = $request->email;
         $employee->employeeID = $request->employeeID;
         $employee->department = $request->department;
         if($request->manager == null){

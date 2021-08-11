@@ -22,7 +22,6 @@
                         <th>Employee ID</th>
                         <th>Name</th>
                         <th>Age</th>
-                        <th>Gender</th>
                         <th>Email</th>
                         <th>Contact Number</th>
                         <th>Department</th>
@@ -40,7 +39,6 @@
                         <td>{{ $employee->employeeID }}</td>
 						<td class="table-plus">{{ ucwords($employee->firstname) }} {{ ucwords($employee->lastname) }}</td>
                         <td>{{ $age }}</td>
-                        <td>{{ ucwords($employee->gender) }}</td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->contactNumber }} </td>
                         <td>{{ ucwords($employee->getDepartment->departmentName) }}</td>
