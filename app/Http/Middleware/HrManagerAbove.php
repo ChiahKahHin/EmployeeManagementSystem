@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class HrManager
+class HrManagerAbove
 {
     /**
      * Handle an incoming request.
@@ -17,11 +16,6 @@ class HrManager
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
-
-        if ($user->isHrManager())
-            return $next($request);
-
-        return redirect()->route("login");
+        return $next($request);
     }
 }
