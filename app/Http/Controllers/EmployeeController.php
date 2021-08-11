@@ -17,7 +17,7 @@ class EmployeeController extends Controller
 
     public function addEmployeeForm()
     {
-        $departments = Department::all();
+        $departments = Department::all()->where('departmentName', '!=', 'Administration');
 
         return view('addEmployee', ['departments' => $departments]);
     }
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
     public function editEmployeeForm($id)
     {
         $employees = User::findOrFail($id);
-        $departments = Department::all();
+        $departments = Department::all()->where('departmentName', '!=', 'Administration');
 
         return view('editEmployee', ['employees' => $employees, 'departments' => $departments]);
     }
