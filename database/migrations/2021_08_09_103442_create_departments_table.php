@@ -23,11 +23,21 @@ class CreateDepartmentsTable extends Migration
 
         Department::create([
             "departmentCode" => "D001",
+            "departmentName" => "Administration"
+        ]);
+
+        Department::create([
+            "departmentCode" => "D002",
             "departmentName" => "Human Resource"
         ]);
         
         Department::create([
-            "departmentCode" => "D002",
+            "departmentCode" => "D003",
+            "departmentName" => "Information Technology"
+        ]);
+
+        Department::create([
+            "departmentCode" => "D004",
             "departmentName" => "Finance"
         ]);
     }
