@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
-use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
@@ -34,7 +34,8 @@ Route::get('/forgetPassword/{token}', [ForgetPasswordController::class, 'resetPa
 Route::post('/forgetPassword/{token}', [ForgetPasswordController::class, 'changePassword']);
 
 //Dashboard
-Route::get('/adminDashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
+Route::get('/adminDashboard', [DashboardController::class, 'adminDashboard'])->name('adminDashboard');
+Route::get('/hrManagerDashboard', [DashboardController::class, 'hrManagerDashboard'])->name('hrManagerDashboard');
 
 //Manage Admin
 Route::get('/addAdmin', [AdminController::class, 'addAdminForm'])->name('addAdmin');

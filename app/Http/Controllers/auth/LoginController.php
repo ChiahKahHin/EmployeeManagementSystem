@@ -25,15 +25,22 @@ class LoginController extends Controller
             "password" => "required"
         ]);
 
-        if(!auth()->attempt($request->only('username', 'password'), $request->remember)) {
-            return redirect()->route("login")->withInput()->with("message", "Invalid login credentials");
-        }
-
-        if(Auth::user()->isAdmin()){
-            return redirect()->route("adminDashboard");
+        if(auth()->attempt($request->only('username', 'password'), $request->remember)) {
+            if(Auth::user()->isAdmin()){
+                return redirect()->route("adminDashboard");
+            }
+            elseif(Auth::user()->isHrManager()){
+                return redirect()->route("hrManagerDashboard");
+            }
+            elseif(Auth::user()->isManager()){
+                return "null";
+            }
+            elseif(Auth::user()->isEmployee()){
+                return "null";
+            }
         }
         else{
-            return null;
+            return redirect()->route("login")->withInput()->with("message", "Invalid login credentials");
         }
     }
 }

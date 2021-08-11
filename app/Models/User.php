@@ -59,4 +59,16 @@ class User extends Authenticatable
     public function isAdmin(){
         return ($this->role == 0) ? true : false; 
     }
+
+    public function isHrManager(){
+        return ($this->role == 1) ? true : false; 
+    }
+
+    public function isManager(){
+        return ($this->role == 2) ? true : false; 
+    }
+
+    public function isEmployee(){
+        return ($this->role == 3) ? true : false; 
+    }
 }
