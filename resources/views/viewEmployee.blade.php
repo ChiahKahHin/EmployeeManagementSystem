@@ -94,5 +94,4 @@
             </tbody>
         </table>
     </div>
-    <!-- Bordered table End -->
 @endsection
