@@ -13,7 +13,6 @@ class TaskAssignedMail extends Mailable
 {
     use Queueable, SerializesModels;
     
-    private User $employee;
     private Task $task;
 
     /**
@@ -21,9 +20,8 @@ class TaskAssignedMail extends Mailable
      *
      * @return void
      */
-    public function __construct(User $employee, Task $task)
+    public function __construct(Task $task)
     {
-        $this->employee = $employee;
         $this->task = $task;
     }
 
@@ -35,6 +33,6 @@ class TaskAssignedMail extends Mailable
     public function build()
     {
         return $this->subject('New Task Added Notification')
-                    ->markdown('email.taskAssigned', ['employee' => $this->employee, 'task' => $this->task]);
+                    ->markdown('email.taskAssigned', ['task' => $this->task]);
     }
 }
