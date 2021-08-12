@@ -45,7 +45,7 @@
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
 									<a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-									<a class="dropdown-item deleteAdmin" id="{{ $task->id }}" value="{{ $task->username }}"><i class="dw dw-delete-3"></i> Delete</a>
+									<a class="dropdown-item deleteTask" id="{{ $task->id }}" value="{{ $task->title }}"><i class="dw dw-delete-3"></i> Delete</a>
 								</div>
 							</div>
 						</td>
@@ -56,4 +56,37 @@
 			</table>
 		</div>
 	</div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).on('click', '.deleteTask', function() {
+            var taskID = $(this).attr('id');
+            var taskTitle = $(this).attr('value');
+            swal({
+                title: 'Delete this task?',
+                text: 'Task title: ' + taskTitle,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: "btn btn-danger",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.value){
+                    swal({
+                        title: "Deleted!",
+                        text: "Task removed from system",
+                        type: "success",
+                        showCancelButton: false,
+                        timer: 1500
+                    }).then(function(){
+                        window.location.href = "/deleteTask/" + taskID;
+                    });
+                }
+                else{
+                    swal("Cancelled", "Task is not removed from system", "error");
+                }
+            });
+        });
+    </script>
+    
 @endsection

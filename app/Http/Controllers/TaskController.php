@@ -57,4 +57,12 @@ class TaskController extends Controller
 
         return view('manageTask', ['tasks' => $tasks]);
     }
+
+    public function deleteTask($id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return redirect()->route('manageTask');
+    }
 }
