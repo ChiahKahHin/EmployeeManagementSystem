@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('description');
             $table->integer('personInCharge');
             $table->integer('department');
+            $table->integer('manager');
             $table->string('priority');
             $table->string('dueDate');
             $table->integer('status');

@@ -41,6 +41,7 @@ class TaskController extends Controller
         $task->description = $request->description;
         $task->personInCharge = $request->personInCharge;
         $task->department = Auth::user()->department;
+        $task->manager = Auth::user()->id;
         $task->priority = $request->priority;
         $task->dueDate = date("Y-m-d", strtotime($request->dueDate));
         $task->status = 0;
