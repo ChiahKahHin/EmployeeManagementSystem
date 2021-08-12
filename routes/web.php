@@ -9,6 +9,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,3 +76,7 @@ Route::get('/editEmployee/{id}', [EmployeeController::class, 'editEmployeeForm']
 Route::post('/editEmployee/{id}', [EmployeeController::class, 'editEmployee']);
 Route::get('/deleteEmployee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('deleteEmployee');
 Route::get('/viewEmployee/{id}', [EmployeeController::class, 'viewEmployee'])->name('viewEmployee');
+
+//Manage Task
+Route::get('/addTask', [TaskController::class, 'addTaskForm'])->name('addTask');
+Route::post('/addTask', [TaskController::class, 'addTask']);

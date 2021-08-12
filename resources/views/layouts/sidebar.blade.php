@@ -69,13 +69,26 @@
 							<li><a href="{{ route('manageEmployee') }}">Manage Employee</a></li>
 						</ul>
 					</li>
-					<li>
-						<div class="dropdown-divider"></div>
-					</li>
-					<li>
-						<div class="sidebar-small-cap">Section Divider</div>
+					
+				@endif
+
+				@if (Auth::user()->isHrManager() || Auth::user()->isManager())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('addTask') }}">Add Task</a></li>
+							<li><a href="{{ route('manageDepartment') }}">Manage Task</a></li>
+						</ul>
 					</li>
 				@endif
+				<li>
+					<div class="dropdown-divider"></div>
+				</li>
+				<li>
+					<div class="sidebar-small-cap">Section Divider</div>
+				</li>
 			</ul>
 		</div>
 	</div>
