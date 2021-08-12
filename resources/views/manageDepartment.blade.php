@@ -66,7 +66,7 @@
                 if (result.value){
                     swal({
                         title: "Deleted!",
-                        text: departmentName + " department removed from database",
+                        text: departmentName + " department removed from system",
                         type: "success",
                         showCancelButton: false,
                         timer: 1500
@@ -75,7 +75,7 @@
                     });
                 }
                 else{
-                    swal("Cancelled", "Department is not removed from database", "error");
+                    swal("Cancelled", "Department is not removed from system", "error");
                 }
             });
         });

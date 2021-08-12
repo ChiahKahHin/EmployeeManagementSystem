@@ -79,7 +79,7 @@
                 if (result.value){
                     swal({
                         title: "Deleted!",
-                        text: "Employee removed from database",
+                        text: "Employee removed from system",
                         type: "success",
                         showCancelButton: false,
                         timer: 1500
@@ -88,7 +88,7 @@
                     });
                 }
                 else{
-                    swal("Cancelled", "Employee is not removed from database", "error");
+                    swal("Cancelled", "Employee is not removed from system", "error");
                 }
             });
         });
