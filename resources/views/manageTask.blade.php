@@ -43,7 +43,7 @@
 									<i class="dw dw-more"></i>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-									<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
+									<a class="dropdown-item" href="{{ route('viewTask', ['id' => $task->id]) }}"><i class="dw dw-eye"></i> View</a>
 									<a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
 									<a class="dropdown-item deleteTask" id="{{ $task->id }}" value="{{ $task->title }}"><i class="dw dw-delete-3"></i> Delete</a>
 								</div>

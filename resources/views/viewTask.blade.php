@@ -1,0 +1,151 @@
+@extends('layouts.template')
+
+@section('title')
+	{{ Auth::user()->getRoleName() }} | View Task Details
+@endsection
+
+@section('pageTitle')
+	View Task Details
+@endsection
+
+@section('content')
+	<div class="pd-20 card-box mb-30">
+		<div class="clearfix mb-20">
+			<div class="pull-left">
+				<h4 class="text-blue h4">Task Details</h4>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th scope="col" width="30%">Task Details</th>
+					<th scope="col" width="70%">Task Information</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="font-weight-bold">Title</td>
+					<td>{{ ucwords($task->title) }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Description</td>
+					<td>{{ ucfirst($task->description) }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Person In Charge</td>
+					<td>{{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Priority</td>
+					<td>{{ $task->priority }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Due Date</td>
+					<td>{{ date("d F Y", strtotime($task->dueDate)) }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Status</td>
+					<td>{{ $task->getStatus() }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Task Created Date & Time</td>
+					<td>{{ date("d F Y, G:ia", strtotime($task->created_at)) }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Task Updated Date & Time</td>
+					<td>{{ date("d F Y, G:ia", strtotime($task->updated_at)) }}</td>
+				</tr>
+			</tbody>
+		</table>
+		@if (!Auth::user()->isEmployee())
+			@if ($task->status == 1)
+				<div class="row">
+					<div class="col-md-6">
+						<button type="button" id="approveTask" class="btn btn-primary btn-block">Approve Task</button>
+					</div>
+					<div class="col-md-6">
+						<button type="button" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-block">Reject Task</button>
+					</div>
+				</div>
+			@endif
+		@endif
+		
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="login-box bg-white box-shadow border-radius-10">
+						<div class="login-title">
+							<h2 class="text-center text-primary">Reject Task?</h2>
+						</div>
+						<div class="input-group custom">
+							<input type="text" id="reasonOfRejectingTask" class="form-control form-control-lg" placeholder="Reason of rejecting the task">
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group mb-0">
+									<button type="button" id="rejectTask" class="btn btn-primary btn-lg btn-block">Reject Task</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection
+
+@section("script")
+	<script>
+		$('#approveTask').on('click', function(){
+			swal({
+				title: "Approve this task?",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonClass: "btn btn-success",
+				confirmButtonText: "Yes, approve it!"
+			}).then((result) => {
+				if(result.value){
+					swal({
+                        title: "Approved!",
+                        text: "Task approved",
+                        type: "success",
+                        showCancelButton: false,
+                        timer: 1500
+                    }).then(function(){
+                        window.location.href = "/approveTask/" + {{ $task->id }};
+                    });
+				}
+				else{
+					swal("Cancelled", "Task is not approved", "error");
+				}
+			});
+		});
+
+		$('#rejectTask').on('click', function(){
+			var reason = document.getElementById('reasonOfRejectingTask').value;
+			swal({
+				title: "Reject this task?",
+				text: "Reason: " + reason,
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonClass: "btn btn-danger",
+				confirmButtonText: "Reject it!"
+			}).then((result) => {
+				if(result.value){
+					swal({
+                        title: "Rejected!",
+                        text: "Task rejected",
+                        type: "success",
+                        showCancelButton: false,
+                        timer: 1500
+                    }).then(function(){
+                        window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + reason;
+                    });
+				}
+				else{
+					swal("Cancelled", "Task is not rejected", "error");
+				}
+			});
+		});
+	</script>
+@endsection

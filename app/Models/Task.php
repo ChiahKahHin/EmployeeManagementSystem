@@ -15,9 +15,15 @@ class Task extends Model
         return $this->belongsTo(User::class, "personInCharge");
     }
 
+    public function getEmail($id){
+        $user = User::find($id);
+        
+        return $user->email;
+    }
+
     public function getStatus(){
         $taskStatus = null;
-        
+
         if($this->dueDate >= date("Y-m-d")){
             if($this->status == 0){
                 $taskStatus = "Pending";

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TaskApprovedOrRejectedMail;
 use App\Mail\TaskAssignedMail;
 use App\Models\Task;
 use App\Models\User;
@@ -14,7 +15,8 @@ class TaskController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('managerAndHrManager');
+        $this->middleware('managerAndHrManager')->only(['addTaskForm', 'addTask', 'manageTask', 'deleteTask']);
+        // $this->middleware('employee');
     }
 
     public function addTaskForm()
@@ -44,9 +46,9 @@ class TaskController extends Controller
         $task->status = 0;
         $task->save();
 
-        $employee = User::find($task->personInCharge);
+        $email = $task->getEmail($task->personInCharge);
         
-        Mail::to($employee->email)->send(new TaskAssignedMail($employee, $task));
+        Mail::to($email)->send(new TaskAssignedMail($task));
 
         return redirect()->route('addTask')->with('message', 'Task added successfully!');
     }
@@ -64,5 +66,38 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->route('manageTask');
+    }
+
+    public function viewTask($id)
+    {
+        $task = Task::findOrFail($id);
+
+        return view('viewTask', ['task' => $task]);
+    }
+
+    public function approveTask($id)
+    {
+        $task = Task::find($id);
+        $task->status = 3;
+        $task->save();
+
+        $email = $task->getEmail($task->personInCharge);
+
+        Mail::to($email)->send(new TaskApprovedOrRejectedMail($task));
+
+        return redirect()->route('viewTask', ['id' => $id]);
+    }
+
+    public function rejectTask($id, $reason)
+    {
+        $task = Task::find($id);
+        $task->status = 2;
+        $task->save();
+
+        $email = $task->getEmail($task->personInCharge);
+
+        Mail::to($email)->send(new TaskApprovedOrRejectedMail($task, $reason));
+
+        return redirect()->route('viewTask', ['id' => $id]);
     }
 }

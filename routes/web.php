@@ -82,3 +82,6 @@ Route::get('/addTask', [TaskController::class, 'addTaskForm'])->name('addTask');
 Route::post('/addTask', [TaskController::class, 'addTask']);
 Route::get('/manageTask', [TaskController::class, 'manageTask'])->name('manageTask');
 Route::get('/deleteTask/{id}', [TaskController::class, 'deleteTask'])->name('deleteTask');
+Route::get('/viewTask/{id}', [TaskController::class, 'viewTask'])->name('viewTask');
+Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('approveTask');
+Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
