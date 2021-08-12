@@ -80,3 +80,4 @@ Route::get('/viewEmployee/{id}', [EmployeeController::class, 'viewEmployee'])->n
 //Manage Task
 Route::get('/addTask', [TaskController::class, 'addTaskForm'])->name('addTask');
 Route::post('/addTask', [TaskController::class, 'addTask']);
+Route::get('/manageTask', [TaskController::class, 'manageTask'])->name('manageTask');

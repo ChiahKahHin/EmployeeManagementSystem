@@ -79,7 +79,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addTask') }}">Add Task</a></li>
-							<li><a href="{{ route('manageDepartment') }}">Manage Task</a></li>
+							<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
 						</ul>
 					</li>
 				@endif

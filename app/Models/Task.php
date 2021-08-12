@@ -10,4 +10,32 @@ class Task extends Model
     use HasFactory;
 
     protected $table = "tasks";
+
+    public function getPersonInCharge(){
+        return $this->belongsTo(User::class, "personInCharge");
+    }
+
+    public function getStatus(){
+        $taskStatus = null;
+        
+        if($this->dueDate >= date("Y-m-d")){
+            if($this->status == 0){
+                $taskStatus = "Pending";
+            }
+            elseif($this->status == 1){
+                $taskStatus = "Waiting Approval";
+            }
+            elseif($this->status == 2){
+                $taskStatus = "Rejected";
+            }
+            elseif($this->status == 3){
+                $taskStatus = "Completed";
+            }
+        }
+        else{
+            $taskStatus = "Overdue";
+        }
+
+        return $taskStatus;
+    }
 }

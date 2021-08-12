@@ -17,10 +17,11 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->string('personInCharge');
+            $table->integer('personInCharge');
+            $table->integer('department');
             $table->string('priority');
             $table->string('dueDate');
-            $table->string('status');
+            $table->integer('status');
             $table->timestamps();
         });
     }

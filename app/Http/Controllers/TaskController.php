@@ -38,6 +38,7 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->description = $request->description;
         $task->personInCharge = $request->personInCharge;
+        $task->department = Auth::user()->department;
         $task->priority = $request->priority;
         $task->dueDate = date("Y-m-d", strtotime($request->dueDate));
         $task->status = 0;
@@ -48,5 +49,12 @@ class TaskController extends Controller
         Mail::to($employee->email)->send(new TaskAssignedMail($employee, $task));
 
         return redirect()->route('addTask')->with('message', 'Task added successfully!');
+    }
+
+    public function manageTask()
+    {
+        $tasks = Task::all()->where('department', Auth::user()->department);
+
+        return view('manageTask', ['tasks' => $tasks]);
     }
 }
