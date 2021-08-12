@@ -15,8 +15,7 @@ class TaskController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('managerAndHrManager')->only(['addTaskForm', 'addTask', 'manageTask', 'deleteTask']);
-        // $this->middleware('employee');
+        $this->middleware('managerAndHrManager')->only(['addTaskForm', 'addTask']);
     }
 
     public function addTaskForm()
@@ -56,7 +55,15 @@ class TaskController extends Controller
 
     public function manageTask()
     {
-        $tasks = Task::all()->where('department', Auth::user()->department);
+        if(Auth::user()->isAdmin()){
+            $tasks = Task::all();
+        }
+        elseif(Auth::user()->isEmployee()){
+            $tasks = Task::all()->where('department', Auth::user()->department)->where('personInCharge', Auth::user()->id);
+        }
+        else{
+            $tasks = Task::all()->where('department', Auth::user()->department);
+        }
 
         return view('manageTask', ['tasks' => $tasks]);
     }

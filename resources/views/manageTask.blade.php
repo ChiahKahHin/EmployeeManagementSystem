@@ -20,7 +20,11 @@
 						<th>#</th>
 						<th>Title</th>
 						<th>Description</th>
-						<th>Person In Charge</th>
+						@if (Auth::user()->isEmployee())
+							<th>Manager</th>
+						@else
+							<th>Person In Charge</th>
+						@endif
 						<th>Priority</th>
 						<th>Due Date</th>
 						<th>Status</th>
@@ -33,7 +37,12 @@
 						<td>{{ $loop->iteration }}</td>
 						<td class="table-plus">{{ $task->title }}</td>
 						<td>{{ $task->description }}</td>
-						<td>{{ $task->getPersonInCharge->firstname }} {{ $task->getPersonInCharge->lastname }}</td>
+						@if (Auth::user()->isEmployee())
+							<td>{{ $task->getManager->firstname }} {{ $task->getManager->lastname }}</td>
+							
+						@else
+							<td>{{ $task->getPersonInCharge->firstname }} {{ $task->getPersonInCharge->lastname }}</td>
+						@endif
 						<td>{{ $task->priority }}</td>
 						<td>{{ date("d F Y", strtotime($task->dueDate)) }} </td>
 						<td>{{ $task->getStatus() }}</td>

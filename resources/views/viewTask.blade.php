@@ -31,10 +31,26 @@
 					<td class="font-weight-bold">Description</td>
 					<td>{{ ucfirst($task->description) }}</td>
 				</tr>
-				<tr>
-					<td class="font-weight-bold">Person In Charge</td>
-					<td>{{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }}</td>
-				</tr>
+				@if (Auth::user()->isEmployee())
+					<tr>
+						<td class="font-weight-bold">Manager</td>
+						<td>{{ ucwords($task->getManager->firstname) }} {{ ucwords($task->getManager->lastname) }}</td>
+					</tr>
+				@elseif (Auth::user()->isHrManager() || Auth::user()->isManager())
+					<tr>
+						<td class="font-weight-bold">Person In Charge</td>
+						<td>{{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }}</td>
+					</tr>
+				@else
+					<tr>
+						<td class="font-weight-bold">Manager</td>
+						<td>{{ ucwords($task->getManager->firstname) }} {{ ucwords($task->getManager->lastname) }}</td>
+					</tr>
+					<tr>
+						<td class="font-weight-bold">Person In Charge</td>
+						<td>{{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }}</td>
+					</tr>
+				@endif
 				<tr>
 					<td class="font-weight-bold">Priority</td>
 					<td>{{ $task->priority }}</td>

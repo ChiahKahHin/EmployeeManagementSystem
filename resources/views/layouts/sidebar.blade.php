@@ -83,6 +83,17 @@
 						</ul>
 					</li>
 				@endif
+
+				@if (Auth::user()->isAdmin() || Auth::user()->isEmployee())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
+						</ul>
+					</li>
+				@endif
 				<li>
 					<div class="dropdown-divider"></div>
 				</li>
