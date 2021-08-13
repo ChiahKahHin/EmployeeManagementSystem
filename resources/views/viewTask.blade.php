@@ -93,9 +93,10 @@
 						<div class="login-title">
 							<h2 class="text-center text-primary">Reject Task?</h2>
 						</div>
-						<div class="input-group custom">
+						<div id="reasonTextInput" class="input-group custom">
 							<input type="text" id="reasonOfRejectingTask" class="form-control form-control-lg" placeholder="Reason of rejecting the task">
 						</div>
+						<div id="reasonErrorMessage"></div>
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="input-group mb-0">
@@ -136,32 +137,53 @@
 				}
 			});
 		});
+		
+		var reason = document.getElementById('reasonOfRejectingTask');
+		reason.addEventListener("keyup", function(event){
+			if(event.keyCode === 13){
+				document.getElementById('rejectTask').click();
+			}
+		});
 
 		$('#rejectTask').on('click', function(){
-			var reason = document.getElementById('reasonOfRejectingTask').value;
-			swal({
-				title: "Reject this task?",
-				text: "Reason: " + reason,
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonClass: "btn btn-danger",
-				confirmButtonText: "Reject it!"
-			}).then((result) => {
-				if(result.value){
-					swal({
-                        title: "Rejected!",
-                        text: "Task rejected",
-                        type: "success",
-                        showCancelButton: false,
-                        timer: 1500
-                    }).then(function(){
-                        window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + reason;
-                    });
-				}
-				else{
-					swal("Cancelled", "Task is not rejected", "error");
-				}
-			});
+			if(reason.value != ""){
+				document.getElementById('reasonTextInput').setAttribute("style", "margin-bottom: 25px");
+				
+				var reasonErrorMessage = document.getElementById('reasonErrorMessage');
+				reasonErrorMessage.setAttribute("class", "");
+				reasonErrorMessage.innerHTML = "";
+
+				swal({
+					title: "Reject this task?",
+					text: "Reason: " + reason.value,
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonClass: "btn btn-danger",
+					confirmButtonText: "Reject it!"
+				}).then((result) => {
+					if(result.value){
+						swal({
+							title: "Rejected!",
+							text: "Task rejected",
+							type: "success",
+							showCancelButton: false,
+							timer: 1500
+						}).then(function(){
+							window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + reason.value;
+						});
+					}
+					else{
+						swal("Cancelled", "Task is not rejected", "error");
+					}
+				});
+			}
+			else{
+				document.getElementById('reasonTextInput').setAttribute("style", "margin-bottom: 0");
+				
+				var reasonErrorMessage = document.getElementById('reasonErrorMessage');
+				reasonErrorMessage.setAttribute("class", "text-danger text-sm pb-3");
+				reasonErrorMessage.innerHTML = "This field is required";
+			}
 		});
 	</script>
 @endsection
