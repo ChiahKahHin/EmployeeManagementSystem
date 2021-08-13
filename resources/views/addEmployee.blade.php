@@ -15,7 +15,18 @@
                 <h4 class="text-blue h4">Add Employee</h4>
             </div>
         </div>
-
+		@if (count($departments) == 0)
+			<script>
+				swal({
+					title: 'Warning',
+					html: 'There is no department added at the moment<br> Please inform the Human Resource Department',
+					type: 'warning',
+					confirmButtonClass: 'btn btn-danger',
+				}).then(function(){
+					window.location.href = "/";
+				});
+			</script>
+		@endif
         <form action="{{ route('addEmployee') }}" method="POST">
 			@csrf
 			<div class="clearfix">
