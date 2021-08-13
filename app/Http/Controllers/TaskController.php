@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\TaskApprovedOrRejectedMail;
 use App\Mail\TaskAssignedMail;
+use App\Mail\TaskWaitingApprovalMail;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,13 +59,13 @@ class TaskController extends Controller
     public function manageTask()
     {
         if(Auth::user()->isAdmin()){
-            $tasks = Task::all();
+            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->get();
         }
         elseif(Auth::user()->isEmployee()){
-            $tasks = Task::all()->where('department', Auth::user()->department)->where('personInCharge', Auth::user()->id);
+            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('department', Auth::user()->department)->where('personInCharge', Auth::user()->id)->get();
         }
         else{
-            $tasks = Task::all()->where('department', Auth::user()->department);
+            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('department', Auth::user()->department)->get();
         }
 
         return view('manageTask', ['tasks' => $tasks]);
@@ -107,6 +108,19 @@ class TaskController extends Controller
         $email = $task->getEmail($task->personInCharge);
 
         Mail::to($email)->send(new TaskApprovedOrRejectedMail($task, $reason));
+
+        return redirect()->route('viewTask', ['id' => $id]);
+    }
+
+    public function completeTask($id)
+    {
+        $task = Task::find($id);
+        $task->status = 1;
+        $task->save();
+
+        $email = $task->getEmail($task->manager);
+
+        Mail::to($email)->send(new TaskWaitingApprovalMail($task));
 
         return redirect()->route('viewTask', ['id' => $id]);
     }
