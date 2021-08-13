@@ -26,17 +26,23 @@ class LoginController extends Controller
         ]);
 
         if(auth()->attempt($request->only('username', 'password'), $request->remember)) {
-            if(Auth::user()->isAdmin()){
-                return redirect()->route("adminDashboard");
+            $mailRedirect = redirect()->intended()->getTargetUrl();
+            if($mailRedirect != null){
+                return redirect($mailRedirect);
             }
-            elseif(Auth::user()->isHrManager()){
-                return redirect()->route("hrManagerDashboard");
-            }
-            elseif(Auth::user()->isManager()){
-                return redirect()->route("managerDashboard");
-            }
-            elseif(Auth::user()->isEmployee()){
-                return redirect()->route("employeeDashboard");
+            else{
+                if(Auth::user()->isAdmin()){
+                    return redirect()->route("adminDashboard");
+                }
+                elseif(Auth::user()->isHrManager()){
+                    return redirect()->route("hrManagerDashboard");
+                }
+                elseif(Auth::user()->isManager()){
+                    return redirect()->route("managerDashboard");
+                }
+                elseif(Auth::user()->isEmployee()){
+                    return redirect()->route("employeeDashboard");
+                }
             }
         }
         else{

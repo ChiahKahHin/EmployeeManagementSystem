@@ -9,8 +9,8 @@ Dear {{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPer
 | {{ $task->title }} | {{ $task->description }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} |
 @endcomponent
 
-@component('mail::button', ['url' => url('/')])
-Login
+@component('mail::button', ['url' => url(Redirect::intended("/viewTask/$task->id")->getTargetUrl())])
+View Task
 @endcomponent
 
 Thanks,<br>
