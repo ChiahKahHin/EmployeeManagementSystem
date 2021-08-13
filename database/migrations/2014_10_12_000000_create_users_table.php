@@ -18,7 +18,8 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('email')->unique();
+            //$table->string('email')->unique();
+            $table->string('email');
             $table->string('employeeID')->unique()->nullable();
             $table->string('firstname');
             $table->string('lastname');
@@ -33,11 +34,12 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+        //Admin
         User::create([
             "username" => "admin",
             "email" => "kahhinchiah@gmail.com",
-            "firstname" => "Kah Hin",
-            "lastname" => "Chiah",
+            "firstname" => "admin",
+            "lastname" => "1",
             "contactNumber" => "012-4783997",
             "dateOfBirth" => "2000-7-7",
             "gender" => "male",
@@ -47,10 +49,10 @@ class CreateUsersTable extends Migration
         ]);
 
         User::create([
-            "username" => "admin1",
-            "email" => "kahhinchiah123@gmail.com",
-            "firstname" => "Kah Hin",
-            "lastname" => "Chiah",
+            "username" => "admin2",
+            "email" => "admin2@gmail.com",
+            "firstname" => "admin",
+            "lastname" => "2",
             "contactNumber" => "012-4783998",
             "dateOfBirth" => "2000-7-7",
             "gender" => "male",
@@ -59,6 +61,7 @@ class CreateUsersTable extends Migration
             "role" => 0
         ]);
         
+        //HR Manager
         User::create([
             "username" => "hrmanager",
             "email" => "kahhinchiah0707@gmail.com",
@@ -75,11 +78,27 @@ class CreateUsersTable extends Migration
         ]);
 
         User::create([
+            "username" => "hrmanager1",
+            "email" => "hrmanager1@gmail.com",
+            "employeeID" => "E002",
+            "firstname" => "HR",
+            "lastname" => "Manager1",
+            "contactNumber" => "012-4783999",
+            "dateOfBirth" => "2000-7-7",
+            "gender" => "male",
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "department" => 2,
+            "password" => Hash::make("123"),
+            "role" => 1
+        ]);
+
+        //manager
+        User::create([
             "username" => "manager",
             "email" => "kahhinchiah12345@gmail.com",
-            "employeeID" => "E002",
-            "firstname" => "Peter",
-            "lastname" => "Tan",
+            "employeeID" => "E003",
+            "firstname" => "IT",
+            "lastname" => "Manager",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "male",
@@ -89,12 +108,28 @@ class CreateUsersTable extends Migration
             "role" => 2
         ]);
 
+        //employee
         User::create([
             "username" => "emp",
-            "email" => "kahhinchiah123456@gmail.com",
-            "employeeID" => "E003",
-            "firstname" => "Peter",
-            "lastname" => "Tan",
+            "email" => "chiahkahhin@hotmail.com",
+            "employeeID" => "E004",
+            "firstname" => "Employee",
+            "lastname" => "1",
+            "contactNumber" => "012-4783999",
+            "dateOfBirth" => "2000-7-7",
+            "gender" => "male",
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "department" => 3,
+            "password" => Hash::make("123"),
+            "role" => 3
+        ]);
+
+        User::create([
+            "username" => "emp2",
+            "email" => "chiahkahhin@hotmail.com",
+            "employeeID" => "E005",
+            "firstname" => "Employee",
+            "lastname" => "2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "male",
