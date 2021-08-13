@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Department Code</label>
-                        <input class="form-control @error('departmentCode') form-control-danger @enderror" type="text" name="departmentCode" placeholder="Enter department code" value="{{ old('departmentCode', $departments->departmentCode) }}">
+                        <input class="form-control @error('departmentCode') form-control-danger @enderror" type="text" name="departmentCode" placeholder="Enter department code" value="{{ old('departmentCode', $departments->departmentCode) }}" required>
 						
 						@error("departmentCode")
 							<div class="text-danger text-sm">
@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Department Name</label>
-                        <input class="form-control @error('departmentName') form-control-danger @enderror" type="text" name="departmentName" placeholder="Enter department name" value="{{ old('departmentName', $departments->departmentName) }}">
+                        <input class="form-control @error('departmentName') form-control-danger @enderror" type="text" name="departmentName" placeholder="Enter department name" value="{{ old('departmentName', $departments->departmentName) }}" required>
 						
 						@error("departmentName")
 							<div class="text-danger text-sm">

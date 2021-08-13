@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>First Name</label>
-                        <input class="form-control @error('firstname') form-control-danger @enderror" type="text" name="firstname" placeholder="Enter first name" value="{{ old('firstname', $employees->firstname) }}">
+                        <input class="form-control @error('firstname') form-control-danger @enderror" type="text" name="firstname" placeholder="Enter first name" value="{{ old('firstname', $employees->firstname) }}" required>
 						
 						@error("firstname")
 							<div class="text-danger text-sm">
@@ -40,7 +40,7 @@
 
 					<div class="col-md-6">
                         <label>Last Name</label>
-                        <input class="form-control @error('lastname') form-control-danger @enderror" type="text" name="lastname" placeholder="Enter last name" value="{{ old('lastname', $employees->lastname) }}">
+                        <input class="form-control @error('lastname') form-control-danger @enderror" type="text" name="lastname" placeholder="Enter last name" value="{{ old('lastname', $employees->lastname) }}" required>
 						
 						@error("lastname")
 							<div class="text-danger text-sm">
@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Contact Number</label>
-                        <input class="form-control @error('contactNumber') form-control-danger @enderror" type="text" name="contactNumber" placeholder="Enter contact number (e.g. 012-3456789)" value="{{ old('contactNumber', $employees->contactNumber) }}">
+                        <input class="form-control @error('contactNumber') form-control-danger @enderror" type="text" name="contactNumber" placeholder="Enter contact number (e.g. 012-3456789)" value="{{ old('contactNumber', $employees->contactNumber) }}" required>
 
 						@error("contactNumber")
 							<div class="text-danger text-sm">
@@ -66,7 +66,7 @@
 
 					<div class="col-md-6">
                         <label>Date of Birth</label>
-                        <input class="form-control date-picker @error('dateOfBirth') form-control-danger @enderror" type="text" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', date("d F Y", strtotime($employees->dateOfBirth))) }}">
+                        <input class="form-control @error('dateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', date("d F Y", strtotime($employees->dateOfBirth))) }}" required>
 						
 						@error("dateOfBirth")
 							<div class="text-danger text-sm">
@@ -84,7 +84,7 @@
 						@php
 							$genders = array("male", "female");
 						@endphp
-						<select class="form-control @error('gender') form-control-danger @enderror" name="gender">
+						<select class="form-control selectpicker @error('gender') form-control-danger @enderror" name="gender" required>
 							<option value="" selected disabled hidden>Select gender</option>
 							@foreach ($genders as $gender)
 								<option value="{{ $gender }}" {{ (old('gender', $employees->gender) == $gender ? "selected": null) }}>{{ ucfirst($gender) }}</option>
@@ -100,7 +100,7 @@
 
 					<div class="col-md-6">
 						<label>Address</label>
-						<textarea class="form-control @error('address') form-control-danger @enderror" id="address" name="address" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter address" maxlength="255" onkeyup="countWords()" data-gramm_editor="false">{{ old('address', $employees->address) }}</textarea>
+						<textarea class="form-control @error('address') form-control-danger @enderror" id="address" name="address" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter address" maxlength="255" onkeyup="countWords()" data-gramm_editor="false" required>{{ old('address', $employees->address) }}</textarea>
 						
 						<div id="address_word_count" class="text-sm" style="text-align: right"></div>
 						
@@ -125,7 +125,7 @@
                 <div class="row">
 					<div class="col-md-6">
                         <label>Username</label>
-                        <input class="form-control @error('username') form-control-danger @enderror" type="text" name="username" placeholder="Enter username (username must be unique)" value="{{ old('username', $employees->username) }}">
+                        <input class="form-control @error('username') form-control-danger @enderror" type="text" name="username" placeholder="Enter username (username must be unique)" value="{{ old('username', $employees->username) }}" required>
 
 						@error("username")
 							<div class="text-danger text-sm">
@@ -136,7 +136,7 @@
 
                     <div class="col-md-6">
                         <label>Email</label>
-                        <input class="form-control @error('email') form-control-danger @enderror" type="email" name="email" autocomplete="off" placeholder="Enter email address (e.g. employee@gmail.com)" value="{{ old('email', $employees->email) }}">
+                        <input class="form-control @error('email') form-control-danger @enderror" type="email" name="email" autocomplete="off" placeholder="Enter email address (e.g. employee@gmail.com)" value="{{ old('email', $employees->email) }}" required>
 
 						@error("email")
 							<div class="text-danger text-sm">
@@ -151,7 +151,7 @@
 				<div class="row">
 					<div class="col-md-6">
                         <label>Employee ID</label>
-                        <input class="form-control @error('employeeID') form-control-danger @enderror" type="text" name="employeeID" placeholder="Enter employee ID (employee ID must be unique)" value="{{ old('employeeID', $employees->employeeID) }}">
+                        <input class="form-control @error('employeeID') form-control-danger @enderror" type="text" name="employeeID" placeholder="Enter employee ID (employee ID must be unique)" value="{{ old('employeeID', $employees->employeeID) }}" required>
 
 						@error("employeeID")
 							<div class="text-danger text-sm">
@@ -163,7 +163,7 @@
 					<div class="col-md-6">
 						<label>Department</label>
 						
-						<select class="form-control @error('department') form-control-danger @enderror" id="department" name="department" onchange="checkDepartment();">
+						<select class="form-control selectpicker @error('department') form-control-danger @enderror" id="department" name="department" onchange="checkDepartment();" required>
 							<option value="" selected disabled hidden>Select department</option>
 							
 							@foreach ($departments as $department)
