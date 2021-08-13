@@ -85,6 +85,16 @@
 				</div>
 			@endif
 		@endif
+
+		@if (Auth::user()->isEmployee())
+			@if ($task->status == 0 || $task->status == 2)
+				<div class="row">
+					<div class="col-md-12">
+						<button type="button" id="completeTask" class="btn btn-primary btn-block">Complete Task</button>
+					</div>
+				</div>
+			@endif
+		@endif
 		
 		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
@@ -144,7 +154,7 @@
 				document.getElementById('rejectTask').click();
 			}
 		});
-
+		
 		$('#rejectTask').on('click', function(){
 			if(reason.value != ""){
 				document.getElementById('reasonTextInput').setAttribute("style", "margin-bottom: 25px");
@@ -152,7 +162,7 @@
 				var reasonErrorMessage = document.getElementById('reasonErrorMessage');
 				reasonErrorMessage.setAttribute("class", "");
 				reasonErrorMessage.innerHTML = "";
-
+				
 				swal({
 					title: "Reject this task?",
 					text: "Reason: " + reason.value,
@@ -185,5 +195,31 @@
 				reasonErrorMessage.innerHTML = "This field is required";
 			}
 		});
-	</script>
+
+		$('#completeTask').on('click', function(){
+			swal({
+				title: "Complete this task?",
+				text: "An email will be sent to manager for task verification purpose",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonClass: "btn btn-success",
+				confirmButtonText: "Submit"
+			}).then((result) => {
+				if(result.value){
+					swal({
+						title: "Submitted!",
+						text: "An email will be sent back once the verification is done",
+						type: "success",
+						showCancelButton: false,
+						timer: 3000
+					}).then(function(){
+						window.location.href = "/completeTask/" + {{ $task->id }};
+					});
+				}
+				else{
+					swal("Cancelled", "Task is not submmitted", "error");
+				}
+			});
+		});
+		</script>
 @endsection

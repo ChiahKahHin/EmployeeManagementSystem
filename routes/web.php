@@ -85,3 +85,4 @@ Route::get('/deleteTask/{id}', [TaskController::class, 'deleteTask'])->name('del
 Route::get('/viewTask/{id}', [TaskController::class, 'viewTask'])->name('viewTask');
 Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('approveTask');
 Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
+Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
