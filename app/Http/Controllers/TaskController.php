@@ -20,7 +20,9 @@ class TaskController extends Controller
 
     public function addTaskForm()
     {
-        $personInCharges = User::all()->except(Auth::id())->where('department', Auth::user()->department);
+        $personInCharges = User::all()->except(Auth::id())
+                            ->where('department', Auth::user()->department)
+                            ->where('role', 3);
 
         return view('addTask', ['personInCharges' => $personInCharges]);
     }
