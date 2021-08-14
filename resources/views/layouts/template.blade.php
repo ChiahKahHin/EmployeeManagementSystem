@@ -6,7 +6,7 @@
 		@include("layouts.head")
 	</head>
 	<body>
-		<div class="pre-loader">
+		{{-- <div class="pre-loader">
 			<div class="pre-loader-box">
 				<div class='loader-progress' id="progress_div">
 					<div class='bar' id='bar1'></div>
@@ -16,7 +16,7 @@
 					System is loading...
 				</div>
 			</div>
-		</div>
+		</div> --}}
 		@include("layouts.nav")
 
 		@include("layouts.sidebar")
