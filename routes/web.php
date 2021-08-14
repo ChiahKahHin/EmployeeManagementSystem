@@ -81,6 +81,8 @@ Route::get('/viewEmployee/{id}', [EmployeeController::class, 'viewEmployee'])->n
 Route::get('/addTask', [TaskController::class, 'addTaskForm'])->name('addTask');
 Route::post('/addTask', [TaskController::class, 'addTask']);
 Route::get('/manageTask', [TaskController::class, 'manageTask'])->name('manageTask');
+Route::get('/editTask/{id}', [TaskController::class, 'editTaskForm'])->name('editTask');
+Route::post('/editTask/{id}', [TaskController::class, 'editTask']);
 Route::get('/deleteTask/{id}', [TaskController::class, 'deleteTask'])->name('deleteTask');
 Route::get('/viewTask/{id}', [TaskController::class, 'viewTask'])->name('viewTask');
 Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('approveTask');

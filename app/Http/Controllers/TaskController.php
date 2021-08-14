@@ -71,6 +71,37 @@ class TaskController extends Controller
         return view('manageTask', ['tasks' => $tasks]);
     }
 
+    public function editTaskForm($id)
+    {
+        $task = Task::findOrFail($id);
+        $personInCharges = User::all()->except(Auth::id())
+                            ->where('department', Auth::user()->department)
+                            ->where('role', 3);
+        
+        return view('editTask', ['task' => $task, 'personInCharges' => $personInCharges]);
+    }
+
+    public function editTask(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'personInCharge' => 'required',
+            'priority' => 'required',
+            'dueDate' => 'required|after:today',
+        ]);
+
+        $task = Task::find($id);
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->personInCharge = $request->personInCharge;
+        $task->priority = $request->priority;
+        $task->dueDate = date("Y-m-d", strtotime($request->dueDate));
+        $task->save();        
+
+        return redirect()->route('editTask', ['id' => $task->id])->with('message', 'Task details updated successfully!');
+    }
+
     public function deleteTask($id)
     {
         $task = Task::findOrFail($id);
