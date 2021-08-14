@@ -94,6 +94,19 @@
 						</ul>
 					</li>
 				@endif
+
+				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-invoice"></span><span class="mtext">Benefit Claim</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('addBenefitClaim') }}">Add Benefit Claim</a></li>
+							<li><a href="{{ route('manageBenefitClaim') }}">Manage Benefit Claim</a></li>
+						</ul>
+					</li>
+				@endif
+
 				<li>
 					<div class="dropdown-divider"></div>
 				</li>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
+use App\Http\Controllers\BenefitClaimController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
@@ -88,3 +89,11 @@ Route::get('/viewTask/{id}', [TaskController::class, 'viewTask'])->name('viewTas
 Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('approveTask');
 Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
+
+//Manage Benefit Claim
+Route::get('/addBenefitClaim', [BenefitClaimController::class, 'addBenefitClaimForm'])->name('addBenefitClaim');
+Route::post('/addBenefitClaim', [BenefitClaimController::class, 'addBenefitClaim']);
+Route::get('/manageBenefitClaim', [BenefitClaimController::class, 'manageBenefitClaim'])->name('manageBenefitClaim');
+Route::get('/editBenefitClaim/{id}', [BenefitClaimController::class, 'editBenefitClaimForm'])->name('editBenefitClaim');
+Route::post('/editBenefitClaim/{id}', [BenefitClaimController::class, 'editBenefitClaim']);
+Route::get('/deleteBenefitClaim/{id}', [BenefitClaimController::class, 'deleteBenefitClaim'])->name('deleteBenefitClaim');
