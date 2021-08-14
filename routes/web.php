@@ -5,6 +5,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\BenefitClaimController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ClaimRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
@@ -97,3 +98,7 @@ Route::get('/manageBenefitClaim', [BenefitClaimController::class, 'manageBenefit
 Route::get('/editBenefitClaim/{id}', [BenefitClaimController::class, 'editBenefitClaimForm'])->name('editBenefitClaim');
 Route::post('/editBenefitClaim/{id}', [BenefitClaimController::class, 'editBenefitClaim']);
 Route::get('/deleteBenefitClaim/{id}', [BenefitClaimController::class, 'deleteBenefitClaim'])->name('deleteBenefitClaim');
+
+//Benefit Claim Application
+Route::get('/applyBenefitClaim', [ClaimRequestController::class, 'applyBenefitClaimForm'])->name('applyBenefitClaim');
+Route::post('/applyBenefitClaim', [ClaimRequestController::class, 'applyBenefitClaim']);
