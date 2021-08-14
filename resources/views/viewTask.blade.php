@@ -137,7 +137,7 @@
                         text: "Task approved",
                         type: "success",
                         showCancelButton: false,
-                        timer: 1500
+                        timer: 3000
                     }).then(function(){
                         window.location.href = "/approveTask/" + {{ $task->id }};
                     });
@@ -177,7 +177,7 @@
 							text: "Task rejected",
 							type: "success",
 							showCancelButton: false,
-							timer: 1500
+							timer: 3000
 						}).then(function(){
 							window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + reason.value;
 						});
