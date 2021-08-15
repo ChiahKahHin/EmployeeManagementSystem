@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/responsive.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/custom.css') }}">
 
 <!-- Sweet Alert -->
 <script src="{{ asset('src/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
