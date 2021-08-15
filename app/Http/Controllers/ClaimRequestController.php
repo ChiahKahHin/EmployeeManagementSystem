@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ClaimRequestMail;
 use App\Models\BenefitClaim;
 use App\Models\ClaimRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ClaimRequestController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('employeeAndManager');
+        //$this->middleware('employeeAndManager');
     }
 
     public function applyBenefitClaimForm()
@@ -20,7 +22,7 @@ class ClaimRequestController extends Controller
         $benefitClaims = BenefitClaim::all();
         $approvedClaims = ClaimRequest::all()
                         ->where('claimEmployee', Auth::user()->id)
-                        ->where('claimStatus', 2);
+                        ->whereIn('claimStatus', [0, 2]);
 
         return view('applyBenefitClaim', ['benefitClaims' => $benefitClaims, 'approvedClaims' => $approvedClaims]);
     }
@@ -45,7 +47,38 @@ class ClaimRequestController extends Controller
         $claimRequest->claimEmployee = Auth::user()->id;
         $claimRequest->save();
 
-        return redirect()->route('applyBenefitClaim')->with('message', 'Benefit claim applied successfully!');
+        $hrManagers = $claimRequest->getHrManager();
+        foreach ($hrManagers as $hrManager){
+            Mail::to($hrManager->email)->send(new ClaimRequestMail($claimRequest));
+        }
 
+        return redirect()->route('applyBenefitClaim')->with('message', 'Benefit claim applied successfully!');
+    }
+
+    public function manageClaimRequest()
+    {
+        if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
+            $claimRequests = ClaimRequest::all();
+        }
+        else{
+            $claimRequests = ClaimRequest::all()->where('claimEmployee', Auth::user()->id);
+        }
+
+        return view('manageClaimRequest',['claimRequests' => $claimRequests]);
+    }
+
+    public function deleteClaimRequest($id)
+    {
+        $claimRequest = ClaimRequest::findOrFail($id);
+        $claimRequest->delete();
+
+        return redirect()->route('manageClaimRequest');
+    }
+
+    public function viewClaimRequest($id)
+    {
+        $claimRequest = ClaimRequest::findOrFail($id);
+
+        return view('viewClaimRequest', ['claimRequest' => $claimRequest]);
     }
 }

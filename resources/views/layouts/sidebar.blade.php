@@ -103,6 +103,7 @@
 						<ul class="submenu">
 							<li><a href="{{ route('addBenefitClaim') }}">Add Benefit Claim</a></li>
 							<li><a href="{{ route('manageBenefitClaim') }}">Manage Benefit Claim</a></li>
+							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
 						</ul>
 					</li>
 				@endif
@@ -114,7 +115,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
-							<li><a href="#">Manage Benefit Claim</a></li>
+							<li><a href="{{ route('manageClaimRequest') }}">Manage Benefit Claim</a></li>
 						</ul>
 					</li>
 				@endif

@@ -102,3 +102,6 @@ Route::get('/deleteBenefitClaim/{id}', [BenefitClaimController::class, 'deleteBe
 //Benefit Claim Application
 Route::get('/applyBenefitClaim', [ClaimRequestController::class, 'applyBenefitClaimForm'])->name('applyBenefitClaim');
 Route::post('/applyBenefitClaim', [ClaimRequestController::class, 'applyBenefitClaim']);
+Route::get('/manageClaimRequest', [ClaimRequestController::class, 'manageClaimRequest'])->name('manageClaimRequest');
+Route::get('/viewClaimRequest/{id}', [ClaimRequestController::class, 'viewClaimRequest'])->name('viewClaimRequest');
+Route::get('/deleteClaimRequest/{id}', [ClaimRequestController::class, 'deleteClaimRequest'])->name('deleteClaimRequest');
