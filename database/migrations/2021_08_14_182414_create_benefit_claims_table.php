@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BenefitClaim;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,16 @@ class CreateBenefitClaimsTable extends Migration
             $table->double('claimAmount');
             $table->timestamps();
         });
+
+        BenefitClaim::create([
+            'claimType' => "Medical",
+            'claimAmount' => 200
+        ]);
+
+        BenefitClaim::create([
+            'claimType' => "Dental",
+            'claimAmount' => 100
+        ]);
     }
 
     /**

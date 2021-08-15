@@ -10,4 +10,9 @@ class BenefitClaim extends Model
     use HasFactory;
 
     protected $table = "benefit_claims";
+
+    protected $fillable = [
+        'claimType',
+        'claimAmount'
+    ];
 }
