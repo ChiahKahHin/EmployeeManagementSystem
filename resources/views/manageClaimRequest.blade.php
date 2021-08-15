@@ -47,7 +47,7 @@
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="{{ route('viewClaimRequest', ['id' =>$claimRequest->id]) }}"><i class="dw dw-eye"></i> View</a>
 									@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-										<a class="dropdown-item" href="{{ route('editBenefitClaim', ['id' => $claimRequest->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
+										{{-- <a class="dropdown-item" href="{{ route('editBenefitClaim', ['id' => $claimRequest->id]) }}"><i class="dw dw-edit2"></i> Edit</a> --}}
 										<a class="dropdown-item deleteClaimRequest" id="{{ $claimRequest->id }}" value="{{ ucwords($claimRequest->getClaimType->claimType) }}" data-amount="{{ $claimRequest->claimAmount }}"><i class="dw dw-delete-3"></i> Delete</a>
 									@endif
 								</div>

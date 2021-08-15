@@ -33,7 +33,7 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Claim Date</td>
-					<td>RM {{ date("d F Y", strtotime($claimRequest->claimDate)) }}</td>
+					<td>{{ date("d F Y", strtotime($claimRequest->claimDate)) }}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Claim Description</td>
@@ -70,8 +70,8 @@
 				</tr>
 			</tbody>
 		</table>
-		@if (!Auth::user()->isEmployee())
-			@if ($claimRequest->status == 0)
+		@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+			@if ($claimRequest->claimStatus == 0)
 				<div class="row">
 					<div class="col-md-6">
 						<button type="button" id="approveClaimRequest" class="btn btn-primary btn-block">Approve Claim Request</button>

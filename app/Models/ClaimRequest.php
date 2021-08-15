@@ -30,13 +30,13 @@ class ClaimRequest extends Model
     public function getStatus(){
         $status = null;
 
-        if($this->status == 0){
+        if($this->claimStatus == 0){
             $status = "Waiting Approval";
         }
-        elseif($this->status == 1){
+        elseif($this->claimStatus == 1){
             $status = "Rejected";
         }
-        elseif($this->status == 2){
+        elseif($this->claimStatus == 2){
             $status = "Approved";
         }
 
