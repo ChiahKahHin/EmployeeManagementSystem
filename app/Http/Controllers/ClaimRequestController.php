@@ -81,4 +81,26 @@ class ClaimRequestController extends Controller
 
         return view('viewClaimRequest', ['claimRequest' => $claimRequest]);
     }
+
+    public function approveClaimRequest($id)
+    {
+        $claimRequest = ClaimRequest::find($id);
+        $claimRequest->claimStatus = 2;
+        $claimRequest->save();
+
+        Mail::to($claimRequest->getEmployee->email)->send(new ClaimRequestMail($claimRequest));
+
+        return redirect()->route('viewClaimRequest', ['id' =>$id]);
+    }
+
+    public function rejectClaimRequest($id, $reason)
+    {
+        $claimRequest = ClaimRequest::find($id);
+        $claimRequest->claimStatus = 1;
+        $claimRequest->save();
+
+        Mail::to($claimRequest->getEmployee->email)->send(new ClaimRequestMail($claimRequest, $reason));
+
+        return redirect()->route('viewClaimRequest', ['id' =>$id]);
+    }
 }
