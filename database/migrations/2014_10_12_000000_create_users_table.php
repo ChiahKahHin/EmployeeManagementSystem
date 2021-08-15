@@ -111,7 +111,7 @@ class CreateUsersTable extends Migration
         //employee
         User::create([
             "username" => "emp",
-            "email" => "chiahkahhin@hotmail.com",
+            "email" => "kahhin48@gmail.com",
             "employeeID" => "E004",
             "firstname" => "Employee",
             "lastname" => "1",
