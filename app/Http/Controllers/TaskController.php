@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\TaskApprovedOrRejectedMail;
-use App\Mail\TaskAssignedMail;
-use App\Mail\TaskWaitingApprovalMail;
+use App\Mail\TaskNotificationMail;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -51,7 +49,7 @@ class TaskController extends Controller
 
         $email = $task->getEmail($task->personInCharge);
         
-        Mail::to($email)->send(new TaskAssignedMail($task));
+        Mail::to($email)->send(new TaskNotificationMail($task));
 
         return redirect()->route('addTask')->with('message', 'Task added successfully!');
     }
@@ -125,7 +123,7 @@ class TaskController extends Controller
 
         $email = $task->getEmail($task->personInCharge);
 
-        Mail::to($email)->send(new TaskApprovedOrRejectedMail($task));
+        Mail::to($email)->send(new TaskNotificationMail($task));
 
         return redirect()->route('viewTask', ['id' => $id]);
     }
@@ -138,7 +136,7 @@ class TaskController extends Controller
 
         $email = $task->getEmail($task->personInCharge);
 
-        Mail::to($email)->send(new TaskApprovedOrRejectedMail($task, $reason));
+        Mail::to($email)->send(new TaskNotificationMail($task, $reason));
 
         return redirect()->route('viewTask', ['id' => $id]);
     }
@@ -151,7 +149,7 @@ class TaskController extends Controller
 
         $email = $task->getEmail($task->manager);
 
-        Mail::to($email)->send(new TaskWaitingApprovalMail($task));
+        Mail::to($email)->send(new TaskNotificationMail($task));
 
         return redirect()->route('viewTask', ['id' => $id]);
     }
