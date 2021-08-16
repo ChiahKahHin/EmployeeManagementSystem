@@ -172,6 +172,7 @@
 					confirmButtonText: "Reject it!"
 				}).then((result) => {
 					if(result.value){
+						document.getElementById('login-modal').setAttribute('class', 'modal fade');
 						swal({
 							title: "Rejected!",
 							text: "Task rejected",
