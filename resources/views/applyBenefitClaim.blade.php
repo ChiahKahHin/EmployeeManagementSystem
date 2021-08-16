@@ -43,7 +43,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label id="claimAmountLabel">Claim Amount</label>
-						<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="0" step="1" id="claimAmount" name="claimAmount" placeholder="Enter benefit claim amount" value="{{ old('claimAmount') }}" required>
+						<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="1" step="1" id="claimAmount" name="claimAmount" placeholder="Enter benefit claim amount" value="{{ old('claimAmount') }}" onkeyup="checkClaimAmount();" required>
 						
 						@error("claimAmount")
 							<div class="text-danger text-sm">
@@ -153,8 +153,28 @@
 				@endforeach
 		
 				var remainingAmount = claimAmount - totalClaimed;
-				document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Remaining Amount: RM" + remainingAmount +")";
+				var remainingBalance = remainingAmount;
 				document.getElementById('claimAmount').setAttribute('max', remainingAmount);
+
+				claimAmountInput = document.getElementById('claimAmount').value;
+				if (claimAmountInput != "") {
+					remainingAmount = remainingAmount - claimAmountInput;
+				}
+
+				if (claimAmountInput != "" && claimAmountInput < 1) {
+					document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Minimum is RM1)";
+				}
+				else{
+					if(remainingBalance == claimAmountInput){
+						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Maximum amount reached)";
+					}
+					else if (remainingAmount >= 0) {
+						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Remaining Amount: RM" + remainingAmount +")";
+					}
+					else{
+						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Exceed the available amount)";
+					}
+				}
 			}
 		}
 	</script>
