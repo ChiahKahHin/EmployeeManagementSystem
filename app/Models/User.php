@@ -90,4 +90,21 @@ class User extends Authenticatable
         }
         return $roleName;
     }
+
+    public function getEmployeeEmail($department = null)
+    {
+        $emails = array();
+
+        if ($department == null) {
+            $empEmails = User::all()->whereIn('role', [1, 2, 3]);
+        }
+        else{
+            $empEmails = User::all()->whereIn('role', [1, 2, 3])->where('department', $department);
+        }
+        foreach ($empEmails as $empEmail) {
+            array_push($emails, $empEmail->email);
+        }
+
+        return $emails;
+    }
 }

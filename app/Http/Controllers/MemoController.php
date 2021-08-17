@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MemoMail;
 use App\Models\Department;
 use App\Models\Memo;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MemoController extends Controller
 {
@@ -16,7 +19,7 @@ class MemoController extends Controller
 
     public function createMemoForm()
     {
-        $departments = Department::all();
+        $departments = Department::all()->whereNotIn('departmentName', 'Administration');
         return view('createMemo', ['departments' => $departments]);
     }
 
@@ -43,6 +46,18 @@ class MemoController extends Controller
             $memo->memoStatus = 1;
         }
         $memo->save();
+
+        if($memo->memoStatus == 1){
+            $user = new User();
+
+            if($memo->memoRecipient == 0){
+                $emails = $user->getEmployeeEmail();
+            }
+            else{
+                $emails = $user->getEmployeeEmail($memo->memoRecipient);
+            }
+            Mail::to($emails)->send(new MemoMail($memo));
+        }
 
         return redirect()->route('createMemo')->with('message', 'Memo created successfully!');
     }
