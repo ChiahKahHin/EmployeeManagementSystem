@@ -17,14 +17,19 @@ class ClaimRequest extends Model
         return $this->belongsTo(User::class, "claimEmployee");
     }
     
-    public function getHrManager()
+    public function getHrManagerEmail()
     {
+        $emails = array();
+
         $hrDepartments = Department::all()->where('departmentName', 'Human Resource');
         foreach($hrDepartments as $hrDepartment){
-            $hrManager = User::all()->where('department', $hrDepartment->id)->where('role', 1);
+            $hrManagers = User::all()->where('department', $hrDepartment->id)->where('role', 1);
+        }
+        foreach ($hrManagers as $hrManager){
+            array_push($emails, $hrManager->email);
         }
 
-        return $hrManager;
+        return $emails;
     }
 
     public function getStatus(){

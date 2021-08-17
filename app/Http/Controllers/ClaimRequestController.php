@@ -47,12 +47,9 @@ class ClaimRequestController extends Controller
         $claimRequest->claimEmployee = Auth::user()->id;
         $claimRequest->save();
 
-        $emails = array();
-        $hrManagers = $claimRequest->getHrManager();
-        foreach ($hrManagers as $hrManager){
-            array_push($emails, $hrManager->email);
-        }
-        Mail::to($emails)->send(new ClaimRequestMail($claimRequest));
+        $hrEmails = $claimRequest->getHrManagerEmail();
+
+        Mail::to($hrEmails)->send(new ClaimRequestMail($claimRequest));
 
         return redirect()->route('applyBenefitClaim')->with('message', 'Benefit claim applied successfully!');
     }
