@@ -20,6 +20,16 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/custom.css') }}">
 
+<!-- switchery css -->
+<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/switchery/switchery.min.css') }}">
+
+<!-- bootstrap-tagsinput css -->
+<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+
+<!-- bootstrap-touchspin css -->
+<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
+
 <!-- Sweet Alert -->
 <script src="{{ asset('src/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
 

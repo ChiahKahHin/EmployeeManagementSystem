@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -107,3 +108,7 @@ Route::get('/viewClaimRequest/{id}', [ClaimRequestController::class, 'viewClaimR
 Route::get('/deleteClaimRequest/{id}', [ClaimRequestController::class, 'deleteClaimRequest'])->name('deleteClaimRequest');
 Route::get('/approveClaimRequest/{id}', [ClaimRequestController::class, 'approveClaimRequest'])->name('approveClaimRequest');
 Route::get('/rejectClaimRequest/{id}/{reason}', [ClaimRequestController::class, 'rejectClaimRequest'])->name('rejectClaimRequest');
+
+//Memorandum
+Route::get('/createMemo', [MemoController::class, 'createMemoForm'])->name('createMemo');
+Route::post('/createMemo', [MemoController::class, 'createMemo']);

@@ -7,6 +7,14 @@
 <script src="{{ asset('src/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('src/plugins/datatables/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('src/plugins/switchery/switchery.min.js') }}"></script>
+
+<!-- bootstrap-tagsinput js -->
+<script src="{{ asset('src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+
+<!-- bootstrap-touchspin js -->
+<script src="{{ asset('src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js') }}"></script>
+<script src="{{ asset('vendors/scripts/advanced-components.js') }}"></script>
 
 <!-- Datatables Setting js -->
 <script src="{{ asset('vendors/scripts/datatable-setting.js') }}"></script>
