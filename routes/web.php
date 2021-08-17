@@ -112,3 +112,8 @@ Route::get('/rejectClaimRequest/{id}/{reason}', [ClaimRequestController::class, 
 //Memorandum
 Route::get('/createMemo', [MemoController::class, 'createMemoForm'])->name('createMemo');
 Route::post('/createMemo', [MemoController::class, 'createMemo']);
+Route::get('/manageMemo', [MemoController::class, 'manageMemo'])->name('manageMemo');
+Route::get('/editMemo/{id}', [MemoController::class, 'editMemoForm'])->name('editMemo');
+Route::post('/editMemo/{id}', [MemoController::class, 'editMemo']);
+Route::get('/viewMemo/{id}', [MemoController::class, 'viewMemo'])->name('viewMemo');
+Route::get('/deleteMemo/{id}', [MemoController::class, 'deleteMemo'])->name('deleteMemo');

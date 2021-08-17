@@ -15,4 +15,17 @@ class Memo extends Model
     {
         return $this->belongsTo(Department::class, "memoRecipient");
     }
+
+    public function getStatus(){
+        $status = null;
+
+        if($this->memoStatus == 0){
+            $status = "Scheduling";
+        }
+        else{
+            $status = "Completed";
+        }
+
+        return $status;
+    }
 }

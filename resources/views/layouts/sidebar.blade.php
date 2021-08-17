@@ -57,8 +57,8 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('createMemo') }}">Create Memorandum</a></li>
-							{{-- <li><a href="{{ route('manageAdmin') }}">Manage Memorandum</a></li> --}}
-							<li class="dropdown">
+							<li><a href="{{ route('manageMemo') }}">Manage Memorandum</a></li>
+							{{-- <li class="dropdown">
 								<a href="javascript:;" class="dropdown-toggle">
 									<span class="micon dw dw-list pl-2"></span><span class="mtext">Manage Memorandum</span>
 								</a>
@@ -66,7 +66,7 @@
 									<li><a href="javascript:;">Scheduled Memorandum</a></li>
 									<li><a href="javascript:;">All Memorandum</a></li>
 								</ul>
-							</li>
+							</li> --}}
 						</ul>
 					</li>
 				@endif
