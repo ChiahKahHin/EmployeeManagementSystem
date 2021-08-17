@@ -61,11 +61,11 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Admin's Account Created Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($admin->created_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($admin->created_at)) }}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Admin's Account Updated Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($admin->updated_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($admin->updated_at)) }}</td>
 				</tr>
 				
             </tbody>

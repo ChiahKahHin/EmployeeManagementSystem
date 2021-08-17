@@ -90,7 +90,7 @@
 
 				<tr>
 					<td class="font-weight-bold">Last Updated (Date & Time)</td>
-					<td>{{ date("d F Y, G:ia", strtotime($employees->updated_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($employees->updated_at)) }}</td>
 				</tr>
 			</tbody>
 		</table>

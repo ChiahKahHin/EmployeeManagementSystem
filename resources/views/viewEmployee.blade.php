@@ -84,11 +84,11 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Employee's Account Created Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($employees->created_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($employees->created_at)) }}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Employee's Account Updated Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($employees->updated_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($employees->updated_at)) }}</td>
 				</tr>
 				
             </tbody>

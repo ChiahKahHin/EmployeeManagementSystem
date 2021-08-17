@@ -65,11 +65,11 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Task Created Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($task->created_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($task->created_at)) }}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Task Updated Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($task->updated_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($task->updated_at)) }}</td>
 				</tr>
 			</tbody>
 		</table>

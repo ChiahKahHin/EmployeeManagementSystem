@@ -62,11 +62,11 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Claim Request Created Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($claimRequest->created_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($claimRequest->created_at)) }}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Claim Request Updated Date & Time</td>
-					<td>{{ date("d F Y, G:ia", strtotime($claimRequest->updated_at)) }}</td>
+					<td>{{ date("d F Y, g:ia", strtotime($claimRequest->updated_at)) }}</td>
 				</tr>
 			</tbody>
 		</table>
