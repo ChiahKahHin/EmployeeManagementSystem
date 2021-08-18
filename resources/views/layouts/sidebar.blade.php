@@ -140,6 +140,18 @@
 					</li>
 				@endif
 
+				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-presentation-2"></span><span class="mtext">Training Program</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('addTrainingProgram') }}">Add Training Program</a></li>
+							<li><a href="{{ route('manageBenefitClaim') }}">Manage Training Program</a></li>
+						</ul>
+					</li>
+				@endif
+
 				<li>
 					<div class="dropdown-divider"></div>
 				</li>

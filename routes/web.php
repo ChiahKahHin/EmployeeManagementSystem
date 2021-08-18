@@ -13,6 +13,7 @@ use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TrainingProgramController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -117,3 +118,7 @@ Route::get('/editMemo/{id}', [MemoController::class, 'editMemoForm'])->name('edi
 Route::post('/editMemo/{id}', [MemoController::class, 'editMemo']);
 Route::get('/viewMemo/{id}', [MemoController::class, 'viewMemo'])->name('viewMemo');
 Route::get('/deleteMemo/{id}', [MemoController::class, 'deleteMemo'])->name('deleteMemo');
+
+//Training Program
+Route::get('/addTrainingProgram', [TrainingProgramController::class, 'addTrainingProgramForm'])->name('addTrainingProgram');
+Route::post('/addTrainingProgram', [TrainingProgramController::class, 'addTrainingProgram']);
