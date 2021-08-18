@@ -10,7 +10,7 @@ class DepartmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('hrManagerAndAdmin');
+        $this->middleware(['employee:admin,hrmanager']);
     }
 
     public function addDepartmentForm()

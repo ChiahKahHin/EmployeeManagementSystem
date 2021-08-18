@@ -14,7 +14,7 @@ class TaskController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('managerAndHrManager')->only(['addTaskForm', 'addTask']);
+        $this->middleware(['employee:hrmanager,manager'])->only(['addTaskForm', 'addTask']);
     }
 
     public function addTaskForm()

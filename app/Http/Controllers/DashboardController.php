@@ -10,10 +10,10 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware(['auth']);
-        $this->middleware(['admin'])->only(['adminDashboard']);
-        $this->middleware(['hrManager'])->only(['hrManagerDashboard']);
-        $this->middleware(['manager'])->only(['managerDashboard']);
-        $this->middleware(['employee'])->only(['employeeDashboard']);
+        $this->middleware(['employee:admin'])->only(['adminDashboard']);
+        $this->middleware(['employee:hrManager'])->only(['hrManagerDashboard']);
+        $this->middleware(['employee:manager'])->only(['managerDashboard']);
+        $this->middleware(['employee:employee'])->only(['employeeDashboard']);
     }
 
     public function adminDashboard()

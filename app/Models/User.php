@@ -91,6 +91,25 @@ class User extends Authenticatable
         return $roleName;
     }
 
+    public function getShortRoleName()
+    {
+        switch ($this->role) {
+            case 0:
+                $roleName = "admin";
+                break;
+            case 1:
+                $roleName = "hrmanager";
+                break;
+            case 2:
+                $roleName = "manager";
+                break;
+            case 3:
+                $roleName = "employee";
+                break;    
+        }
+            return $roleName;
+    }
+
     public function getEmployeeEmail($department = null)
     {
         $emails = array();
