@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('task:dueDateChecking')->everyMinute();
         $schedule->command('task:dueDateChecking')->dailyAt('08:00');
         $schedule->command('memo:scheduling')->everyMinute();
+        $schedule->command('trainingProgram:checking')->everyMinute();
     }
 
     /**
