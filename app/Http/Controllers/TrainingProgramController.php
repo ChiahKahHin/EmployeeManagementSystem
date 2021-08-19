@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\TrainingAttendee;
 use App\Models\TrainingProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,5 +113,30 @@ class TrainingProgramController extends Controller
         $training_program->delete();
 
         return redirect()->route('manageTrainingProgram');
+    }
+
+    public function viewTrainingProgram2($id)
+    {
+        $training_program = TrainingProgram::find($id);
+
+        return view('viewTrainingProgram2', ['trainingProgram' => $training_program]);
+    }
+
+    public function registerTrainingProgram($id)
+    {
+        $trainingAttendee = new TrainingAttendee();
+        $trainingAttendee->trainingProgram = $id;
+        $trainingAttendee->employeeID = Auth::id();
+        $trainingAttendee->save();
+
+        return redirect()->route('viewTrainingProgram2', ['id' => $id]);
+    }
+
+    public function cancelTrainingProgram($id)
+    {
+        $trainingAttendee = TrainingAttendee::all()->where('trainingProgram', $id)->where('employeeID', Auth::id())->first();
+        $trainingAttendee->delete();
+
+        return redirect()->route('viewTrainingProgram2', ['id' => $id]);
     }
 }

@@ -127,3 +127,6 @@ Route::get('/viewTrainingProgram/{id}', [TrainingProgramController::class, 'view
 Route::get('/editTrainingProgram/{id}', [TrainingProgramController::class, 'editTrainingProgramForm'])->name('editTrainingProgram');
 Route::post('/editTrainingProgram/{id}', [TrainingProgramController::class, 'editTrainingProgram']);
 Route::get('/deleteTrainingProgram/{id}', [TrainingProgramController::class, 'deleteTrainingProgram'])->name('deleteTrainingProgram');
+Route::get('/viewTrainingProgram2/{id}', [TrainingProgramController::class, 'viewTrainingProgram2'])->name('viewTrainingProgram2');
+Route::get('/registerTrainingProgram/{id}', [TrainingProgramController::class, 'registerTrainingProgram'])->name('registerTrainingProgram');
+Route::get('/cancelTrainingProgram/{id}', [TrainingProgramController::class, 'cancelTrainingProgram'])->name('cancelTrainingProgram');

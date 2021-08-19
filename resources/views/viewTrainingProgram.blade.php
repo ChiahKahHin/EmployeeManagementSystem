@@ -61,7 +61,7 @@
 				@endif
 				
 				<tr>
-					<td class="font-weight-bold">Claim Status</td>
+					<td class="font-weight-bold">Status</td>
 					<td>{{ $trainingProgram->getStatus() }}</td>
 				</tr>
 
@@ -86,18 +86,6 @@
 				</tr>
 			</tbody>
 		</table>
-		{{-- @if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-			@if ($trainingProgram->claimStatus == 0)
-				<div class="row">
-					<div class="col-md-6">
-						<button type="button" id="approveClaimRequest" class="btn btn-primary btn-block">Approve Claim Request</button>
-					</div>
-					<div class="col-md-6">
-						<button type="button" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-block">Reject Claim Request</button>
-					</div>
-				</div>
-			@endif
-		@endif --}}
 	</div>
 @endsection
 

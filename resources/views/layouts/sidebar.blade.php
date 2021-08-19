@@ -152,7 +152,7 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isHrManager() || Auth::user()->isEmployee())
+				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-presentation-2"></span><span class="mtext">Training Program</span>
