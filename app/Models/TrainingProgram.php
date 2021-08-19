@@ -24,4 +24,8 @@ class TrainingProgram extends Model
         
         return $status;
     }
+
+    public function getDepartment() {
+        return $this->belongsTo(Department::class, "department");
+    }
 }

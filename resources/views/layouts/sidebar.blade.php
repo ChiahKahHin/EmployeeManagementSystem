@@ -147,7 +147,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addTrainingProgram') }}">Add Training Program</a></li>
-							<li><a href="{{ route('manageBenefitClaim') }}">Manage Training Program</a></li>
+							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
 						</ul>
 					</li>
 				@endif

@@ -122,3 +122,8 @@ Route::get('/deleteMemo/{id}', [MemoController::class, 'deleteMemo'])->name('del
 //Training Program
 Route::get('/addTrainingProgram', [TrainingProgramController::class, 'addTrainingProgramForm'])->name('addTrainingProgram');
 Route::post('/addTrainingProgram', [TrainingProgramController::class, 'addTrainingProgram']);
+Route::get('/manageTrainingProgram', [TrainingProgramController::class, 'manageTrainingProgram'])->name('manageTrainingProgram');
+Route::get('/viewTrainingProgram/{id}', [TrainingProgramController::class, 'viewTrainingProgram'])->name('viewTrainingProgram');
+Route::get('/editTrainingProgram/{id}', [TrainingProgramController::class, 'editTrainingProgramForm'])->name('editTrainingProgram');
+Route::post('/editTrainingProgram/{id}', [TrainingProgramController::class, 'editTrainingProgram']);
+Route::get('/deleteTrainingProgram/{id}', [TrainingProgramController::class, 'deleteTrainingProgram'])->name('deleteTrainingProgram');

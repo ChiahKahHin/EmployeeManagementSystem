@@ -11,7 +11,7 @@ class TrainingProgramController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('employee:admin,hrmanager');
+        $this->middleware('employee:admin,hrmanager')->only(['addTrainingProgramForm', 'addTrainingProgram', 'editTrainingProgramForm', 'editTrainingProgram', 'deleteTrainingProgram']);
     }
 
     public function addTrainingProgramForm()
@@ -40,10 +40,69 @@ class TrainingProgramController extends Controller
             $training_program->department = $request->department;
         }
         
-        $training_program->poster = $request->poster;
+        $training_program->poster = file_get_contents($request->poster);
         $training_program->status = 0;
         $training_program->save();
 
         return redirect()->route('addTrainingProgram')->with('message', 'Training program created successfully!');
+    }
+
+    public function manageTrainingProgram()
+    {
+        $trainingPrograms = TrainingProgram::orderBy('status', 'ASC')->orderBy('dateAndTime', 'ASC')->get();
+
+        return view('manageTrainingProgram', ['trainingPrograms' => $trainingPrograms]);
+    }
+
+    public function viewTrainingProgram($id)
+    {
+        $training_program = TrainingProgram::find($id);
+
+        return view('viewTrainingProgram', ['trainingProgram' => $training_program]);
+    }
+
+    public function editTrainingProgramForm($id)
+    {
+        $training_program = TrainingProgram::find($id);
+        $departments = Department::all()->whereNotIn('departmentName', 'Administration');
+
+        return view('editTrainingProgram', ['trainingProgram' => $training_program, 'departments' => $departments]);
+    }
+
+    public function editTrainingProgram(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'description' => 'required|max:255',
+            'venue' => 'required|max:255',
+            'dateAndTime' => 'required',
+        ]);
+
+        $training_program = TrainingProgram::find($id);
+        $training_program->name = $request->name;
+        $training_program->description = $request->description;
+        $training_program->venue = $request->venue;
+        $training_program->dateAndTime = $request->dateAndTime;
+        if($request->specificDepartment != null){
+            $training_program->department = $request->department;
+        }
+        else{
+            $training_program->department = null;
+        }
+        
+        if($request->poster != null){
+            $training_program->poster = file_get_contents($request->poster);
+        }
+        $training_program->save();
+
+        return redirect()->route('editTrainingProgram', ['id' => $id])->with('message', 'Training program details updated successfully!');
+    }
+
+    public function deleteTrainingProgram($id)
+    {
+        $training_program = TrainingProgram::find($id);
+        $training_program->delete();
+
+        return redirect()->route('manageTrainingProgram');
     }
 }
