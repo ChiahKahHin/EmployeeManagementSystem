@@ -36,7 +36,13 @@ class TrainingProgram extends Model
 
     public function getRegistrationStatus(){
         $count = TrainingAttendee::all()->where('trainingProgram', $this->id)->where('employeeID', Auth::id())->count();
-        if ($count == 0) {
+        if ($count == 0 && $this->status == 1) {
+            return "Close for registration";
+        }
+        elseif ($count == 1 && $this->status == 1){
+            return "Training program ended";
+        }
+        else if ($count == 0) {
             return "Not yet register";
         }
         else{
