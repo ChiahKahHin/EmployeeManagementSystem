@@ -25,8 +25,8 @@
 .img-modal-content {
 	margin: auto;
 	display: block;
-	width: 80%;
-	max-width: 80%;
+	width: 60%;
+	max-width: 60%;
 }
 
 /* Caption of Modal Image */
@@ -83,3 +83,12 @@
 		width: 100%;
 	}
 }
+
+.img-thumbnail {
+	padding: 0.25rem;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+	border-radius: 0.5rem;
+	max-width: 100%;
+	height: auto;
+  }
