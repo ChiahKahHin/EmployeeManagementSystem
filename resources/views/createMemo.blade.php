@@ -102,7 +102,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label>Scheduled Memorandum Date & Time</label>
-						<input class="form-control @error('scheduledMemoDateTime') form-control-danger @enderror" type="datetime-local" min="@php echo date("Y-m-d\TH:i", strtotime("+1 day")) @endphp" id="scheduledMemoDateTime" name="scheduledMemoDateTime" placeholder="Select schedule memo date & time" value="{{ old('scheduledMemoDateTime') }}">
+						<input class="form-control @error('scheduledMemoDateTime') form-control-danger @enderror" type="datetime-local" min="@php echo date("Y-m-d\TH:i", strtotime("tomorrow")) @endphp" id="scheduledMemoDateTime" name="scheduledMemoDateTime" placeholder="Select schedule memo date & time" value="{{ old('scheduledMemoDateTime') }}">
 						
 						@error("scheduledMemoDateTime")
 							<div class="text-danger text-sm">

@@ -69,7 +69,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label>Training Program Date & Time</label>
-						<input class="form-control @error('dateAndTime') form-control-danger @enderror" type="datetime-local" min="@php echo date("Y-m-d\TH:i", strtotime("+1 day")) @endphp" id="dateAndTime" name="dateAndTime" placeholder="Select program date & time" value="{{ old('dateAndTime') }}" required>
+						<input class="form-control @error('dateAndTime') form-control-danger @enderror" type="datetime-local" min="@php echo date("Y-m-d\TH:i", strtotime("tomorrow")) @endphp" id="dateAndTime" name="dateAndTime" placeholder="Select program date & time" value="{{ old('dateAndTime') }}" required>
 						
 						@error("dateAndTime")
 							<div class="text-danger text-sm">
