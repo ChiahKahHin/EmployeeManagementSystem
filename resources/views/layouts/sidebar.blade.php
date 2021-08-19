@@ -152,6 +152,17 @@
 					</li>
 				@endif
 
+				@if (Auth::user()->isHrManager() || Auth::user()->isEmployee())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-presentation-2"></span><span class="mtext">Training Program</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
+						</ul>
+					</li>
+				@endif
+
 				<li>
 					<div class="dropdown-divider"></div>
 				</li>

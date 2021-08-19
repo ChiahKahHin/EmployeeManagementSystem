@@ -22,6 +22,11 @@
 						<th>Venue</th>
 						<th>Date</th>
 						<th>Time</th>
+						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+							<th>Number of Attendees</th>
+						@else
+							<th>Registration Status</th>	
+						@endif
 						<th>Status</th>
 						<th class="datatable-nosort">Action</th>
 					</tr>
@@ -37,6 +42,12 @@
 						@endphp
 						<td>{{ date("d F Y", strtotime($dateTime[0])) }} </td>
 						<td>{{ date("g:ia", strtotime($dateTime[1])) }} </td>
+
+						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+							<td>{{ $trainingProgram->getNumberOfAttendees() }}</td>
+						@else
+							<td>{{ $trainingProgram->getRegistrationStatus() }}</td>
+						@endif
 						
 						<td>{{ $trainingProgram->getStatus() }}</td>
 						<td>
