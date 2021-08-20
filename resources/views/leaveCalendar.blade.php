@@ -58,10 +58,21 @@
 						className: 'fc-bg-default',
 						icon : "cog"
 					},
+					@foreach ($publicHolidays as $publicHoliday)
+						{
+							title: '{{ $publicHoliday->name }}',
+							description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.',
+							start: '{{ $publicHoliday->date }}',
+							end: '{{ $publicHoliday->date }}',
+							className: 'fc-bg-default',
+							icon : "cog"
+						},
+					@endforeach
+
 				],
-				eventClick: function(event, jsEvent, view) {
-					swal("Cancelled", "Training program is not registered", "error");
-				},
+				// eventClick: function(event, jsEvent, view) {
+				// 	swal("Cancelled", "Training program is not registered", "error");
+				// },
 				eventClick: function(event, jsEvent, view) {
 					jQuery('.event-icon').html("<i class='fa fa-"+event.icon+"'></i>");
 					jQuery('.event-title').html(event.title);

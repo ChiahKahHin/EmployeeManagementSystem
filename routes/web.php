@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TrainingProgramController;
+use App\Models\PublicHoliday;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -142,5 +143,7 @@ Route::get('/deletePublicHoliday/{id}', [PublicHolidayController::class, 'delete
 
 //Leave
 Route::get('/leaveCalendar', function () {
-	return view('leaveCalendar');
+	//remove model
+	$publicHolidays = PublicHoliday::all();
+	return view('leaveCalendar', ['publicHolidays' => $publicHolidays]);
 })->name('leaveCalendar');
