@@ -12,6 +12,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TrainingProgramController;
 use Illuminate\Support\Facades\Route;
@@ -130,3 +131,16 @@ Route::get('/deleteTrainingProgram/{id}', [TrainingProgramController::class, 'de
 Route::get('/viewTrainingProgram2/{id}', [TrainingProgramController::class, 'viewTrainingProgram2'])->name('viewTrainingProgram2');
 Route::get('/registerTrainingProgram/{id}', [TrainingProgramController::class, 'registerTrainingProgram'])->name('registerTrainingProgram');
 Route::get('/cancelTrainingProgram/{id}', [TrainingProgramController::class, 'cancelTrainingProgram'])->name('cancelTrainingProgram');
+
+//Public Holiday
+Route::get('/addPublicHoliday', [PublicHolidayController::class, 'addPublicHolidayForm'])->name('addPublicHoliday');
+Route::post('/addPublicHoliday', [PublicHolidayController::class, 'addPublicHoliday']);
+Route::get('/managePublicHoliday', [PublicHolidayController::class, 'managePublicHoliday'])->name('managePublicHoliday');
+Route::get('/editPublicHoliday/{id}', [PublicHolidayController::class, 'editPublicHolidayForm'])->name('editPublicHoliday');
+Route::post('/editPublicHoliday/{id}', [PublicHolidayController::class, 'editPublicHoliday']);
+Route::get('/deletePublicHoliday/{id}', [PublicHolidayController::class, 'deletePublicHoliday'])->name('deletePublicHoliday');
+
+//Leave
+Route::get('/leaveCalendar', function () {
+	return view('leaveCalendar');
+})->name('leaveCalendar');

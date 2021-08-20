@@ -163,6 +163,27 @@
 					</li>
 				@endif
 
+				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
+						</a>
+						<ul class="submenu">
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Public Holiday</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addPublicHoliday') }}">Add Public Holiday</a></li>
+									<li><a href="{{ route('managePublicHoliday') }}">Manage Public Holiday</a></li>
+								</ul>
+							</li>
+							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
+						</ul>
+					</li>
+				@endif
+
 				<li>
 					<div class="dropdown-divider"></div>
 				</li>
