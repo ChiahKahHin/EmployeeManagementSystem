@@ -19,6 +19,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/responsive.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/custom.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/fullcalendar/fullcalendar.css') }}">
 
 <!-- switchery css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/switchery/switchery.min.css') }}">

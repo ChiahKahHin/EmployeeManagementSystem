@@ -30,3 +30,6 @@
 
 <!-- Apexchart -->
 <script src="{{ asset('src/plugins/apexcharts/apexcharts.min.js') }}"></script>
+
+<!-- Full Calendar -->
+<script src="{{ asset('src/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
