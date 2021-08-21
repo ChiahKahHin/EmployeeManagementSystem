@@ -43,29 +43,32 @@
 				themeSystem: 'bootstrap4',
 				businessHours: false,
 				defaultView: 'month',
-				editable: true, //event dragging & resizing
+				editable: false, //event dragging & resizing
 				header: {
 					left: 'prev,next today',
 					center: 'title',
 					right:'prev,next today'
 				},
 				events: [
-					{
-						title: 'Barber',
-						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.',
-						start: '2021-08-05',
-						end: '2021-08-05',
-						className: 'fc-bg-default',
-						icon : "cog"
-					},
 					@foreach ($publicHolidays as $publicHoliday)
 						{
-							title: '{{ $publicHoliday->name }}',
-							description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.',
+							title: 'PH - {{ $publicHoliday->name }}',
+							description: 'All employees will be off',
 							start: '{{ $publicHoliday->date }}',
 							end: '{{ $publicHoliday->date }}',
 							className: 'fc-bg-default',
-							icon : "cog"
+							icon : "calendar"
+						},
+					@endforeach
+
+					@foreach ($leaveRequests as $leaveRequest)
+						{
+							title: '{{ $leaveRequest->getLeaveType->leaveType }} - {{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }}',
+							description: '{{ $leaveRequest->leaveDescription }}',
+							start: '{{ $leaveRequest->leaveStartDate }}',
+							end: '{{ date("Y-m-d", strtotime("+1 days", strtotime($leaveRequest->leaveEndDate))) }}',
+							className: 'fc-bg-blue',
+							icon : "calendar"
 						},
 					@endforeach
 

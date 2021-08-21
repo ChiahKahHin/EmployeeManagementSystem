@@ -20,7 +20,14 @@ class LeaveRequestController extends Controller
     {
         $publicHolidays = PublicHoliday::all();
 
-		return view('leaveCalendar', ['publicHolidays' => $publicHolidays]);
+        if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
+            $leaveRequests = LeaveRequest::all()->where('leaveStatus', 2);
+        }
+        else{
+            $leaveRequests = LeaveRequest::all()->where('leaveStatus', 2)->where('employeeID', Auth::id());
+        }
+
+		return view('leaveCalendar', ['publicHolidays' => $publicHolidays, 'leaveRequests' => $leaveRequests]);
     }
 
     public function applyLeaveForm()
