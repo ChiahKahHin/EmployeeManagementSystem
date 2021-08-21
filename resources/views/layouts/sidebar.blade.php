@@ -202,9 +202,9 @@
 				<li>
 					<div class="dropdown-divider"></div>
 				</li>
-				<li>
+				{{-- <li>
 					<div class="sidebar-small-cap">Section Divider</div>
-				</li>
+				</li> --}}
 			</ul>
 		</div>
 	</div>

@@ -6,7 +6,7 @@
 			</h3>
 	</div>
 	<div class="header-right">
-		<div class="user-notification">
+		{{-- <div class="user-notification">
 			<div class="dropdown">
 				<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
 					<i class="icon-copy dw dw-notification"></i>
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 		<div class="user-info-dropdown">
 			<div class="dropdown pt-10">
 				<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
