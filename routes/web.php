@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicHolidayController;
@@ -140,6 +141,14 @@ Route::get('/managePublicHoliday', [PublicHolidayController::class, 'managePubli
 Route::get('/editPublicHoliday/{id}', [PublicHolidayController::class, 'editPublicHolidayForm'])->name('editPublicHoliday');
 Route::post('/editPublicHoliday/{id}', [PublicHolidayController::class, 'editPublicHoliday']);
 Route::get('/deletePublicHoliday/{id}', [PublicHolidayController::class, 'deletePublicHoliday'])->name('deletePublicHoliday');
+
+//Leave Type
+Route::get('/addLeaveType', [LeaveTypeController::class, 'addLeaveTypeForm'])->name('addLeaveType');
+Route::post('/addLeaveType', [LeaveTypeController::class, 'addLeaveType']);
+Route::get('/manageLeaveType', [LeaveTypeController::class, 'manageLeaveType'])->name('manageLeaveType');
+Route::get('/editLeaveType/{id}', [LeaveTypeController::class, 'editLeaveTypeForm'])->name('editLeaveType');
+Route::post('/editLeaveType/{id}', [LeaveTypeController::class, 'editLeaveType']);
+Route::get('/deleteLeaveType/{id}', [LeaveTypeController::class, 'deleteLeaveType'])->name('deleteLeaveType');
 
 //Leave
 Route::get('/leaveCalendar', function () {

@@ -179,7 +179,8 @@
 								</ul>
 							</li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
-							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
+							<li><a href="{{ route('addLeaveType') }}">Add Leave Type</a></li>
+							<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
 						</ul>
 					</li>
 				@endif
