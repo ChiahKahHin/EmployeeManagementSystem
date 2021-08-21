@@ -181,6 +181,20 @@
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
 							<li><a href="{{ route('addLeaveType') }}">Add Leave Type</a></li>
 							<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
+							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
+						</ul>
+					</li>
+				@endif
+
+				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
+							<li><a href="{{ route('manageLeave') }}">Manage Leave</a></li>
 						</ul>
 					</li>
 				@endif

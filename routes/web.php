@@ -10,13 +10,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TrainingProgramController;
-use App\Models\PublicHoliday;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -150,9 +150,12 @@ Route::get('/editLeaveType/{id}', [LeaveTypeController::class, 'editLeaveTypeFor
 Route::post('/editLeaveType/{id}', [LeaveTypeController::class, 'editLeaveType']);
 Route::get('/deleteLeaveType/{id}', [LeaveTypeController::class, 'deleteLeaveType'])->name('deleteLeaveType');
 
-//Leave
-Route::get('/leaveCalendar', function () {
-	//remove model
-	$publicHolidays = PublicHoliday::all();
-	return view('leaveCalendar', ['publicHolidays' => $publicHolidays]);
-})->name('leaveCalendar');
+//Leave Request
+Route::get('/leaveCalendar', [LeaveRequestController::class, 'leaveCalendar'])->name('leaveCalendar');
+Route::get('/applyLeave', [LeaveRequestController::class, 'applyLeaveForm'])->name('applyLeave');
+Route::post('/applyLeave', [LeaveRequestController::class, 'applyLeave']);
+Route::get('/manageLeave', [LeaveRequestController::class, 'manageLeave'])->name('manageLeave');
+Route::get('/viewLeave/{id}', [LeaveRequestController::class, 'viewLeave'])->name('viewLeave');
+Route::get('/approveLeaveRequest/{id}', [LeaveRequestController::class, 'approveLeaveRequest'])->name('approveLeaveRequest');
+Route::get('/rejectLeaveRequest/{id}/{reason}', [LeaveRequestController::class, 'rejectLeaveRequest'])->name('rejectLeaveRequest');
+Route::get('/deleteLeave/{id}', [LeaveRequestController::class, 'deleteLeave'])->name('deleteLeave');
