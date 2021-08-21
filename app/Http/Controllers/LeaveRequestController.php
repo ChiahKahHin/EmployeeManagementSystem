@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\LeaveRequestMail;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\PublicHoliday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class LeaveRequestController extends Controller
@@ -78,7 +80,7 @@ class LeaveRequestController extends Controller
         }
 
         $numberOfPublicHolidays = 0;
-        $publicHolidays = PublicHoliday::all();
+        $publicHolidays = PublicHoliday::distinct()->get('date');
         for ($i=0; $i < $request->leaveDuration; $i++) {
             foreach ($publicHolidays as $publicHoliday) {
                 if($publicHoliday->date == date("Y-m-d", strtotime("+$i days", strtotime($request->leaveStartDate)))){
@@ -89,19 +91,25 @@ class LeaveRequestController extends Controller
         
         $duration = $request->leaveDuration - 1;
 
+        $leaveDuration = $request->leaveDuration - $numberOfPublicHolidays;
+
+        if ($leaveDuration <= 0) {
+            return redirect()->route('applyLeave')->with('error', 'Please do not apply leave on Public Holiday');
+        }
+
         $leaveRequest = new LeaveRequest();
         $leaveRequest->leaveType = $request->leaveType;
         $leaveRequest->employeeID = Auth::user()->id;
         $leaveRequest->leaveStartDate = $request->leaveStartDate;
         $leaveRequest->leaveEndDate = date("Y-m-d", strtotime("+$duration days", strtotime($request->leaveStartDate)));
-        $leaveRequest->leaveDuration = $request->leaveDuration - $numberOfPublicHolidays;
+        $leaveRequest->leaveDuration = $leaveDuration;
         $leaveRequest->leaveDescription = $request->leaveDescription;
         $leaveRequest->leaveStatus = 0;
         $leaveRequest->save();
 
-        //$hrEmails = $leaveRequest->getHrManagerEmail();
+        $hrEmails = $leaveRequest->getHrManagerEmail();
 
-        //Mail::to($hrEmails)->send(new ClaimRequestMail($claimRequest));
+        Mail::to($hrEmails)->send(new LeaveRequestMail($leaveRequest));
 
         return redirect()->route('applyLeave')->with('message', 'Leave applied successfully!');
     }
@@ -134,6 +142,8 @@ class LeaveRequestController extends Controller
         $leaveRequest = LeaveRequest::find($id);
         $leaveRequest->leaveStatus = 2;
         $leaveRequest->save();
+        
+        Mail::to($leaveRequest->getEmployee->email)->send(new LeaveRequestMail($leaveRequest));
 
         return redirect()->route('viewLeave', ['id' => $id]);
     }
@@ -143,6 +153,8 @@ class LeaveRequestController extends Controller
         $leaveRequest = LeaveRequest::find($id);
         $leaveRequest->leaveStatus = 1;
         $leaveRequest->save();
+
+        Mail::to($leaveRequest->getEmployee->email)->send(new LeaveRequestMail($leaveRequest, $reason));
         
         return redirect()->route('viewLeave', ['id' => $id]);
     }
