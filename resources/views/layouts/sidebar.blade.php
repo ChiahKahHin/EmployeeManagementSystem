@@ -178,9 +178,16 @@
 									<li><a href="{{ route('managePublicHoliday') }}">Manage Public Holiday</a></li>
 								</ul>
 							</li>
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Leave Type</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addLeaveType') }}">Add Leave Type</a></li>
+									<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
+								</ul>
+							</li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
-							<li><a href="{{ route('addLeaveType') }}">Add Leave Type</a></li>
-							<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
 						</ul>
 					</li>

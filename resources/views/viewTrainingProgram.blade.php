@@ -59,6 +59,11 @@
 						<td>All Employees</td>
 					</tr>	
 				@endif
+
+				<tr>
+					<td class="font-weight-bold">Number of Attendees</td>
+					<td>{{ $trainingProgram->getNumberOfAttendees() }}</td>
+				</tr>
 				
 				<tr>
 					<td class="font-weight-bold">Status</td>
@@ -77,11 +82,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="font-weight-bold">Claim Request Created Date & Time</td>
+					<td class="font-weight-bold">Training Program Created Date & Time</td>
 					<td>{{ date("d F Y, g:ia", strtotime($trainingProgram->created_at)) }}</td>
 				</tr>
 				<tr>
-					<td class="font-weight-bold">Claim Request Updated Date & Time</td>
+					<td class="font-weight-bold">Training Program Updated Date & Time</td>
 					<td>{{ date("d F Y, g:ia", strtotime($trainingProgram->updated_at)) }}</td>
 				</tr>
 			</tbody>
