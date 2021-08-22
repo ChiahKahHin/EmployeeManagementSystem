@@ -54,27 +54,27 @@ class LeaveRequestController extends Controller
         $conflictLeaves = LeaveRequest::all()
                           ->whereIn('leaveStatus', [0,2])
                           ->where('employeeID', Auth::user()->id);
-        
+
         if (count($conflictLeaves) > 0) {
             foreach ($conflictLeaves as $conflictLeave) {
                 $dateDuration = date_diff(date_create($conflictLeave->leaveEndDate), date_create($conflictLeave->leaveStartDate));
-            }
-    
-            $conflictLeaveArray = array();
-            $count = $dateDuration->format("%a") + 1;
-            for ($i=0; $i < $count; $i++) {
-                foreach ($conflictLeaves as $conflictLeave) {
+            
+                $conflictLeaveArray = array();
+                $count = $dateDuration->format("%a") + 1;
+                for ($i=0; $i < $count; $i++) {
                     array_push($conflictLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($conflictLeave->leaveStartDate))));
                 }
-            }
-    
-            $appliedLeaveArray = array();
-            for ($i=0; $i < $request->leaveDuration; $i++) { 
-                array_push($appliedLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($request->leaveStartDate))));
-            }
-    
-            if (count(array_intersect($appliedLeaveArray, $conflictLeaveArray)) >= 1) {
-                return redirect()->route('applyLeave')->with('error', 'Conflict leave date found, please try again');
+        
+                $appliedLeaveArray = array();
+                for ($i=0; $i < $request->leaveDuration; $i++) { 
+                    array_push($appliedLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($request->leaveStartDate))));
+                }
+        
+                if (count(array_intersect($appliedLeaveArray, $conflictLeaveArray)) >= 1) {
+                    $array = array_intersect($appliedLeaveArray, $conflictLeaveArray);
+                    return redirect()->route('applyLeave')->with('error', 'Conflict leave date found, please try again')
+                                                          ->with('error1', 'Conflict Date: ' . $array[0]);
+                }
             }
         }
 
@@ -84,23 +84,26 @@ class LeaveRequestController extends Controller
             foreach ($publicHolidays as $publicHoliday) {
                 if($publicHoliday->date == date("Y-m-d", strtotime("+$i days", strtotime($request->leaveStartDate)))){
                     $numberOfPublicHolidays++ ;
+                    $publicHolidayDate = $publicHoliday->date;
                 }
             }
         }
-        
-        $duration = $request->leaveDuration - 1;
 
         $leaveDuration = $request->leaveDuration - $numberOfPublicHolidays;
 
         if ($leaveDuration <= 0) {
-            return redirect()->route('applyLeave')->with('error', 'Please do not apply leave on Public Holiday');
+            return redirect()->route('applyLeave')->with('error', 'Please do not apply leave on Public Holiday ')
+                                                  ->with('error1', "Public Holiday: ". $publicHolidayDate);
         }
+
+        $duration = $request->leaveDuration - 1;
+        $leaveEndDate = date("Y-m-d", strtotime("+$duration days", strtotime($request->leaveStartDate)));
 
         $leaveRequest = new LeaveRequest();
         $leaveRequest->leaveType = $request->leaveType;
         $leaveRequest->employeeID = Auth::user()->id;
         $leaveRequest->leaveStartDate = $request->leaveStartDate;
-        $leaveRequest->leaveEndDate = date("Y-m-d", strtotime("+$duration days", strtotime($request->leaveStartDate)));
+        $leaveRequest->leaveEndDate = $leaveEndDate;
         $leaveRequest->leaveDuration = $leaveDuration;
         $leaveRequest->leaveDescription = $request->leaveDescription;
         $leaveRequest->leaveStatus = 0;
