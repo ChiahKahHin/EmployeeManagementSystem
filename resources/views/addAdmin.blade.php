@@ -173,6 +173,7 @@
 		<script>
 			swal({
 				title: '{{ session("message") }}',
+				html: '{{ session("message1") }}',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
 				timer: 5000

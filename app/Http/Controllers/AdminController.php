@@ -49,7 +49,7 @@ class AdminController extends Controller
 
         $admin->notify(new EmployeeCreatedNotification($request->firstname, $request->username, $request->password));
 
-        return redirect()->route('addAdmin')->with('message', 'Admin added successfully!');
+        return redirect()->route('addAdmin')->with('message', 'Admin added successfully!')->with('message1', 'An email notification will be sent to the new admin');
     }
 
     public function manageAdmin()
@@ -86,7 +86,6 @@ class AdminController extends Controller
         $admin->gender = $request->gender;
         $admin->email = $request->email;
         $admin->username = $request->username;
-        $admin->role = 0;
         $admin->save();
 
        return redirect()->route('editAdmin', ['id' => $id])->with('message', 'Admin details updated successfully!');
