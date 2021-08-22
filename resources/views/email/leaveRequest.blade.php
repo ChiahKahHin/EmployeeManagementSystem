@@ -2,17 +2,17 @@
 @if ($leaveRequest->leaveStatus == 0)
 Dear Human Resource Manager,
 
-A new leave request from {{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }} is waiting approval. 
+A new leave request from {{ $leaveRequest->getEmployee->getFullName() }} is waiting approval. 
 
 @elseif($leaveRequest->leaveStatus == 1)
-Dear {{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }},
+Dear {{ $leaveRequest->getEmployee->getFullName() }},
 
 Your leave request is rejected.
 
 Reason of leave request rejected: {{ $reason }} 
 
 @else
-Dear {{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }},
+Dear {{ $leaveRequest->getEmployee->getFullName() }},
 
 Your leave request is approved.
 @endif

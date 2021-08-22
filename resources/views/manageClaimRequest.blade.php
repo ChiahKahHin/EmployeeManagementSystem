@@ -36,7 +36,7 @@
 						<td>RM {{ $claimRequest->claimAmount }}</td>
 						<td>{{ date("d F Y", strtotime($claimRequest->claimDate)) }} </td>
 						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-							<td>{{ ucwords($claimRequest->getEmployee->firstname) }} {{ ucwords($claimRequest->getEmployee->lastname) }}</td>
+							<td>{{ $claimRequest->getEmployee->getFullName() }} </td>
 						@endif
 						<td>{{ $claimRequest->getStatus() }}</td>
 						<td>

@@ -1,5 +1,5 @@
 @component('mail::message')
-Dear {{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }},
+Dear {{ $task->getPersonInCharge->getFullName() }},
 
 @if ($task->dueDate == date('Y-m-d'))
 Your task due date is today, please complete it as soon as possible.

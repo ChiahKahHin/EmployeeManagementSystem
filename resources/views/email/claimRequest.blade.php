@@ -5,14 +5,14 @@ Dear Human Resource Manager,
 A new claim request is waiting approval. 
 
 @elseif($claimRequest->claimStatus == 1)
-Dear {{ ucwords($claimRequest->getEmployee->firstname) }} {{ ucwords($claimRequest->getEmployee->lastname) }},
+Dear {{ $claimRequest->getEmployee->getFullName() }},
 
 Your claim request is rejected.
 
 Reason of claim request rejected: {{ $reason }} 
 
 @else
-Dear {{ ucwords($claimRequest->getEmployee->firstname) }} {{ ucwords($claimRequest->getEmployee->lastname) }},
+Dear {{ $claimRequest->getEmployee->getFullName() }},
 
 Your claim request is approved.
 @endif
@@ -24,7 +24,7 @@ Your claim request is approved.
 	@case(0)
 		| Claim Type | Claim Amount | Claim Employee | Claim Date | Claim Status |
 		|:-----:|:-----------:|:--------:|:--------:|:------:|
-		| {{ $claimRequest->getClaimType->claimType }} | {{ $claimRequest->claimAmount }} | {{ ucwords($claimRequest->getEmployee->firstname) }} {{ ucwords($claimRequest->getEmployee->lastname) }} | {{  date("d F Y", strtotime($claimRequest->claimDate)) }} | {{ $claimRequest->getStatus() }} |
+		| {{ $claimRequest->getClaimType->claimType }} | {{ $claimRequest->claimAmount }} | {{ $claimRequest->getEmployee->getFullName() }} | {{  date("d F Y", strtotime($claimRequest->claimDate)) }} | {{ $claimRequest->getStatus() }} |
 		@break
 	@default
 		| Claim Type | Claim Amount | Claim Date | Claim Status |

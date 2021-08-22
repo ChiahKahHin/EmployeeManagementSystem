@@ -37,7 +37,7 @@
                     <tr>
 						<td>{{ $loop->iteration }}</td>
                         <td>{{ $employee->employeeID }}</td>
-						<td class="table-plus">{{ ucwords($employee->firstname) }} {{ ucwords($employee->lastname) }}</td>
+						<td class="table-plus">{{ $employee->getFullName($employee->id) }}</td>
                         <td>{{ $age }}</td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->contactNumber }} </td>
@@ -50,7 +50,7 @@
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="{{ route('viewEmployee', ['id' => $employee->id]) }}"><i class="dw dw-eye"></i> View</a>
 									<a class="dropdown-item" href="{{ route('editEmployee', ['id' => $employee->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
-									<a class="dropdown-item deleteEmployee" id="{{ $employee->id }}" value="{{ ucwords($employee->firstname) }} {{ ucwords($employee->lastname) }}"><i class="dw dw-delete-3"></i> Delete</a>
+									<a class="dropdown-item deleteEmployee" id="{{ $employee->id }}" value="{{ $employee->getFullName($employee->id) }}"><i class="dw dw-delete-3"></i> Delete</a>
 								</div>
 							</div>
 						</td>

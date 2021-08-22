@@ -34,21 +34,21 @@
 				@if (Auth::user()->isEmployee())
 					<tr>
 						<td class="font-weight-bold">Manager</td>
-						<td>{{ ucwords($task->getManager->firstname) }} {{ ucwords($task->getManager->lastname) }}</td>
+						<td>{{ $task->getManager->getFullName() }}</td>
 					</tr>
 				@elseif (Auth::user()->isHrManager() || Auth::user()->isManager())
 					<tr>
 						<td class="font-weight-bold">Person In Charge</td>
-						<td>{{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }}</td>
+						<td>{{ $task->getPersonInCharge->getFullName() }}</td>
 					</tr>
 				@else
 					<tr>
 						<td class="font-weight-bold">Manager</td>
-						<td>{{ ucwords($task->getManager->firstname) }} {{ ucwords($task->getManager->lastname) }}</td>
+						<td>{{ $task->getManager->getFullName() }}</td>
 					</tr>
 					<tr>
 						<td class="font-weight-bold">Person In Charge</td>
-						<td>{{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }}</td>
+						<td>{{ $task->getPersonInCharge->getFullName() }}</td>
 					</tr>
 				@endif
 				<tr>

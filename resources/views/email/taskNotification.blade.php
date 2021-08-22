@@ -1,9 +1,9 @@
 @component('mail::message')
 @if ($task->status != 1)
-Dear {{ ucwords($task->getPersonInCharge->firstname) }} {{ ucwords($task->getPersonInCharge->lastname) }},
+Dear {{ $task->getPersonInCharge->getFullName() }},
 	
 @else
-Dear {{ ucwords($task->getManager->firstname) }} {{ ucwords($task->getManager->lastname) }},
+Dear {{ $task->getManager->getFullName() }},
 
 @endif
 

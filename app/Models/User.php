@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -125,5 +126,22 @@ class User extends Authenticatable
         }
 
         return $emails;
+    }
+
+    public function getFullName($id = null)
+    {
+        if($id == null){
+            $fullName = $this->firstname;
+            $fullName .= " ";
+            $fullName .= $this->lastname;
+        }
+        else{
+            $user = User::find($id);
+            $fullName = $user->firstname;
+            $fullName .= " ";
+            $fullName .= $user->lastname;
+        }
+
+        return ucwords($fullName);
     }
 }

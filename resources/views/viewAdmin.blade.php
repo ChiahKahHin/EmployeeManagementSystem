@@ -25,7 +25,7 @@
             <tbody>
 				<tr>
 					<td class="font-weight-bold">Name</td>
-					<td>{{ ucwords($admin->firstname) }} {{ ucwords($admin->lastname) }}</td>
+					<td>{{ $admin->getFullName($admin->id) }}</td>
 				</tr>
 				@php
 					$year = explode("-", $admin->dateOfBirth);

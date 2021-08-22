@@ -34,7 +34,7 @@
 						<td>{{ $loop->iteration }}</td>
 						<td>{{ $leaveRequest->getLeaveType->leaveType }}</td>
 						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-							<td class="table-plus">{{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }}</td>
+							<td class="table-plus">{{ $leaveRequest->getEmployee->getFullName() }}</td>
 						@endif
 						<td>{{ $leaveRequest->leaveStartDate }}</td>
 						<td>{{ $leaveRequest->leaveEndDate }} </td>
@@ -48,7 +48,7 @@
 									<a class="dropdown-item" href="{{ route('viewLeave', ['id' => $leaveRequest->id]) }}"><i class="dw dw-eye"></i> View</a>
 									{{-- <a class="dropdown-item" href="{{ route('editEmployee', ['id' => $leaveRequest->id]) }}"><i class="dw dw-edit2"></i> Edit</a> --}}
 									@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-										<a class="dropdown-item deleteLeave" id="{{ $leaveRequest->id }}" value="{{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }}" data-leaveType="{{ $leaveRequest->getLeaveType->leaveType }}"><i class="dw dw-delete-3"></i> Delete</a>
+										<a class="dropdown-item deleteLeave" id="{{ $leaveRequest->id }}" value="{{ $leaveRequest->getEmployee->getFullName() }}" data-leaveType="{{ $leaveRequest->getLeaveType->leaveType }}"><i class="dw dw-delete-3"></i> Delete</a>
 									@endif
 								</div>
 							</div>

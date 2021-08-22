@@ -63,7 +63,7 @@
 
 					@foreach ($leaveRequests as $leaveRequest)
 						{
-							title: '{{ $leaveRequest->getLeaveType->leaveType }} - {{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }}',
+							title: '{{ $leaveRequest->getLeaveType->leaveType }} - {{ $leaveRequest->getEmployee->getFullName() }}',
 							description: '{{ $leaveRequest->leaveDescription }}',
 							start: '{{ $leaveRequest->leaveStartDate }}',
 							end: '{{ date("Y-m-d", strtotime("+1 days", strtotime($leaveRequest->leaveEndDate))) }}',

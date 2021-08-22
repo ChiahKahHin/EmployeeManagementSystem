@@ -42,7 +42,7 @@
 				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
 					<tr>
 						<td class="font-weight-bold">Claim Employee</td>
-						<td>{{ ucwords($claimRequest->getEmployee->firstname) }} {{ ucwords($claimRequest->getEmployee->lastname) }}</td>
+						<td>{{ $claimRequest->getEmployee->getFullName() }}</td>
 					</tr>
 				@endif
 				<tr>

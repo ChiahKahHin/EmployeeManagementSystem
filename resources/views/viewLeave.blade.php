@@ -30,7 +30,7 @@
 				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
 					<tr>
 						<td class="font-weight-bold">Employee </td>
-						<td>{{ ucwords($leaveRequest->getEmployee->firstname) }} {{ ucwords($leaveRequest->getEmployee->lastname) }}</td>
+						<td>{{ $leaveRequest->getEmployee->getFullName() }}</td>
 					</tr>
 				@endif
 				<tr>

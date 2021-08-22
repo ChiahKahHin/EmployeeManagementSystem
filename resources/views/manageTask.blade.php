@@ -38,10 +38,10 @@
 						<td class="table-plus">{{ $task->title }}</td>
 						<td>{{ $task->description }}</td>
 						@if (Auth::user()->isEmployee())
-							<td>{{ $task->getManager->firstname }} {{ $task->getManager->lastname }}</td>
+							<td>{{ $task->getManager->getFullName()}}</td>
 							
 						@else
-							<td>{{ $task->getPersonInCharge->firstname }} {{ $task->getPersonInCharge->lastname }}</td>
+							<td>{{ $task->getPersonInCharge->getFullName() }}</td>
 						@endif
 						<td>{{ $task->priority }}</td>
 						<td>{{ date("d F Y", strtotime($task->dueDate)) }} </td>
