@@ -66,7 +66,7 @@
 
 					<div class="col-md-6">
                         <label>Date of Birth</label>
-                        <input class="form-control @error('dateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', date("d F Y", strtotime($employees->dateOfBirth))) }}" required>
+                        <input class="form-control @error('dateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', $employees->dateOfBirth) }}" required>
 						
 						@error("dateOfBirth")
 							<div class="text-danger text-sm">
@@ -82,7 +82,7 @@
                     <div class="col-md-6">
 						<label>Gender</label>
 						@php
-							$genders = array("male", "female");
+							$genders = array("Male", "Female");
 						@endphp
 						<select class="form-control selectpicker @error('gender') form-control-danger @enderror" name="gender" required>
 							<option value="" selected disabled hidden>Select gender</option>

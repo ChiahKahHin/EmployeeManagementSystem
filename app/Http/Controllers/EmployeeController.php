@@ -46,7 +46,7 @@ class EmployeeController extends Controller
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
         $employee->contactNumber = $request->contactNumber;
-        $employee->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $employee->dateOfBirth = $request->dateOfBirth;
         $employee->gender = $request->gender;
         $employee->address = $request->address;
         $employee->username = $request->username;
@@ -105,7 +105,7 @@ class EmployeeController extends Controller
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
         $employee->contactNumber = $request->contactNumber;
-        $employee->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $employee->dateOfBirth = $request->dateOfBirth;
         $employee->gender = $request->gender;
         $employee->address = $request->address;
         $employee->username = $request->username;

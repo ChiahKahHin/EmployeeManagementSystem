@@ -59,7 +59,7 @@ class ProfileController extends Controller
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
         $employee->contactNumber = $request->contactNumber;
-        $employee->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $employee->dateOfBirth = $request->dateOfBirth;
         $employee->gender = $request->gender;
         $employee->email = $request->email;
         $employee->username = $request->username;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\EmployeeCreatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +38,7 @@ class AdminController extends Controller
         $admin->firstname = $request->firstname;
         $admin->lastname = $request->lastname;
         $admin->contactNumber = $request->contactNumber;
-        $admin->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $admin->dateOfBirth = $request->dateOfBirth;
         $admin->gender = $request->gender;
         $admin->email = $request->email;
         $admin->username = $request->username;
@@ -45,6 +46,9 @@ class AdminController extends Controller
         $admin->department = 1;
         $admin->role = 0;
         $admin->save();
+
+        $admin->notify(new EmployeeCreatedNotification($request->firstname, $request->username, $request->password));
+
         return redirect()->route('addAdmin')->with('message', 'Admin added successfully!');
     }
 
@@ -78,7 +82,7 @@ class AdminController extends Controller
         $admin->firstname = $request->firstname;
         $admin->lastname = $request->lastname;
         $admin->contactNumber = $request->contactNumber;
-        $admin->dateOfBirth = date("Y-m-d", strtotime($request->dateOfBirth));
+        $admin->dateOfBirth = $request->dateOfBirth;
         $admin->gender = $request->gender;
         $admin->email = $request->email;
         $admin->username = $request->username;

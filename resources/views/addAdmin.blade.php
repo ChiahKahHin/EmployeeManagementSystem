@@ -84,7 +84,7 @@
                     <div class="col-md-6">
 						<label>Gender</label>
 						@php
-							$genders = array("male", "female");
+							$genders = array("Male", "Female");
 						@endphp
 						<select class="form-control selectpicker @error('gender') form-control-danger @enderror" name="gender" required>
 							<option value="" selected disabled hidden>Select gender</option>

@@ -9,7 +9,6 @@ use App\Models\PublicHoliday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class LeaveRequestController extends Controller
 {
@@ -35,7 +34,7 @@ class LeaveRequestController extends Controller
     public function applyLeaveForm()
     {
         $leaveTypes = LeaveType::all()
-                      ->whereIn('gender', ['All', Str::ucfirst(Auth::user()->gender)]);
+                      ->whereIn('gender', ['All', Auth::user()->gender]);
         $approvedLeaves = LeaveRequest::all()
                           ->where('employeeID', Auth::user()->id)
                           ->whereIn('leaveStatus', [0, 2]);
