@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\PublicHoliday;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,16 @@ class CreatePublicHolidaysTable extends Migration
             $table->date('date');
             $table->timestamps();
         });
+
+        PublicHoliday::create([
+            'name' => 'National Day',
+            'date' => '2021-08-31',
+        ]);
+
+        PublicHoliday::create([
+            'name' => 'Malaysia Day',
+            'date' => '2021-09-16',
+        ]);
     }
 
     /**

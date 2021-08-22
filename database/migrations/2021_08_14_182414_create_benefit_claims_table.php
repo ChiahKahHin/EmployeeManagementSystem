@@ -30,6 +30,11 @@ class CreateBenefitClaimsTable extends Migration
             'claimType' => "Dental",
             'claimAmount' => 100
         ]);
+
+        BenefitClaim::create([
+            'claimType' => "Fuel",
+            'claimAmount' => 150
+        ]);
     }
 
     /**

@@ -10,4 +10,9 @@ class PublicHoliday extends Model
     use HasFactory;
 
     protected $table = "public_holidays";
+
+    protected $fillable = [
+        'name',
+        'date'
+    ];
 }
