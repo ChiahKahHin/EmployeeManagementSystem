@@ -37,7 +37,7 @@
 								$recipient = "All Employees";
 							}
 							else{
-								$recipient = $memo->getDepartmentName->departmentName . " Department";
+								$recipient = $memo->getDepartmentName() . " Department";
 							}
 						@endphp
 						<td>{{ ucwords($recipient) }}</td>
@@ -63,6 +63,16 @@
 			</table>
 		</div>
 	</div>
+	@if (session('message'))
+		<script>
+			swal({
+				title: '{{ session("message") }}',
+				type: 'success',
+				confirmButtonClass: 'btn btn-success',
+				timer: 5000
+			});
+		</script>
+	@endif
 @endsection
 
 @section('script')

@@ -18,7 +18,7 @@ class CreateMemosTable extends Migration
             $table->string('memoTitle');
             $table->text('memoDescription');
             $table->date('memoDate');
-            $table->integer('memoRecipient');
+            $table->string('memoRecipient');
             $table->dateTime('memoScheduled')->nullable();
             $table->integer('memoStatus');
             $table->timestamps();

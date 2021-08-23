@@ -41,7 +41,7 @@
 						$recipient = "All Employees";
 					}
 					else{
-						$recipient = $memo->getDepartmentName->departmentName . " Department";
+						$recipient = $memo->getDepartmentName() . " Department";
 					}
 				@endphp
 				<tr>

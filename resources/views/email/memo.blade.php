@@ -3,11 +3,14 @@
 {{ ucwords($memo->memoTitle) }}
 
 # Memo Recipient
-@if ($memo->memoRecipient == 0)
+@php
+	$recipient = explode(',', $memo->memoRecipient);
+@endphp
+@if (in_array(0, $recipient))
 All Employees
 
 @else
-{{ ucwords($memo->getDepartmentName->departmentName) }} Department
+{{ ucwords($memo->getDepartmentName()) }} Department
 
 @endif
 

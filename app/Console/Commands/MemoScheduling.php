@@ -46,11 +46,12 @@ class MemoScheduling extends Command
 
         foreach($memos as $memo){
             if($memo->memoScheduled == date("Y-m-d H:i:00")){
-                if($memo->memoRecipient == 0){
+                $recipient = explode(',', $memo->memoRecipient);
+                if(in_array(0, $recipient)){
                     $emails = $user->getEmployeeEmail();
                 }
                 else{
-                    $emails = $user->getEmployeeEmail($memo->memoRecipient);
+                    $emails = $user->getEmployeeEmail($recipient);
                 }
                 Mail::to($emails)->send(new MemoMail($memo));
                 $memo->memoStatus = 1;

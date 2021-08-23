@@ -50,7 +50,7 @@
 						</ul>
 					</li>
 				@endif
-				@if (Auth::user()->isAdmin())
+				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-notepad-2"></span><span class="mtext">Memorandum</span>
@@ -58,15 +58,6 @@
 						<ul class="submenu">
 							<li><a href="{{ route('createMemo') }}">Create Memorandum</a></li>
 							<li><a href="{{ route('manageMemo') }}">Manage Memorandum</a></li>
-							{{-- <li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon dw dw-list pl-2"></span><span class="mtext">Manage Memorandum</span>
-								</a>
-								<ul class="submenu child">
-									<li><a href="javascript:;">Scheduled Memorandum</a></li>
-									<li><a href="javascript:;">All Memorandum</a></li>
-								</ul>
-							</li> --}}
 						</ul>
 					</li>
 				@endif

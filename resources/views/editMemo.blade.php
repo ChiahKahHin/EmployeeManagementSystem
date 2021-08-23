@@ -53,30 +53,15 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-6">
-						<label>Memo Date</label>
-                        <input class="form-control @error('memoDate') form-control-danger @enderror" type="date" name="memoDate" placeholder="Select claim date" value="{{ old('memoDate', $memo->memoDate) }}" required>
-						
-						@error("memoDate")
-							<div class="text-danger text-sm">
-								{{ $message }}
-							</div>
-						@enderror
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="row">
-					<div class="col-md-6">
 						<label>Memo Recipient <i>(By Departments)</i></label>
 						
-						<select class="form-control selectpicker @error('memoRecipient') form-control-danger @enderror" id="memoRecipient" name="memoRecipient" required>
-							<option value="" selected disabled hidden>Select memo recipent</option>
-							<option value="0" {{ (old('memoRecipient', $memo->memoRecipient) == "0" ? "selected": null) }}>All departments</option>
-							
+						<select class="form-control custom-select2 @error('memoRecipient') form-control-danger @enderror" id="memoRecipient" name="memoRecipient[]" multiple required>
+							<option value="" disabled hidden>Select memo recipent</option>
+							<option value="0" {{ (old('memoRecipient', in_array(0, explode(',', $memo->memoRecipient))) ? "selected": null) }}>All departments</option>
+
 							<optgroup label="Each department">
 							@foreach ($departments as $department)
-								<option value="{{ $department->id }}" {{ (old('memoRecipient', $memo->memoRecipient) == $department->id ? "selected": null) }}>{{ $department->departmentName }}</option>
+								<option value="{{ $department->id }}" {{ (old('memoRecipient', in_array($department->id, explode(',', $memo->memoRecipient))) == $department->id ? "selected": null) }}>{{ $department->departmentName }}</option>
 							@endforeach
 						</select>
 						

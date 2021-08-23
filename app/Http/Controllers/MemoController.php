@@ -14,7 +14,7 @@ class MemoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['employee:admin']);
+        $this->middleware(['employee:admin,hrmanager']);
     }
 
     public function createMemoForm()
@@ -29,33 +29,33 @@ class MemoController extends Controller
         $this->validate($request, [
             'memoTitle' => 'required|max:255',
             'memoDescription' => 'required|max:65535',
-            'memoDate' => 'required|date',
             'memoRecipient' => 'required',
         ]);
 
         $memo = new Memo();
         $memo->memoTitle = $request->memoTitle;
         $memo->memoDescription = $request->memoDescription;
-        $memo->memoDate = $request->memoDate;
-        $memo->memoRecipient = $request->memoRecipient;
+        $memo->memoRecipient = implode(",", $request->memoRecipient);
 
         if ($request->scheduledMemo != null) {
             $memo->memoScheduled = $request->scheduledMemoDateTime;
+            $memo->memoDate = date('Y-m-d', strtotime($request->scheduledMemoDateTime));
             $memo->memoStatus = 0;
         }
         else{
             $memo->memoStatus = 1;
+            $memo->memoDate = date('Y-m-d');
         }
         $memo->save();
 
         if($memo->memoStatus == 1){
             $user = new User();
 
-            if($memo->memoRecipient == 0){
+            if(in_array(0, $request->memoRecipient)){
                 $emails = $user->getEmployeeEmail();
             }
             else{
-                $emails = $user->getEmployeeEmail($memo->memoRecipient);
+                $emails = $user->getEmployeeEmail($request->memoRecipient);
             }
             Mail::to($emails)->send(new MemoMail($memo));
         }
@@ -83,38 +83,42 @@ class MemoController extends Controller
         $this->validate($request, [
             'memoTitle' => 'required|max:255',
             'memoDescription' => 'required|max:65535',
-            'memoDate' => 'required|date',
             'memoRecipient' => 'required',
         ]);
 
         $memo = Memo::find($id);
         $memo->memoTitle = $request->memoTitle;
         $memo->memoDescription = $request->memoDescription;
-        $memo->memoDate = $request->memoDate;
-        $memo->memoRecipient = $request->memoRecipient;
+        $memo->memoRecipient = implode(",", $request->memoRecipient);
 
         if ($request->scheduledMemo != null) {
             $memo->memoScheduled = $request->scheduledMemoDateTime;
+            $memo->memoDate = date('Y-m-d', strtotime($request->scheduledMemoDateTime));
             $memo->memoStatus = 0;
         }
         else{
             $memo->memoStatus = 1;
+            $memo->memoDate = date('Y-m-d');
         }
         $memo->save();
 
         if($memo->memoStatus == 1){
             $user = new User();
 
-            if($memo->memoRecipient == 0){
+            if(in_array(0, $request->memoRecipient)){
                 $emails = $user->getEmployeeEmail();
             }
             else{
-                $emails = $user->getEmployeeEmail($memo->memoRecipient);
+                $emails = $user->getEmployeeEmail($request->memoRecipient);
             }
             Mail::to($emails)->send(new MemoMail($memo));
         }
-
-        return redirect()->route('editMemo', ['id' => $id])->with('message', 'Memo details updated successfully!');
+        if($memo->memoStatus == 0){
+            return redirect()->route('editMemo', ['id' => $id])->with('message', 'Memo details updated successfully!');
+        }
+        else{
+            return redirect()->route('manageMemo')->with('message', 'Memo sent successfully!');
+        }
     }
 
     public function viewMemo($id)

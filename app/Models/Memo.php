@@ -13,7 +13,20 @@ class Memo extends Model
 
     public function getDepartmentName()
     {
-        return $this->belongsTo(Department::class, "memoRecipient");
+        $recipients = explode(',', $this->memoRecipient);
+        $departments = Department::all()->whereIn('id', $recipients);
+        $departmentName = null;
+        $x = 0;
+
+        foreach ($departments as $department) {
+            $departmentName .= $department->departmentName;
+            $x++;
+            if($x != count($departments)){
+                $departmentName .= "/";
+            }
+        }
+
+        return $departmentName;
     }
 
     public function getStatus(){
