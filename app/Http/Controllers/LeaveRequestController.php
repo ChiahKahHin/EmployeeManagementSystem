@@ -6,6 +6,7 @@ use App\Mail\LeaveRequestMail;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\PublicHoliday;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -57,23 +58,27 @@ class LeaveRequestController extends Controller
 
         if (count($conflictLeaves) > 0) {
             foreach ($conflictLeaves as $conflictLeave) {
-                $dateDuration = date_diff(date_create($conflictLeave->leaveEndDate), date_create($conflictLeave->leaveStartDate));
+                $currentYear = Carbon::now()->year;
+                $conflictLeaveYear = Carbon::createFromFormat('Y-m-d', $conflictLeave->leaveStartDate)->year;
+                if ($currentYear == $conflictLeaveYear) {
+                    $dateDuration = date_diff(date_create($conflictLeave->leaveEndDate), date_create($conflictLeave->leaveStartDate));
+                
+                    $conflictLeaveArray = array();
+                    $count = $dateDuration->format("%a") + 1;
+                    for ($i=0; $i < $count; $i++) {
+                        array_push($conflictLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($conflictLeave->leaveStartDate))));
+                    }
             
-                $conflictLeaveArray = array();
-                $count = $dateDuration->format("%a") + 1;
-                for ($i=0; $i < $count; $i++) {
-                    array_push($conflictLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($conflictLeave->leaveStartDate))));
-                }
-        
-                $appliedLeaveArray = array();
-                for ($i=0; $i < $request->leaveDuration; $i++) { 
-                    array_push($appliedLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($request->leaveStartDate))));
-                }
-        
-                if (count(array_intersect($appliedLeaveArray, $conflictLeaveArray)) >= 1) {
-                    $array = array_intersect($appliedLeaveArray, $conflictLeaveArray);
-                    return redirect()->route('applyLeave')->with('error', 'Conflict leave date found, please try again')
-                                                          ->with('error1', 'Conflict Date: ' . $array[0]);
+                    $appliedLeaveArray = array();
+                    for ($i=0; $i < $request->leaveDuration; $i++) { 
+                        array_push($appliedLeaveArray, date("Y-m-d", strtotime("+$i days", strtotime($request->leaveStartDate))));
+                    }
+            
+                    if (count(array_intersect($appliedLeaveArray, $conflictLeaveArray)) >= 1) {
+                        $array = array_intersect($appliedLeaveArray, $conflictLeaveArray);
+                        return redirect()->route('applyLeave')->with('error', 'Conflict leave date found, please try again')
+                                                              ->with('error1', 'Conflict Date: ' . $array[0]);
+                    }
                 }
             }
         }
