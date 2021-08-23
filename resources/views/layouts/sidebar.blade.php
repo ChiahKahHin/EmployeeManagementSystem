@@ -114,6 +114,9 @@
 						<ul class="submenu">
 							<li><a href="{{ route('addBenefitClaim') }}">Add Benefit Claim</a></li>
 							<li><a href="{{ route('manageBenefitClaim') }}">Manage Benefit Claim</a></li>
+							@if (Auth::user()->isHrManager())
+								<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
+							@endif
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
 						</ul>
 					</li>
@@ -179,6 +182,9 @@
 								</ul>
 							</li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							@if (Auth::user()->isHrManager())
+								<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
+							@endif
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
 						</ul>
 					</li>
