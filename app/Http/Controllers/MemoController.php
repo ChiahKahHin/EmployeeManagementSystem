@@ -29,13 +29,17 @@ class MemoController extends Controller
         $this->validate($request, [
             'memoTitle' => 'required|max:255',
             'memoDescription' => 'required|max:65535',
-            'memoRecipient' => 'required',
         ]);
 
         $memo = new Memo();
         $memo->memoTitle = $request->memoTitle;
         $memo->memoDescription = $request->memoDescription;
-        $memo->memoRecipient = implode(",", $request->memoRecipient);
+        if($request->specificMemoRecipient != null){
+            $memo->memoRecipient = implode(",", $request->memoRecipient);
+        }
+        else{
+            $memo->memoRecipient = 0;
+        }
 
         if ($request->scheduledMemo != null) {
             $memo->memoScheduled = $request->scheduledMemoDateTime;
@@ -51,7 +55,7 @@ class MemoController extends Controller
         if($memo->memoStatus == 1){
             $user = new User();
 
-            if(in_array(0, $request->memoRecipient)){
+            if($request->specificMemoRecipient == null){
                 $emails = $user->getEmployeeEmail();
             }
             else{
@@ -83,13 +87,17 @@ class MemoController extends Controller
         $this->validate($request, [
             'memoTitle' => 'required|max:255',
             'memoDescription' => 'required|max:65535',
-            'memoRecipient' => 'required',
         ]);
 
         $memo = Memo::find($id);
         $memo->memoTitle = $request->memoTitle;
         $memo->memoDescription = $request->memoDescription;
-        $memo->memoRecipient = implode(",", $request->memoRecipient);
+        if($request->specificMemoRecipient != null){
+            $memo->memoRecipient = implode(",", $request->memoRecipient);
+        }
+        else{
+            $memo->memoRecipient = 0;
+        }
 
         if ($request->scheduledMemo != null) {
             $memo->memoScheduled = $request->scheduledMemoDateTime;
@@ -105,7 +113,7 @@ class MemoController extends Controller
         if($memo->memoStatus == 1){
             $user = new User();
 
-            if(in_array(0, $request->memoRecipient)){
+            if($request->specificMemoRecipient == null){
                 $emails = $user->getEmployeeEmail();
             }
             else{

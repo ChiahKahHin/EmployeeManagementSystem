@@ -53,12 +53,17 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-6">
+						<label>Specific Memo Recipient <i>(By Department)</i>?</label>
+						<input class="form-control switch-btn" type="checkbox" id="specificMemoRecipient" name="specificMemoRecipient" onchange="showInput2();" data-size="small" data-color="#0099ff" {{ (old('specificMemoRecipient')? "checked": null) }}>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group" id="showMemoRecipient">
+				<div class="row">
+					<div class="col-md-6">
 						<label>Memo Recipient <i>(By Departments)</i></label>
-						
-						<select class="form-control custom-select2 @error('memoRecipient') form-control-danger @enderror" id="memoRecipient" name="memoRecipient[]" multiple="multiple" required>
-							<option value="0" @if(is_array(old('memoRecipient')) && in_array($department->id, old("memoRecipient"))) selected @endif>All departments</option>
-							
-							<optgroup label="Each department">
+						<select class="form-control custom-select2 @error('memoRecipient') form-control-danger @enderror" id="memoRecipient" name="memoRecipient[]" multiple="multiple">
 							@foreach ($departments as $department)
 								<option value="{{ $department->id }}" @if(is_array(old('memoRecipient')) && in_array($department->id, old("memoRecipient"))) selected @endif>{{ $department->departmentName }}</option>
 							@endforeach
@@ -69,6 +74,7 @@
 								{{ $message }}
 							</div>
 						@enderror	
+						
                     </div>
 				</div>
 			</div>
@@ -76,16 +82,16 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-6">
-						<label>Schedule Memorandum?</label>
+						<label>Schedule Memo?</label>
 						<input class="form-control switch-btn" type="checkbox" id="scheduledMemo" name="scheduledMemo" onchange="showInput();" data-size="small" data-color="#0099ff" {{ (old('scheduledMemo')? "checked": null) }}>
 					</div>
 				</div>
 			</div>
 
-			<div id="showScheduledMemoDate" style="display: none;">
+			<div class="form-group" id="showScheduledMemoDate" style="display: none;">
 				<div class="row">
 					<div class="col-md-6">
-						<label>Scheduled Memorandum Date & Time</label>
+						<label>Scheduled Memo Date & Time</label>
 						<input class="form-control @error('scheduledMemoDateTime') form-control-danger @enderror" type="datetime-local" min="@php echo date("Y-m-d\TH:i", strtotime("tomorrow")) @endphp" id="scheduledMemoDateTime" name="scheduledMemoDateTime" placeholder="Select schedule memo date & time" value="{{ old('scheduledMemoDateTime') }}">
 						
 						@error("scheduledMemoDateTime")
@@ -120,13 +126,14 @@
 @section("script")
 	<script>
 		$(document).ready(function() {
-			countWords();
-			showInput();
-
 			$('.custom-select2').select2({
 				placeholder : "Select Memo Recipient",
 				allowClear: true
 			});
+
+			countWords();
+			showInput();
+			showInput2();
 		});
 
 		function countWords(){
@@ -143,6 +150,18 @@
 			else{
 				document.getElementById('showScheduledMemoDate').setAttribute('style', 'display:none;');
 				document.getElementById('scheduledMemoDateTime').removeAttribute('required');
+			}
+		}
+
+		function showInput2() {
+			var checked = document.getElementById('specificMemoRecipient').checked;
+			if(checked == true){
+				document.getElementById('showMemoRecipient').removeAttribute('style');
+				document.getElementById('memoRecipient').setAttribute('required', '');
+			}
+			else{
+				document.getElementById('showMemoRecipient').setAttribute('style', 'display:none;');
+				document.getElementById('memoRecipient').removeAttribute('required');
 			}
 		}
 	</script>
