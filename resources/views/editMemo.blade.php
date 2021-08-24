@@ -55,13 +55,12 @@
 					<div class="col-md-6">
 						<label>Memo Recipient <i>(By Departments)</i></label>
 						
-						<select class="form-control custom-select2 @error('memoRecipient') form-control-danger @enderror" id="memoRecipient" name="memoRecipient[]" multiple required>
-							<option value="" disabled hidden>Select memo recipent</option>
-							<option value="0" {{ (old('memoRecipient', in_array(0, explode(',', $memo->memoRecipient))) ? "selected": null) }}>All departments</option>
+						<select class="form-control custom-select2 @error('memoRecipient') form-control-danger @enderror" id="memoRecipient" name="memoRecipient[]" multiple="multiple" required>
+							<option value="0" @if ($errors->isNotEmpty() && in_array(0, old("memoRecipient")) || $errors->isEmpty() && in_array(0, explode(',', $memo->memoRecipient))) selected @endif> All departments</option>
 
 							<optgroup label="Each department">
 							@foreach ($departments as $department)
-								<option value="{{ $department->id }}" {{ (old('memoRecipient', in_array($department->id, explode(',', $memo->memoRecipient))) == $department->id ? "selected": null) }}>{{ $department->departmentName }}</option>
+								<option value="{{ $department->id }}" @if ($errors->isNotEmpty() && in_array($department->id, old("memoRecipient")) || $errors->isEmpty() && in_array($department->id, explode(',', $memo->memoRecipient))) selected @endif>{{ $department->departmentName }}</option>
 							@endforeach
 						</select>
 						
@@ -123,6 +122,11 @@
 		$(document).ready(function() {
 			countWords();
 			showInput();
+
+			$('.custom-select2').select2({
+				placeholder : "Select Memo Recipient",
+				allowClear: true,
+			});
 		});
 
 		function countWords(){
