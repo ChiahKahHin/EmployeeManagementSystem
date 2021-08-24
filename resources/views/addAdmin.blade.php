@@ -132,36 +132,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Password</label>
-                        <input class="form-control @error('password') form-control-danger @enderror" type="password" name="password" placeholder="Enter password" required>
-
-						@error("password")
-							<div class="text-danger text-sm">
-								{{ $message }}
-							</div>
-						@enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Confirm Password</label>
-                        <input class="form-control @error('password_confirmation') form-control-danger @enderror" type="password" name="password_confirmation" placeholder="Enter confirm password" required>
-
-						@error("password_confirmation")
-							<div class="text-danger text-sm">
-								{{ $message }}
-							</div>
-						@enderror
-                    </div>
-                </div>
-            </div>
-
 			<div class="row">
 				<div class="col-md-6">
 					<button type="submit" class="btn btn-primary btn-block">Add Admin</button>
@@ -173,10 +143,10 @@
 		<script>
 			swal({
 				title: '{{ session("message") }}',
-				html: '{{ session("message1") }}',
+				html: '@php echo session("message1") @endphp',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
-				timer: 5000
+				timer: 7500
 			});
 		</script>
 	@endif

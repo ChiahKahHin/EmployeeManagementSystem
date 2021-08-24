@@ -89,7 +89,7 @@ class EmployeeController extends Controller
         $employee->emergencyContactAddress = $request->emergencyAddress;
         $employee->username = $request->username;
         $employee->email = $request->email;
-        $employee->password = Hash::make($password);;
+        $employee->password = Hash::make($password);
         $employee->employeeID = $request->employeeID;
         $employee->reportingManager = $request->reportingManager;
         $employee->department = $request->department;

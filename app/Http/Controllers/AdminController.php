@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Notifications\EmployeeCreatedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,9 +32,9 @@ class AdminController extends Controller
             'gender' => 'required',
             'email' => 'required|email|max:255|unique:users,email',
             'username' => 'required|max:255|unique:users,username',
-            'password' => 'required|confirmed|min:8|max:255'
         ]);
 
+        $password = Str::random(10);
         $admin = new User();
         $admin->firstname = $request->firstname;
         $admin->lastname = $request->lastname;
@@ -42,14 +43,15 @@ class AdminController extends Controller
         $admin->gender = $request->gender;
         $admin->email = $request->email;
         $admin->username = $request->username;
-        $admin->password = Hash::make($request->password);
+        $admin->password = Hash::make($password);
         $admin->department = 1;
         $admin->role = 0;
         $admin->save();
 
-        $admin->notify(new EmployeeCreatedNotification($request->firstname, $request->username, $request->password));
+        $admin->notify(new EmployeeCreatedNotification($request->firstname, $request->username, $password));
 
-        return redirect()->route('addAdmin')->with('message', 'Admin added successfully!')->with('message1', 'An email notification will be sent to the new admin');
+        return redirect()->route('addAdmin')->with('message', 'Admin added successfully!')
+                                            ->with('message1', 'An email will be sent for the newly created admin. <br> The default password will be randomly generated');
     }
 
     public function manageAdmin()
