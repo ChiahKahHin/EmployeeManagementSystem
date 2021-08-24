@@ -21,7 +21,7 @@
 			<div class="clearfix">
 				<hr>
 					<div class="text-center mb-10">
-						<h4 class="text-blue h5">Personal Info</h4>
+						<h4 class="text-blue h5">Personal Information</h4>
 					</div>
 				<hr>
 			</div>
@@ -99,8 +99,8 @@
                     </div>
 
 					<div class="col-md-6">
-						<label>Address</label>
-						<textarea class="form-control @error('address') form-control-danger @enderror" id="address" name="address" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter address" maxlength="255" onkeyup="countWords()" data-gramm_editor="false" required>{{ old('address', $employees->address) }}</textarea>
+						<label>Home Address</label>
+						<textarea class="form-control @error('address') form-control-danger @enderror" id="address" name="address" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter home address" maxlength="255" onkeyup="countWords()" data-gramm_editor="false" required>{{ old('address', $employees->address) }}</textarea>
 						
 						<div id="address_word_count" class="text-sm" style="text-align: right"></div>
 						
@@ -113,10 +113,150 @@
                 </div>
             </div>
 
+			<div class="form-group">
+                <div class="row">
+					<div class="col-md-6">
+						<label>NRIC</label>
+						<input class="form-control @error('ic') form-control-danger @enderror" type="text" minlength="12" maxlength="12" name="ic" placeholder="Enter IC Number (without '-')" value="{{ old('ic', $employees->ic) }}" required>
+
+						@error("ic")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror
+					</div>
+
+                    <div class="col-md-6">
+						<label>Nationality</label>
+						<select class="form-control custom-select2 nationality @error('nationality') form-control-danger @enderror" name="nationality" required>
+							@foreach ($nationalities as $nationality)
+								<option value="{{ $nationality }}" {{ (old('nationality', $employees->nationality) == $nationality ? "selected": null) }}>{{ $nationality }}</option>
+							@endforeach
+						</select>
+						
+						@error("nationality")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+                </div>
+            </div>
+
+			<div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+						<label>Citizenship</label>
+						@php
+							$citizenships = array("Malaysian Citizen", "Malaysian Permanent Resident", "Malaysian Temporary Resident", "Other");
+						@endphp
+						<select class="form-control selectpicker @error('citizenship') form-control-danger @enderror" name="citizenship" required>
+							<option value="" selected disabled hidden>Select citizenship</option>
+							@foreach ($citizenships as $citizenship)
+								<option value="{{ $citizenship }}" {{ (old('citizenship', $employees->citizenship) == $citizenship ? "selected": null) }}>{{ $citizenship }}</option>
+							@endforeach
+						</select>
+						
+						@error("citizenship")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+
+					<div class="col-md-6">
+						<label>Religion</label>
+						@php
+							$religions = array("Buddist", "Christian", "Hindu", "Muslim", "Other");
+						@endphp
+						<select class="form-control selectpicker @error('religion') form-control-danger @enderror" name="religion" required>
+							<option value="" selected disabled hidden>Select religion</option>
+							@foreach ($religions as $religion)
+								<option value="{{ $religion }}" {{ (old('religion', $employees->religion) == $religion ? "selected": null) }}>{{ $religion }}</option>
+							@endforeach
+						</select>
+						
+						@error("religion")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+                </div>
+            </div>
+
+			<div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+						<label>Race</label>
+						@php
+							$races = array("Chinese", "Malay", "Indian", "Other");
+						@endphp
+						<select class="form-control selectpicker @error('race') form-control-danger @enderror" name="race" required>
+							<option value="" selected disabled hidden>Select race</option>
+							@foreach ($races as $race)
+								<option value="{{ $race }}" {{ (old('race', $employees->race) == $race ? "selected": null) }}>{{ $race }}</option>
+							@endforeach
+						</select>
+						
+						@error("race")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+                </div>
+            </div>
+
 			<div class="clearfix">
 				<hr>
 					<div class="text-center mb-10">
-						<h4 class="text-blue h5">Create New Account</h4>
+						<h4 class="text-blue h5">Emergency Contact</h4>
+					</div>
+				<hr>
+			</div>
+
+			<div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Emergency Contact Name</label>
+                        <input class="form-control @error('emergencyContactName') form-control-danger @enderror" type="text" name="emergencyContactName" placeholder="Enter emergency contact name" value="{{ old('emergencyContactName', $employees->emergencyContactName) }}" required>
+
+						@error("emergencyContactName")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror
+                    </div>
+
+					<div class="col-md-6">
+                        <label>Emergency Contact Number</label>
+                        <input class="form-control @error('emergencyContactNumber') form-control-danger @enderror" type="text" name="emergencyContactNumber" placeholder="Enter emergency contact number (e.g. 012-3456789)" value="{{ old('emergencyContactNumber', $employees->emergencyContactNumber) }}" required>
+
+						@error("emergencyContactNumber")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror
+                    </div>
+                </div>
+            </div>
+
+			<div class="form-group">
+                <div class="row">
+					<div class="col-md-6">
+                        <label>Emergency Address</label>
+                        <textarea class="form-control @error('emergencyAddress') form-control-danger @enderror" id="emergencyAddress" name="emergencyAddress" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter emergency address" maxlength="255" onkeyup="countWords1()" data-gramm_editor="false" required>{{ old('emergencyAddress', $employees->emergencyContactAddress) }}</textarea>
+						
+						<div id="emergency_address_word_count" class="text-sm" style="text-align: right"></div>
+                    </div>
+                </div>
+            </div>
+
+			<div class="clearfix">
+				<hr>
+					<div class="text-center mb-10">
+						<h4 class="text-blue h5">Account Information</h4>
 					</div>
 				<hr>
 			</div>
@@ -159,7 +299,29 @@
 							</div>
 						@enderror
                     </div>
-					
+
+					<div class="col-md-6">
+						<label>Reporting Manager</label>
+						
+						<select class="form-control selectpicker @error('reportingManager') form-control-danger @enderror" id="reportingManager" name="reportingManager" required>
+							<option value="" selected disabled hidden>Select reporting manager</option>
+							
+							@foreach ($managers as $manager)
+								<option value="{{ $manager->id }}" {{ (old('reportingManager', $employees->reportingManager) == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }}</option>
+							@endforeach
+						</select>
+						
+						@error("reportingManager")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="row">
 					<div class="col-md-6">
 						<label>Department</label>
 						
@@ -176,12 +338,8 @@
 								{{ $message }}
 							</div>
 						@enderror	
-                    </div>
-				</div>
-			</div>
+					</div>
 
-			<div class="form-group">
-				<div class="row">
 					<div class="col-md-6">
 						<label>Manager Role? <i>(Optional)</i></label>
 						<div class="custom-control custom-radio mb-5">
@@ -218,7 +376,12 @@
 @section("script")
 	<script>
 		$(document).ready(function() {
+			$('.nationality').select2({
+				placeholder : "Select Nationality",
+				allowClear: true
+			});
 			countWords();
+			countWords2();
 			@if (old('department', $employees->department))
 				checkDepartment();
 			@endif
@@ -227,6 +390,11 @@
 		function countWords(){
 			var words = document.getElementById('address');
 			$('#address_word_count').text(words.value.length + "/" + words.maxLength);
+		};
+
+		function countWords2(){
+			var words = document.getElementById('emergencyAddress');
+			$('#emergency_address_word_count').text(words.value.length + "/" + words.maxLength);
 		};
 
 		var check = true;

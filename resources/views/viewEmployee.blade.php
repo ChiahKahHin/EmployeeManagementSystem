@@ -52,6 +52,38 @@
 					<td>{!! nl2br($employees->address) !!}</td>
 				</tr>
 				<tr>
+					<td class="font-weight-bold">NRIC</td>
+					<td>{{ $employees->ic }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Nationality</td>
+					<td>{{ $employees->nationality }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Citizenship</td>
+					<td>{{ $employees->citizenship }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Religion</td>
+					<td>{{ $employees->religion }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Race</td>
+					<td>{{ $employees->race }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Emergency Contact Name</td>
+					<td>{{ $employees->emergencyContactName }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Emergency Contact Number</td>
+					<td>{{ $employees->emergencyContactNumber }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Emergency Contact Address</td>
+					<td>{!! nl2br($employees->emergencyContactAddress) !!}</td>
+				</tr>
+				<tr>
 					<td class="font-weight-bold">Username</td>
 					<td>{{ $employees->username }}</td>
 				</tr>
@@ -66,6 +98,10 @@
 				<tr>
 					<td class="font-weight-bold">Department</td>
 					<td>{{ $employees->getDepartment->departmentName }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Reporting Manager</td>
+					<td>{{ $employees->getFullName($employees->reportingManager) }}</td>
 				</tr>
 				
 				@if ($employees->role == 1 || $employees->role == 2)
