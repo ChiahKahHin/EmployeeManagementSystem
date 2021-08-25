@@ -109,11 +109,27 @@
 				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-invoice"></span><span class="mtext">Claim Type</span>
+							<span class="micon dw dw-invoice"></span><span class="mtext">Benefit Claim</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="{{ route('addClaimType') }}">Add Claim Type</a></li>
-							<li><a href="{{ route('manageClaimType') }}">Manage Claim Type</a></li>
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Claim Category</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addClaimCategory') }}">Add Claim Category</a></li>
+									<li><a href="{{ route('manageClaimCategory') }}">Manage Claim Category</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Claim Type</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addClaimType') }}">Add Claim Type</a></li>
+									<li><a href="{{ route('manageClaimType') }}">Manage Claim Type</a></li>
+								</ul>
+							</li>
 							@if (Auth::user()->isHrManager())
 								<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							@endif

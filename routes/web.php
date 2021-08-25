@@ -5,6 +5,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\ClaimTypeController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ClaimCategoryController;
 use App\Http\Controllers\ClaimRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
@@ -96,6 +97,14 @@ Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('a
 Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
 Route::post('/changeTaskManager/{id}', [TaskController::class, 'changeTaskManager'])->name('changeTaskManager');
+
+//Manage Claim Category
+Route::get('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategoryForm'])->name('addClaimCategory');
+Route::post('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategory']);
+Route::get('/manageClaimCategory', [ClaimCategoryController::class, 'manageClaimCategory'])->name('manageClaimCategory');
+Route::get('/editClaimCategory/{id}', [ClaimCategoryController::class, 'editClaimCategoryForm'])->name('editClaimCategory');
+Route::post('/editClaimCategory/{id}', [ClaimCategoryController::class, 'editClaimCategory']);
+Route::get('/deleteClaimCategory/{id}', [ClaimCategoryController::class, 'deleteClaimCategory'])->name('deleteClaimCategory');
 
 //Manage Claim Type
 Route::get('/addClaimType', [ClaimTypeController::class, 'addClaimTypeForm'])->name('addClaimType');
