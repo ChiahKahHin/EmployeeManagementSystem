@@ -63,9 +63,8 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label>Person In Charge</label>
-
-						<select class="form-control selectpicker @error('personInCharge') form-control-danger @enderror" name="personInCharge" required>
-							<option value="" selected disabled hidden>Select Person In Charge</option>
+						<label style="font-size: 13px;"><i>(Multiple Person In Charge?)</i>&nbsp; &nbsp;<input class="form-control switch-btn" type="checkbox" id="multiplePICCheckbox" name="multiplePICCheckbox" onchange="multiplePersonInCharge();" data-size="small" data-color="#0099ff" {{ (old('multiplePICCheckbox')? "checked": null) }}></label>
+						<select class="form-control custom-select2 @error('personInCharge') form-control-danger @enderror" id="personInCharge" name="personInCharge" multiple="multiple" required>
 							@foreach ($personInCharges as $personInCharge)
 								<option value="{{ $personInCharge->id }}" {{ (old('personInCharge') == $personInCharge->id ? "selected": null) }}>{{ $personInCharge->getFullName($personInCharge->id) }}</option>
 							@endforeach
@@ -136,4 +135,32 @@
 			});
 		</script>
 	@endif
+@endsection
+
+@section("script")
+	<script>
+		$(document).ready(function() {
+			$('.custom-select2').select2({
+				placeholder : "Select Person In Charge",
+				allowClear: true
+			});
+			multiplePersonInCharge();
+		});
+
+		function multiplePersonInCharge(){
+			var checked = document.getElementById('multiplePICCheckbox').checked;
+			var personInCharge = document.getElementById('personInCharge');
+			if(checked ==  true){
+				personInCharge.setAttribute('multiple', 'multiple');
+				personInCharge.removeAttribute('name');
+				personInCharge.setAttribute('name', 'personInCharge[]');
+			}
+			else{
+				personInCharge.removeAttribute('multiple');
+				personInCharge.removeAttribute('name');
+				personInCharge.setAttribute('name', 'personInCharge');
+				$(".custom-select2").val(null).trigger('change');
+			}
+		}
+	</script>
 @endsection

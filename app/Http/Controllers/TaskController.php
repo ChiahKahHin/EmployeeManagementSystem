@@ -36,20 +36,41 @@ class TaskController extends Controller
             'dueDate' => 'required|after:today',
         ]);
 
-        $task = new Task();
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->personInCharge = $request->personInCharge;
-        $task->department = Auth::user()->department;
-        $task->manager = Auth::user()->id;
-        $task->priority = $request->priority;
-        $task->dueDate = date("Y-m-d", strtotime($request->dueDate));
-        $task->status = 0;
-        $task->save();
+        if(is_array($request->personInCharge)){
+            for ($i=0; $i < count($request->personInCharge); $i++) { 
+                $task = new Task();
+                $task->title = $request->title;
+                $task->description = $request->description;
+                $task->personInCharge = $request->personInCharge[$i];
+                $task->department = Auth::user()->department;
+                $task->manager = $task->getReportingManager($request->personInCharge[$i]);
+                $task->priority = $request->priority;
+                $task->dueDate = $request->dueDate;
+                $task->status = 0;
+                $task->save();
+                
+                $email = $task->getEmail($task->personInCharge);
+                
+                Mail::to($email)->send(new TaskNotificationMail($task));
+            }
+        }
+        else{
+            $task = new Task();
+            $task->title = $request->title;
+            $task->description = $request->description;
+            $task->personInCharge = $request->personInCharge;
+            $task->department = Auth::user()->department;
+            $task->manager = $task->getReportingManager($request->personInCharge);
+            $task->priority = $request->priority;
+            $task->dueDate = $request->dueDate;
+            $task->status = 0;
+            $task->save();
+    
+            $email = $task->getEmail($task->personInCharge);
+            
+            Mail::to($email)->send(new TaskNotificationMail($task));
 
-        $email = $task->getEmail($task->personInCharge);
-        
-        Mail::to($email)->send(new TaskNotificationMail($task));
+        }
 
         return redirect()->route('addTask')->with('message', 'Task added successfully!');
     }
@@ -60,10 +81,10 @@ class TaskController extends Controller
             $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->get();
         }
         elseif(Auth::user()->isEmployee()){
-            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('department', Auth::user()->department)->where('personInCharge', Auth::user()->id)->get();
+            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('personInCharge', Auth::user()->id)->get();
         }
         else{
-            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('department', Auth::user()->department)->get();
+            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('manager', Auth::user()->id)->get();
         }
 
         return view('manageTask', ['tasks' => $tasks]);
@@ -94,7 +115,7 @@ class TaskController extends Controller
         $task->description = $request->description;
         $task->personInCharge = $request->personInCharge;
         $task->priority = $request->priority;
-        $task->dueDate = date("Y-m-d", strtotime($request->dueDate));
+        $task->dueDate = $request->dueDate;
         $task->save();        
 
         return redirect()->route('editTask', ['id' => $task->id])->with('message', 'Task details updated successfully!');
@@ -111,8 +132,9 @@ class TaskController extends Controller
     public function viewTask($id)
     {
         $task = Task::findOrFail($id);
+        $managers = User::orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
-        return view('viewTask', ['task' => $task]);
+        return view('viewTask', ['task' => $task, 'managers' => $managers]);
     }
 
     public function approveTask($id)
@@ -152,5 +174,20 @@ class TaskController extends Controller
         Mail::to($email)->send(new TaskNotificationMail($task));
 
         return redirect()->route('viewTask', ['id' => $id]);
+    }
+
+    public function changeTaskManager(Request $request, $id)
+    {
+        $task = Task::find($id);
+        $task->manager = $request->manager;
+        $task->save();
+
+        $emails = array();
+        array_push($emails, $task->getEmail($task->manager));
+        array_push($emails, $task->getEmail($task->personInCharge));
+
+        Mail::to($emails)->send(new TaskNotificationMail($task, null, true));
+
+        return redirect()->route('manageTask')->with('message', 'Task approval manager delegate successfully!');
     }
 }

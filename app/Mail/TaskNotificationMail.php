@@ -15,16 +15,18 @@ class TaskNotificationMail extends Mailable
     
     private Task $task;
     private $reason;
+    private $changeManager;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Task $task, $reason = null)
+    public function __construct(Task $task, $reason = null, $changeManager = false)
     {
         $this->task = $task;
         $this->reason = $reason;
+        $this->changeManager = $changeManager;
     }
 
     /**
@@ -35,24 +37,30 @@ class TaskNotificationMail extends Mailable
     public function build()
     {
         $subject = null;
-        switch ($this->task->status) {
-            case '0':
-                $subject = "New Task Added Notification";
-                break;
-            
-            case '1':
-                $subject = "Task is Waiting for Approval";
-                break;
-            
-            case '2':
-                $subject = "Task Rejected";
-                break;
-
-            case '3':
-                $subject = "Task Approved";
-                break;
+        if($this->changeManager){
+            $subject = "Task Approval Manager Delegate";
+        }
+        else{
+            switch ($this->task->status) {
+                case '0':
+                    $subject = "New Task Added Notification";
+                    break;
+                
+                case '1':
+                    $subject = "Task is Waiting for Approval";
+                    break;
+                
+                case '2':
+                    $subject = "Task Rejected";
+                    break;
+    
+                case '3':
+                    $subject = "Task Approved";
+                    break;
+        }
+           
         }
         return $this->subject($subject)
-                    ->markdown('email.taskNotification', ['task' => $this->task, 'reason' => $this->reason]);
+                    ->markdown('email.taskNotification', ['task' => $this->task, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
     }
 }

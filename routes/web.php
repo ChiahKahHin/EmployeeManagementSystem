@@ -95,6 +95,7 @@ Route::get('/viewTask/{id}', [TaskController::class, 'viewTask'])->name('viewTas
 Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('approveTask');
 Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
+Route::post('/changeTaskManager/{id}', [TaskController::class, 'changeTaskManager'])->name('changeTaskManager');
 
 //Manage Benefit Claim
 Route::get('/addBenefitClaim', [BenefitClaimController::class, 'addBenefitClaimForm'])->name('addBenefitClaim');

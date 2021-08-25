@@ -54,7 +54,9 @@
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="{{ route('viewTask', ['id' => $task->id]) }}"><i class="dw dw-eye"></i> View</a>
 									@if (Auth::user()->isHrManager() || Auth::user()->isManager())
+										@if ($task->status == 0)
 										<a class="dropdown-item" href="{{ route('editTask', ['id' => $task->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
+										@endif
 										<a class="dropdown-item deleteTask" id="{{ $task->id }}" value="{{ $task->title }}"><i class="dw dw-delete-3"></i> Delete</a>
 									@endif
 								</div>
@@ -67,6 +69,16 @@
 			</table>
 		</div>
 	</div>
+	@if (session('message'))
+		<script>
+			swal({
+				title: '{{ session("message") }}',
+				type: 'success',
+				confirmButtonClass: 'btn btn-success',
+				timer: 5000
+			});
+		</script>
+	@endif
 @endsection
 
 @section('script')

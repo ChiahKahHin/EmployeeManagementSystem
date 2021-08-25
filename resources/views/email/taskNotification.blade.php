@@ -1,12 +1,21 @@
 @component('mail::message')
-@if ($task->status != 1)
-Dear {{ $task->getPersonInCharge->getFullName() }},
-	
+@if($changeManager)
+Dear {{ $task->getManager->getFullName() }}/{{ $task->getPersonInCharge->getFullName() }},
+
 @else
+@if ($task->status == 1)
 Dear {{ $task->getManager->getFullName() }},
 
+@else
+Dear {{ $task->getPersonInCharge->getFullName() }},
+
+@endif
 @endif
 
+@if ($changeManager)
+This task approval manager is delegate to a new manager:<br> {{ $task->getManager->getFullName() }}. <br>
+
+@else
 @if ($task->status == 2)
 
 Your task is rejected by the manager. <br>
@@ -20,7 +29,15 @@ Your task is approved by the manager. <br>
 
 A task is waiting for approval. <br>
 @endif
+	
+@endif
 
+@if ($changeManager)
+
+<u><b>Task Details</b></u>
+
+@else
+	
 @if ($task->status == 0)
 
 <u><b>New Task Details</b></u>
@@ -29,6 +46,7 @@ A task is waiting for approval. <br>
 
 <u><b>Task Details</b></u>
 
+@endif
 @endif
 
 @component('mail::table')

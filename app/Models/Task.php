@@ -19,6 +19,11 @@ class Task extends Model
         return $this->belongsTo(User::class, "manager");
     }
 
+    public function getReportingManager($id){
+        $user = User::find($id);
+        return $user->reportingManager;
+    }
+
     public function getEmail($id){
         $user = User::find($id);
         

@@ -119,10 +119,55 @@
 			</div>
 		</div>
 	</div>
+	@if (!Auth::user()->isEmployee() && ($task->status == 0 || $task->status == 1))
+		<div class="pd-20 card-box mb-30">
+			<div class="clearfix">
+				<div class="pull-left mb-10">
+					<h4 class="text-blue h4">Task Approval Manager Delegation?</h4>
+				</div>
+			</div>
+			
+			<form action="{{ route('changeTaskManager', ['id' => $task->id]) }}" method="POST">
+				@csrf
+				
+	
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Other Manager</label>
+							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
+								@foreach ($managers as $manager)
+									<option value="{{ $manager->id }}" {{ ($task->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName($manager->id) }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-md-6">
+						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approving Manager</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	@endif
 @endsection
 
 @section("script")
 	<script>
+		function checkManager() 
+		{  
+			var manager = document.getElementById('manager');
+			var managerID = manager.options[manager.selectedIndex].value;
+			var originalManagerID = {{ $task->manager }};
+			if(managerID == originalManagerID){
+				$("#changeApprovingManagerBtn").attr('disabled', true);
+			}
+			else{
+				$("#changeApprovingManagerBtn").attr('disabled', false);
+			}
+		}
 		$('#approveTask').on('click', function(){
 			swal({
 				title: "Approve this task?",
