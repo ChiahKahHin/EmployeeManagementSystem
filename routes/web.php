@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
-use App\Http\Controllers\BenefitClaimController;
+use App\Http\Controllers\ClaimTypeController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ClaimRequestController;
 use App\Http\Controllers\DashboardController;
@@ -97,13 +97,13 @@ Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
 Route::post('/changeTaskManager/{id}', [TaskController::class, 'changeTaskManager'])->name('changeTaskManager');
 
-//Manage Benefit Claim
-Route::get('/addBenefitClaim', [BenefitClaimController::class, 'addBenefitClaimForm'])->name('addBenefitClaim');
-Route::post('/addBenefitClaim', [BenefitClaimController::class, 'addBenefitClaim']);
-Route::get('/manageBenefitClaim', [BenefitClaimController::class, 'manageBenefitClaim'])->name('manageBenefitClaim');
-Route::get('/editBenefitClaim/{id}', [BenefitClaimController::class, 'editBenefitClaimForm'])->name('editBenefitClaim');
-Route::post('/editBenefitClaim/{id}', [BenefitClaimController::class, 'editBenefitClaim']);
-Route::get('/deleteBenefitClaim/{id}', [BenefitClaimController::class, 'deleteBenefitClaim'])->name('deleteBenefitClaim');
+//Manage Claim Type
+Route::get('/addClaimType', [ClaimTypeController::class, 'addClaimTypeForm'])->name('addClaimType');
+Route::post('/addClaimType', [ClaimTypeController::class, 'addClaimType']);
+Route::get('/manageClaimType', [ClaimTypeController::class, 'manageClaimType'])->name('manageClaimType');
+Route::get('/editClaimType/{id}', [ClaimTypeController::class, 'editClaimTypeForm'])->name('editClaimType');
+Route::post('/editClaimType/{id}', [ClaimTypeController::class, 'editClaimType']);
+Route::get('/deleteClaimType/{id}', [ClaimTypeController::class, 'deleteClaimType'])->name('deleteClaimType');
 
 //Benefit Claim Application
 Route::get('/applyBenefitClaim', [ClaimRequestController::class, 'applyBenefitClaimForm'])->name('applyBenefitClaim');

@@ -109,11 +109,11 @@
 				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-invoice"></span><span class="mtext">Benefit Claim</span>
+							<span class="micon dw dw-invoice"></span><span class="mtext">Claim Type</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="{{ route('addBenefitClaim') }}">Add Benefit Claim</a></li>
-							<li><a href="{{ route('manageBenefitClaim') }}">Manage Benefit Claim</a></li>
+							<li><a href="{{ route('addClaimType') }}">Add Claim Type</a></li>
+							<li><a href="{{ route('manageClaimType') }}">Manage Claim Type</a></li>
 							@if (Auth::user()->isHrManager())
 								<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							@endif

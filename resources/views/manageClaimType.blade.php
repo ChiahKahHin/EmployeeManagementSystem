@@ -1,17 +1,17 @@
 @extends('layouts.template')
 
 @section('title')
-	{{ Auth::user()->getRoleName() }} | Manage Benefit Claims
+	{{ Auth::user()->getRoleName() }} | Manage Claim Types
 @endsection
 
 @section('pageTitle')
-	Manage Benefit Claims
+	Manage Claim Types
 @endsection
 
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Benefit Claims</h4>
+			<h4 class="text-blue h4">All Claim Types</h4>
 		</div>
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
@@ -24,11 +24,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($benefitClaims as $benefitClaim)
+					@foreach ($claimTypes as $claimType)
 					<tr>
 						<td>{{ $loop->iteration }}</td>
-						<td class="table-plus">{{ ucwords($benefitClaim->claimType) }}</td>
-						<td>RM {{ $benefitClaim->claimAmount }}</td>
+						<td class="table-plus">{{ ucwords($claimType->claimType) }}</td>
+						<td>RM {{ $claimType->claimAmount }}</td>
 						<td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -36,8 +36,8 @@
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									{{-- <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a> --}}
-									<a class="dropdown-item" href="{{ route('editBenefitClaim', ['id' => $benefitClaim->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
-									<a class="dropdown-item deleteBenefitClaim" id="{{ $benefitClaim->id }}" value="{{ ucwords($benefitClaim->claimType) }}"><i class="dw dw-delete-3"></i> Delete</a>
+									<a class="dropdown-item" href="{{ route('editClaimType', ['id' => $claimType->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
+									<a class="dropdown-item deleteClaimType" id="{{ $claimType->id }}" value="{{ ucwords($claimType->claimType) }}"><i class="dw dw-delete-3"></i> Delete</a>
 								</div>
 							</div>
 						</td>
@@ -52,11 +52,11 @@
 
 @section('script')
 <script>
-	$(document).on('click', '.deleteBenefitClaim', function() {
+	$(document).on('click', '.deleteClaimType', function() {
 		var claimId = $(this).attr('id');
 		var claimType = $(this).attr('value');
 		swal({
-			title: 'Delete this benefit claim?',
+			title: 'Delete this claim type?',
 			text: 'Claim type: ' + claimType,
 			type: 'warning',
 			showCancelButton: true,
@@ -66,16 +66,16 @@
 			if (result.value){
 				swal({
 					title: "Deleted!",
-					text: claimType + " benefit claim removed from system",
+					text: claimType + " claim type removed from system",
 					type: "success",
 					showCancelButton: false,
 					timer: 3000
 				}).then(function(){
-					window.location.href = "/deleteBenefitClaim/" + claimId;
+					window.location.href = "/deleteClaimType/" + claimId;
 				});
 			}
 			else{
-				swal("Cancelled", "Benefit claim is not removed from system", "error");
+				swal("Cancelled", "Claim type is not removed from system", "error");
 			}
 		});
 	});

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BenefitClaim extends Model
+class ClaimType extends Model
 {
     use HasFactory;
 
-    protected $table = "benefit_claims";
+    protected $table = "claim_types";
 
     protected $fillable = [
         'claimType',

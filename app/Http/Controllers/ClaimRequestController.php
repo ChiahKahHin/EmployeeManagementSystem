@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ClaimRequestMail;
-use App\Models\BenefitClaim;
+use App\Models\ClaimType;
 use App\Models\ClaimRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,12 +19,12 @@ class ClaimRequestController extends Controller
 
     public function applyBenefitClaimForm()
     {
-        $benefitClaims = BenefitClaim::all();
+        $claimTypes = ClaimType::all();
         $approvedClaims = ClaimRequest::all()
                         ->where('claimEmployee', Auth::user()->id)
                         ->whereIn('claimStatus', [0, 2]);
 
-        return view('applyBenefitClaim', ['benefitClaims' => $benefitClaims, 'approvedClaims' => $approvedClaims]);
+        return view('applyBenefitClaim', ['claimTypes' => $claimTypes, 'approvedClaims' => $approvedClaims]);
     }
 
     public function applyBenefitClaim(Request $request)

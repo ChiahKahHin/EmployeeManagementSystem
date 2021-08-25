@@ -25,8 +25,8 @@
 						<select class="form-control selectpicker @error('claimType') form-control-danger @enderror" id="claimType" name="claimType" onchange="checkClaimAmount();" required>
 							<option value="" selected disabled hidden>Select claim type</option>
 							
-							@foreach ($benefitClaims as $benefitClaim)
-								<option value="{{ $benefitClaim->id }}" data-claimType="{{ $benefitClaim->claimType }}" data-claimAmount="{{ $benefitClaim->claimAmount }}" {{ (old('claimType') == $benefitClaim->id ? "selected": null) }}>{{ $benefitClaim->claimType }}</option>
+							@foreach ($claimTypes as $claimType)
+								<option value="{{ $claimType->id }}" data-claimType="{{ $claimType->claimType }}" data-claimAmount="{{ $claimType->claimAmount }}" {{ (old('claimType') == $claimType->id ? "selected": null) }}>{{ $claimType->claimType }}</option>
 							@endforeach
 						</select>
 						

@@ -10,7 +10,7 @@ class ClaimRequest extends Model
     use HasFactory;
 
     public function getClaimType(){
-        return $this->belongsTo(BenefitClaim::class, "claimType");
+        return $this->belongsTo(ClaimType::class, "claimType");
     }
 
     public function getEmployee(){

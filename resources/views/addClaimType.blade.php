@@ -1,28 +1,28 @@
 @extends('layouts.template')
 
 @section('title')
-	{{ Auth::user()->getRoleName() }} | Edit Benefit Claim
+	{{ Auth::user()->getRoleName() }} | Add Claim Type
 @endsection
 
 @section('pageTitle')
-	Edit Benefit Claim
+	Add Claim Type
 @endsection
 
 @section('content')
 <div class="pd-20 card-box mb-30">
 	<div class="clearfix">
 		<div class="pull-left mb-10">
-			<h4 class="text-blue h4">Edit Benefit Claim</h4>
+			<h4 class="text-blue h4">Add Claim Type</h4>
 		</div>
 	</div>
 
-	<form action="{{ route('editBenefitClaim', ['id' => $benefitClaim->id]) }}" method="POST">
+	<form action="{{ route('addClaimType') }}" method="POST">
 		@csrf
 		<div class="form-group">
 			<div class="row">
 				<div class="col-md-6">
-					<label>Benefit Claim Type</label>
-					<input class="form-control @error('claimType') form-control-danger @enderror" type="text" name="claimType" placeholder="Enter benefit claim type" value="{{ old('claimType', $benefitClaim->claimType) }}" required>
+					<label>Claim Type</label>
+					<input class="form-control @error('claimType') form-control-danger @enderror" type="text" name="claimType" placeholder="Enter claim type" value="{{ old('claimType') }}" required>
 					
 					@error("claimType")
 						<div class="text-danger text-sm">
@@ -36,8 +36,8 @@
 		<div class="form-group">
 			<div class="row">
 				<div class="col-md-6">
-					<label>Benefit Claim Amount <i>(Per Annum)</i></label>
-					<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="0" step="1" name="claimAmount" placeholder="Enter benefit claim amount" value="{{ old('claimAmount', $benefitClaim->claimAmount) }}" required>
+					<label>Claim Type Amount <i>(Per Annum)</i></label>
+					<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="0" step="1" name="claimAmount" placeholder="Enter claim amount" value="{{ old('claimAmount') }}" required>
 					
 					@error("claimAmount")
 						<div class="text-danger text-sm">
@@ -50,7 +50,7 @@
 
 		<div class="row">
 			<div class="col-md-6">
-				<button type="submit" class="btn btn-primary btn-block">Edit Benefit Claim</button>
+				<button type="submit" class="btn btn-primary btn-block">Add Claim Type</button>
 			</div>
 		</div>
 	</form>
