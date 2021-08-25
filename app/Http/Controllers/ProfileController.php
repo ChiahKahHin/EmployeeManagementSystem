@@ -8,6 +8,25 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    private $nationalities =array ("Afghan","Albanian","Algerian","American","Andorran","Angolan","Antiguans","Argentinean","Armenian","Australian",
+							"Austrian","Azerbaijani","Bahamian","Bahraini","Bangladeshi","Barbadian","Barbudans","Batswana","Belarusian","Belgian",
+							"Belizean","Beninese","Bhutanese","Bolivian","Bosnian","Brazilian","British","Bruneian","Bulgarian","Burkinabe","Burmese",
+							"Burundian","Cambodian","Cameroonian","Canadian","Cape Verdean","Central African","Chadian","Chilean","Chinese","Colombian",
+							"Comoran","Congolese","Costa Rican","Croatian","Cuban","Cypriot","Czech","Danish","Djibouti","Dominican","Dutch","East Timorese",
+							"Ecuadorean","Egyptian","Emirian","Equatorial Guinean","Eritrean","Estonian","Ethiopian","Fijian","Filipino","Finnish",
+							"French","Gabonese","Gambian","Georgian","German","Ghanaian","Greek","Grenadian","Guatemalan","Guinea-Bissauan","Guinean",
+							"Guyanese","Haitian","Herzegovinian","Honduran","Hungarian","I-Kiribati","Icelander","Indian","Indonesian","Iranian",
+							"Iraqi","Irish","Israeli","Italian","Ivorian","Jamaican","Japanese","Jordanian","Kazakhstani","Kenyan","Kittian and Nevisian",
+							"Kuwaiti","Kyrgyz","Laotian","Latvian","Lebanese","Liberian","Libyan","Liechtensteiner","Lithuanian","Luxembourger","Macedonian","Malagasy",
+							"Malawian","Malaysian","Maldivian","Malian","Maltese","Marshallese","Mauritanian","Mauritian","Mexican","Micronesian","Moldovan",
+							"Monacan","Mongolian","Moroccan","Mosotho","Motswana","Mozambican","Namibian","Nauruan","Nepalese","New Zealander","Ni-Vanuatu",
+							"Nicaraguan","Nigerian","Nigerien","North Korean","Northern Irish","Norwegian","Omani","Pakistani","Palauan","Panamanian","Papua New Guinean",
+							"Paraguayan","Peruvian","Polish","Portuguese","Qatari","Romanian","Russian","Rwandan","Saint Lucian","Salvadoran",
+							"Samoan","San Marinese","Sao Tomean","Saudi","Scottish","Senegalese","Serbian","Seychellois","Sierra Leonean","Singaporean",
+							"Slovakian","Slovenian","Solomon Islander","Somali","South African","South Korean","Spanish","Sri Lankan","Sudanese","Surinamer","Swazi","Swedish",
+							"Swiss","Syrian","Taiwanese","Tajik","Tanzanian","Thai","Togolese","Tongan","Trinidadian or Tobagonian","Tunisian","Turkish",
+							"Tuvaluan","Ugandan","Ukrainian","Uruguayan","Uzbekistani","Venezuelan","Vietnamese","Welsh","Yemenite","Zambian","Zimbabwean");
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,7 +43,7 @@ class ProfileController extends Controller
     {
         $employees = User::find(Auth::id());
 
-        return view('updateProfile', ['employees' => $employees]);
+        return view('updateProfile', ['employees' => $employees, 'nationalities' => $this->nationalities]);
     }
     
     public function updateProfile(Request $request)
@@ -51,7 +70,15 @@ class ProfileController extends Controller
                 'gender' => 'required',
                 'email' => 'required|email|max:255|unique:users,email,'.$id.'',
                 'username' => 'required|max:255|unique:users,username,'.$id.'',
-                'address' => 'required|max:255'
+                'address' => 'required|max:255',
+                'ic' => 'required|min:12|max:12',
+                'nationality' => 'required',
+                'citizenship' => 'required',
+                'religion' => 'required',
+                'race' => 'required',
+                'emergencyContactName' => 'required|max:255',
+                'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
+                'emergencyAddress' => 'required|max:255',
             ]);
         }
         
@@ -65,6 +92,14 @@ class ProfileController extends Controller
         $employee->username = $request->username;
         if(!Auth::user()->isAdmin()){
             $employee->address = $request->address;
+            $employee->ic = $request->ic;
+            $employee->nationality = $request->nationality;
+            $employee->citizenship = $request->citizenship;
+            $employee->religion = $request->religion;
+            $employee->race = $request->race;
+            $employee->emergencyContactName = $request->emergencyContactName;
+            $employee->emergencyContactNumber = $request->emergencyContactNumber;
+            $employee->emergencyContactAddress = $request->emergencyAddress;
         }
         $employee->save();
 
