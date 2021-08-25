@@ -55,7 +55,7 @@ class CreateUsersTable extends Migration
         //Admin
         User::create([
             "username" => "admin",
-            "email" => "kahhinchiah@gmail.com",
+            "email" => "admin@gmail.com",
             "firstname" => "admin",
             "lastname" => "1",
             "contactNumber" => "012-4783997",
@@ -82,7 +82,7 @@ class CreateUsersTable extends Migration
         //HR Manager
         User::create([
             "username" => "hrmanager",
-            "email" => "kahhinchiah0707@gmail.com",
+            "email" => "hrmanager@gmail.com",
             "employeeID" => "E001",
             "firstname" => "HR",
             "lastname" => "Manager",
@@ -90,21 +90,39 @@ class CreateUsersTable extends Migration
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 1,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
             "department" => 2,
             "password" => Hash::make("123"),
             "role" => 1
         ]);
 
         User::create([
-            "username" => "hrmanager1",
-            "email" => "hrmanager1@gmail.com",
+            "username" => "hrmanager2",
+            "email" => "hrmanager2@gmail.com",
             "employeeID" => "E002",
             "firstname" => "HR",
-            "lastname" => "Manager1",
+            "lastname" => "Manager2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 3,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
             "department" => 2,
             "password" => Hash::make("123"),
             "role" => 1
@@ -113,7 +131,7 @@ class CreateUsersTable extends Migration
         //manager
         User::create([
             "username" => "manager",
-            "email" => "kahhinchiah12345@gmail.com",
+            "email" => "ITmanager@gmail.com",
             "employeeID" => "E003",
             "firstname" => "IT",
             "lastname" => "Manager",
@@ -121,6 +139,15 @@ class CreateUsersTable extends Migration
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 3,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
             "department" => 3,
             "password" => Hash::make("123"),
             "role" => 2
@@ -129,7 +156,7 @@ class CreateUsersTable extends Migration
         //employee
         User::create([
             "username" => "emp",
-            "email" => "kahhin48@gmail.com",
+            "email" => "emp@gmail.com",
             "employeeID" => "E004",
             "firstname" => "Employee",
             "lastname" => "1",
@@ -137,6 +164,15 @@ class CreateUsersTable extends Migration
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 5,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
             "department" => 3,
             "password" => Hash::make("123"),
             "role" => 3
@@ -144,7 +180,7 @@ class CreateUsersTable extends Migration
 
         User::create([
             "username" => "emp2",
-            "email" => "chiahkahhin@hotmail.com",
+            "email" => "emp2@gmail.com",
             "employeeID" => "E005",
             "firstname" => "Employee",
             "lastname" => "2",
@@ -152,6 +188,15 @@ class CreateUsersTable extends Migration
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 5,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
             "department" => 3,
             "password" => Hash::make("123"),
             "role" => 3
