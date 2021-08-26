@@ -18,8 +18,10 @@
 				<thead>
 					<tr>
 						<th width="5%">#</th>
+						<th>Claim Category</th>
 						<th>Claim Type</th>
 						<th>Claim Amount</th>
+						<th>Claim Period</th>
 						<th class="datatable-nosort" width="15%">Action</th>
 					</tr>
 				</thead>
@@ -27,8 +29,10 @@
 					@foreach ($claimTypes as $claimType)
 					<tr>
 						<td>{{ $loop->iteration }}</td>
-						<td class="table-plus">{{ ucwords($claimType->claimType) }}</td>
+						<td class="table-plus">{{ $claimType->getClaimCategory->claimCategory }}</td>
+						<td>{{ ucwords($claimType->claimType) }}</td>
 						<td>RM {{ $claimType->claimAmount }}</td>
+						<td>{{ $claimType->claimPeriod }}</td>
 						<td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

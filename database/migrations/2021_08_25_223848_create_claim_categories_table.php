@@ -26,7 +26,7 @@ class CreateClaimCategoriesTable extends Migration
         ]);
 
         ClaimCategory::create([
-            "claimCategory" => "Meal Claim"
+            "claimCategory" => "Miscellaneous Claim"
         ]);
     }
 

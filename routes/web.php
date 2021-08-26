@@ -74,7 +74,7 @@ Route::post('/addDepartment', [DepartmentController::class, 'addDepartment']);
 Route::get('/manageDepartment', [DepartmentController::class, 'manageDepartment'])->name('manageDepartment');
 Route::get('/editDepartment/{id}', [DepartmentController::class, 'editDepartmentForm'])->name('editDepartment');
 Route::post('/editDepartment/{id}', [DepartmentController::class, 'editDepartment']);
-Route::get('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment'])->name('deleteAdmin');
+Route::get('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment'])->name('deleteDepartment');
 
 //Manage Employee
 Route::get('/addEmployee', [EmployeeController::class, 'addEmployeeForm'])->name('addEmployee');

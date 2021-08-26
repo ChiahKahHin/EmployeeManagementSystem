@@ -16,24 +16,32 @@ class CreateClaimTypesTable extends Migration
     {
         Schema::create('claim_types', function (Blueprint $table) {
             $table->id();
+            $table->integer('claimCategory');
             $table->string('claimType')->unique();
             $table->double('claimAmount');
+            $table->string('claimPeriod');
             $table->timestamps();
         });
 
         ClaimType::create([
+            'claimCategory' => 1,
             'claimType' => "Medical",
-            'claimAmount' => 200
+            'claimAmount' => 2000,
+            'claimPeriod' => "Per Annum",
         ]);
 
         ClaimType::create([
+            'claimCategory' => 1,
             'claimType' => "Dental",
-            'claimAmount' => 100
+            'claimAmount' => 200,
+            'claimPeriod' => "Per Claim",
         ]);
 
         ClaimType::create([
+            'claimCategory' => 2,
             'claimType' => "Fuel",
-            'claimAmount' => 150
+            'claimAmount' => 50,
+            'claimPeriod' => "Per Claim",
         ]);
     }
 

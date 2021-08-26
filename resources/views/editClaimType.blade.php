@@ -21,6 +21,26 @@
 		<div class="form-group">
 			<div class="row">
 				<div class="col-md-6">
+					<label>Claim Category</label>
+					<select class="form-control selectpicker @error('claimCategory') form-control-danger @enderror" name="claimCategory" required>
+						<option value="" selected disabled hidden>Select claim category</option>
+						@foreach ($claimCategories as $claimCategory)
+							<option value="{{ $claimCategory->id }}" {{ (old('claimCategory', $claimType->claimCategory) == $claimCategory->id ? "selected": null) }}>{{ ucfirst($claimCategory->claimCategory) }}</option>
+						@endforeach
+					</select>
+					
+					@error("claimCategory")
+						<div class="text-danger text-sm">
+							{{ $message }}
+						</div>
+					@enderror	
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-6">
 					<label>Claim Type</label>
 					<input class="form-control @error('claimType') form-control-danger @enderror" type="text" name="claimType" placeholder="Enter claim type" value="{{ old('claimType', $claimType->claimType) }}" required>
 					
@@ -36,7 +56,7 @@
 		<div class="form-group">
 			<div class="row">
 				<div class="col-md-6">
-					<label>Claim Type Amount <i>(Per Annum)</i></label>
+					<label>Claim Type Amount</label>
 					<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="0" step="1" name="claimAmount" placeholder="Enter claim amount" value="{{ old('claimAmount', $claimType->claimAmount) }}" required>
 					
 					@error("claimAmount")
@@ -44,6 +64,29 @@
 							{{ $message }}
 						</div>
 					@enderror
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-6">
+					<label>Claim Period</label>
+					@php
+						$claimPeriods = array("Per Annum", "Per Claim");
+					@endphp
+					<select class="form-control selectpicker @error('claimPeriod') form-control-danger @enderror" name="claimPeriod" required>
+						<option value="" selected disabled hidden>Select claim period</option>
+						@foreach ($claimPeriods as $claimPeriod)
+							<option value="{{ $claimPeriod }}" {{ (old('claimPeriod', $claimType->claimPeriod) == $claimPeriod ? "selected": null) }}>{{ $claimPeriod }}</option>
+						@endforeach
+					</select>
+					
+					@error("claimPeriod")
+						<div class="text-danger text-sm">
+							{{ $message }}
+						</div>
+					@enderror	
 				</div>
 			</div>
 		</div>

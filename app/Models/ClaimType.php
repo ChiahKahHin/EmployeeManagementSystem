@@ -12,7 +12,13 @@ class ClaimType extends Model
     protected $table = "claim_types";
 
     protected $fillable = [
+        'claimCategory',
         'claimType',
-        'claimAmount'
+        'claimAmount',
+        'claimPeriod',
     ];
+
+    public function getClaimCategory(){
+        return $this->belongsTo(ClaimCategory::class, "claimCategory");
+    }
 }
