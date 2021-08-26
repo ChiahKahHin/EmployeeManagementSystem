@@ -109,6 +109,53 @@
 				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
+						</a>
+						<ul class="submenu">
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Public Holiday</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addPublicHoliday') }}">Add Public Holiday</a></li>
+									<li><a href="{{ route('managePublicHoliday') }}">Manage Public Holiday</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Leave Type</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addLeaveType') }}">Add Leave Type</a></li>
+									<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
+								</ul>
+							</li>
+							<li><a href="{{ route('manageWorkingDay') }}">Manage Working Day</a></li>
+							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							@if (Auth::user()->isHrManager())
+								<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
+							@endif
+							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
+						</ul>
+					</li>
+				@endif
+
+				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
+							<li><a href="{{ route('manageLeave') }}">Manage Leave</a></li>
+						</ul>
+					</li>
+				@endif
+
+				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-invoice"></span><span class="mtext">Benefit Claim</span>
 						</a>
 						<ul class="submenu">
@@ -169,52 +216,6 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
-						</ul>
-					</li>
-				@endif
-
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
-						</a>
-						<ul class="submenu">
-							<li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon dw dw-list pl-2"></span><span class="mtext">Public Holiday</span>
-								</a>
-								<ul class="submenu child">
-									<li><a href="{{ route('addPublicHoliday') }}">Add Public Holiday</a></li>
-									<li><a href="{{ route('managePublicHoliday') }}">Manage Public Holiday</a></li>
-								</ul>
-							</li>
-							<li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon dw dw-list pl-2"></span><span class="mtext">Leave Type</span>
-								</a>
-								<ul class="submenu child">
-									<li><a href="{{ route('addLeaveType') }}">Add Leave Type</a></li>
-									<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
-								</ul>
-							</li>
-							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
-							@if (Auth::user()->isHrManager())
-								<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
-							@endif
-							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
-						</ul>
-					</li>
-				@endif
-
-				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
-					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
-						</a>
-						<ul class="submenu">
-							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
-							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
-							<li><a href="{{ route('manageLeave') }}">Manage Leave</a></li>
 						</ul>
 					</li>
 				@endif

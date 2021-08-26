@@ -18,6 +18,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TrainingProgramController;
+use App\Http\Controllers\WorkingDayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -143,6 +144,10 @@ Route::get('/deleteTrainingProgram/{id}', [TrainingProgramController::class, 'de
 Route::get('/viewTrainingProgram2/{id}', [TrainingProgramController::class, 'viewTrainingProgram2'])->name('viewTrainingProgram2');
 Route::get('/registerTrainingProgram/{id}', [TrainingProgramController::class, 'registerTrainingProgram'])->name('registerTrainingProgram');
 Route::get('/cancelTrainingProgram/{id}', [TrainingProgramController::class, 'cancelTrainingProgram'])->name('cancelTrainingProgram');
+
+//Working Day
+Route::get('/manageWorkingDay', [WorkingDayController::class, 'manageWorkingDayForm'])->name('manageWorkingDay');
+Route::post('/manageWorkingDay', [WorkingDayController::class, 'manageWorkingDay']);
 
 //Public Holiday
 Route::get('/addPublicHoliday', [PublicHolidayController::class, 'addPublicHolidayForm'])->name('addPublicHoliday');
