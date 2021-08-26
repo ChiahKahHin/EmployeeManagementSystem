@@ -42,7 +42,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label>Leave Start Date</label>
-						<input class="form-control @error('leaveStartDate') form-control-danger @enderror" type="date" min="@php echo date("Y-m-d") @endphp" name="leaveStartDate" placeholder="Select leave start date" value="{{ old('leaveStartDate') }}" required>
+						<input class="form-control @error('leaveStartDate') form-control-danger @enderror" type="date" id="leaveStartDate" name="leaveStartDate" value="{{ old('leaveStartDate') }}" onblur="checkLeaveLimit();" required>
 						
 						@error("leaveStartDate")
 							<div class="text-danger text-sm">
@@ -57,6 +57,47 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-6">
+						<label id="leaveEndDateLabel">Leave End Date</label>
+						<input class="form-control @error('leaveEndDate') form-control-danger @enderror" type="date" id="leaveEndDate" name="leaveEndDate" value="{{ old('leaveEndDate') }}" onblur="checkLeaveLimit2();" required>
+						
+						@error("leaveEndDate")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror
+					
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6 col-sm-12">
+						<label>Leave Period</label>
+						<div class="custom-control custom-radio mb-5">
+							<input type="radio" id="leavePeriod1" name="leavePeriod" value="Full Day" class="custom-control-input" required>
+							<label class="custom-control-label" for="leavePeriod1">Full Day</label>
+						</div>
+						<div class="custom-control custom-radio mb-5">
+							<input type="radio" id="leavePeriod2" name="leavePeriod" value="1st Half Day" class="custom-control-input">
+							<label class="custom-control-label" for="leavePeriod2">1st Half Day</label>
+						</div>
+						<div class="custom-control custom-radio mb-5">
+							<input type="radio" id="leavePeriod3" name="leavePeriod" value="2nd Half Day" class="custom-control-input">
+							<label class="custom-control-label" for="leavePeriod3">2nd Half Day</label>
+						</div>
+						@error("leavePeriod")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror
+					</div>
+				</div>
+			</div>
+
+			{{-- <div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
 						<label id="leaveDurationLabel">Leave Duration</label>
 						<input class="form-control @error('leaveDuration') form-control-danger @enderror" type="number" min="1" step="1" id="leaveDuration" name="leaveDuration" placeholder="Enter leave duration" onkeyup="checkLeaveLimit();" value="{{ old('leaveDuration') }}" required>
 						
@@ -67,7 +108,7 @@
 						@enderror
 					</div>
 				</div>
-			</div>
+			</div> --}}
 
 			<div class="form-group">
 				<div class="row">
@@ -95,6 +136,7 @@
 		<script>
 			swal({
 				title: '{{ session("message") }}',
+				html: 'Leave deducted: {{ session("message1") }} days',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
 				timer: 5000
@@ -108,7 +150,7 @@
 				html: '{{ session("error1") }}',
 				type: 'error',
 				confirmButtonClass: 'btn btn-success',
-				timer: 5000
+				timer: 7500
 			});
 		</script>
 	@endif
@@ -141,11 +183,48 @@
 				@endforeach
 
 				var remainingLeave = leaveLimit - totalApprovedLeave;
-				var leaveBalance = remainingLeave;
+				console.log(remainingLeave);
 
-				document.getElementById('leaveDuration').setAttribute('max', remainingLeave);
+				if(remainingLeave == 0.5){
+					document.getElementById("leavePeriod1").checked = false;
+					document.getElementById("leavePeriod1").disabled = true;
+					document.getElementById("leavePeriod2").disabled = false;
+					document.getElementById("leavePeriod3").disabled = false;
+					document.getElementById("leaveEndDate").value = document.getElementById('leaveStartDate').value;
+					document.getElementById("leaveEndDate").disabled = true;
+				}
+				else{
+					document.getElementById("leavePeriod1").disabled = false;
+					document.getElementById("leaveEndDate").value = null;
+					document.getElementById("leaveEndDate").disabled = false;
+				}
 
-				var leaveDurationInput = document.getElementById('leaveDuration').value;
+				if(remainingLeave > 0.5){
+					var leaveStartDate = new Date(document.getElementById('leaveStartDate').value);
+					if(leaveStartDate != null){
+						leaveStartDate.setDate(leaveStartDate.getDate() + remainingLeave);
+		
+						if((leaveStartDate.getMonth() + 1) < 10){
+							var month = "0" + (leaveStartDate.getMonth() + 1);
+						}
+						else{
+							var month = (leaveStartDate.getMonth() + 1);
+						}
+						if((leaveStartDate.getDate() - 1) < 10){
+							var day = "0" + (leaveStartDate.getDate() - 1);
+						}
+						else{
+							var day = (leaveStartDate.getDate() - 1);
+						}
+						var maxLeaveEndDate = leaveStartDate.getFullYear() + "-" + month + "-" + day;
+						document.getElementById('leaveEndDate').value = null;
+						document.getElementById('leaveEndDate').setAttribute('min', document.getElementById('leaveStartDate').value);
+						document.getElementById('leaveEndDate').setAttribute('max', maxLeaveEndDate);
+					}
+				}
+				//document.getElementById('leaveDuration').setAttribute('max', remainingLeave);
+
+				/*var leaveDurationInput = document.getElementById('leaveDuration').value;
 
 				if(leaveDurationInput != ""){
 					remainingLeave = remainingLeave - leaveDurationInput;
@@ -168,10 +247,32 @@
 						document.getElementById('leaveDurationLabel').innerHTML = "Leave Duration (Exceed the leave duration)";
 						document.getElementById('leaveDurationLabel').setAttribute('style', 'color:red;');
 					}
-				}
-
-
+				}*/
 			}
 		}
+		function checkLeaveLimit2() 
+		{ 
+			var leaveStartDate = document.getElementById('leaveStartDate').value;
+				var leaveEndDate = document.getElementById('leaveEndDate').value;
+
+				if(leaveStartDate != null && leaveEndDate != null){
+					if(leaveStartDate != leaveEndDate){
+						document.getElementById("leavePeriod1").checked = true;
+						document.getElementById("leavePeriod2").checked = false;
+						document.getElementById("leavePeriod3").checked = false;
+						document.getElementById("leavePeriod1").disabled = false;
+						document.getElementById("leavePeriod2").disabled = true;
+						document.getElementById("leavePeriod3").disabled = true;
+					}
+					else{
+						document.getElementById("leavePeriod1").checked = false;
+						document.getElementById("leavePeriod2").checked = false;
+						document.getElementById("leavePeriod3").checked = false;
+						document.getElementById("leavePeriod1").disabled = false;
+						document.getElementById("leavePeriod2").disabled = false;
+						document.getElementById("leavePeriod3").disabled = false;
+					}
+				}
+		 }
 	</script>
 @endsection

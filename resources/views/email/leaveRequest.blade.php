@@ -1,6 +1,6 @@
 @component('mail::message')
 @if ($leaveRequest->leaveStatus == 0)
-Dear Human Resource Manager,
+Dear Manager,
 
 A new leave request from {{ $leaveRequest->getEmployee->getFullName() }} is waiting approval. 
 

@@ -17,10 +17,13 @@ class CreateLeaveRequestsTable extends Migration
             $table->id();
             $table->integer('leaveType');
             $table->integer('employeeID');
+            $table->integer('manager');
             $table->date('leaveStartDate');
             $table->date('leaveEndDate');
-            $table->integer('leaveDuration');
+            $table->double('leaveDuration');
+            $table->string('leavePeriod');
             $table->string('leaveDescription');
+            $table->integer('leaveReplacement');
             $table->integer('leaveStatus');
             $table->timestamps();
         });
