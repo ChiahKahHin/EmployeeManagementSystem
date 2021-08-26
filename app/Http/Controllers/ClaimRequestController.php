@@ -44,20 +44,24 @@ class ClaimRequestController extends Controller
         $claimRequest->claimDescription = $request->claimDescription;
         $claimRequest->claimAttachment = file_get_contents($request->claimAttachment);
         $claimRequest->claimStatus = 0;
+        $claimRequest->claimManager = Auth::user()->reportingManager;
         $claimRequest->claimEmployee = Auth::user()->id;
         $claimRequest->save();
 
-        $hrEmails = $claimRequest->getHrManagerEmail();
-
-        Mail::to($hrEmails)->send(new ClaimRequestMail($claimRequest));
+        $email = $claimRequest->getReportingManager();
+        
+        Mail::to($email)->send(new ClaimRequestMail($claimRequest));
 
         return redirect()->route('applyBenefitClaim')->with('message', 'Benefit claim applied successfully!');
     }
 
     public function manageClaimRequest()
     {
-        if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
+        if(Auth::user()->isAdmin()){
             $claimRequests = ClaimRequest::all();
+        }
+        elseif(Auth::user()->isHrManager() || Auth::user()->isManager()){
+            $claimRequests = ClaimRequest::where('claimEmployee', Auth::user()->id)->orWhere('claimManager', Auth::user()->id)->get();
         }
         else{
             $claimRequests = ClaimRequest::all()->where('claimEmployee', Auth::user()->id);

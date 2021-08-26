@@ -26,7 +26,7 @@
 							<option value="" selected disabled hidden>Select claim type</option>
 							
 							@foreach ($claimTypes as $claimType)
-								<option value="{{ $claimType->id }}" data-claimType="{{ $claimType->claimType }}" data-claimAmount="{{ $claimType->claimAmount }}" {{ (old('claimType') == $claimType->id ? "selected": null) }}>{{ $claimType->claimType }}</option>
+								<option value="{{ $claimType->id }}" data-claimType="{{ $claimType->claimType }}" data-claimAmount="{{ $claimType->claimAmount }}" {{ (old('claimType') == $claimType->id ? "selected": null) }}>{{ $claimType->getClaimCategory->claimCategory }} - {{ $claimType->claimType }} ({{ $claimType->claimPeriod }})</option>
 							@endforeach
 						</select>
 						
@@ -142,12 +142,15 @@
 				var totalClaimed = 0;
 		
 				@foreach ($approvedClaims as $approvedClaim)
-					var claimDate = new Date(Date.parse("{{ date("d F Y", strtotime($approvedClaim->claimDate)) }}"));
-					var currentYear = new Date();
-					
-					if(claimDate.getFullYear() == currentYear.getFullYear()){
-						if(claimTypeInput.value == {{ $approvedClaim->claimType }}){
-							totalClaimed += {{ $approvedClaim->claimAmount }};
+					var claimPeriod = "{{ $approvedClaim->getClaimType->claimPeriod }}";
+					if(claimPeriod == "Per Annum"){
+						var claimDate = new Date(Date.parse("{{ date("d F Y", strtotime($approvedClaim->claimDate)) }}"));
+						var currentYear = new Date();
+						
+						if(claimDate.getFullYear() == currentYear.getFullYear()){
+							if(claimTypeInput.value == {{ $approvedClaim->claimType }}){
+								totalClaimed += {{ $approvedClaim->claimAmount }};
+							}
 						}
 					}
 				@endforeach
@@ -166,13 +169,13 @@
 				}
 				else{
 					if(remainingBalance == claimAmountInput){
-						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Maximum amount reached)";
+						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Maximum claim amount reached)";
 					}
 					else if (remainingAmount >= 0) {
 						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Remaining Amount: RM" + remainingAmount +")";
 					}
 					else{
-						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Exceed the available amount)";
+						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Exceed the available claim amount)";
 					}
 				}
 			}

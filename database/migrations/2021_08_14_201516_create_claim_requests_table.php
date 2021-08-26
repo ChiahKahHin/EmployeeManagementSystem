@@ -21,6 +21,7 @@ class CreateClaimRequestsTable extends Migration
             $table->date('claimDate');
             $table->text('claimDescription');
             $table->integer('claimEmployee');
+            $table->integer('claimManager');
             $table->integer('claimStatus');
             $table->timestamps();
         });

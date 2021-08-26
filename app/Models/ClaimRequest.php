@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ClaimRequest extends Model
 {
@@ -17,25 +18,19 @@ class ClaimRequest extends Model
         return $this->belongsTo(User::class, "claimEmployee");
     }
     
-    public function getHrManagerEmail()
+    public function getReportingManager()
     {
-        $emails = array();
-
-        $hrDepartments = Department::all()->where('departmentName', 'Human Resource');
-        foreach($hrDepartments as $hrDepartment){
-            $hrManagers = User::all()->where('department', $hrDepartment->id)->where('role', 1);
-        }
-        foreach ($hrManagers as $hrManager){
-            array_push($emails, $hrManager->email);
-        }
-
-        return $emails;
+        $user = User::find($this->getEmployee->reportingManager);
+        return $user->email;
     }
 
     public function getStatus(){
         $status = null;
 
-        if($this->claimStatus == 0){
+        if($this->claimStatus == 0 && $this->claimManager == Auth::user()->id){
+            $status = "To be approve";
+        }
+        elseif($this->claimStatus == 0){
             $status = "Waiting Approval";
         }
         elseif($this->claimStatus == 1){
