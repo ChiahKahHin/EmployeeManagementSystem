@@ -54,7 +54,7 @@
 							@csrf
 							<h6 class="mb-20">Enter your email address to reset your password</h6>
 							<div class="input-group custom" @error("email") style="margin-bottom: 0;" @enderror>
-								<input type="email" name="email" autocomplete="off" class="form-control form-control-lg @error("email") border-danger @enderror" value="{{ old('email') }}" placeholder="Email">
+								<input type="email" name="email" autocomplete="off" class="form-control form-control-lg @error("email") border-danger @enderror" value="{{ old('email') }}" placeholder="Email" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
 								</div>

@@ -53,7 +53,7 @@
 
 							<h6 class="mb-20">Enter your email address</h6>
 							<div class="input-group custom" @error("email") style="margin-bottom: 0;" @enderror>
-								<input type="email" name="email" autocomplete="off" class="form-control form-control-lg @error("email") border-danger @enderror" value="{{ old('email') }}" placeholder="Email address">
+								<input type="email" name="email" autocomplete="off" class="form-control form-control-lg @error("email") border-danger @enderror" value="{{ old('email') }}" placeholder="Email address" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
 								</div>
@@ -66,7 +66,7 @@
 
 							<h6 class="mb-20">Enter your new password</h6>
 							<div class="input-group custom"  @error("password") style="margin-bottom: 0;" @enderror>
-								<input type="password" name="password" class="form-control form-control-lg @error("password") border-danger @enderror" placeholder="**********">
+								<input type="password" name="password" class="form-control form-control-lg @error("password") border-danger @enderror" placeholder="**********" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
@@ -79,7 +79,7 @@
 
 							<h6 class="mb-20">Enter your confirm new password</h6>
 							<div class="input-group custom"  @error("password_confirmation") style="margin-bottom: 0;" @enderror>
-								<input type="password" name="password_confirmation" class="form-control form-control-lg @error("password_confirmation") border-danger @enderror" placeholder="**********">
+								<input type="password" name="password_confirmation" class="form-control form-control-lg @error("password_confirmation") border-danger @enderror" placeholder="**********" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>

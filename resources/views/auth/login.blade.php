@@ -51,7 +51,7 @@
 						<form action="{{ route('login') }}" method="POST">
 							@csrf
 							<div class="input-group custom" @error("username") style="margin-bottom: 0;" @enderror>
-								<input type="text" name="username" class="form-control form-control-lg @error("username") border-danger @enderror" value="{{ old('username') }}" placeholder="Username">
+								<input type="text" name="username" class="form-control form-control-lg @error("username") border-danger @enderror" value="{{ old('username') }}" placeholder="Username" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
@@ -63,7 +63,7 @@
 							@enderror
 
 							<div class="input-group custom"  @error("password") style="margin-bottom: 0;" @enderror>
-								<input type="password" name="password" class="form-control form-control-lg @error("password") border-danger @enderror" placeholder="**********">
+								<input type="password" name="password" class="form-control form-control-lg @error("password") border-danger @enderror" placeholder="**********" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
