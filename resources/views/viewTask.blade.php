@@ -146,7 +146,7 @@
 	
 				<div class="row">
 					<div class="col-md-6">
-						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approving Manager</button>
+						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approval Manager</button>
 					</div>
 				</div>
 			</form>

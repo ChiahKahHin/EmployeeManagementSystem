@@ -13,7 +13,7 @@ Dear {{ $task->getPersonInCharge->getFullName() }},
 @endif
 
 @if ($changeManager)
-This task approval manager is delegate to a new manager:<br> {{ $task->getManager->getFullName() }}. <br>
+This task approval manager is delegate to a new manager:<br> {{ $task->getManager->getFullName() }} <br>
 
 @else
 @if ($task->status == 2)
