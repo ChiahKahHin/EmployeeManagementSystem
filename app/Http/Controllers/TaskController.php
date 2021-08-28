@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\TaskNotificationMail;
+use App\Models\RejectedTask;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -155,6 +156,11 @@ class TaskController extends Controller
         $task = Task::find($id);
         $task->status = 2;
         $task->save();
+
+        $rejectedTask = new RejectedTask();
+        $rejectedTask->taskID = $id;
+        $rejectedTask->rejectedReason = $reason;
+        $rejectedTask->save();
 
         $email = $task->getEmail($task->personInCharge);
 

@@ -65,7 +65,7 @@
 		<div class="user-info-dropdown">
 			<div class="dropdown pt-10">
 				<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-					<span class="user-name">{{ Auth::user()->firstname }}</span>
+					<span class="user-name">{{ Auth::user()->getDepartment->departmentName }} | {{ Auth::user()->getFullName() }}</span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 					<a class="dropdown-item" href="{{ route('viewProfile') }}"><i class="dw dw-user1"></i> View Profile</a>

@@ -19,6 +19,10 @@ class Task extends Model
         return $this->belongsTo(User::class, "manager");
     }
 
+    public function getRejectedReasons(){
+        return $this->hasMany(RejectedTask::class, "taskID");
+    }
+
     public function getReportingManager($id){
         $user = User::find($id);
         return $user->reportingManager;
