@@ -92,3 +92,404 @@
 	max-width: 100%;
 	height: auto;
   }
+
+/*body {
+    color: #000;
+    overflow-x: hidden;
+    height: 100%;
+    background-color: #8C9EFF;
+    background-repeat: no-repeat
+}*/
+
+.card {
+    z-index: 0;
+    /*background-color: #ECEFF1;*/
+    background-color: #FFF;
+    /*padding-bottom: 20px;
+    margin-top: 90px;*/
+    margin-bottom: 40px;
+    border-radius: 10px;
+	box-shadow: 0 0 28px rgb(0 0 0 / 8%);
+}
+
+.top-progressbar3 {
+    padding-top: 40px;
+    padding-left: 20% !important;
+    padding-right: 20% !important
+}
+
+.top-progressbar4 {
+    padding-top: 40px;
+    padding-left: 12% !important;
+    padding-right: 12% !important
+}
+
+.top-progressbar5 {
+    padding-top: 40px;
+    padding-left: 10% !important;
+    padding-right: 10% !important
+}
+
+.top-progressbar6 {
+    padding-top: 40px;
+    padding-left: 8% !important;
+    padding-right: 8% !important
+}
+
+#progressbar3 {
+    /*margin-bottom: 30px;*/
+    overflow: hidden;
+    color: #455A64;
+    padding-left: 0px;
+    /*margin-top: 30px*/
+}
+
+#progressbar3 li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 33%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar3 .step0:before {
+    font-family: FontAwesome;
+    content: "\f10c";
+    color: #fff
+}
+
+#progressbar3 li:before {
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    background: #C5CAE9;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0px
+}
+
+#progressbar3 li:after {
+    content: '';
+    width: 100%;
+    height: 12px;
+    background: #C5CAE9;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    z-index: -1
+}
+
+#progressbar3 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%
+}
+
+#progressbar3 li:nth-child(2):after {
+    left: -50%
+}
+
+#progressbar3 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    left: 50%
+}
+
+#progressbar3 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+#progressbar3 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+#progressbar3 li.active:before,
+#progressbar3 li.active:after {
+    background: #651FFF
+}
+
+#progressbar3 li.active:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar4 {
+    /*margin-bottom: 30px;*/
+    overflow: hidden;
+    color: #455A64;
+    padding-left: 0px;
+    /*margin-top: 30px*/
+}
+
+#progressbar4 li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar4 .step0:before {
+    font-family: FontAwesome;
+    content: "\f10c";
+    color: #fff
+}
+
+#progressbar4 li:before {
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    background: #C5CAE9;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0px
+}
+
+#progressbar4 li:after {
+    content: '';
+    width: 100%;
+    height: 12px;
+    background: #C5CAE9;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    z-index: -1
+}
+
+#progressbar4 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%
+}
+
+#progressbar4 li:nth-child(2):after, 
+#progressbar4 li:nth-child(3):after {
+    left: -50%
+}
+
+#progressbar4 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    left: 50%
+}
+
+#progressbar4 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+#progressbar4 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+#progressbar4 li.active:before,
+#progressbar4 li.active:after {
+    background: #651FFF
+}
+
+#progressbar4 li.active:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar5 {
+    /*margin-bottom: 30px;*/
+    overflow: hidden;
+    color: #455A64;
+    padding-left: 0px;
+    /*margin-top: 30px*/
+}
+
+#progressbar5 li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 20%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar5 .step0:before {
+    font-family: FontAwesome;
+    content: "\f10c";
+    color: #fff
+}
+
+#progressbar5 li:before {
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    background: #C5CAE9;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0px
+}
+
+#progressbar5 li:after {
+    content: '';
+    width: 100%;
+    height: 12px;
+    background: #C5CAE9;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    z-index: -1
+}
+
+#progressbar5 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%
+}
+
+#progressbar5 li:nth-child(2):after,
+#progressbar5 li:nth-child(3):after,
+#progressbar5 li:nth-child(4):after {
+    left: -50%
+}
+
+#progressbar5 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    left: 50%
+}
+
+#progressbar5 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+#progressbar5 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+#progressbar5 li.active:before,
+#progressbar5 li.active:after {
+    background: #651FFF
+}
+
+#progressbar5 li.active:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar6 {
+    /*margin-bottom: 30px;*/
+    overflow: hidden;
+    color: #455A64;
+    padding-left: 0px;
+    /*margin-top: 30px*/
+}
+
+#progressbar6 li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 16.5%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar6 .step0:before {
+    font-family: FontAwesome;
+    content: "\f10c";
+    color: #fff
+}
+
+#progressbar6 li:before {
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    background: #C5CAE9;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0px
+}
+
+#progressbar6 li:after {
+    content: '';
+    width: 100%;
+    height: 12px;
+    background: #C5CAE9;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    z-index: -1
+}
+
+#progressbar6 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%
+}
+
+#progressbar6 li:nth-child(2):after,
+#progressbar6 li:nth-child(3):after,
+#progressbar6 li:nth-child(4):after,
+#progressbar6 li:nth-child(5):after{
+    left: -50%
+}
+
+#progressbar6 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    left: 50%
+}
+
+#progressbar6 li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+#progressbar6 li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+#progressbar6 li.active:before,
+#progressbar6 li.active:after {
+    background: #651FFF
+}
+
+#progressbar6 li.active:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px
+}
+
+.icon-content {
+    padding-bottom: 20px
+}
+
+@media screen and (max-width: 992px) {
+    .icon-content {
+        width: 50%
+    }
+}
