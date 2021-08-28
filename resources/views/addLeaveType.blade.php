@@ -85,7 +85,7 @@
 				title: '{{ session("message") }}',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
-				timer: 5000
+				//timer:5000
 			});
 		</script>
 	@endif

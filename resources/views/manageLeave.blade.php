@@ -66,7 +66,7 @@
 				title: '{{ session("message") }}',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
-				timer: 5000
+				//timer:5000
 			});
 		</script>
 	@endif
@@ -93,7 +93,7 @@
                         text: "Leave request removed from system",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = "/deleteLeave/" + leaveID;
                     });

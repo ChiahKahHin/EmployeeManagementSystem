@@ -180,7 +180,7 @@
                         text: "Leave request approved",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = "/approveLeaveRequest/" + {{ $leaveRequest->id }};
                     });
@@ -221,7 +221,7 @@
 							text: "Leave request rejected",
 							type: "success",
 							showCancelButton: false,
-							timer: 3000
+							//timer:3000
 						}).then(function(){
 							window.location.href = "/rejectLeaveRequest/" + {{ $leaveRequest->id }} + '/' + reason.value;
 						});

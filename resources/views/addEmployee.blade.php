@@ -390,7 +390,7 @@
 				html: '@php echo session("message1") @endphp',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
-				timer: 7500
+				//timer:7500
 			});
 		</script>
 	@endif

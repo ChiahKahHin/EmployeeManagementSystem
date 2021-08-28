@@ -168,7 +168,7 @@
                         title: "Register Successfully!",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = "/registerTrainingProgram/" + {{ $trainingProgram->id }};
                     });
@@ -192,7 +192,7 @@
                         title: "Cancel Successfully!",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = "/cancelTrainingProgram/" + {{ $trainingProgram->id }};
                     });

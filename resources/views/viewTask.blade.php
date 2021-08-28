@@ -182,7 +182,7 @@
                         text: "Task approved",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = "/approveTask/" + {{ $task->id }};
                     });
@@ -223,7 +223,7 @@
 							text: "Task rejected",
 							type: "success",
 							showCancelButton: false,
-							timer: 3000
+							//timer:3000
 						}).then(function(){
 							window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + reason.value;
 						});
@@ -257,7 +257,7 @@
 						text: "An email will be sent back once the verification is done",
 						type: "success",
 						showCancelButton: false,
-						timer: 3000
+						//timer:3000
 					}).then(function(){
 						window.location.href = "/completeTask/" + {{ $task->id }};
 					});

@@ -99,7 +99,7 @@
                         text: "Training program removed from system",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = url;
                     });

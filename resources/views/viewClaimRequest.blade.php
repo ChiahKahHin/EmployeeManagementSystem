@@ -125,7 +125,7 @@
                         text: "Claim request approved",
                         type: "success",
                         showCancelButton: false,
-                        timer: 3000
+                        //timer:3000
                     }).then(function(){
                         window.location.href = "/approveClaimRequest/" + {{ $claimRequest->id }};
                     });
@@ -166,7 +166,7 @@
 							text: "Claim request rejected",
 							type: "success",
 							showCancelButton: false,
-							timer: 3000
+							//timer:3000
 						}).then(function(){
 							window.location.href = "/rejectClaimRequest/" + {{ $claimRequest->id }} + '/' + reason.value;
 						});

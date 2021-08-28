@@ -139,7 +139,7 @@
 				html: 'Leave deducted: {{ session("message1") }} days',
 				type: 'success',
 				confirmButtonClass: 'btn btn-success',
-				timer: 5000
+				//timer:5000
 			});
 		</script>
 	@endif
@@ -150,7 +150,7 @@
 				html: '{{ session("error1") }}',
 				type: 'error',
 				confirmButtonClass: 'btn btn-success',
-				timer: 7500
+				//timer:7500
 			});
 		</script>
 	@endif
