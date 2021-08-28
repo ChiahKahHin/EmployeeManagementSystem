@@ -20,6 +20,10 @@ class LeaveRequest extends Model
         return $this->belongsTo(User::class, "employeeID");
     }
 
+    public function getManager(){
+        return $this->belongsTo(User::class, "manager");
+    }
+
     public function getReportingManager()
     {
         // $emails = array();
@@ -35,6 +39,12 @@ class LeaveRequest extends Model
         // return $emails;
 
         $user = User::find($this->getEmployee->reportingManager);
+        return $user->email;
+    }
+
+    public function getEmail($id){
+        $user = User::find($id);
+        
         return $user->email;
     }
 

@@ -18,8 +18,8 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th scope="col" width="30%">Leave Details</th>
-					<th scope="col" width="70%">Leave Information</th>
+					<th scope="col" width="40%">Leave Details</th>
+					<th scope="col" width="60%">Leave Information</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,12 +27,14 @@
 					<td class="font-weight-bold">Leave Type</td>
 					<td>{{ ucwords($leaveRequest->getLeaveType->leaveType) }}</td>
 				</tr>
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-					<tr>
-						<td class="font-weight-bold">Employee </td>
-						<td>{{ $leaveRequest->getEmployee->getFullName() }}</td>
-					</tr>
-				@endif
+				<tr>
+					<td class="font-weight-bold">Employee </td>
+					<td>{{ $leaveRequest->getEmployee->getFullName() }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Approval Manager </td>
+					<td>{{ $leaveRequest->getManager->getFullName() }}</td>
+				</tr>
 				<tr>
 					<td class="font-weight-bold">Leave Start Date</td>
 					<td>{{ date("d F Y", strtotime($leaveRequest->leaveStartDate)) }}</td>
@@ -42,12 +44,26 @@
 					<td>{{ date("d F Y", strtotime($leaveRequest->leaveEndDate)) }}</td>
 				</tr>
 				<tr>
-					<td class="font-weight-bold">Leave Duration <br> <i>(After deducting public holidays)</i></td>
+					<td class="font-weight-bold">Leave Duration <br> <i>(After deducting public holidays & Non-working day)</i></td>
 					<td>{{ $leaveRequest->leaveDuration }}</td>
 				</tr>				
 				<tr>
+					<td class="font-weight-bold">Leave Period</td>
+					<td>{{ $leaveRequest->leavePeriod }}</td>
+				</tr>
+				<tr>
 					<td class="font-weight-bold">Leave Description</td>
 					<td>{{ $leaveRequest->leaveDescription }}</td>
+				</tr>
+				@php
+					if ($leaveRequest->leaveReplacement == 1)
+						$leaveReplacement = "Yes";
+					else
+						$leaveReplacement = "No";
+				@endphp
+				<tr>
+					<td class="font-weight-bold">Repalcement Leave?</td>
+					<td>{{ $leaveReplacement }}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Leave Status</td>
@@ -99,10 +115,57 @@
 			</div>
 		</div>
 	</div>
+
+	@if (!Auth::user()->isEmployee() && ($leaveRequest->leaveStatus == 0) && Auth::user()->id == $leaveRequest->manager)
+		<div class="pd-20 card-box mb-30">
+			<div class="clearfix">
+				<div class="pull-left mb-10">
+					<h4 class="text-blue h4">Leave Approval Manager Delegation?</h4>
+				</div>
+			</div>
+			
+			<form action="{{ route('changeLeaveManager', ['id' => $leaveRequest->id]) }}" method="POST">
+				@csrf
+				
+	
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Other Manager</label>
+							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
+								@foreach ($managers as $manager)
+									<option value="{{ $manager->id }}" {{ ($leaveRequest->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName($manager->id) }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-md-6">
+						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approval Manager</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	@endif
 @endsection
 
 @section("script")
 	<script>
+		function checkManager() 
+		{  
+			var manager = document.getElementById('manager');
+			var managerID = manager.options[manager.selectedIndex].value;
+			var originalManagerID = {{ $leaveRequest->manager }};
+			if(managerID == originalManagerID){
+				$("#changeApprovingManagerBtn").attr('disabled', true);
+			}
+			else{
+				$("#changeApprovingManagerBtn").attr('disabled', false);
+			}
+		}
+
 		$('#approveLeaveRequest').on('click', function(){
 			swal({
 				title: "Approve this leave request?",

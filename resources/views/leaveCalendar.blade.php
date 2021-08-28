@@ -45,9 +45,9 @@
 				defaultView: 'month',
 				editable: false, //event dragging & resizing
 				header: {
-					left: 'prev,next today',
+					left: 'today',
 					center: 'title',
-					right:'prev,next today'
+					right:'prev,next'
 				},
 				events: [
 					@foreach ($publicHolidays as $publicHoliday)

@@ -14,16 +14,18 @@ class LeaveRequestMail extends Mailable
 
     private LeaveRequest $leaveRequest;
     private $reason;
+    private $changeManager;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(LeaveRequest $leaveRequest, $reason = null)
+    public function __construct(LeaveRequest $leaveRequest, $reason = null, $changeManager = false)
     {
         $this->leaveRequest = $leaveRequest;
         $this->reason = $reason;
+        $this->changeManager = $changeManager;
     }
 
     /**
@@ -34,18 +36,23 @@ class LeaveRequestMail extends Mailable
     public function build()
     {
         $subject = null;
-        switch ($this->leaveRequest->leaveStatus) {
-            case 0:
-                $subject = "Leave Request Waiting Approval";
-                break;
-            case 1:
-                $subject = "Leave Request Rejected";
-                break;
-            case 2:
-                $subject = "Leave Request Approved";
-                break;
+        if($this->changeManager){
+            $subject = "Leave Approval Manager Delegate";
+        }
+        else{
+            switch ($this->leaveRequest->leaveStatus) {
+                case 0:
+                    $subject = "Leave Request Waiting Approval";
+                    break;
+                case 1:
+                    $subject = "Leave Request Rejected";
+                    break;
+                case 2:
+                    $subject = "Leave Request Approved";
+                    break;
+            }
         }
         return $this->subject($subject)
-                    ->markdown('email.leaveRequest', ['leaveRequest' => $this->leaveRequest, 'reason' => $this->reason]);
+                    ->markdown('email.leaveRequest', ['leaveRequest' => $this->leaveRequest, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
     }
 }

@@ -1,4 +1,10 @@
 @component('mail::message')
+@if ($changeManager)
+Dear {{ $leaveRequest->getManager->getFullName() }}/{{ $leaveRequest->getEmployee->getFullName() }},
+
+This leave approval manager is delegate to a new manager:<br> {{ $leaveRequest->getManager->getFullName() }} <br>
+
+@else
 @if ($leaveRequest->leaveStatus == 0)
 Dear Manager,
 
@@ -15,6 +21,7 @@ Reason of leave request rejected: {{ $reason }}
 Dear {{ $leaveRequest->getEmployee->getFullName() }},
 
 Your leave request is approved.
+@endif
 @endif
 
 <u><b>Leave Request Details</b></u>

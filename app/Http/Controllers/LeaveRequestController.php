@@ -6,6 +6,7 @@ use App\Mail\LeaveRequestMail;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\PublicHoliday;
+use App\Models\User;
 use App\Models\WorkingDay;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -164,6 +165,13 @@ class LeaveRequestController extends Controller
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->get();
         }
+        elseif(Auth::user()->isManager()){
+            $leaveRequests = LeaveRequest::orderBy('leaveStatus', 'ASC')
+                                           ->orderBy('leaveStartDate', 'ASC')
+                                           ->where('employeeID', Auth::user()->id)
+                                           ->orWhere('manager', Auth::user()->id)
+                                           ->get();
+        }
         else{
             $leaveRequests = LeaveRequest::orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
@@ -176,8 +184,9 @@ class LeaveRequestController extends Controller
     public function viewLeave($id)
     {
         $leaveRequest = LeaveRequest::find($id);
+        $managers = User::orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
-        return view('viewLeave', ['leaveRequest' => $leaveRequest]);
+        return view('viewLeave', ['leaveRequest' => $leaveRequest, 'managers' => $managers]);
     }
 
     public function approveLeaveRequest($id)
@@ -208,5 +217,20 @@ class LeaveRequestController extends Controller
         $leaveRequest->delete();
 
         return redirect()->route('manageLeave');
+    }
+    
+    public function changeLeaveManager(Request $request, $id)
+    {
+        $leaveRequest = LeaveRequest::find($id);
+        $leaveRequest->manager = $request->manager;
+        $leaveRequest->save();
+
+        $emails = array();
+        array_push($emails, $leaveRequest->getEmail($leaveRequest->manager));
+        array_push($emails, $leaveRequest->getEmail($leaveRequest->employeeID));
+
+        Mail::to($emails)->send(new LeaveRequestMail($leaveRequest, null, true));
+
+        return redirect()->route('manageLeave')->with('message', 'Leave approval manager delegate successfully!');
     }
 }

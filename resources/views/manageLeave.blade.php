@@ -60,6 +60,16 @@
 			</table>
 		</div>
 	</div>
+	@if (session('message'))
+		<script>
+			swal({
+				title: '{{ session("message") }}',
+				type: 'success',
+				confirmButtonClass: 'btn btn-success',
+				timer: 5000
+			});
+		</script>
+	@endif
 @endsection
 
 @section('script')
