@@ -42,7 +42,7 @@ class ClaimTypeController extends Controller
 
     public function manageClaimType()
     {
-        $claimTypes = ClaimType::all();
+        $claimTypes = ClaimType::with('getClaimCategory')->get();
 
         return view('manageClaimType', ['claimTypes' => $claimTypes]);
     }

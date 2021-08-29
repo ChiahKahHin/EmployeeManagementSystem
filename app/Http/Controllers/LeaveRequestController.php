@@ -25,10 +25,10 @@ class LeaveRequestController extends Controller
         $publicHolidays = PublicHoliday::all();
 
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
-            $leaveRequests = LeaveRequest::all()->where('leaveStatus', 2);
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->get();
         }
         else{
-            $leaveRequests = LeaveRequest::all()->where('leaveStatus', 2)->where('employeeID', Auth::id());
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->where('employeeID', Auth::id())->get();
         }
 
 		return view('leaveCalendar', ['publicHolidays' => $publicHolidays, 'leaveRequests' => $leaveRequests]);
@@ -159,19 +159,22 @@ class LeaveRequestController extends Controller
     public function manageLeave()
     {
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
-            $leaveRequests = LeaveRequest::orderBy('leaveStatus', 'ASC')
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
+                                           ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->get();
         }
         elseif(Auth::user()->isManager()){
-            $leaveRequests = LeaveRequest::orderBy('leaveStatus', 'ASC')
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
+                                           ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->where('employeeID', Auth::user()->id)
                                            ->orWhere('manager', Auth::user()->id)
                                            ->get();
         }
         else{
-            $leaveRequests = LeaveRequest::orderBy('leaveStatus', 'ASC')
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
+                                           ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->where('employeeID', Auth::user()->id)
                                            ->get();

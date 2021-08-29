@@ -19,7 +19,7 @@ class ClaimRequestController extends Controller
 
     public function applyBenefitClaimForm()
     {
-        $claimTypes = ClaimType::all();
+        $claimTypes = ClaimType::with('getClaimCategory')->get();
         $approvedClaims = ClaimRequest::all()
                         ->where('claimEmployee', Auth::user()->id)
                         ->whereIn('claimStatus', [0, 2]);
@@ -58,13 +58,13 @@ class ClaimRequestController extends Controller
     public function manageClaimRequest()
     {
         if(Auth::user()->isAdmin()){
-            $claimRequests = ClaimRequest::all();
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->get();
         }
         elseif(Auth::user()->isHrManager() || Auth::user()->isManager()){
-            $claimRequests = ClaimRequest::where('claimEmployee', Auth::user()->id)->orWhere('claimManager', Auth::user()->id)->get();
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimEmployee', Auth::user()->id)->orWhere('claimManager', Auth::user()->id)->get();
         }
         else{
-            $claimRequests = ClaimRequest::all()->where('claimEmployee', Auth::user()->id);
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimEmployee', Auth::user()->id)->get();
         }
 
         return view('manageClaimRequest',['claimRequests' => $claimRequests]);

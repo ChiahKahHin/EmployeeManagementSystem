@@ -62,7 +62,7 @@
 
 				<tr>
 					<td class="font-weight-bold">Number of Attendees</td>
-					<td>{{ $trainingProgram->getNumberOfAttendees() }}</td>
+					<td>{{ $trainingProgram->getAttendees->count() }}</td>
 				</tr>
 				
 				<tr>

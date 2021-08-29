@@ -44,7 +44,7 @@
 						<td>{{ date("g:ia", strtotime($dateTime[1])) }} </td>
 
 						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-							<td>{{ $trainingProgram->getNumberOfAttendees() }}</td>
+							<td>{{ $trainingProgram->getAttendees->count() }}</td>
 						@else
 							<td>{{ $trainingProgram->getRegistrationStatus() }}</td>
 						@endif

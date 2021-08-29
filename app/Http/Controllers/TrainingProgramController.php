@@ -52,10 +52,10 @@ class TrainingProgramController extends Controller
     public function manageTrainingProgram()
     {
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
-            $trainingPrograms = TrainingProgram::orderBy('status', 'ASC')->orderBy('dateAndTime', 'ASC')->get();
+            $trainingPrograms = TrainingProgram::with('getAttendees')->orderBy('status', 'ASC')->orderBy('dateAndTime', 'ASC')->get();
         }
         else{
-            $trainingPrograms = TrainingProgram::orderBy('status', 'ASC')->orderBy('dateAndTime', 'ASC')
+            $trainingPrograms = TrainingProgram::with('getAttendees')->orderBy('status', 'ASC')->orderBy('dateAndTime', 'ASC')
                                                 ->where('department', Auth::user()->department)
                                                 ->orWhereNull('department')->get();
         }

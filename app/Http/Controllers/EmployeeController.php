@@ -38,7 +38,7 @@ class EmployeeController extends Controller
 
     public function addEmployeeForm()
     {
-        $managers = User::orderBy('role', 'DESC')->whereIn('role', [0,1,2])->get();
+        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->get();
         $departments = Department::all()->where('departmentName', '!=', 'Administration');
 
         return view('addEmployee', ['departments' => $departments, 'managers' => $managers, 'nationalities' => $this->nationalities]);
@@ -109,7 +109,7 @@ class EmployeeController extends Controller
 
     public function manageEmployee()
     {
-        $employees  = User::all()->where('role', '!=', '0');
+        $employees  = User::with('getDepartment')->where('role', '!=', '0')->get();
 
         return view('manageEmployee', ['employees' => $employees]);
     }

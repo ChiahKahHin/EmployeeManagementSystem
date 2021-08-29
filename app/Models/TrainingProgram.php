@@ -30,12 +30,17 @@ class TrainingProgram extends Model
         return $this->belongsTo(Department::class, "department");
     }
 
-    public function getNumberOfAttendees(){
-        return TrainingAttendee::all()->where('trainingProgram', $this->id)->count();
+    public function getAttendees(){
+        return $this->hasMany(TrainingAttendee::class, "trainingProgram");
     }
 
     public function getRegistrationStatus(){
-        $count = TrainingAttendee::all()->where('trainingProgram', $this->id)->where('employeeID', Auth::id())->count();
+        
+        $count = $this->getAttendees->filter(function ($value, $key)
+        {
+            return $value->employeeID == Auth::id();
+        })->count();
+        //dd($count);
         if ($count == 0 && $this->status == 1) {
             return "Close for registration";
         }
