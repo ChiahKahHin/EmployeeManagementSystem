@@ -35,7 +35,7 @@
 						@endphp
                     <tr>
 						<td>{{ $loop->iteration }}</td>
-						<td class="table-plus">{{ $admin->getFullName($admin->id) }}</td>
+						<td class="table-plus">{{ $admin->getFullName() }}</td>
                         <td>{{ $age }}</td>
                         <td>{{ $admin->email }}</td>
                         <td>{{ $admin->username }}</td>

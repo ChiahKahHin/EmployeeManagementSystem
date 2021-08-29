@@ -330,7 +330,7 @@
 							<option value="" selected disabled hidden>Select reporting manager</option>
 							
 							@foreach ($managers as $manager)
-								<option value="{{ $manager->id }}" {{ (old('reportingManager') == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }}</option>
+								<option value="{{ $manager->id }}" {{ (old('reportingManager') == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }} ({{ $manager->getDepartment->departmentName }})</option>
 							@endforeach
 						</select>
 						

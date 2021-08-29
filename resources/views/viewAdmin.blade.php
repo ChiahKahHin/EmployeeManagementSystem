@@ -25,7 +25,7 @@
             <tbody>
 				<tr>
 					<td class="font-weight-bold">Name</td>
-					<td>{{ $admin->getFullName($admin->id) }}</td>
+					<td>{{ $admin->getFullName() }}</td>
 				</tr>
 				@php
 					$year = explode("-", $admin->dateOfBirth);

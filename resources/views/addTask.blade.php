@@ -66,7 +66,7 @@
 						<label style="font-size: 13px;"><i>(Multiple Person In Charge?)</i>&nbsp; &nbsp;<input class="form-control switch-btn" type="checkbox" id="multiplePICCheckbox" name="multiplePICCheckbox" onchange="multiplePersonInCharge();" data-size="small" data-color="#0099ff" {{ (old('multiplePICCheckbox')? "checked": null) }}></label>
 						<select class="form-control custom-select2 @error('personInCharge') form-control-danger @enderror" id="personInCharge" name="personInCharge" multiple="multiple" required>
 							@foreach ($personInCharges as $personInCharge)
-								<option value="{{ $personInCharge->id }}" {{ (old('personInCharge') == $personInCharge->id ? "selected": null) }}>{{ $personInCharge->getFullName($personInCharge->id) }}</option>
+								<option value="{{ $personInCharge->id }}" {{ (old('personInCharge') == $personInCharge->id ? "selected": null) }}>{{ $personInCharge->getFullName() }}</option>
 							@endforeach
 						</select>
 

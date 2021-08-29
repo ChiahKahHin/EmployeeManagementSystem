@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Name</td>
-					<td>{{ $employees->getFullName($employees->id) }}</td>
+					<td>{{ $employees->getFullName() }}</td>
 				</tr>
 				@php
 					$year = explode("-", $employees->dateOfBirth);

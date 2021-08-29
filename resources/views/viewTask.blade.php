@@ -310,7 +310,7 @@
 							<label>Other Manager</label>
 							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
 								@foreach ($managers as $manager)
-									<option value="{{ $manager->id }}" {{ ($task->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName($manager->id) }}</option>
+									<option value="{{ $manager->id }}" {{ ($task->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }}</option>
 								@endforeach
 							</select>
 						</div>

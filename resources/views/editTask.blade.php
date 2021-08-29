@@ -55,7 +55,7 @@
 						<select class="form-control selectpicker @error('personInCharge') form-control-danger @enderror" name="personInCharge" required>
 							<option value="" selected disabled hidden>Select Person In Charge</option>
 							@foreach ($personInCharges as $personInCharge)
-								<option value="{{ $personInCharge->id }}" {{ (old('personInCharge', $task->personInCharge) == $personInCharge->id ? "selected": null) }}>{{ $personInCharge->getFullName($personInCharge->id) }}</option>
+								<option value="{{ $personInCharge->id }}" {{ (old('personInCharge', $task->personInCharge) == $personInCharge->id ? "selected": null) }}>{{ $personInCharge->getFullName() }}</option>
 							@endforeach
 						</select>
 
