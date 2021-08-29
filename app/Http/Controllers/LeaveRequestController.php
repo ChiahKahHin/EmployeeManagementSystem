@@ -84,7 +84,7 @@ class LeaveRequestController extends Controller
                     if (count(array_intersect($appliedLeaveArray, $conflictLeaveArray)) >= 1) {
                         $array = array_intersect($appliedLeaveArray, $conflictLeaveArray);
                         return redirect()->route('applyLeave')->with('error', 'Conflict leave date found, please try again')
-                                                              ->with('error1', 'Conflict Date: ' . $array[0]);
+                                                              ->with('error1', 'Conflict Date: ' . reset($array));
                     }
                 }
             }
@@ -150,9 +150,7 @@ class LeaveRequestController extends Controller
         $leaveRequest->leaveStatus = 0;
         $leaveRequest->save();
 
-        $email = $leaveRequest->getReportingManager();
-
-        Mail::to($email)->send(new LeaveRequestMail($leaveRequest));
+        Mail::to($leaveRequest->getManager->email)->send(new LeaveRequestMail($leaveRequest));
 
         return redirect()->route('applyLeave')->with('message', 'Leave applied successfully!')
                                               ->with('message1', $leaveDurations);
@@ -204,6 +202,7 @@ class LeaveRequestController extends Controller
     {
         $leaveRequest = LeaveRequest::find($id);
         $leaveRequest->leaveStatus = 1;
+        $leaveRequest->leaveRejectedReason = $reason;
         $leaveRequest->save();
 
         Mail::to($leaveRequest->getEmployee->email)->send(new LeaveRequestMail($leaveRequest, $reason));
@@ -226,8 +225,8 @@ class LeaveRequestController extends Controller
         $leaveRequest->save();
 
         $emails = array();
-        array_push($emails, $leaveRequest->getEmail($leaveRequest->manager));
-        array_push($emails, $leaveRequest->getEmail($leaveRequest->employeeID));
+        array_push($emails, $leaveRequest->getManager->email);
+        array_push($emails, $leaveRequest->getEmployee->email);
 
         Mail::to($emails)->send(new LeaveRequestMail($leaveRequest, null, true));
 
