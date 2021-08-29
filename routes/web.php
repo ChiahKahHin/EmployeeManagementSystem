@@ -175,3 +175,4 @@ Route::get('/approveLeaveRequest/{id}', [LeaveRequestController::class, 'approve
 Route::get('/rejectLeaveRequest/{id}/{reason}', [LeaveRequestController::class, 'rejectLeaveRequest'])->name('rejectLeaveRequest');
 Route::get('/deleteLeave/{id}', [LeaveRequestController::class, 'deleteLeave'])->name('deleteLeave');
 Route::post('/changeLeaveManager/{id}', [LeaveRequestController::class, 'changeLeaveManager'])->name('changeLeaveManager');
+Route::get('/cancelLeaveRequest/{id}', [LeaveRequestController::class, 'cancelLeaveRequest'])->name('cancelLeaveRequest');

@@ -23,6 +23,7 @@ class CreateLeaveRequestsTable extends Migration
             $table->double('leaveDuration');
             $table->string('leavePeriod');
             $table->string('leaveDescription');
+            $table->string('leaveRejectedReason')->nullable();
             $table->integer('leaveReplacement');
             $table->integer('leaveStatus');
             $table->timestamps();

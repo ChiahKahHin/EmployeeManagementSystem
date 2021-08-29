@@ -38,6 +38,9 @@ class LeaveRequest extends Model
         elseif($this->leaveStatus == 2){
             $status = "Approved";
         }
+        elseif($this->leaveStatus == 2){
+            $status = "Cancelled";
+        }
 
         return $status;
     }

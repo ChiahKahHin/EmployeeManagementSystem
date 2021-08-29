@@ -6,7 +6,7 @@ This leave approval manager is delegate to a new manager:<br> {{ $leaveRequest->
 
 @else
 @if ($leaveRequest->leaveStatus == 0)
-Dear Manager,
+Dear {{ $leaveRequest->getManager->getFullName() }},
 
 A new leave request from {{ $leaveRequest->getEmployee->getFullName() }} is waiting approval. 
 
@@ -17,10 +17,15 @@ Your leave request is rejected.
 
 Reason of leave request rejected: {{ $reason }} 
 
-@else
+@elseif($leaveRequest->leaveStatus == 2)
 Dear {{ $leaveRequest->getEmployee->getFullName() }},
 
 Your leave request is approved.
+
+@elseif($leaveRequest->leaveStatus == 3)
+Dear {{ $leaveRequest->getManager->getFullName() }},
+
+This leave request is cancelled.
 @endif
 @endif
 

@@ -50,6 +50,9 @@ class LeaveRequestMail extends Mailable
                 case 2:
                     $subject = "Leave Request Approved";
                     break;
+                case 3:
+                    $subject = "Leave Request Cancelled";
+                    break;
             }
         }
         return $this->subject($subject)

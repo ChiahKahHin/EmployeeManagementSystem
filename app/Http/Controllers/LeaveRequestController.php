@@ -232,4 +232,15 @@ class LeaveRequestController extends Controller
 
         return redirect()->route('manageLeave')->with('message', 'Leave approval manager delegate successfully!');
     }
+
+    public function cancelLeaveRequest($id)
+    {
+        $leaveRequest = LeaveRequest::find($id);
+        $leaveRequest->leaveStatus = 3;
+        $leaveRequest->save();
+
+        Mail::to($leaveRequest->getManager->email)->send(new LeaveRequestMail($leaveRequest));
+        
+        return redirect()->route('viewLeave', ['id' => $id]);
+    }
 }
