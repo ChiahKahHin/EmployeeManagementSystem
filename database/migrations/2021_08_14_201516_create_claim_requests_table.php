@@ -20,6 +20,7 @@ class CreateClaimRequestsTable extends Migration
             $table->string('claimAmount');
             $table->date('claimDate');
             $table->text('claimDescription');
+            $table->string('claimRejectedReason')->nullable();
             $table->integer('claimEmployee');
             $table->integer('claimManager');
             $table->integer('claimStatus');
