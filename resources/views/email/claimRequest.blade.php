@@ -1,4 +1,9 @@
 @component('mail::message')
+@if ($changeManager)
+Dear {{ $claimRequest->getManager->getFullName() }}/{{ $claimRequest->getEmployee->getFullName() }},
+
+This claim request approval manager is delegate to a new manager:<br> {{ $claimRequest->getManager->getFullName() }} <br>
+@else
 @if ($claimRequest->claimStatus == 0)
 Dear Human Resource Manager,
 
@@ -15,6 +20,7 @@ Reason of claim request rejected: {{ $reason }}
 Dear {{ $claimRequest->getEmployee->getFullName() }},
 
 Your claim request is approved.
+@endif
 @endif
 
 <u><b>Claim Request Details</b></u>

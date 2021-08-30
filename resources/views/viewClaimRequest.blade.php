@@ -149,11 +149,15 @@
 					<td>{!! nl2br($claimRequest->claimDescription) !!}</td>
 				</tr>
 				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-					<tr>
-						<td class="font-weight-bold">Claim Employee</td>
-						<td>{{ $claimRequest->getEmployee->getFullName() }}</td>
-					</tr>
 				@endif
+				<tr>
+					<td class="font-weight-bold">Claim Employee</td>
+					<td>{{ $claimRequest->getEmployee->getFullName() }}</td>
+				</tr>
+				<tr>
+					<td class="font-weight-bold">Claim Approval Manager</td>
+					<td>{{ $claimRequest->getManager->getFullName() }}</td>
+				</tr>
 				<tr>
 					<td class="font-weight-bold">Attachment</td>
 					<td>
@@ -221,11 +225,56 @@
 			</div>
 		</div>
 	</div>
+
+	@if (!Auth::user()->isEmployee() && ($claimRequest->claimStatus == 0) && Auth::user()->id == $claimRequest->claimManager)
+		<div class="pd-20 card-box mb-30">
+			<div class="clearfix">
+				<div class="pull-left mb-10">
+					<h4 class="text-blue h4">Claim Request Approval Manager Delegation?</h4>
+				</div>
+			</div>
+			
+			<form action="{{ route('changeClaimRequestManager', ['id' => $claimRequest->id]) }}" method="POST">
+				@csrf
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Other Manager</label>
+							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
+								@foreach ($managers as $manager)
+									<option value="{{ $manager->id }}" {{ ($claimRequest->claimManager == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }} ({{ $manager->getDepartment->departmentName }})</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-md-6">
+						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approval Manager</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	@endif
 @endsection
 
 @section("script")
 	<script src="{{ asset('vendors/scripts/image-modal.js') }}"></script>
 	<script>
+		function checkManager() 
+		{  
+			var manager = document.getElementById('manager');
+			var managerID = manager.options[manager.selectedIndex].value;
+			var originalManagerID = {{ $claimRequest->claimManager }};
+			if(managerID == originalManagerID){
+				$("#changeApprovingManagerBtn").attr('disabled', true);
+			}
+			else{
+				$("#changeApprovingManagerBtn").attr('disabled', false);
+			}
+		}
+		
 		$('#approveClaimRequest').on('click', function(){
 			swal({
 				title: "Approve this claim request?",

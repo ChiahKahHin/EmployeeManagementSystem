@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ClaimRequestMail;
 use App\Models\ClaimType;
 use App\Models\ClaimRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -20,9 +21,9 @@ class ClaimRequestController extends Controller
     public function applyBenefitClaimForm()
     {
         $claimTypes = ClaimType::with('getClaimCategory')->get();
-        $approvedClaims = ClaimRequest::all()
+        $approvedClaims = ClaimRequest::with('getClaimType')
                         ->where('claimEmployee', Auth::user()->id)
-                        ->whereIn('claimStatus', [0, 2]);
+                        ->whereIn('claimStatus', [0, 2])->get();
 
         return view('applyBenefitClaim', ['claimTypes' => $claimTypes, 'approvedClaims' => $approvedClaims]);
     }
@@ -47,10 +48,8 @@ class ClaimRequestController extends Controller
         $claimRequest->claimManager = Auth::user()->reportingManager;
         $claimRequest->claimEmployee = Auth::user()->id;
         $claimRequest->save();
-
-        $email = $claimRequest->getReportingManager();
         
-        Mail::to($email)->send(new ClaimRequestMail($claimRequest));
+        Mail::to($claimRequest->getManager->email)->send(new ClaimRequestMail($claimRequest));
 
         return redirect()->route('applyBenefitClaim')->with('message', 'Benefit claim applied successfully!');
     }
@@ -86,7 +85,9 @@ class ClaimRequestController extends Controller
             return redirect()->route('manageClaimRequest');
         }
 
-        return view('viewClaimRequest', ['claimRequest' => $claimRequest]);
+        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
+
+        return view('viewClaimRequest', ['claimRequest' => $claimRequest, 'managers' => $managers]);
     }
 
     public function approveClaimRequest($id)
@@ -110,5 +111,20 @@ class ClaimRequestController extends Controller
         Mail::to($claimRequest->getEmployee->email)->send(new ClaimRequestMail($claimRequest, $reason));
 
         return redirect()->route('viewClaimRequest', ['id' =>$id]);
+    }
+
+    public function changeClaimRequestManager(Request $request, $id)
+    {
+        $claimRequest = ClaimRequest::find($id);
+        $claimRequest->claimManager = $request->manager;
+        $claimRequest->save();
+
+        $emails = array();
+        array_push($emails, $claimRequest->getManager->email);
+        array_push($emails, $claimRequest->getEmployee->email);
+
+        Mail::to($emails)->send(new ClaimRequestMail($claimRequest, null, true));
+
+        return redirect()->route('manageClaimRequest')->with('message', 'Claim request approval manager delegate successfully!');
     }
 }

@@ -17,11 +17,9 @@ class ClaimRequest extends Model
     public function getEmployee(){
         return $this->belongsTo(User::class, "claimEmployee");
     }
-    
-    public function getReportingManager()
-    {
-        $user = User::find($this->getEmployee->reportingManager);
-        return $user->email;
+
+    public function getManager(){
+        return $this->belongsTo(User::class, "claimManager");
     }
 
     public function getStatus(){
