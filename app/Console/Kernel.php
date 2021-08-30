@@ -25,10 +25,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        // $schedule->command('task:dueDateChecking')->everyMinute();
         $schedule->command('task:dueDateChecking')->dailyAt('08:00');
         $schedule->command('memo:scheduling')->everyMinute();
         $schedule->command('trainingProgram:checking')->everyMinute();
+        //$schedule->command('leave:carriedForwardLeave')->yearlyOn(12, 31, '23:59');
+        $schedule->command('leave:carriedForwardLeave')->yearlyOn(8, 30, '21:18');
     }
 
     /**
