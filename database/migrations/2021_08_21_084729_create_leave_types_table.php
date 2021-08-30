@@ -17,7 +17,7 @@ class CreateLeaveTypesTable extends Migration
         Schema::create('leave_types', function (Blueprint $table) {
             $table->id();
             $table->string('leaveType')->unique();
-            $table->integer('leaveLimit');
+            $table->integer('leaveLimit')->nullable();
             $table->string('gender');
             $table->timestamps();
         });
@@ -25,6 +25,11 @@ class CreateLeaveTypesTable extends Migration
         LeaveType::create([
             'leaveType' => 'Annual Leave',
             'leaveLimit' => 18,
+            'gender' => 'All',
+        ]);
+
+        LeaveType::create([
+            'leaveType' => 'Carried Forward Leave',
             'gender' => 'All',
         ]);
 
