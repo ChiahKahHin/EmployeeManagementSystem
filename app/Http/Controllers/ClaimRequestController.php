@@ -82,6 +82,10 @@ class ClaimRequestController extends Controller
     {
         $claimRequest = ClaimRequest::findOrFail($id);
 
+        if((Auth::user()->isEmployee() && $claimRequest->claimEmployee != Auth::id()) || (Auth::user()->isManager() && $claimRequest->claimManager != Auth::id()) || (Auth::user()->isHrManager() && $claimRequest->claimManager != Auth::id())){
+            return redirect()->route('manageClaimRequest');
+        }
+
         return view('viewClaimRequest', ['claimRequest' => $claimRequest]);
     }
 
@@ -100,6 +104,7 @@ class ClaimRequestController extends Controller
     {
         $claimRequest = ClaimRequest::find($id);
         $claimRequest->claimStatus = 1;
+        $claimRequest->claimRejectedReason = $reason;
         $claimRequest->save();
 
         Mail::to($claimRequest->getEmployee->email)->send(new ClaimRequestMail($claimRequest, $reason));

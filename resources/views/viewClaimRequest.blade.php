@@ -9,6 +9,115 @@
 @endsection
 
 @section('content')
+	<div class="card">
+		<div class="row d-flex justify-content-between top-progressbar3">
+			<div class="d-flex pb-4">
+				<h5>Claim Status</h5>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-center">
+			<div class="col-12">
+				<ul id="progressbar3" class="text-center">
+					<li class="@if($claimRequest->claimStatus >= 0) active @endif step0" @if($claimRequest->claimStatus >= 0) style="cursor: pointer;" data-toggle="modal" data-target="#waiting-approval-modal" @endif></li>
+					<li class="@if($claimRequest->claimStatus >= 1) active @endif step0" @if($claimRequest->claimStatus >= 1) style="cursor: pointer;" data-toggle="modal" data-target="#approved-rejected-modal" @endif></li>
+					<li class="@if($claimRequest->claimStatus >= 1) active @endif step0" @if($claimRequest->claimStatus >= 1) style="cursor: pointer;" data-toggle="modal" data-target="#completed-modal" @endif></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="row justify-content-between top-progressbar3">
+			<div class="row d-flex icon-content">
+				<div class="d-flex flex-column">
+					<p class="font-weight-bold">Waiting<br>Approval</p>
+				</div>
+			</div>
+			<div class="row d-flex icon-content">
+				<div class="d-flex flex-column">
+					<p class="font-weight-bold">@if($claimRequest->claimStatus < 1) Approved/Rejected @elseif($claimRequest->claimStatus == 1) Rejected @elseif($claimRequest->claimStatus == 2) Approved @endif</p>
+				</div>
+			</div>
+			<div class="row d-flex icon-content">
+				<div class="d-flex flex-column">
+					<p class="font-weight-bold">Completed<br></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{-- Claim Request Modals --}}
+	<div class="modal fade" id="waiting-approval-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myLargeModalLabel">Claim Waiting Approval</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<p class="text-justify">
+						This claim request is waiting for the manager approval. <br>
+						An email notification will be sent for the employee once manager approve/reject it.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="approved-rejected-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myLargeModalLabel">
+						@if ($claimRequest->claimStatus == 1)
+							Claim Request Rejected
+						@elseif ($claimRequest->claimStatus == 2)
+							Claim Request Approved
+						@endif
+					</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<p class="text-justify">
+						@if ($claimRequest->claimStatus == 1)
+							This claim request is rejected by the manager.
+						@elseif ($claimRequest->claimStatus == 2)
+							This claim request is approved by the manager.
+						@endif
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="completed-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myLargeModalLabel">Claim Request Completed</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<p class="text-justify">
+						@if ($claimRequest->claimStatus == 1)
+							This claim request is rejected. <br>
+							Kindly refer to the reason given by the manager and request for a new benefit claim.
+						@elseif ($claimRequest->claimStatus == 2)
+							This claim request is approved & completed.
+						@endif
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="pd-20 card-box mb-30">
 		<div class="clearfix mb-20">
 			<div class="pull-left">
@@ -60,6 +169,12 @@
 					<td class="font-weight-bold">Claim Status</td>
 					<td>{{ $claimRequest->getStatus() }}</td>
 				</tr>
+				@if ($claimRequest->claimRejectedReason != null)
+					<tr>
+						<td class="font-weight-bold">Claim Rejected Reason</td>
+						<td>{{ $claimRequest->claimRejectedReason }}</td>
+					</tr>
+				@endif
 				<tr>
 					<td class="font-weight-bold">Claim Request Created Date & Time</td>
 					<td>{{ date("d F Y, g:ia", strtotime($claimRequest->created_at)) }}</td>
