@@ -185,6 +185,11 @@ class LeaveRequestController extends Controller
     public function viewLeave($id)
     {
         $leaveRequest = LeaveRequest::find($id);
+
+        if((Auth::user()->isEmployee() && $leaveRequest->employeeID != Auth::id()) || (Auth::user()->isManager() && $leaveRequest->manager != Auth::id())){
+            return redirect()->route('manageLeave');
+        }
+
         $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
         return view('viewLeave', ['leaveRequest' => $leaveRequest, 'managers' => $managers]);

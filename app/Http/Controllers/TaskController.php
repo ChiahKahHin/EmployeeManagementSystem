@@ -133,6 +133,9 @@ class TaskController extends Controller
     public function viewTask($id)
     {
         $task = Task::findOrFail($id);
+        if ((Auth::user()->isEmployee() && $task->personInCharge != Auth::id()) || (Auth::user()->isManager() && $task->manager != Auth::id()) || (Auth::user()->isHrManager() && $task->manager != Auth::id())) {
+            return redirect()->route('manageTask');
+        }
         $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
         return view('viewTask', ['task' => $task, 'managers' => $managers]);
