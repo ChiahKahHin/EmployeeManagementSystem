@@ -25,7 +25,15 @@
 						<select class="form-control selectpicker @error('leaveType') form-control-danger @enderror" id="leaveType" name="leaveType" onchange="checkLeaveLimit();" required>
 							<option value="" selected disabled hidden>Select Leave Type</option>
 							@foreach ($leaveTypes as $leaveType)
-								<option value="{{ $leaveType->id }}" data-leaveID="{{ $leaveType->id }}" data-leaveType="{{ $leaveType->leaveType }}" data-leaveLimit="{{ $leaveType->leaveLimit }}" {{ (old('leaveType') == $leaveType->id ? "selected": null) }}>{{ ucfirst($leaveType->leaveType) }}</option>
+								@if ($leaveType->leaveType != "Carried Forward Leave")
+									<option value="{{ $leaveType->id }}" data-leaveID="{{ $leaveType->id }}" data-leaveType="{{ $leaveType->leaveType }}" data-leaveLimit="{{ $leaveType->leaveLimit }}" {{ (old('leaveType') == $leaveType->id ? "selected": null) }}>{{ ucfirst($leaveType->leaveType) }}</option>
+								@endif
+
+								@if (count($carriedForwardLeaves) > 0 && $leaveType->leaveType == "Carried Forward Leave")
+									@foreach ($carriedForwardLeaves as $carriedForwardLeave)
+										<option value="{{ $leaveType->id }}" data-leaveID="{{ $leaveType->id }}" data-leaveType="{{ $leaveType->leaveType }}" data-leaveLimit="{{ $carriedForwardLeave->leaveLimit }}" {{ (old('leaveType') == $leaveType->id ? "selected": null) }}>{{ ucfirst($leaveType->leaveType) }}</option>
+									@endforeach
+								@endif
 							@endforeach
 						</select>
 

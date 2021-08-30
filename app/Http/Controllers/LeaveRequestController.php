@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\LeaveRequestMail;
+use App\Models\CarriedForwardLeave;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\PublicHoliday;
@@ -41,8 +42,9 @@ class LeaveRequestController extends Controller
         $approvedLeaves = LeaveRequest::all()
                           ->where('employeeID', Auth::user()->id)
                           ->whereIn('leaveStatus', [0, 2]);
+        $carriedForwardLeaves = CarriedForwardLeave::where('employeeID', Auth::id())->get();
         
-        return view('applyLeave', ['leaveTypes' => $leaveTypes, 'approvedLeaves' => $approvedLeaves]);
+        return view('applyLeave', ['leaveTypes' => $leaveTypes, 'approvedLeaves' => $approvedLeaves, 'carriedForwardLeaves' => $carriedForwardLeaves]);
     }
 
     public function applyLeave(Request $request)
