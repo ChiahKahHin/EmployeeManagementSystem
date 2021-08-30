@@ -133,7 +133,7 @@ class TaskController extends Controller
     public function viewTask($id)
     {
         $task = Task::findOrFail($id);
-        $managers = User::orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
+        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
         return view('viewTask', ['task' => $task, 'managers' => $managers]);
     }

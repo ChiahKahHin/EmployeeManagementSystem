@@ -75,7 +75,7 @@
 		</div>
 	@endif
 
-	{{-- Task Modals --}}
+	{{-- Leave Request Modals --}}
 	<div class="modal fade" id="waiting-approval-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -293,15 +293,13 @@
 			
 			<form action="{{ route('changeLeaveManager', ['id' => $leaveRequest->id]) }}" method="POST">
 				@csrf
-				
-	
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-6">
 							<label>Other Manager</label>
 							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
 								@foreach ($managers as $manager)
-									<option value="{{ $manager->id }}" {{ ($leaveRequest->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }}</option>
+									<option value="{{ $manager->id }}" {{ ($leaveRequest->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }} ({{ $manager->getDepartment->departmentName }})</option>
 								@endforeach
 							</select>
 						</div>

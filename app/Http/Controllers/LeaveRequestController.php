@@ -185,7 +185,7 @@ class LeaveRequestController extends Controller
     public function viewLeave($id)
     {
         $leaveRequest = LeaveRequest::find($id);
-        $managers = User::orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
+        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
         return view('viewLeave', ['leaveRequest' => $leaveRequest, 'managers' => $managers]);
     }
