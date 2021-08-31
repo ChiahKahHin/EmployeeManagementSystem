@@ -15,4 +15,8 @@ class CarriedForwardLeave extends Model
         'employeeID',
         'leaveLimit',
     ];
+
+    public function getEmployee(){
+        return $this->belongsTo(User::class, "employeeID");
+    }
 }

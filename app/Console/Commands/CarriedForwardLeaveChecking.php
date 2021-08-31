@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\CarriedForwardLeaveMail;
 use App\Models\CarriedForwardLeave;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class CarriedForwardLeaveChecking extends Command
 {
@@ -75,6 +77,8 @@ class CarriedForwardLeaveChecking extends Command
                 $carriedForwardLeave->employeeID = $employeeID[$i];
                 $carriedForwardLeave->leaveLimit = $originalAnnualLeaveLimit - $totalAppliedAnnualLeave;
                 $carriedForwardLeave->save();
+
+                Mail::to($carriedForwardLeave->getEmployee->email)->send(new CarriedForwardLeaveMail($carriedForwardLeave));
             }
         }
         
@@ -85,6 +89,9 @@ class CarriedForwardLeaveChecking extends Command
             $carriedForwardLeave->employeeID = $employeeNotAppliedAnnualLeave->id;
             $carriedForwardLeave->leaveLimit = $originalAnnualLeaveLimit;
             $carriedForwardLeave->save();
+
+            Mail::to($carriedForwardLeave->getEmployee->email)->send(new CarriedForwardLeaveMail($carriedForwardLeave));
         }
+        echo "Carried Forward Leave Checking done";
     }
 }

@@ -121,7 +121,7 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-6">
-						<label>Leave Description</label>
+						<label>Leave Description <i>(Reason to apply this leave)</i></label>
 						<input class="form-control @error('leaveDescription') form-control-danger @enderror" type="text" name="leaveDescription" placeholder="Enter leave description" value="{{ old('leaveDescription') }}" required>
 						
 						@error("leaveDescription")
