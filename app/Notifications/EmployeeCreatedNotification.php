@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EmployeeCreatedNotification extends Notification
+class EmployeeCreatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -52,7 +52,7 @@ class EmployeeCreatedNotification extends Notification
                     ->line('Default Username: '.$this->username)
                     ->line('Default Password: '.$this->password)
                     ->line('You are allowed to change your username and password in the system')
-                    ->action('Login', url('/'))
+                    ->action('Login', url(route('login')))
                     ->line('Thank you for using our Employee Management System!');
     }
 

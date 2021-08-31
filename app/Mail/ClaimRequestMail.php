@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ClaimRequestMail extends Mailable
+class ClaimRequestMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     
@@ -54,5 +54,10 @@ class ClaimRequestMail extends Mailable
         }
         return $this->subject($subject)
                     ->markdown('email.claimRequest', ['claimRequest' => $this->claimRequest, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
+    }
+
+    public function failed($e)
+    {
+        echo $e;
     }
 }

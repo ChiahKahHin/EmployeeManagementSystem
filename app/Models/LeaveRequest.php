@@ -26,7 +26,7 @@ class LeaveRequest extends Model
 
     public function getStatus(){
         $status = null;
-        if($this->leaveStatus == 0 && $this->manager == Auth::user()->id){
+        if($this->leaveStatus == 0 && $this->manager == Auth::id()){
             $status = "To be approve";
         }
         elseif($this->leaveStatus == 0){

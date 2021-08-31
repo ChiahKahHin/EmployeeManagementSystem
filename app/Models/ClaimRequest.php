@@ -25,7 +25,7 @@ class ClaimRequest extends Model
     public function getStatus(){
         $status = null;
 
-        if($this->claimStatus == 0 && $this->claimManager == Auth::user()->id){
+        if($this->claimStatus == 0 && $this->claimManager == Auth::id()){
             $status = "To be approve";
         }
         elseif($this->claimStatus == 0){

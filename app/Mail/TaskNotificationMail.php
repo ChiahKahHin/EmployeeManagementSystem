@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskNotificationMail extends Mailable
+class TaskNotificationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     
@@ -62,5 +62,10 @@ class TaskNotificationMail extends Mailable
         }
         return $this->subject($subject)
                     ->markdown('email.taskNotification', ['task' => $this->task, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
+    }
+
+    public function failed($e)
+    {
+        echo $e;
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MemoMail extends Mailable
+class MemoMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -33,5 +33,10 @@ class MemoMail extends Mailable
     {
         return $this->subject("New Memo")
                     ->markdown('email.memo', ['memo' => $this->memo]);
+    }
+
+    public function failed($e)
+    {
+        echo $e;
     }
 }

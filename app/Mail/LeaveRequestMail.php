@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class LeaveRequestMail extends Mailable
+class LeaveRequestMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -57,5 +57,10 @@ class LeaveRequestMail extends Mailable
         }
         return $this->subject($subject)
                     ->markdown('email.leaveRequest', ['leaveRequest' => $this->leaveRequest, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
+    }
+
+    public function failed($e)
+    {
+        echo $e;
     }
 }
