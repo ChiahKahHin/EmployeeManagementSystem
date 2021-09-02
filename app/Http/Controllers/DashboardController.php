@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -43,7 +45,18 @@ class DashboardController extends Controller
 
     public function dashboard1()
     {
-        return view('dashboard.dashboard1', ['quotes' => $this->quotes]);
+        $departmentName = array();
+        $employeeNumber = array();
+        $departments = Department::where('departmentName', "!=", "Administration")->get();
+        foreach ($departments as $department) {
+            $employees = User::where('department', $department->id)->count();
+            if($employees != 0){
+                array_push($departmentName, $department->departmentName);
+                array_push($employeeNumber, $employees);
+            }
+        }
+       
+        return view('dashboard.dashboard1', ['quotes' => $this->quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber]);
     }
 
     public function dashboard2()

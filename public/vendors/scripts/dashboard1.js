@@ -310,13 +310,13 @@ var options5 = {
 	},
 	series: [{
 		name: 'In Progress',
-		data: [40, 28, 47, 22, 34, 25]
+		data: [40, 28, 47, 22, 34, 25, 40, 28, 47, 22, 34, 25]
 	}, {
 		name: 'Complete',
-		data: [30, 20, 37, 10, 28, 11]
+		data: [30, 20, 37, 10, 28, 11, 30, 20, 37, 10, 28, 11]
 	}],
 	xaxis: {
-		categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+		categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 		labels: {
 			style: {
 				colors: ['#353535'],
@@ -375,51 +375,51 @@ var options5 = {
 	}
 }
 
-var options6 = {
-	series: [73],
-	chart: {
-	  height: 350,
-	  type: 'radialBar',
-	  offsetY: 0
-	},
-	colors: ['#0B132B', '#222222'],
-	plotOptions: {
-	  radialBar: {
-		startAngle: -135,
-		endAngle: 135,
-		dataLabels: {
-		  name: {
-			fontSize: '16px',
-			color: undefined,
-			offsetY: 120
-		  },
-		  value: {
-			offsetY: 76,
-			fontSize: '22px',
-			color: undefined,
-			formatter: function (val) {
-			  return val + "%";
-			}
-		  }
-		}
-	  }
-	},
-	fill: {
-	  type: 'gradient',
-	  gradient: {
-		  shade: 'dark',
-		  shadeIntensity: 0.15,
-		  inverseColors: false,
-		  opacityFrom: 1,
-		  opacityTo: 1,
-		  stops: [0, 50, 65, 91]
-	  },
-	},
-	stroke: {
-	  dashArray: 4
-	},
-	labels: ['Achieve Goals'],
-};
+// var options6 = {
+// 	series: [73],
+// 	chart: {
+// 	  height: 350,
+// 	  type: 'radialBar',
+// 	  offsetY: 0
+// 	},
+// 	colors: ['#0B132B', '#222222'],
+// 	plotOptions: {
+// 	  radialBar: {
+// 		startAngle: -135,
+// 		endAngle: 135,
+// 		dataLabels: {
+// 		  name: {
+// 			fontSize: '16px',
+// 			color: undefined,
+// 			offsetY: 120
+// 		  },
+// 		  value: {
+// 			offsetY: 76,
+// 			fontSize: '22px',
+// 			color: undefined,
+// 			formatter: function (val) {
+// 			  return val + "%";
+// 			}
+// 		  }
+// 		}
+// 	  }
+// 	},
+// 	fill: {
+// 	  type: 'gradient',
+// 	  gradient: {
+// 		  shade: 'dark',
+// 		  shadeIntensity: 0.15,
+// 		  inverseColors: false,
+// 		  opacityFrom: 1,
+// 		  opacityTo: 1,
+// 		  stops: [0, 50, 65, 91]
+// 	  },
+// 	},
+// 	stroke: {
+// 	  dashArray: 4
+// 	},
+// 	labels: ['Achieve Goals'],
+// };
 
 var chart = new ApexCharts(document.querySelector("#chart"), options);
 chart.render();
@@ -436,32 +436,5 @@ chart4.render();
 var chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
 chart5.render();
 
-var chart6 = new ApexCharts(document.querySelector("#chart6"), options6);
-chart6.render();
-
-
-// datatable init
-$('document').ready(function(){
-	$('.data-table').DataTable({
-		scrollCollapse: true,
-		autoWidth: true,
-		responsive: true,
-		searching: false,
-		bLengthChange: false,
-		bPaginate: false,
-		bInfo: false,
-		columnDefs: [{
-			targets: "datatable-nosort",
-			orderable: false,
-		}],
-		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-		"language": {
-			"info": "_START_-_END_ of _TOTAL_ entries",
-			searchPlaceholder: "Search",
-			paginate: {
-				next: '<i class="ion-chevron-right"></i>',
-				previous: '<i class="ion-chevron-left"></i>'  
-			}
-		},
-	});
-});
+// var chart6 = new ApexCharts(document.querySelector("#chart6"), options6);
+// chart6.render();
