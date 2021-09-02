@@ -1,207 +1,467 @@
-$(".dial1").knob();
-$({animatedVal: 0}).animate({animatedVal: 80}, {
-	duration: 3000,
-	easing: "swing",
-	step: function() {
-		$(".dial1").val(Math.ceil(this.animatedVal)).trigger("change");
-	}
-});
-
-$(".dial2").knob();
-$({animatedVal: 0}).animate({animatedVal: 70}, {
-	duration: 3000,
-	easing: "swing",
-	step: function() {
-		$(".dial2").val(Math.ceil(this.animatedVal)).trigger("change");
-	}
-});
-
-$(".dial3").knob();
-$({animatedVal: 0}).animate({animatedVal: 90}, {
-	duration: 3000,
-	easing: "swing",
-	step: function() {
-		$(".dial3").val(Math.ceil(this.animatedVal)).trigger("change");
-	}
-});
-
-$(".dial4").knob();
-$({animatedVal: 0}).animate({animatedVal: 65}, {
-	duration: 3000,
-	easing: "swing",
-	step: function() {
-		$(".dial4").val(Math.ceil(this.animatedVal)).trigger("change");
-	}
-});
-// map
-jQuery('#browservisit').vectorMap({
-	map: 'world_mill_en',
-	backgroundColor: '#fff',
-	borderWidth: 1,
-	zoomOnScroll : false,
-	color: '#ddd',
-	regionStyle: {
-		initial: {
-			fill: '#fff'
-		}
+var options = {
+	series: [80],
+	grid: {
+		padding: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0
+		},
 	},
-	enableZoom: true,
-	normalizeFunction: 'linear',
-	showTooltip: true
-});
-// chart
-Highcharts.chart('chart', {
 	chart: {
-		type: 'line'
-	},
-	title: {
-		text: ''
-	},
-	xAxis: {
-		categories: ['jan 01', 'jan 05', 'jan 10', 'jan 15', 'jan 20', 'jan 25', 'jan 30'],
-		labels: {
-			style: {
-				color: '#1b00ff',
-				fontSize: '12px',
-			}
-		}
-	},
-	yAxis: {
-		labels: {
-			formatter: function () {
-				return this.value;
+		height: 100,
+		width: 70,
+		type: 'radialBar',
+	},	
+	plotOptions: {
+		radialBar: {
+			hollow: {
+				size: '50%',
 			},
-			style: {
-				color: '#1b00ff',
-				fontSize: '14px'
-			}
-		},
-		title: {
-			text: ''
-		},
-	},
-	credits: {
-		enabled: false
-	},
-	tooltip: {
-		crosshairs: true,
-		shared: true
-	},
-	plotOptions: {
-		spline: {
-			marker: {
-				radius: 10,
-				lineColor: '#1b00ff',
-				lineWidth: 2
-			}
-		}
-	},
-	legend: {
-		align: 'center',
-		x: 0,
-		y: 0
-	},
-	series: [{
-		name: 'Twitter',
-		color: '#00789c',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [0, 10, 5, 30, 40, 20, 10]
-	},
-	{
-		name: 'Facebook',
-		color: '#236adc',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [40, 20, 10, 40, 15, 15, 20]
-	},
-	{
-		name: 'Chat',
-		color: '#ff686b',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [0, 15, 5, 30, 40, 30, 28]
-	},
-	{
-		name: 'Forum',
-		color: '#264653',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [35, 25, 10, 40, 15, 5, 38]
-	}]
-});
-Highcharts.chart('compliance-trend', {
-	chart: {
-		type: 'column'
-	},
-	colors: ['#0051bd', '#00eccf', '#d11372'],
-	title: {
-		text: ''
-	},
-	credits: {
-		enabled: false
-	},
-	xAxis: {
-		categories: ['1th Sep', '2th Sep', '3th Sep', '4th Sep', '5th Sep', '6th Sep', '7th Sep', '8th Sep', '9th Sep', '10th Sep'],
-		crosshair: true,
-		lineWidth:1,
-		lineColor: '#979797',
-		labels: {
-			style: {
-				fontSize: '10px',
-				color: '#5a5a5a'
-			}
-		},
-	},
-	yAxis: {
-		min: 0,
-		max: 100,
-		gridLineWidth: 0,
-		lineWidth:1,
-		lineColor: '#979797',
-		title: {
-			text: ''
-		},
-		stackLabels: {
-			enabled: false,
-			style: {
-				fontWeight: 'bold',
-				color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-			}
-		}
-	},
-	legend: {
-		enabled: true
-	},
-	tooltip: {
-		headerFormat: '<b>{point.x}</b><br/>',
-		pointFormat: '{series.name}: {point.y}'
-	},
-	plotOptions: {
-		column: {
-			stacking: 'normal',
 			dataLabels: {
-				enabled: false,
-				color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-			},
-			borderWidth: 0
+				name: {
+					show: false,
+					color: '#fff'
+				},
+				value: {
+					show: true,
+					color: '#333',
+					offsetY: 5,
+					fontSize: '15px'
+				}
+			}
 		}
 	},
+	colors: ['#ecf0f4'],
+	fill: {
+		type: 'gradient',
+		gradient: {
+			shade: 'dark',
+			type: 'diagonal1',
+			shadeIntensity: 0.8,
+			gradientToColors: ['#1b00ff'],
+			inverseColors: false,
+			opacityFrom: [1, 0.2],
+			opacityTo: 1,
+			stops: [0, 100],
+		}
+	},
+	states: {
+		normal: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		hover: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		active: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+	}
+};
+
+var options2 = {
+	series: [70],
+	grid: {
+		padding: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0
+		},
+	},
+	chart: {
+		height: 100,
+		width: 70,
+		type: 'radialBar',
+	},	
+	plotOptions: {
+		radialBar: {
+			hollow: {
+				size: '50%',
+			},
+			dataLabels: {
+				name: {
+					show: false,
+					color: '#fff'
+				},
+				value: {
+					show: true,
+					color: '#333',
+					offsetY: 5,
+					fontSize: '15px'
+				}
+			}
+		}
+	},
+	colors: ['#ecf0f4'],
+	fill: {
+		type: 'gradient',
+		gradient: {
+			shade: 'dark',
+			type: 'diagonal1',
+			shadeIntensity: 1,
+			gradientToColors: ['#009688'],
+			inverseColors: false,
+			opacityFrom: [1, 0.2],
+			opacityTo: 1,
+			stops: [0, 100],
+		}
+	},
+	states: {
+		normal: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		hover: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		active: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+	}
+};
+
+var options3 = {
+	series: [75],
+	grid: {
+		padding: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0
+		},
+	},
+	chart: {
+		height: 100,
+		width: 70,
+		type: 'radialBar',
+	},	
+	plotOptions: {
+		radialBar: {
+			hollow: {
+				size: '50%',
+			},
+			dataLabels: {
+				name: {
+					show: false,
+					color: '#fff'
+				},
+				value: {
+					show: true,
+					color: '#333',
+					offsetY: 5,
+					fontSize: '15px'
+				}
+			}
+		}
+	},
+	colors: ['#ecf0f4'],
+	fill: {
+		type: 'gradient',
+		gradient: {
+			shade: 'dark',
+			type: 'diagonal1',
+			shadeIntensity: 0.8,
+			gradientToColors: ['#f56767'],
+			inverseColors: false,
+			opacityFrom: [1, 0.2],
+			opacityTo: 1,
+			stops: [0, 100],
+		}
+	},
+	states: {
+		normal: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		hover: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		active: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+	}
+};
+
+var options4 = {
+	series: [85],
+	grid: {
+		padding: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0
+		},
+	},
+	chart: {
+		height: 100,
+		width: 70,
+		type: 'radialBar',
+	},	
+	plotOptions: {
+		radialBar: {
+			hollow: {
+				size: '50%',
+			},
+			dataLabels: {
+				name: {
+					show: false,
+					color: '#fff'
+				},
+				value: {
+					show: true,
+					color: '#333',
+					offsetY: 5,
+					fontSize: '15px'
+				}
+			}
+		}
+	},
+	colors: ['#ecf0f4'],
+	fill: {
+		type: 'gradient',
+		gradient: {
+			shade: 'dark',
+			type: 'diagonal1',
+			shadeIntensity: 0.8,
+			gradientToColors: ['#2979ff'],
+			inverseColors: false,
+			opacityFrom: [1, 0.5],
+			opacityTo: 1,
+			stops: [0, 100],
+		}
+	},
+	states: {
+		normal: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		hover: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+		active: {
+			filter: {
+				type: 'none',
+				value: 0,
+			}
+		},
+	}
+};
+
+var options5 = {
+	chart: {
+		height: 350,
+		type: 'bar',
+		parentHeightOffset: 0,
+		fontFamily: 'Poppins, sans-serif',
+		toolbar: {
+			show: false,
+		},
+	},
+	colors: ['#1b00ff', '#f56767'],
+	grid: {
+		borderColor: '#c7d2dd',
+		strokeDashArray: 5,
+	},
+	plotOptions: {
+		bar: {
+			horizontal: false,
+			columnWidth: '25%',
+			endingShape: 'rounded'
+		},
+	},
+	dataLabels: {
+		enabled: false
+	},
+	stroke: {
+		show: true,
+		width: 2,
+		colors: ['transparent']
+	},
 	series: [{
-		name: 'Success',
-		maxPointWidth: 10,
-		data: [50, 30, 40, 70, 20, 50, 30, 40, 70, 20,]
+		name: 'In Progress',
+		data: [40, 28, 47, 22, 34, 25]
 	}, {
-		name: 'Warning',
-		maxPointWidth: 10,
-		data: [0, 20, 30, 20, 10, 50, 30, 40, 10, 20,]
-	}, {
-		name: 'Error',
-		maxPointWidth: 10,
-		data: [50, 50, 30, 10, 70, 0, 40, 20, 20, 60,]
-	}]
+		name: 'Complete',
+		data: [30, 20, 37, 10, 28, 11]
+	}],
+	xaxis: {
+		categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+		labels: {
+			style: {
+				colors: ['#353535'],
+				fontSize: '16px',
+			},
+		},
+		axisBorder: {
+			color: '#8fa6bc',
+		}
+	},
+	yaxis: {
+		title: {
+			text: ''
+		},
+		labels: {
+			style: {
+				colors: '#353535',
+				fontSize: '16px',
+			},
+		},
+		axisBorder: {
+			color: '#f00',
+		}
+	},
+	legend: {
+		horizontalAlign: 'right',
+		position: 'top',
+		fontSize: '16px',
+		offsetY: 0,
+		labels: {
+			colors: '#353535',
+		},
+		markers: {
+			width: 10,
+			height: 10,
+			radius: 15,
+		},
+		itemMargin: {
+			vertical: 0
+		},
+	},
+	fill: {
+		opacity: 1
+
+	},
+	tooltip: {
+		style: {
+			fontSize: '15px',
+			fontFamily: 'Poppins, sans-serif',
+		},
+		y: {
+			formatter: function (val) {
+				return val
+			}
+		}
+	}
+}
+
+var options6 = {
+	series: [73],
+	chart: {
+	  height: 350,
+	  type: 'radialBar',
+	  offsetY: 0
+	},
+	colors: ['#0B132B', '#222222'],
+	plotOptions: {
+	  radialBar: {
+		startAngle: -135,
+		endAngle: 135,
+		dataLabels: {
+		  name: {
+			fontSize: '16px',
+			color: undefined,
+			offsetY: 120
+		  },
+		  value: {
+			offsetY: 76,
+			fontSize: '22px',
+			color: undefined,
+			formatter: function (val) {
+			  return val + "%";
+			}
+		  }
+		}
+	  }
+	},
+	fill: {
+	  type: 'gradient',
+	  gradient: {
+		  shade: 'dark',
+		  shadeIntensity: 0.15,
+		  inverseColors: false,
+		  opacityFrom: 1,
+		  opacityTo: 1,
+		  stops: [0, 50, 65, 91]
+	  },
+	},
+	stroke: {
+	  dashArray: 4
+	},
+	labels: ['Achieve Goals'],
+};
+
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+
+var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+chart2.render();
+
+var chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
+chart3.render();
+
+var chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
+chart4.render();
+
+var chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
+chart5.render();
+
+var chart6 = new ApexCharts(document.querySelector("#chart6"), options6);
+chart6.render();
+
+
+// datatable init
+$('document').ready(function(){
+	$('.data-table').DataTable({
+		scrollCollapse: true,
+		autoWidth: true,
+		responsive: true,
+		searching: false,
+		bLengthChange: false,
+		bPaginate: false,
+		bInfo: false,
+		columnDefs: [{
+			targets: "datatable-nosort",
+			orderable: false,
+		}],
+		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		"language": {
+			"info": "_START_-_END_ of _TOTAL_ entries",
+			searchPlaceholder: "Search",
+			paginate: {
+				next: '<i class="ion-chevron-right"></i>',
+				previous: '<i class="ion-chevron-left"></i>'  
+			}
+		},
+	});
 });

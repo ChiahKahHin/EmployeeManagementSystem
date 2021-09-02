@@ -27,21 +27,18 @@ class LoginController extends Controller
 
         if(auth()->attempt($request->only('username', 'password'), $request->remember)) {
             $mailRedirect = redirect()->intended()->getTargetUrl();
-            if($mailRedirect != null){
+            if($mailRedirect != "http://localhost:8000"){
                 return redirect($mailRedirect);
             }
             else{
-                if(Auth::user()->isAdmin()){
-                    return redirect()->route("adminDashboard");
+                if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
+                    return redirect()->route("dashboard1");
                 }
-                elseif(Auth::user()->isHrManager()){
-                    return redirect()->route("hrManagerDashboard");
+                elseif(Auth::user()->isManager() || Auth::user()->isEmployee()){
+                    return redirect()->route("dashboard2");
                 }
-                elseif(Auth::user()->isManager()){
-                    return redirect()->route("managerDashboard");
-                }
-                elseif(Auth::user()->isEmployee()){
-                    return redirect()->route("employeeDashboard");
+                else{
+                    return redirect()->route("login");
                 }
             }
         }

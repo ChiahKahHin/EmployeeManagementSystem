@@ -4,13 +4,13 @@
 			<li>
 				<div class="sidebar-small-cap" style="text-align: center; padding: 1.25rem 0 1rem 0;">
 					<a href="@if (Auth::user()->isAdmin())
-								{{ route('adminDashboard') }}
+								{{ route('dashboard1') }}
 							@elseif (Auth::user()->isHrManager())
-								{{ route('hrManagerDashboard') }}
+								{{ route('dashboard1') }}
 							@elseif (Auth::user()->isManager())
-								{{ route('managerDashboard') }}
+								{{ route('dashboard2') }}
 							@else
-								{{ route('employeeDashboard') }}
+								{{ route('dashboard2') }}
 							@endif" 
 					style="color:white;">Emp. Management System</a>
 				</div>
@@ -26,13 +26,13 @@
 			<ul id="accordion-menu">
 				<li>
 					<a href="@if (Auth::user()->isAdmin())
-								{{ route('adminDashboard') }}"
+								{{ route('dashboard1') }}"
 							@elseif (Auth::user()->isHrManager())
-								{{ route('hrManagerDashboard') }}"
+								{{ route('dashboard1') }}"
 							@elseif (Auth::user()->isManager())
-								{{ route('managerDashboard') }}
+								{{ route('dashboard2') }}
 							@else
-								{{ route('employeeDashboard') }}
+								{{ route('dashboard2') }}
 							@endif" 
 					
 						class="dropdown-toggle no-arrow">

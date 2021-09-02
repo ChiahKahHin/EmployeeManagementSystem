@@ -55,10 +55,8 @@ Route::get('/updateProfile', [ProfileController::class, 'updateProfileForm'])->n
 Route::post('/updateProfile', [ProfileController::class, 'updateProfile']);
 
 //Dashboard
-Route::get('/adminDashboard', [DashboardController::class, 'adminDashboard'])->name('adminDashboard');
-Route::get('/hrManagerDashboard', [DashboardController::class, 'hrManagerDashboard'])->name('hrManagerDashboard');
-Route::get('/managerDashboard', [DashboardController::class, 'managerDashboard'])->name('managerDashboard');
-Route::get('/employeeDashboard', [DashboardController::class, 'employeeDashboard'])->name('employeeDashboard');
+Route::get('/dashboard1', [DashboardController::class, 'dashboard1'])->name('dashboard1');
+Route::get('/dashboard2', [DashboardController::class, 'dashboard2'])->name('dashboard2');
 
 //Manage Admin
 Route::get('/addAdmin', [AdminController::class, 'addAdminForm'])->name('addAdmin');

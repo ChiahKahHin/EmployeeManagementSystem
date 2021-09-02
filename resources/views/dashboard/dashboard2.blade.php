@@ -17,9 +17,9 @@
         </div>
         <div class="col-md-8">
             <h4 class="font-20 weight-500 mb-10 text-capitalize">
-                Welcome back <div class="weight-600 font-30 text-blue">Johnny Brown!</div>
+                Welcome back <div class="weight-600 font-30 text-blue">{{ Auth::user()->getFullName() }}!</div>
             </h4>
-            <p class="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde hic non repellendus debitis iure, doloremque assumenda. Autem modi, corrupti, nobis ea iure fugiat, veniam non quaerat mollitia animi error corporis.</p>
+            <p class="font-18 max-width-600">Quote of the day:<br>{{ $quotes[rand(0, (count($quotes) - 1))] }}</p>
         </div>
     </div>
 </div>
@@ -95,5 +95,5 @@
 @endsection
 
 @section("script")
-    <script src="vendors/scripts/dashboard.js"></script>
+    <script src="vendors/scripts/dashboard2.js"></script>
 @endsection
