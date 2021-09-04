@@ -47,7 +47,7 @@ class DashboardController extends Controller
     {
         $departmentName = array();
         $employeeNumber = array();
-        $departments = Department::where('departmentName', "!=", "Administration")->get();
+        $departments = Department::all();
         foreach ($departments as $department) {
             $employees = User::where('department', $department->id)->count();
             if($employees != 0){
@@ -55,8 +55,28 @@ class DashboardController extends Controller
                 array_push($employeeNumber, $employees);
             }
         }
+        $accountArrays = array(
+            '01' => 0,
+            '02' => 0,
+            '03' => 0,
+            '04' => 0,
+            '05' => 0,
+            '06' => 0,
+            '07' => 0,
+            '08' => 0,
+            '09' => 0,
+            '10' => 0,
+            '11' => 0,
+            '12' => 0
+        );
+
+        $accounts = User::where('created_at', '>=', ''.date('Y').'-01-01')->get();
+        foreach ($accounts as $account) {
+            $month = date('m', strtotime($account->created_at));
+            $accountArrays[$month] = $accountArrays[$month] + 1;
+        }
        
-        return view('dashboard.dashboard1', ['quotes' => $this->quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber]);
+        return view('dashboard.dashboard1', ['quotes' => $this->quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber, 'accountArrays' => $accountArrays]);
     }
 
     public function dashboard2()
