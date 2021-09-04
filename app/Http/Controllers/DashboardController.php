@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClaimRequest;
 use App\Models\Department;
+use App\Models\LeaveRequest;
+use App\Models\Memo;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -75,8 +80,20 @@ class DashboardController extends Controller
             $month = date('m', strtotime($account->created_at));
             $accountArrays[$month] = $accountArrays[$month] + 1;
         }
-       
-        return view('dashboard.dashboard1', ['quotes' => $this->quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber, 'accountArrays' => $accountArrays]);
+
+        $memos = Memo::where('memoStatus', 0)->orderBy('memoDate', 'ASC')->take(5)->get();
+
+        if (Auth::user()->isAdmin()) {     
+            $tasks = Task::with('getPersonInCharge')->where('status', 0)->orderBy('dueDate', 'ASC')->take(5)->get();
+            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->orderBy('leaveStartDate', 'ASC')->take(5)->get();
+            $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->orderBy('claimDate', 'ASC')->take(5)->get();
+        } else {
+            $tasks = Task::with('getPersonInCharge')->where('status', 0)->where('manager', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
+            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('manager', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
+            $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimManager', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
+        }
+        
+        return view('dashboard.dashboard1', ['quotes' => $this->quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber, 'accountArrays' => $accountArrays, 'memos' => $memos, 'tasks' => $tasks, 'leaves' => $leaves, 'claims' => $claims]);
     }
 
     public function dashboard2()

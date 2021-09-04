@@ -39,6 +39,70 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+            <h4 class="mb-20 h4">Scheduled Memo</h4>
+            <div class="list-group">
+                @if (count($memos) != 0)
+                    @foreach ($memos as $memo)
+                        <a href="{{ route('viewMemo', ['id' => $memo->id]) }}" class="list-group-item list-group-item-action">{{ $loop->iteration }}. {{ $memo->memoTitle }} - {{ date("d F Y", strtotime($memo->memoDate)) }}</a>
+                    @endforeach
+                @else
+                    <a href="#" class="list-group-item list-group-item-action disabled text-center">No Scheduled Memo</a>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+            <h4 class="mb-20 h4">Task Waiting Approval</h4>
+            <div class="list-group">
+                @if (count($tasks) != 0)
+                    @foreach ($tasks as $task)
+                        <a href="{{ route('viewTask', ['id' => $task->id]) }}" class="list-group-item list-group-item-action">{{ $loop->iteration }}. {{ $task->title }} - {{ $task->getPersonInCharge->getFullName() }} ({{ date("d M", strtotime($task->dueDate)) }})</a>
+                    @endforeach
+                @else
+                    <a href="#" class="list-group-item list-group-item-action disabled text-center">No Task is Waiting Approval</a>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+            <h4 class="mb-20 h4">Leave Waiting Approval</h4>
+            <div class="list-group">
+                @if (count($leaves) != 0)
+                    @foreach ($leaves as $leave)
+                        <a href="{{ route('viewLeave', ['id' => $leave->id]) }}" class="list-group-item list-group-item-action">{{ $loop->iteration }}. {{ $leave->getLeaveType->leaveType }} - {{ $leave->getEmployee->getFullName() }} ({{ date("d M", strtotime($leave->leaveStartDate)) }} - {{ date("d M", strtotime($leave->leaveEndDate)) }})</a>
+                    @endforeach
+                @else
+                    <a href="#" class="list-group-item list-group-item-action disabled text-center">No Leave is Waiting Approval</a>
+                @endif
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+            <h4 class="mb-20 h4">Claim Waiting Approval</h4>
+            <div class="list-group">
+                @if (count($claims) != 0)
+                    @foreach ($claims as $claim)
+                        <a href="{{ route('viewClaimRequest', ['id' => $claim->id]) }}" class="list-group-item list-group-item-action">{{ $loop->iteration }}. {{ $claim->getClaimType->claimType }} - {{ $claim->getEmployee->getFullName() }} (RM {{ number_format($claim->claimAmount, 2, '.', '') }})</a>
+                    @endforeach
+                @else
+                    <a href="#" class="list-group-item list-group-item-action disabled text-center">No Claim is Waiting Approval</a>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section("script")
@@ -69,7 +133,7 @@
                 curve: 'straight'
             },
             title: {
-                text: 'Account created by month',
+                text: 'Account created ',
                 align: 'left'
             },
             grid: {
