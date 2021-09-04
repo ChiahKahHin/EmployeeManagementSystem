@@ -79,13 +79,13 @@ class TaskController extends Controller
     public function manageTask()
     {
         if(Auth::user()->isAdmin()){
-            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->get();
+            $tasks = Task::with('getPersonInCharge')->orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->get();
         }
         elseif(Auth::user()->isEmployee()){
-            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('personInCharge', Auth::user()->id)->get();
+            $tasks = Task::with('getManager')->orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('personInCharge', Auth::user()->id)->get();
         }
         else{
-            $tasks = Task::orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('manager', Auth::user()->id)->get();
+            $tasks = Task::with('getPersonInCharge')->orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('manager', Auth::user()->id)->get();
         }
 
         return view('manageTask', ['tasks' => $tasks]);

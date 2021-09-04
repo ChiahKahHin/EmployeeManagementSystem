@@ -158,6 +158,12 @@
 				var remainingAmount = claimAmount - totalClaimed;
 				var remainingBalance = remainingAmount;
 				document.getElementById('claimAmount').setAttribute('max', remainingAmount);
+				if(document.getElementById('claimAmount').max == "0"){
+					document.getElementById('claimAmount').setAttribute('disabled', '');
+				}
+				else{
+					document.getElementById('claimAmount').removeAttribute('disabled');
+				}
 
 				claimAmountInput = document.getElementById('claimAmount').value;
 				if (claimAmountInput != "") {
@@ -166,16 +172,24 @@
 
 				if (claimAmountInput != "" && claimAmountInput < 1) {
 					document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Minimum is RM1)";
+					document.getElementById('claimAmountLabel').removeAttribute('style');
+					document.getElementById('claimAmount').setAttribute('class', 'form-control');
 				}
 				else{
 					if(remainingBalance == claimAmountInput){
 						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Maximum claim amount reached)";
+						document.getElementById('claimAmountLabel').removeAttribute('style');
+						document.getElementById('claimAmount').setAttribute('class', 'form-control');
 					}
 					else if (remainingAmount >= 0) {
 						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Remaining Amount: RM" + remainingAmount +")";
+						document.getElementById('claimAmountLabel').removeAttribute('style');
+						document.getElementById('claimAmount').setAttribute('class', 'form-control');
 					}
 					else{
 						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Exceed the available claim amount)";
+						document.getElementById('claimAmountLabel').setAttribute('style', 'color:red;');
+						document.getElementById('claimAmount').setAttribute('class', 'form-control form-control-danger');
 					}
 				}
 			}
