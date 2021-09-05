@@ -199,4 +199,31 @@ class TaskController extends Controller
 
         return redirect()->route('manageTask')->with('message', 'Task approval manager delegate successfully!');
     }
+
+    public function taskAnalyticsPage()
+    {
+        $years = array();
+        $tasks = Task::select('created_at')->get();
+        foreach ($tasks as $task) {
+            if(!in_array($task->created_at->year, $years)){
+                array_push($years, $task->created_at->year);
+            }
+        }
+        rsort($years);
+
+        return view('taskAnalytics', ['years' => $years]);
+    }
+
+    public function taskAddedAnalytics($year)
+    {
+        $taskAddedArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+
+        $tasks = Task::where('created_at', 'like', ''.$year.'%')->get();
+        foreach ($tasks as $task) {
+            $month = date('m', strtotime($task->created_at));
+            $taskAddedArrays[$month] = $taskAddedArrays[$month] + 1;
+        }
+
+        return array_values($taskAddedArrays);
+    }
 }

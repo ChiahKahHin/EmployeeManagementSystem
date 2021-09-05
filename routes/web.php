@@ -96,6 +96,8 @@ Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('a
 Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
 Route::post('/changeTaskManager/{id}', [TaskController::class, 'changeTaskManager'])->name('changeTaskManager');
+Route::get('/taskAnalyticsPage', [TaskController::class, 'taskAnalyticsPage'])->name('taskAnalyticsPage');
+Route::get('/taskAddedAnalytics/{year}', [TaskController::class, 'taskAddedAnalytics'])->name('taskAddedAnalytics');
 
 //Manage Claim Category
 Route::get('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategoryForm'])->name('addClaimCategory');

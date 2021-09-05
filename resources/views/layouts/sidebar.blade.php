@@ -102,6 +102,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
+							<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
 						</ul>
 					</li>
 				@endif
