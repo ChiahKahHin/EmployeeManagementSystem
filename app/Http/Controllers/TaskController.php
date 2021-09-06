@@ -202,16 +202,25 @@ class TaskController extends Controller
 
     public function taskAnalyticsPage()
     {
-        $years = array();
+        $taskAddedYears = array();
         $tasks = Task::select('created_at')->get();
         foreach ($tasks as $task) {
-            if(!in_array($task->created_at->year, $years)){
-                array_push($years, $task->created_at->year);
+            if(!in_array($task->created_at->year, $taskAddedYears)){
+                array_push($taskAddedYears, $task->created_at->year);
             }
         }
-        rsort($years);
+        rsort($taskAddedYears);
 
-        return view('taskAnalytics', ['years' => $years]);
+        $taskApprovedAndRejectedYears = array();
+        $tasks = Task::select('created_at')->whereIn('status', [2, 3])->get();
+        foreach ($tasks as $task) {
+            if(!in_array($task->created_at->year, $taskApprovedAndRejectedYears)){
+                array_push($taskApprovedAndRejectedYears, $task->created_at->year);
+            }
+        }
+        rsort($taskApprovedAndRejectedYears);
+
+        return view('taskAnalytics', ['taskAddedYears' => $taskAddedYears, 'taskApprovedAndRejectedYears' => $taskApprovedAndRejectedYears]);
     }
 
     public function taskAddedAnalytics($year)
@@ -225,5 +234,44 @@ class TaskController extends Controller
         }
 
         return array_values($taskAddedArrays);
+    }
+
+    public function taskApprovedAndRejectedAnalytics($year)
+    {
+        $taskApprovedArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+        $taskRejectedArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+
+        $approvedTasks = Task::where('created_at', 'like', ''.$year.'%')->where('status', 3)->get();
+        foreach ($approvedTasks as $approvedTask) {
+            $month = date('m', strtotime($approvedTask->created_at));
+            $taskApprovedArrays[$month] = $taskApprovedArrays[$month] + 1;
+        }
+
+        $rejectedTasks = Task::where('created_at', 'like', ''.$year.'%')->where('status', 2)->get();
+        foreach ($rejectedTasks as $rejectedTask) {
+            $month = date('m', strtotime($rejectedTask->created_at));
+            $taskRejectedArrays[$month] = $taskRejectedArrays[$month] + 1;
+        }
+
+        return [array_values($taskApprovedArrays), array_values($taskRejectedArrays)];
+    }
+
+    public function overallTaskAnalytics($year)
+    {  
+        $taskStatus = array();
+        $taskLabel = array();
+        $taskNumber = array();
+
+        $statuses = Task::select('status')->distinct()->where('created_at', 'like', ''.$year.'%')->orderBy('status', 'ASC')->get();
+        foreach ($statuses as $status) {
+            array_push($taskStatus, $status->status);
+            array_push($taskLabel, $status->getTaskStatus());
+        }
+        
+        for ($i=0; $i < count($taskStatus); $i++) { 
+            $tasks = Task::where('status', $taskStatus[$i])->where('created_at', 'like', ''.$year.'%')->count();
+            array_push($taskNumber, $tasks);
+        }
+        return [array_values($taskLabel), array_values($taskNumber)];
     }
 }

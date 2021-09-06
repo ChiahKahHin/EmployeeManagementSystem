@@ -57,4 +57,21 @@ class Task extends Model
 
         return $taskStatus;
     }
+
+    public function getTaskStatus()
+    {
+        if($this->status == 0){
+            $taskStatus = "Pending";
+        }
+        elseif($this->status == 1){
+            $taskStatus = "Waiting Approval";
+        }
+        elseif($this->status == 2){
+            $taskStatus = "Rejected";
+        }
+        elseif($this->status == 3){
+            $taskStatus = "Completed";
+        }
+        return $taskStatus;
+    }
 }
