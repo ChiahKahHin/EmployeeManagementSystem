@@ -19,7 +19,7 @@
             <h4 class="font-20 weight-500 mb-10 text-capitalize">
                 Welcome back <div class="weight-600 font-30 text-blue">{{ Auth::user()->getFullName() }}!</div>
             </h4>
-            <p class="font-18 max-width-600">Quote of the day:<br>{{ $quotes[rand(0, (count($quotes) - 1))] }}</p>
+            <p class="font-18 max-width-600 font-italic text-justify">Quote of the day:<br>{{ $quotes }}</p>
         </div>
     </div>
 </div>

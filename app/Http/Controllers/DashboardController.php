@@ -9,6 +9,7 @@ use App\Models\Memo;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -92,12 +93,16 @@ class DashboardController extends Controller
             $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('manager', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
             $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimManager', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
         }
+
+        $quotes = Arr::random($this->quotes);
         
-        return view('dashboard.dashboard1', ['quotes' => $this->quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber, 'accountArrays' => $accountArrays, 'memos' => $memos, 'tasks' => $tasks, 'leaves' => $leaves, 'claims' => $claims]);
+        return view('dashboard.dashboard1', ['quotes' => $quotes, 'departmentName' => $departmentName, 'employeeNumber' => $employeeNumber, 'accountArrays' => $accountArrays, 'memos' => $memos, 'tasks' => $tasks, 'leaves' => $leaves, 'claims' => $claims]);
     }
 
     public function dashboard2()
     {
-        return view('dashboard.dashboard2', ['quotes' => $this->quotes]);
+        $quotes = Arr::random($this->quotes);
+
+        return view('dashboard.dashboard2', ['quotes' => $quotes]);
     }
 }
