@@ -53,7 +53,7 @@
 					@foreach ($publicHolidays as $publicHoliday)
 						{
 							title: 'PH - {{ $publicHoliday->name }}',
-							description: 'All employees will be off',
+							description: 'Office will be closed during the public holiday',
 							start: '{{ $publicHoliday->date }}',
 							end: '{{ $publicHoliday->date }}',
 							className: 'fc-bg-default',

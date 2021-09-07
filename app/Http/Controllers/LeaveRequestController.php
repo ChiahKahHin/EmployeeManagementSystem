@@ -28,6 +28,9 @@ class LeaveRequestController extends Controller
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
             $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->get();
         }
+        elseif(Auth::user()->isManager()){
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('employeeID', Auth::id())->orWhere('manager', Auth::id())->where('leaveStatus', 2)->get();
+        }
         else{
             $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->where('employeeID', Auth::id())->get();
         }
