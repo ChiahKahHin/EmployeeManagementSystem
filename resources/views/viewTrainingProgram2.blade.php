@@ -9,59 +9,6 @@
 @endsection
 
 @section('content')
-	{{-- <div class="min-height-200px">
-		<div class="page-header">
-			<div class="row">
-				<div class="col-md-12 col-sm-12">
-					<div class="title">
-						<h4>Training Program Details</h4>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-wrap">
-			<div class="product-detail-wrap mb-30">
-				<div class="row">
-					<div class="col-md-4">
-						<img src="{{ asset('vendors/images/product-img1.jpg') }}" alt="">
-					</div>
-					<div class="col-md-8">
-						<div class="product-detail-desc pd-20 card-box height-100-p">
-							<h4 class="mb-20 pt-20">Gufram Bounce Black</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-							<div class="price">
-								<del>$55.5</del><ins>$49.5</ins>
-							</div>
-							<div class="mx-w-150">
-								<div class="form-group">
-									<label class="text-blue">quantity</label>
-									<input id="demo3_22" type="text" value="1" name="demo3_22">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6 col-6">
-									<a href="#" class="btn btn-primary btn-block">Add To Cart</a>
-								</div>
-								<div class="col-md-6 col-6">
-									<a href="#" class="btn btn-outline-primary btn-block">Buy Now</a>
-								</div>
-								@if (Auth::user()->isManager() || Auth::user()->isEmployee())
-									@if ($trainingProgram->status == 0)
-										<div class="row">
-											<div class="col-md-12">
-												<button type="button" id="approveClaimRequest" class="btn btn-primary btn-block">Register Training Program</button>
-											</div>
-										</div>
-									@endif
-								@endif
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> --}}
 	<div class="pd-20 card-box mb-30">
 		<div class="clearfix mb-20">
 			<div class="pull-left">
@@ -133,7 +80,7 @@
 						</tr>
 					</tbody>
 				</table>
-				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
+				@if (Auth::user()->isAccess('manager', 'employee'))
 					@if ($trainingProgram->status == 0)
 						<div class="row">
 							<div class="col-md-12">

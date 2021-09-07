@@ -23,10 +23,10 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
+                if(Auth::user()->isAccess('admin', 'hrmanager')){
                     return redirect()->route("dashboard1");
                 }
-                elseif(Auth::user()->isManager() || Auth::user()->isEmployee()){
+                elseif(Auth::user()->isAccess('manager', 'employee')){
                     return redirect()->route("dashboard2");
                 }
                 else{

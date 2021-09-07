@@ -12,6 +12,13 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const ROLES = [
+        0 => 'admin',
+        1 => 'hrmanager',
+        2 => 'manager',
+        3 => 'employee',
+    ];
+
     protected $table = "users";
 
     /**
@@ -103,21 +110,7 @@ class User extends Authenticatable
 
     public function getShortRoleName()
     {
-        switch ($this->role) {
-            case 0:
-                $roleName = "admin";
-                break;
-            case 1:
-                $roleName = "hrmanager";
-                break;
-            case 2:
-                $roleName = "manager";
-                break;
-            case 3:
-                $roleName = "employee";
-                break;    
-        }
-            return $roleName;
+            return self::ROLES[$this->role];
     }
 
     public function getEmployeeEmail($department = null)
@@ -152,5 +145,9 @@ class User extends Authenticatable
         }
 
         return ucwords($fullName);
+    }
+
+    public function isAccess(...$roles) {
+        return in_array(Str::lower(self::ROLES[$this->role]), $roles);
     }
 }

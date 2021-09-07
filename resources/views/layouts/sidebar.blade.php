@@ -3,13 +3,9 @@
 		<ul>
 			<li>
 				<div class="sidebar-small-cap" style="text-align: center; padding: 1.25rem 0 1rem 0;">
-					<a href="@if (Auth::user()->isAdmin())
+					<a href="@if (Auth::user()->isAccess('admin', 'hrmanager'))
 								{{ route('dashboard1') }}
-							@elseif (Auth::user()->isHrManager())
-								{{ route('dashboard1') }}
-							@elseif (Auth::user()->isManager())
-								{{ route('dashboard2') }}
-							@else
+							@elseif (Auth::user()->isAccess('manager', 'employee'))
 								{{ route('dashboard2') }}
 							@endif" 
 					style="color:white;">Emp. Management System</a>
@@ -25,13 +21,9 @@
 		<div class="sidebar-menu">
 			<ul id="accordion-menu">
 				<li>
-					<a href="@if (Auth::user()->isAdmin())
-								{{ route('dashboard1') }}"
-							@elseif (Auth::user()->isHrManager())
-								{{ route('dashboard1') }}"
-							@elseif (Auth::user()->isManager())
-								{{ route('dashboard2') }}
-							@else
+					<a href="@if (Auth::user()->isAccess('admin', 'hrmanager'))
+								{{ route('dashboard1') }}
+							@elseif (Auth::user()->isAccess('manager', 'employee'))
 								{{ route('dashboard2') }}
 							@endif" 
 					
@@ -39,7 +31,7 @@
 						<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
 					</a>
 				</li>
-				@if (Auth::user()->isAdmin())
+				@if (Auth::user()->isAccess('admin'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-id-card1"></span><span class="mtext">Admin</span>
@@ -50,7 +42,7 @@
 						</ul>
 					</li>
 				@endif
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-notepad-2"></span><span class="mtext">Memorandum</span>
@@ -61,7 +53,7 @@
 						</ul>
 					</li>
 				@endif
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-group"></span><span class="mtext">Department</span>
@@ -83,7 +75,7 @@
 					
 				@endif
 
-				@if (Auth::user()->isHrManager() || Auth::user()->isManager())
+				@if (Auth::user()->isAccess('hrmanager', 'manager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
@@ -95,19 +87,21 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isAdmin() || Auth::user()->isEmployee())
+				@if (Auth::user()->isAccess('admin', 'employee'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
-							<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
+							@if (Auth::user()->isAccess('admin'))
+								<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
+							@endif
 						</ul>
 					</li>
 				@endif
 
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
@@ -133,7 +127,7 @@
 							</li>
 							<li><a href="{{ route('manageWorkingDay') }}">Manage Working Day</a></li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
-							@if (Auth::user()->isHrManager())
+							@if (Auth::user()->isAccess('hrmanager'))
 								<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							@endif
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
@@ -141,7 +135,7 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
+				@if (Auth::user()->isAccess('manager', 'employee'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
@@ -154,7 +148,7 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-invoice"></span><span class="mtext">Benefit Claim</span>
@@ -178,7 +172,7 @@
 									<li><a href="{{ route('manageClaimType') }}">Manage Claim Type</a></li>
 								</ul>
 							</li>
-							@if (Auth::user()->isHrManager())
+							@if (Auth::user()->isAccess('hrmanager'))
 								<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							@endif
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
@@ -186,7 +180,7 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
+				@if (Auth::user()->isAccess('manager', 'employee'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-invoice"></span><span class="mtext">Benefit Claim</span>
@@ -198,7 +192,7 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-presentation-2"></span><span class="mtext">Training Program</span>
@@ -210,7 +204,7 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isManager() || Auth::user()->isEmployee())
+				@if (Auth::user()->isAccess('manager', 'employee'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-presentation-2"></span><span class="mtext">Training Program</span>
