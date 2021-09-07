@@ -40,7 +40,7 @@ class TrainingProgram extends Model
         {
             return $value->employeeID == Auth::id();
         })->count();
-        //dd($count);
+        
         if ($count == 0 && $this->status == 1) {
             return "Close for registration";
         }

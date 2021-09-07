@@ -66,8 +66,9 @@ class TrainingProgramController extends Controller
     public function viewTrainingProgram($id)
     {
         $training_program = TrainingProgram::find($id);
+        $trainingAttendees = TrainingAttendee::with('getEmployee')->where('trainingProgram', $id)->get();
 
-        return view('viewTrainingProgram', ['trainingProgram' => $training_program]);
+        return view('viewTrainingProgram', ['trainingProgram' => $training_program, 'trainingAttendees' => $trainingAttendees]);
     }
 
     public function editTrainingProgramForm($id)
@@ -134,7 +135,7 @@ class TrainingProgramController extends Controller
 
     public function cancelTrainingProgram($id)
     {
-        $trainingAttendee = TrainingAttendee::all()->where('trainingProgram', $id)->where('employeeID', Auth::id())->first();
+        $trainingAttendee = TrainingAttendee::where('trainingProgram', $id)->where('employeeID', Auth::id())->first();
         $trainingAttendee->delete();
 
         return redirect()->route('viewTrainingProgram2', ['id' => $id]);

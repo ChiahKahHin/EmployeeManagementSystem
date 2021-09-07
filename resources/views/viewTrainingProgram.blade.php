@@ -64,7 +64,14 @@
 					<td class="font-weight-bold">Number of Attendees</td>
 					<td>{{ $trainingProgram->getAttendees->count() }}</td>
 				</tr>
-				
+				@if (count($trainingAttendees) != 0)
+					<td class="font-weight-bold">Attendees List</td>
+					<td>
+						@foreach ($trainingAttendees as $trainingAttendee)
+							{{ $loop->iteration }}. {{ $trainingAttendee->getEmployee->getFullName() }}<br/>
+						@endforeach
+					</td>
+				@endif
 				<tr>
 					<td class="font-weight-bold">Status</td>
 					<td>{{ $trainingProgram->getStatus() }}</td>

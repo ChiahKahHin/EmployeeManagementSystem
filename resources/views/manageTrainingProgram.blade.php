@@ -23,7 +23,7 @@
 						<th>Date</th>
 						<th>Time</th>
 						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-							<th>Number of Attendees</th>
+							<th class="text-center">Number of Attendees</th>
 						@else
 							<th>Registration Status</th>	
 						@endif
@@ -44,7 +44,7 @@
 						<td>{{ date("g:ia", strtotime($dateTime[1])) }} </td>
 
 						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
-							<td>{{ $trainingProgram->getAttendees->count() }}</td>
+							<td class="text-center">{{ $trainingProgram->getAttendees->count() }}</td>
 						@else
 							<td>{{ $trainingProgram->getRegistrationStatus() }}</td>
 						@endif
