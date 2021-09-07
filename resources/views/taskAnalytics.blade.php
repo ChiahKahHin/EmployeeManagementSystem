@@ -12,6 +12,27 @@
 	<div class="row">
 		<div class="col-xl-12 mb-30">
 			<div class="card-box height-100-p pd-20">
+				<h2 class="h4 mb-20">Overall Task</h2>
+
+				<div style="width: 25%; padding-bottom: 25px;">
+					<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overTaskYearChange();" required>
+						@foreach ($taskAddedYears as $taskAddedYear)
+							@if ($loop->iteration == 1)
+								<option value="{{ $taskAddedYear }}" selected>{{ $taskAddedYear }}</option>
+							@else
+								<option value="{{ $taskAddedYear }}">{{ $taskAddedYear }}</option>
+							@endif
+						@endforeach
+					</select>
+				</div>
+
+				<div id="overallTask" style="display:flex;" class="pt-4 justify-content-center"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xl-12 mb-30">
+			<div class="card-box height-100-p pd-20">
 				<h2 class="h4 mb-20">Task Added</h2>
 				
 				<div style="width: 25%; padding-bottom: 25px;">
@@ -48,27 +69,6 @@
 				</div>
 
 				<div id="taskApprovedAndRejected"></div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Overall Task</h2>
-
-				<div style="width: 25%; padding-bottom: 25px;">
-					<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overTaskYearChange();" required>
-						@foreach ($taskAddedYears as $taskAddedYear)
-							@if ($loop->iteration == 1)
-								<option value="{{ $taskAddedYear }}" selected>{{ $taskAddedYear }}</option>
-							@else
-								<option value="{{ $taskAddedYear }}">{{ $taskAddedYear }}</option>
-							@endif
-						@endforeach
-					</select>
-				</div>
-
-				<div id="overallTask" style="display:flex;" class="pt-4 justify-content-center"></div>
 			</div>
 		</div>
 	</div>
