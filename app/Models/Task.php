@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
@@ -37,22 +38,23 @@ class Task extends Model
     public function getStatus(){
         $taskStatus = null;
 
-        if($this->dueDate >= date("Y-m-d")){
-            if($this->status == 0){
-                $taskStatus = "Pending";
-            }
-            elseif($this->status == 1){
-                $taskStatus = "Waiting Approval";
-            }
-            elseif($this->status == 2){
-                $taskStatus = "Rejected";
-            }
-            elseif($this->status == 3){
-                $taskStatus = "Completed";
-            }
-        }
-        else{
+        if($this->dueDate < date("Y-m-d") && $this->status == 0){
             $taskStatus = "Overdue";
+        }
+        elseif($this->status == 1 && $this->manager == Auth::id()){
+            $taskStatus = "To be approve";
+        }
+        elseif($this->status == 0){
+            $taskStatus = "Pending";
+        }
+        elseif($this->status == 1){
+            $taskStatus = "Waiting Approval";
+        }
+        elseif($this->status == 2){
+            $taskStatus = "Rejected";
+        }
+        elseif($this->status == 3){
+            $taskStatus = "Completed";
         }
 
         return $taskStatus;

@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\LeaveRequest;
 use App\Models\Memo;
 use App\Models\Task;
+use App\Models\TrainingProgram;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -85,11 +86,11 @@ class DashboardController extends Controller
         $memos = Memo::where('memoStatus', 0)->orderBy('memoDate', 'ASC')->take(5)->get();
 
         if (Auth::user()->isAdmin()) {     
-            $tasks = Task::with('getPersonInCharge')->where('status', 0)->orderBy('dueDate', 'ASC')->take(5)->get();
+            $tasks = Task::with('getPersonInCharge')->where('status', 1)->orderBy('dueDate', 'ASC')->take(5)->get();
             $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->orderBy('leaveStartDate', 'ASC')->take(5)->get();
             $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->orderBy('claimDate', 'ASC')->take(5)->get();
         } else {
-            $tasks = Task::with('getPersonInCharge')->where('status', 0)->where('manager', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
+            $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('manager', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
             $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('manager', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
             $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimManager', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
         }
@@ -101,8 +102,21 @@ class DashboardController extends Controller
 
     public function dashboard2()
     {
+        if(Auth::user()->isManager()){
+            $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('manager', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
+            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('manager', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
+            $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimManager', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
+        }
+        else{
+            $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('personInCharge', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
+            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('employeeID', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
+            $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimEmployee', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
+        }
+
+        $trainingPrograms = TrainingProgram::with('getAttendees')->where('department', Auth::user()->department)->orWhereNull('department')->where('status', 0)->orderBy('dateAndTime', 'ASC')->take(5)->get();
+        
         $quotes = Arr::random($this->quotes);
 
-        return view('dashboard.dashboard2', ['quotes' => $quotes]);
+        return view('dashboard.dashboard2', ['quotes' => $quotes, 'tasks' => $tasks, 'leaves' => $leaves, 'claims' => $claims, 'trainingPrograms' => $trainingPrograms]);
     }
 }
