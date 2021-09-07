@@ -16,11 +16,11 @@
 
 				<div style="width: 25%; padding-bottom: 25px;">
 					<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overTaskYearChange();" required>
-						@foreach ($taskAddedYears as $taskAddedYear)
+						@foreach ($overallTaskYears as $overallTaskYear)
 							@if ($loop->iteration == 1)
-								<option value="{{ $taskAddedYear }}" selected>{{ $taskAddedYear }}</option>
+								<option value="{{ $overallTaskYear }}" selected>{{ $overallTaskYear }}</option>
 							@else
-								<option value="{{ $taskAddedYear }}">{{ $taskAddedYear }}</option>
+								<option value="{{ $overallTaskYear }}">{{ $overallTaskYear }}</option>
 							@endif
 						@endforeach
 					</select>
