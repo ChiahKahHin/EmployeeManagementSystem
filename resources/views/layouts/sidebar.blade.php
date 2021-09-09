@@ -74,6 +74,21 @@
 					</li>
 					
 				@endif
+				
+				@php
+					$count = DB::select('select count(reportingManager) as count from users where reportingManager = '.Auth::id().'');
+				@endphp
+				@if ($count[0]->count > 0)
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="micon dw dw-settings"></span><span class="mtext">Approval Delegation</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="{{ route('addDelegation') }}">Add Delegation</a></li>
+							<li><a href="{{ route('manageDelegation') }}">Manage Delegation</a></li>
+						</ul>
+					</li>
+				@endif
 
 				@if (Auth::user()->isAccess('hrmanager', 'manager'))
 					<li class="dropdown">

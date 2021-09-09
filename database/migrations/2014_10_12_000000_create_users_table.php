@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->integer('department');
             $table->integer('role');
             $table->integer('reportingManager')->nullable();
+            $table->integer('delegateManager')->nullable();
             $table->string('ic')->nullable();
             $table->string('nationality')->nullable();
             $table->string('citizenship')->nullable();

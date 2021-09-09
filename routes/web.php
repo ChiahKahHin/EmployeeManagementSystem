@@ -8,6 +8,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ClaimCategoryController;
 use App\Http\Controllers\ClaimRequestController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DelegationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
@@ -181,3 +182,11 @@ Route::get('/rejectLeaveRequest/{id}/{reason}', [LeaveRequestController::class, 
 Route::get('/deleteLeave/{id}', [LeaveRequestController::class, 'deleteLeave'])->name('deleteLeave');
 Route::post('/changeLeaveManager/{id}', [LeaveRequestController::class, 'changeLeaveManager'])->name('changeLeaveManager');
 Route::get('/cancelLeaveRequest/{id}', [LeaveRequestController::class, 'cancelLeaveRequest'])->name('cancelLeaveRequest');
+
+//Approval Delegation
+Route::get('/addDelegation', [DelegationController::class, 'addDelegationForm'])->name('addDelegation');
+Route::post('/addDelegation', [DelegationController::class, 'addDelegation']);
+Route::get('/manageDelegation', [DelegationController::class, 'manageDelegation'])->name('manageDelegation');
+Route::get('/cancelDelegation/{id}', [DelegationController::class, 'cancelDelegation'])->name('cancelDelegation');
+Route::get('/viewDelegation/{id}', [DelegationController::class, 'viewDelegation'])->name('viewDelegation');
+Route::get('/deleteDelegation/{id}', [DelegationController::class, 'deleteDelegation'])->name('deleteDelegation');
