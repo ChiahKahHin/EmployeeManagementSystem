@@ -76,12 +76,14 @@ class DelegationController extends Controller
         //Check whether the start and end date got conflict with another approval delegation
         $checkDelegationDateConflict = Delegation::where('managerID', Auth::id())
                                                    ->whereIn('status', [0,1])
-                                                   ->where('startDate', '<=', $request->startDate)
-                                                   ->where('endDate', '>=', $request->startDate)
-                                                   ->orWhere('startDate', '<=', $request->endDate)
-                                                   ->where('endDate', '>=', $request->endDate)
-                                                   ->orWhere('startDate', '>=', $request->startDate)
-                                                   ->where('endDate', '<=', $request->endDate)
+                                                   ->where(function ($query) use ($request){
+                                                       $query->where('startDate', '<=', $request->startDate)
+                                                             ->where('endDate', '>=', $request->startDate)
+                                                             ->orWhere('startDate', '<=', $request->endDate)
+                                                             ->where('endDate', '>=', $request->endDate)
+                                                             ->orWhere('startDate', '>=', $request->startDate)
+                                                             ->where('endDate', '<=', $request->endDate);
+                                                   })
                                                    ->count();
 
         if($checkDelegationDateConflict > 0){
@@ -92,12 +94,14 @@ class DelegationController extends Controller
         //Check whether the start and end date got conflict with delegate manager leave request
         $checkDelegateManagerLeaveConflict = LeaveRequest::where('employeeID', $request->delegateManagerID)
                                                    ->whereIn('leaveStatus', [0,2])
-                                                   ->where('leaveStartDate', '<=', $request->startDate)
-                                                   ->where('leaveEndDate', '>=', $request->startDate)
-                                                   ->orWhere('leaveStartDate', '<=', $request->endDate)
-                                                   ->where('leaveEndDate', '>=', $request->endDate)
-                                                   ->orWhere('leaveStartDate', '>=', $request->startDate)
-                                                   ->where('leaveEndDate', '<=', $request->endDate)
+                                                   ->where(function ($query) use ($request){
+                                                        $query->where('leaveStartDate', '<=', $request->startDate)
+                                                              ->where('leaveEndDate', '>=', $request->startDate)
+                                                              ->orWhere('leaveStartDate', '<=', $request->endDate)
+                                                              ->where('leaveEndDate', '>=', $request->endDate)
+                                                              ->orWhere('leaveStartDate', '>=', $request->startDate)
+                                                              ->where('leaveEndDate', '<=', $request->endDate);
+                                                   })
                                                    ->count();
 
         if($checkDelegateManagerLeaveConflict > 0){
