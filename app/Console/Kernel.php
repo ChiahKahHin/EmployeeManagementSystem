@@ -26,10 +26,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('task:dueDateChecking')->dailyAt('08:00');
+        $schedule->command('delegation:checking')->dailyAt('08:00');
         $schedule->command('memo:scheduling')->everyMinute();
         $schedule->command('trainingProgram:checking')->everyMinute();
-        //$schedule->command('leave:carriedForwardLeave')->yearlyOn(12, 31, '23:59');
-        $schedule->command('leave:carriedForwardLeave')->yearlyOn(8, 30, '21:18');
+        $schedule->command('leave:carriedForwardLeave')->yearlyOn(12, 31, '23:59');
     }
 
     /**
