@@ -81,7 +81,7 @@
 				@if ($count[0]->count > 0)
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-settings"></span><span class="mtext">Approval Delegation</span>
+							<span class="micon dw dw-user3"></span><span class="mtext">Approval Delegation</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('addDelegation') }}">Add Delegation</a></li>

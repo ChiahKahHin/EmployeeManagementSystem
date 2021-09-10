@@ -96,7 +96,6 @@ Route::get('/viewTask/{id}', [TaskController::class, 'viewTask'])->name('viewTas
 Route::get('/approveTask/{id}', [TaskController::class, 'approveTask'])->name('approveTask');
 Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->name('rejectTask');
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
-Route::post('/changeTaskManager/{id}', [TaskController::class, 'changeTaskManager'])->name('changeTaskManager');
 
 //Task Analytics
 Route::get('/taskAnalyticsPage', [TaskController::class, 'taskAnalyticsPage'])->name('taskAnalyticsPage');

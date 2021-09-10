@@ -19,7 +19,6 @@
 					<tr>
 						<th>#</th>
 						<th>Title</th>
-						<th>Description</th>
 						@if (Auth::user()->isEmployee())
 							<th>Manager</th>
 						@else
@@ -36,7 +35,6 @@
 					<tr>
 						<td>{{ $loop->iteration }}</td>
 						<td class="table-plus">{{ $task->title }}</td>
-						<td>{{ $task->description }}</td>
 						@if (Auth::user()->isEmployee())
 							<td>{{ $task->getManager->getFullName()}}</td>
 							
@@ -45,7 +43,7 @@
 						@endif
 						<td>{{ $task->priority }}</td>
 						<td>{{ date("d F Y", strtotime($task->dueDate)) }} </td>
-						<td>{{ $task->getStatus() }}</td>
+						<td>{!! $task->getStatus() !!}</td>
 						<td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

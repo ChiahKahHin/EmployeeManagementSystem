@@ -1,59 +1,49 @@
 @component('mail::message')
-@if($changeManager)
-Dear {{ $task->getManager->getFullName() }}/{{ $task->getPersonInCharge->getFullName() }},
-
-@else
 @if ($task->status == 1)
+@if($task->delegateManagerID == null)
 Dear {{ $task->getManager->getFullName() }},
-
 @else
+Dear {{ $task->getDelegateManager->getFullName() }},
+@endif
+@else
+
 Dear {{ $task->getPersonInCharge->getFullName() }},
 
 @endif
-@endif
 
-@if ($changeManager)
-This task approval manager is delegate to a new manager:<br> {{ $task->getManager->getFullName() }} <br>
-
-@else
 @if ($task->status == 2)
 
-Your task is rejected by the manager. <br>
+Your task is rejected. <br>
 Reason of task rejected: {{ $reason }} <br>
 
 @elseif ($task->status == 3)
 
-Your task is approved by the manager. <br>
+Your task is approved. <br>
 
 @elseif ($task->status == 1)
 
 A task is waiting for approval. <br>
+
 @endif
-	
-@endif
 
-@if ($changeManager)
-
-<u><b>Task Details</b></u>
-
-@else
 	
 @if ($task->status == 0)
-
 <u><b>New Task Details</b></u>
 	
 @else
-
 <u><b>Task Details</b></u>
 
 @endif
-@endif
 
 @component('mail::table')
-| Title | Description | Priority | Due Date | Status |
-|:-----:|:-----------:|:--------:|:--------:|:------:|
-| {{ $task->title }} | {{ $task->description }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} |
+| Title | Priority | Due Date | Status |
+|:-----:|:--------:|:--------:|:------:|
+| {{ $task->title }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} {!! ($task->delegateManagerID && $task->status == 1) ? "<i>(Delegated)</i>" : null !!} |
 @endcomponent
+
+<u>Task Description</u>
+
+{{ $task->description }}
 
 @component('mail::button', ['url' => url(Redirect::intended("/viewTask/$task->id")->getTargetUrl())])
 View Task

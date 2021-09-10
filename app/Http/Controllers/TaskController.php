@@ -6,7 +6,6 @@ use App\Mail\TaskNotificationMail;
 use App\Models\RejectedTask;
 use App\Models\Task;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -21,9 +20,9 @@ class TaskController extends Controller
 
     public function addTaskForm()
     {
-        $personInCharges = User::all()->except(Auth::id())
-                            ->where('department', Auth::user()->department)
-                            ->where('role', 3);
+        $personInCharges = User::where('reportingManager', Auth::id())
+                                ->where('role', 3)
+                                ->get();
 
         return view('addTask', ['personInCharges' => $personInCharges]);
     }
@@ -44,8 +43,7 @@ class TaskController extends Controller
                 $task->title = $request->title;
                 $task->description = $request->description;
                 $task->personInCharge = $request->personInCharge[$i];
-                $task->department = Auth::user()->department;
-                $task->manager = $task->getReportingManager($request->personInCharge[$i]);
+                $task->managerID = Auth::id();
                 $task->priority = $request->priority;
                 $task->dueDate = $request->dueDate;
                 $task->status = 0;
@@ -61,8 +59,7 @@ class TaskController extends Controller
             $task->title = $request->title;
             $task->description = $request->description;
             $task->personInCharge = $request->personInCharge;
-            $task->department = Auth::user()->department;
-            $task->manager = $task->getReportingManager($request->personInCharge);
+            $task->managerID = Auth::id();
             $task->priority = $request->priority;
             $task->dueDate = $request->dueDate;
             $task->status = 0;
@@ -86,7 +83,12 @@ class TaskController extends Controller
             $tasks = Task::with('getManager')->orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('personInCharge', Auth::user()->id)->get();
         }
         else{
-            $tasks = Task::with('getPersonInCharge')->orderBy('status', 'ASC')->orderBy('dueDate', 'ASC')->where('manager', Auth::user()->id)->get();
+            $tasks = Task::with('getPersonInCharge')
+                          ->orderBy('status', 'ASC')
+                          ->orderBy('dueDate', 'ASC')
+                          ->where('managerID', Auth::user()->id)
+                          ->orWhere('delegateManagerID', Auth::user()->id)
+                          ->get();
         }
 
         return view('manageTask', ['tasks' => $tasks]);
@@ -95,9 +97,9 @@ class TaskController extends Controller
     public function editTaskForm($id)
     {
         $task = Task::findOrFail($id);
-        $personInCharges = User::all()->except(Auth::id())
-                            ->where('department', Auth::user()->department)
-                            ->where('role', 3);
+        $personInCharges = User::where('reportingManager', Auth::id())
+                                ->where('role', 3)
+                                ->get();
         
         return view('editTask', ['task' => $task, 'personInCharges' => $personInCharges]);
     }
@@ -134,12 +136,12 @@ class TaskController extends Controller
     public function viewTask($id)
     {
         $task = Task::findOrFail($id);
-        if ((Auth::user()->isEmployee() && $task->personInCharge != Auth::id()) || (Auth::user()->isManager() && $task->manager != Auth::id()) || (Auth::user()->isHrManager() && $task->manager != Auth::id())) {
-            return redirect()->route('manageTask');
-        }
-        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
 
-        return view('viewTask', ['task' => $task, 'managers' => $managers]);
+        if(Auth::user()->isAdmin() || Auth::id() == $task->personInCharge || Auth::id() == $task->managerID || Auth::id() == $task->delegateManagerID){
+            return view('viewTask', ['task' => $task]);
+        }
+        
+        return redirect()->route('manageTask');
     }
 
     public function approveTask($id)
@@ -178,27 +180,18 @@ class TaskController extends Controller
         $task = Task::find($id);
         $task->status = 1;
         $task->save();
-
-        $email = $task->getEmail($task->manager);
+        if($task->getPersonInCharge->delegateManager != null){
+            $task->delegateManagerID = $task->getPersonInCharge->delegateManager;
+            $task->save();
+            $email = $task->getEmail($task->delegateManagerID);
+        }
+        else{
+            $email = $task->getEmail($task->managerID);
+        }
 
         Mail::to($email)->send(new TaskNotificationMail($task));
 
         return redirect()->route('viewTask', ['id' => $id]);
-    }
-
-    public function changeTaskManager(Request $request, $id)
-    {
-        $task = Task::find($id);
-        $task->manager = $request->manager;
-        $task->save();
-
-        $emails = array();
-        array_push($emails, $task->getEmail($task->manager));
-        array_push($emails, $task->getEmail($task->personInCharge));
-
-        Mail::to($emails)->send(new TaskNotificationMail($task, null, true));
-
-        return redirect()->route('manageTask')->with('message', 'Task approval manager delegate successfully!');
     }
 
     public function taskAnalyticsPage()

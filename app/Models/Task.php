@@ -17,16 +17,15 @@ class Task extends Model
     }
 
     public function getManager(){
-        return $this->belongsTo(User::class, "manager");
+        return $this->belongsTo(User::class, "managerID");
+    }
+
+    public function getDelegateManager(){
+        return $this->belongsTo(User::class, "delegateManagerID");
     }
 
     public function getRejectedReasons(){
         return $this->hasMany(RejectedTask::class, "taskID");
-    }
-
-    public function getReportingManager($id){
-        $user = User::find($id);
-        return $user->reportingManager;
     }
 
     public function getEmail($id){
@@ -37,24 +36,25 @@ class Task extends Model
 
     public function getStatus(){
         $taskStatus = null;
+        $delegated = (Auth::id() == $this->delegateManagerID && $this->delegateManagerID != null) ? " <i>(Delegated)</i>" : null ;
 
         if($this->dueDate < date("Y-m-d") && $this->status == 0){
-            $taskStatus = "Overdue";
+            $taskStatus = "Overdue".$delegated;
         }
-        elseif($this->status == 1 && $this->manager == Auth::id()){
-            $taskStatus = "To be approve";
+        elseif($this->status == 1 && $this->managerID == Auth::id() || $this->status == 1 && $this->delegateManagerID == Auth::id()){
+            $taskStatus = "To be approve".$delegated;
         }
         elseif($this->status == 0){
-            $taskStatus = "Pending";
+            $taskStatus = "Pending".$delegated;
         }
         elseif($this->status == 1){
-            $taskStatus = "Waiting Approval";
+            $taskStatus = "Waiting Approval".$delegated;
         }
         elseif($this->status == 2){
-            $taskStatus = "Rejected";
+            $taskStatus = "Rejected".$delegated;
         }
         elseif($this->status == 3){
-            $taskStatus = "Completed";
+            $taskStatus = "Completed".$delegated;
         }
 
         return $taskStatus;

@@ -184,6 +184,10 @@
 					<td class="font-weight-bold">Manager</td>
 					<td>{{ $task->getManager->getFullName() }}</td>
 				</tr>
+				@if ($task->delegateManagerID != null)
+					<td class="font-weight-bold">Delegate Manager</td>
+					<td>{{ $task->getDelegateManager->getFullName() }}</td>
+				@endif
 				<tr>
 					<td class="font-weight-bold">Person In Charge</td>
 					<td>{{ $task->getPersonInCharge->getFullName() }}</td>
@@ -198,7 +202,7 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Status</td>
-					<td>{{ $task->getStatus() }}</td>
+					<td>{!! $task->getStatus() !!}</td>
 				</tr>
 				@if (count($task->getRejectedReasons) > 0)
 					<tr>
@@ -218,24 +222,6 @@
 						</td>
 					</tr>
 				@endif
-				{{-- @if (count($rejectedReasons) > 0)
-					<tr>
-						<td class="font-weight-bold">Number of times task being rejected</td>
-						<td>{{ count($rejectedReasons) }}</td>
-					</tr>
-					<tr>
-						<td class="font-weight-bold">Task Rejected Reasons (Date & Time)</td>
-						<td>
-							<ol>
-								@foreach ($rejectedReasons as $rejectedReason)
-									<li>
-										{{ $loop->iteration }}. {{ $rejectedReason->rejectedReason }} ({{ date("d F Y, g:ia", strtotime($rejectedReason->created_at)) }})
-									</li>
-								@endforeach
-							</ol>
-						</td>
-					</tr>
-				@endif --}}
 				<tr>
 					<td class="font-weight-bold">Task Created Date & Time</td>
 					<td>{{ date("d F Y, g:ia", strtotime($task->created_at)) }}</td>
@@ -292,55 +278,10 @@
 			</div>
 		</div>
 	</div>
-	@if (!Auth::user()->isEmployee() && ($task->status == 0 || $task->status == 1))
-		<div class="pd-20 card-box mb-30">
-			<div class="clearfix">
-				<div class="pull-left mb-10">
-					<h4 class="text-blue h4">Task Approval Manager Delegation?</h4>
-				</div>
-			</div>
-			
-			<form action="{{ route('changeTaskManager', ['id' => $task->id]) }}" method="POST">
-				@csrf
-				
-	
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<label>Other Manager</label>
-							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
-								@foreach ($managers as $manager)
-									<option value="{{ $manager->id }}" {{ ($task->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }} ({{ $manager->getDepartment->departmentName }})</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-	
-				<div class="row">
-					<div class="col-md-6">
-						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approval Manager</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	@endif
 @endsection
 
 @section("script")
 	<script>
-		function checkManager() 
-		{  
-			var manager = document.getElementById('manager');
-			var managerID = manager.options[manager.selectedIndex].value;
-			var originalManagerID = {{ $task->manager }};
-			if(managerID == originalManagerID){
-				$("#changeApprovingManagerBtn").attr('disabled', true);
-			}
-			else{
-				$("#changeApprovingManagerBtn").attr('disabled', false);
-			}
-		}
 		$('#approveTask').on('click', function(){
 			swal({
 				title: "Approve this task?",
