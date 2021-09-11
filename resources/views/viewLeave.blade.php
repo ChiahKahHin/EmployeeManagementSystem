@@ -44,7 +44,7 @@
 				</div>
 			</div>
 		</div>
-	@else
+	@elseif ($leaveRequest->leaveStatus <= 3)
 		<div class="card">
 			<div class="row d-flex justify-content-between top-progressbar2">
 				<div class="d-flex pb-4">
@@ -69,6 +69,41 @@
 				<div class="row d-flex icon-content">
 					<div class="d-flex flex-column">
 						<p class="font-weight-bold">Cancelled<br></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	@else
+		<div class="card">
+			<div class="row d-flex justify-content-between top-progressbar3">
+				<div class="d-flex pb-4">
+					<h5>Leave Status</h5>
+				</div>
+			</div>
+			<div class="row d-flex justify-content-center">
+				<div class="col-12">
+					<ul id="progressbar3" class="text-center">
+						<li class="@if($leaveRequest->leaveStatus >= 0) active @endif step0" @if($leaveRequest->leaveStatus >= 0) style="cursor: pointer;" data-toggle="modal" data-target="#waiting-approval-modal" @endif></li>
+						<li class="@if($leaveRequest->leaveStatus >= 1) active @endif step0" @if($leaveRequest->leaveStatus >= 1) style="cursor: pointer;" data-toggle="modal" data-target="#approved-modal" @endif></li>
+						<li class="@if($leaveRequest->leaveStatus >= 4) active @endif step0" @if($leaveRequest->leaveStatus >= 4) style="cursor: pointer;" data-toggle="modal" data-target="#cancelled-after-approved-modal" @endif></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row justify-content-between top-progressbar3">
+				<div class="row d-flex icon-content">
+					<div class="d-flex flex-column">
+						<p class="font-weight-bold">Waiting<br>Approval</p>
+					</div>
+				</div>
+				<div class="row d-flex icon-content">
+					<div class="d-flex flex-column">
+						<p class="font-weight-bold">Approved</p>
+					</div>
+				</div>
+				<div class="row d-flex icon-content">
+					<div class="d-flex flex-column">
+						<p class="font-weight-bold">Cancelled After <br> Approved</p>
 					</div>
 				</div>
 			</div>
@@ -126,6 +161,27 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="approved-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myLargeModalLabel">
+						Leave Request Approved
+					</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<p class="text-justify">
+						This leave request is approved by the manager.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="modal fade" id="completed-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -135,7 +191,7 @@
 				</div>
 				<div class="modal-body">
 					<p class="text-justify">
-						This leave request is approved & completed.
+						This leave request is completed.
 					</p>
 				</div>
 				<div class="modal-footer">
@@ -163,7 +219,28 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="cancelled-after-approved-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myLargeModalLabel">Leave Request Cancelled</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<p class="text-justify">
+						This leave request is cancelled after approved by the manager.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
+
+	{{-- Leave Details Table --}}
 	<div class="pd-20 card-box mb-30">
 		<div class="clearfix mb-20">
 			<div class="pull-left">
@@ -187,9 +264,15 @@
 					<td>{{ $leaveRequest->getEmployee->getFullName() }}</td>
 				</tr>
 				<tr>
-					<td class="font-weight-bold">Approval Manager </td>
+					<td class="font-weight-bold">Manager </td>
 					<td>{{ $leaveRequest->getManager->getFullName() }}</td>
 				</tr>
+				@if ($leaveRequest->delegateManagerID)
+					<tr>
+						<td class="font-weight-bold">Delegate Manager </td>
+						<td>{{ $leaveRequest->getDelegateManager->getFullName() }}</td>
+					</tr>
+				@endif
 				<tr>
 					<td class="font-weight-bold">Leave Start Date</td>
 					<td>{{ date("d F Y", strtotime($leaveRequest->leaveStartDate)) }}</td>
@@ -222,7 +305,7 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Leave Status</td>
-					<td>{{ $leaveRequest->getStatus() }}</td>
+					<td>{!! $leaveRequest->getStatus() !!}</td>
 				</tr>
 				@if ($leaveRequest->leaveRejectedReason != null)
 					<td class="font-weight-bold">Leave Rejected Reason</td>
@@ -238,7 +321,7 @@
 				</tr>
 			</tbody>
 		</table>
-		@if (Auth::user()->isAdmin() || Auth::user()->isHrManager() || $leaveRequest->manager == Auth::user()->id)
+		@if (!Auth::user()->isEmployee())
 			@if ($leaveRequest->leaveStatus == 0)
 				<div class="row">
 					<div class="col-md-6">
@@ -282,55 +365,10 @@
 			</div>
 		</div>
 	</div>
-
-	@if (!Auth::user()->isEmployee() && ($leaveRequest->leaveStatus == 0) && Auth::user()->id == $leaveRequest->manager)
-		<div class="pd-20 card-box mb-30">
-			<div class="clearfix">
-				<div class="pull-left mb-10">
-					<h4 class="text-blue h4">Leave Approval Manager Delegation?</h4>
-				</div>
-			</div>
-			
-			<form action="{{ route('changeLeaveManager', ['id' => $leaveRequest->id]) }}" method="POST">
-				@csrf
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<label>Other Manager</label>
-							<select class="form-control selectpicker @error('manager') form-control-danger @enderror" id="manager" name="manager" onchange="checkManager();" required>
-								@foreach ($managers as $manager)
-									<option value="{{ $manager->id }}" {{ ($leaveRequest->manager == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }} ({{ $manager->getDepartment->departmentName }})</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-	
-				<div class="row">
-					<div class="col-md-6">
-						<button type="submit" id="changeApprovingManagerBtn" class="btn btn-primary btn-block" disabled>Change Approval Manager</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	@endif
 @endsection
 
 @section("script")
 	<script>
-		function checkManager() 
-		{  
-			var manager = document.getElementById('manager');
-			var managerID = manager.options[manager.selectedIndex].value;
-			var originalManagerID = {{ $leaveRequest->manager }};
-			if(managerID == originalManagerID){
-				$("#changeApprovingManagerBtn").attr('disabled', true);
-			}
-			else{
-				$("#changeApprovingManagerBtn").attr('disabled', false);
-			}
-		}
-
 		$('#cancelLeaveRequest').on('click', function(){
 			swal({
 				title: "Cancel this leave request?",
@@ -429,5 +467,5 @@
 				reasonErrorMessage.innerHTML = "This field is required";
 			}
 		});
-		</script>
+	</script>
 @endsection

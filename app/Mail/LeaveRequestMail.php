@@ -14,18 +14,16 @@ class LeaveRequestMail extends Mailable implements ShouldQueue
 
     private LeaveRequest $leaveRequest;
     private $reason;
-    private $changeManager;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(LeaveRequest $leaveRequest, $reason = null, $changeManager = false)
+    public function __construct(LeaveRequest $leaveRequest, $reason = null)
     {
         $this->leaveRequest = $leaveRequest;
         $this->reason = $reason;
-        $this->changeManager = $changeManager;
     }
 
     /**
@@ -36,27 +34,24 @@ class LeaveRequestMail extends Mailable implements ShouldQueue
     public function build()
     {
         $subject = null;
-        if($this->changeManager){
-            $subject = "Leave Approval Manager Delegate";
+
+        switch ($this->leaveRequest->leaveStatus) {
+            case 0:
+                $subject = "Leave Request Waiting Approval";
+                break;
+            case 1:
+                $subject = "Leave Request Rejected";
+                break;
+            case 2:
+                $subject = "Leave Request Approved";
+                break;
+            case 3:
+                $subject = "Leave Request Cancelled";
+                break;
         }
-        else{
-            switch ($this->leaveRequest->leaveStatus) {
-                case 0:
-                    $subject = "Leave Request Waiting Approval";
-                    break;
-                case 1:
-                    $subject = "Leave Request Rejected";
-                    break;
-                case 2:
-                    $subject = "Leave Request Approved";
-                    break;
-                case 3:
-                    $subject = "Leave Request Cancelled";
-                    break;
-            }
-        }
+        
         return $this->subject($subject)
-                    ->markdown('email.leaveRequest', ['leaveRequest' => $this->leaveRequest, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
+                    ->markdown('email.leaveRequest', ['leaveRequest' => $this->leaveRequest, 'reason' => $this->reason]);
     }
 
     public function failed($e)

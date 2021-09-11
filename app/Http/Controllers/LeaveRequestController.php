@@ -29,7 +29,7 @@ class LeaveRequestController extends Controller
             $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->get();
         }
         elseif(Auth::user()->isManager()){
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('employeeID', Auth::id())->orWhere('manager', Auth::id())->where('leaveStatus', 2)->get();
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('employeeID', Auth::id())->orWhere('managerID', Auth::id())->where('leaveStatus', 2)->get();
         }
         else{
             $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->where('employeeID', Auth::id())->get();
@@ -134,7 +134,10 @@ class LeaveRequestController extends Controller
         $leaveRequest = new LeaveRequest();
         $leaveRequest->leaveType = $request->leaveType;
         $leaveRequest->employeeID = Auth::user()->id;
-        $leaveRequest->manager = Auth::user()->reportingManager;
+        $leaveRequest->managerID = Auth::user()->reportingManager;
+        if(Auth::user()->delegateManager != null){
+            $leaveRequest->delegateManagerID = Auth::user()->delegateManager;
+        }
         $leaveRequest->leaveStartDate = $request->leaveStartDate;
         $leaveRequest->leaveEndDate = $request->leaveEndDate;
         if($request->leavePeriod != "Full Day"){
@@ -155,7 +158,12 @@ class LeaveRequestController extends Controller
         $leaveRequest->leaveStatus = 0;
         $leaveRequest->save();
 
-        Mail::to($leaveRequest->getManager->email)->send(new LeaveRequestMail($leaveRequest));
+        if($leaveRequest->delegateManagerID == null){
+            Mail::to($leaveRequest->getManager->email)->send(new LeaveRequestMail($leaveRequest));
+        }
+        else{
+            Mail::to($leaveRequest->getDelegateManager->email)->send(new LeaveRequestMail($leaveRequest));
+        }
 
         return redirect()->route('applyLeave')->with('message', 'Leave applied successfully!')
                                               ->with('message1', $leaveDurations);
@@ -173,8 +181,9 @@ class LeaveRequestController extends Controller
             $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
                                            ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
-                                           ->where('employeeID', Auth::user()->id)
-                                           ->orWhere('manager', Auth::user()->id)
+                                           ->where('employeeID', Auth::id())
+                                           ->orWhere('managerID', Auth::id())
+                                           ->orWhere('delegateManagerID', Auth::id())
                                            ->get();
         }
         else{
@@ -191,13 +200,12 @@ class LeaveRequestController extends Controller
     {
         $leaveRequest = LeaveRequest::find($id);
 
-        if((Auth::user()->isEmployee() && $leaveRequest->employeeID != Auth::id()) || (Auth::user()->isManager() && $leaveRequest->manager != Auth::id())){
+        if(Auth::user()->isAdmin() || Auth::id() == $leaveRequest->employeeID || Auth::id() == $leaveRequest->managerID || Auth::id() == $leaveRequest->delegateManagerID){
+            return view('viewLeave', ['leaveRequest' => $leaveRequest]);
+        }
+        else{
             return redirect()->route('manageLeave');
         }
-
-        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
-
-        return view('viewLeave', ['leaveRequest' => $leaveRequest, 'managers' => $managers]);
     }
 
     public function approveLeaveRequest($id)
@@ -230,29 +238,25 @@ class LeaveRequestController extends Controller
 
         return redirect()->route('manageLeave');
     }
-    
-    public function changeLeaveManager(Request $request, $id)
-    {
-        $leaveRequest = LeaveRequest::find($id);
-        $leaveRequest->manager = $request->manager;
-        $leaveRequest->save();
-
-        $emails = array();
-        array_push($emails, $leaveRequest->getManager->email);
-        array_push($emails, $leaveRequest->getEmployee->email);
-
-        Mail::to($emails)->send(new LeaveRequestMail($leaveRequest, null, true));
-
-        return redirect()->route('manageLeave')->with('message', 'Leave approval manager delegate successfully!');
-    }
 
     public function cancelLeaveRequest($id)
     {
         $leaveRequest = LeaveRequest::find($id);
-        $leaveRequest->leaveStatus = 3;
-        $leaveRequest->save();
+        if($leaveRequest->leaveStatus == 0){
+            $leaveRequest->leaveStatus = 3;
+            $leaveRequest->save();
+        }
+        else{
+            $leaveRequest->leaveStatus = 4;
+            $leaveRequest->save();
+        }
 
-        Mail::to($leaveRequest->getManager->email)->send(new LeaveRequestMail($leaveRequest));
+        if($leaveRequest->delegateManagerID == null){
+            Mail::to($leaveRequest->getManager->email)->send(new LeaveRequestMail($leaveRequest));
+        }
+        else{
+            Mail::to($leaveRequest->getDelegateManager->email)->send(new LeaveRequestMail($leaveRequest));
+        }
         
         return redirect()->route('viewLeave', ['id' => $id]);
     }

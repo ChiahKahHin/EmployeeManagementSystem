@@ -17,7 +17,8 @@ class CreateLeaveRequestsTable extends Migration
             $table->id();
             $table->integer('leaveType');
             $table->integer('employeeID');
-            $table->integer('manager');
+            $table->integer('managerID');
+            $table->integer('delegateManagerID')->nullable();
             $table->date('leaveStartDate');
             $table->date('leaveEndDate');
             $table->double('leaveDuration');

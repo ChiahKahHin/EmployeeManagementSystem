@@ -174,6 +174,7 @@
 			var leaveTypeInput = document.getElementById('leaveType');
 
 			if(leaveTypeInput.value != ""){
+				var currentYear = new Date();
 				var leaveID = leaveTypeInput.options[leaveTypeInput.selectedIndex].getAttribute('data-leaveID');
 				var leaveType = leaveTypeInput.options[leaveTypeInput.selectedIndex].getAttribute('data-leaveType');
 				var leaveLimit = leaveTypeInput.options[leaveTypeInput.selectedIndex].getAttribute('data-leaveLimit');
@@ -183,7 +184,6 @@
 					var approvedLeaveType = {{ $approvedLeave->leaveType }};
 					var approvedLeaveDuration = {{ $approvedLeave->leaveDuration }};
 					var approvedLeaveDate = new Date(Date.parse("{{ date("d F Y", strtotime($approvedLeave->leaveStartDate)) }}"));
-					var currentYear = new Date();
 
 					if((approvedLeaveType == leaveID) && (approvedLeaveDate.getFullYear() == currentYear.getFullYear())){
 						totalApprovedLeave += approvedLeaveDuration;
@@ -191,6 +191,16 @@
 				@endforeach
 
 				var remainingLeave = leaveLimit - totalApprovedLeave;
+				if(leaveType == "Annual Leave"){
+					var accountCreatedYear = new Date("{{ Auth::user()->created_at }}");
+
+					if(accountCreatedYear.getFullYear() == currentYear.getFullYear()){
+						var remainingMonthForThisYear = 12 - accountCreatedYear.getMonth();
+						
+						leaveLimit = (leaveLimit/12) * remainingMonthForThisYear;
+						remainingLeave = parseInt(leaveLimit) - totalApprovedLeave;
+					}
+				}
 				console.log(remainingLeave);
 
 				if(remainingLeave == 0.5){

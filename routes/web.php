@@ -179,7 +179,6 @@ Route::get('/viewLeave/{id}', [LeaveRequestController::class, 'viewLeave'])->nam
 Route::get('/approveLeaveRequest/{id}', [LeaveRequestController::class, 'approveLeaveRequest'])->name('approveLeaveRequest');
 Route::get('/rejectLeaveRequest/{id}/{reason}', [LeaveRequestController::class, 'rejectLeaveRequest'])->name('rejectLeaveRequest');
 Route::get('/deleteLeave/{id}', [LeaveRequestController::class, 'deleteLeave'])->name('deleteLeave');
-Route::post('/changeLeaveManager/{id}', [LeaveRequestController::class, 'changeLeaveManager'])->name('changeLeaveManager');
 Route::get('/cancelLeaveRequest/{id}', [LeaveRequestController::class, 'cancelLeaveRequest'])->name('cancelLeaveRequest');
 
 //Approval Delegation

@@ -78,7 +78,7 @@
 								<div class="col-6">
 									<div class="custom-control custom-checkbox">
 										<input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
-										<label class="custom-control-label" for="customCheck1">Remember</label>
+										<label class="custom-control-label" for="customCheck1">Remember Me</label>
 									</div>
 								</div>
 								<div class="col-6">

@@ -1,12 +1,14 @@
 @component('mail::message')
-@if ($changeManager)
-Dear {{ $leaveRequest->getManager->getFullName() }}/{{ $leaveRequest->getEmployee->getFullName() }},
-
-This leave approval manager is delegate to a new manager:<br> {{ $leaveRequest->getManager->getFullName() }} <br>
-
-@else
+@php
+	if($leaveRequest->delegateManagerID == null){
+		$managerName = $leaveRequest->getManager->getFullName();
+	}
+	else{
+		$managerName = $leaveRequest->getDelegateManager->getFullName();
+	}
+@endphp
 @if ($leaveRequest->leaveStatus == 0)
-Dear {{ $leaveRequest->getManager->getFullName() }},
+Dear {{ $managerName }},
 
 A new leave request from {{ $leaveRequest->getEmployee->getFullName() }} is waiting approval. 
 
@@ -23,10 +25,14 @@ Dear {{ $leaveRequest->getEmployee->getFullName() }},
 Your leave request is approved.
 
 @elseif($leaveRequest->leaveStatus == 3)
-Dear {{ $leaveRequest->getManager->getFullName() }},
+Dear {{ $managerName }},
 
 This leave request is cancelled.
-@endif
+
+@elseif($leaveRequest->leaveStatus == 4)
+Dear {{ $managerName }},
+
+This leave request is cancelled after approval.
 @endif
 
 <u><b>Leave Request Details</b></u>

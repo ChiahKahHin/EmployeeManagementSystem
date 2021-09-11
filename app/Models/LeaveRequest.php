@@ -21,25 +21,34 @@ class LeaveRequest extends Model
     }
 
     public function getManager(){
-        return $this->belongsTo(User::class, "manager");
+        return $this->belongsTo(User::class, "managerID");
+    }
+
+    public function getDelegateManager(){
+        return $this->belongsTo(User::class, "delegateManagerID");
     }
 
     public function getStatus(){
         $status = null;
-        if($this->leaveStatus == 0 && $this->manager == Auth::id()){
-            $status = "To be approve";
+        $delegated = (Auth::id() == $this->delegateManagerID && $this->delegateManagerID != null) ? " <i>(Delegated)</i>" : null ;
+
+        if($this->leaveStatus == 0 && $this->managerID == Auth::id()){
+            $status = "To be approve".$delegated;
         }
         elseif($this->leaveStatus == 0){
-            $status = "Waiting Approval";
+            $status = "Waiting Approval".$delegated;
         }
         elseif($this->leaveStatus == 1){
-            $status = "Rejected";
+            $status = "Rejected".$delegated;
         }
         elseif($this->leaveStatus == 2){
-            $status = "Approved";
+            $status = "Approved".$delegated;
         }
         elseif($this->leaveStatus == 3){
-            $status = "Cancelled";
+            $status = "Cancelled".$delegated;
+        }
+        elseif($this->leaveStatus == 4){
+            $status = "Cancelled after approved".$delegated;
         }
 
         return $status;

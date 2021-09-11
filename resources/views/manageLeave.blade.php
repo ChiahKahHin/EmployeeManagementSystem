@@ -19,7 +19,7 @@
 					<tr>
 						<th>#</th>
 						<th>Leave Type</th>
-						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+						@if (!Auth::user()->isEmployee())
 							<th>Employee</th>
 						@endif
 						<th>Start Date</th>
@@ -33,12 +33,12 @@
 					<tr>
 						<td>{{ $loop->iteration }}</td>
 						<td>{{ $leaveRequest->getLeaveType->leaveType }}</td>
-						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+						@if (!Auth::user()->isEmployee())
 							<td class="table-plus">{{ $leaveRequest->getEmployee->getFullName() }}</td>
 						@endif
 						<td>{{ $leaveRequest->leaveStartDate }}</td>
 						<td>{{ $leaveRequest->leaveEndDate }} </td>
-						<td>{{ $leaveRequest->getStatus() }}</td>
+						<td>{!! $leaveRequest->getStatus() !!}</td>
 						<td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
