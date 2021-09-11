@@ -22,20 +22,28 @@ class ClaimRequest extends Model
         return $this->belongsTo(User::class, "claimManager");
     }
 
+    public function getDelegateManager(){
+        return $this->belongsTo(User::class, "claimDelegateManager");
+    }
+
     public function getStatus(){
         $status = null;
+        $delegated = (Auth::id() == $this->claimDelegateManager && $this->claimDelegateManager != null) ? " <i>(Delegated)</i>" : null ;
 
         if($this->claimStatus == 0 && $this->claimManager == Auth::id()){
-            $status = "To be approve";
+            $status = "To be approve".$delegated;
         }
         elseif($this->claimStatus == 0){
-            $status = "Waiting Approval";
+            $status = "Waiting Approval".$delegated;
         }
         elseif($this->claimStatus == 1){
-            $status = "Rejected";
+            $status = "Rejected".$delegated;
         }
         elseif($this->claimStatus == 2){
-            $status = "Approved";
+            $status = "Approved".$delegated;
+        }
+        elseif($this->claimStatus == 3){
+            $status = "Cancelled".$delegated;
         }
 
         return $status;

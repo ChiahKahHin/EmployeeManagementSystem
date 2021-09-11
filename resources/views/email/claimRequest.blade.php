@@ -1,11 +1,14 @@
 @component('mail::message')
-@if ($changeManager)
-Dear {{ $claimRequest->getManager->getFullName() }}/{{ $claimRequest->getEmployee->getFullName() }},
-
-This claim request approval manager is delegate to a new manager:<br> {{ $claimRequest->getManager->getFullName() }} <br>
-@else
+@php
+	if($claimRequest->claimDelegateManager == null){
+		$managerName = $claimRequest->getManager->getFullName();
+	}
+	else{
+		$managerName = $claimRequest->getDelegateManager->getFullName();
+	}
+@endphp
 @if ($claimRequest->claimStatus == 0)
-Dear Human Resource Manager,
+Dear {{ $managerName }},
 
 A new claim request is waiting approval. 
 
@@ -16,27 +19,23 @@ Your claim request is rejected.
 
 Reason of claim request rejected: {{ $reason }} 
 
-@else
+@elseif($claimRequest->claimStatus == 2)
 Dear {{ $claimRequest->getEmployee->getFullName() }},
 
 Your claim request is approved.
-@endif
+
+@else
+Dear {{ $managerName }},
+
+This claim request is cancelled.
 @endif
 
 <u><b>Claim Request Details</b></u>
 
 @component('mail::table')
-@switch($claimRequest->claimStatus)
-	@case(0)
-		| Claim Type | Claim Amount | Claim Employee | Claim Date | Claim Status |
-		|:-----:|:-----------:|:--------:|:--------:|:------:|
-		| {{ $claimRequest->getClaimType->claimType }} | {{ $claimRequest->claimAmount }} | {{ $claimRequest->getEmployee->getFullName() }} | {{  date("d F Y", strtotime($claimRequest->claimDate)) }} | {{ $claimRequest->getStatus() }} |
-		@break
-	@default
-		| Claim Type | Claim Amount | Claim Date | Claim Status |
-		|:-----:|:-----------:|:--------:|:------:|
-		| {{ $claimRequest->getClaimType->claimType }} | {{ $claimRequest->claimAmount }} | {{  date("d F Y", strtotime($claimRequest->claimDate)) }} | {{ $claimRequest->getStatus() }} |
-@endswitch
+| Claim Type | Claim Amount | Claim Employee | Claim Date | Claim Status |
+|:-----:|:-----------:|:--------:|:--------:|:------:|
+| {{ $claimRequest->getClaimType->claimType }} | {{ $claimRequest->claimAmount }} | {{ $claimRequest->getEmployee->getFullName() }} | {{  date("d F Y", strtotime($claimRequest->claimDate)) }} | {{ $claimRequest->getStatus() }} {!! ($claimRequest->claimDelegateManager != null && ($claimRequest->claimStatus == 0 || $claimRequest->claimStatus == 3)) ? "<i>(Delegated)</i>" : null !!}|
 @endcomponent
 
 @component('mail::button', ['url' => url(Redirect::intended("/viewClaimRequest/$claimRequest->id")->getTargetUrl())])

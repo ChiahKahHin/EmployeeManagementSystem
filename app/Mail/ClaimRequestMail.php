@@ -14,18 +14,16 @@ class ClaimRequestMail extends Mailable implements ShouldQueue
     
     private ClaimRequest $claimRequest;
     private $reason;
-    private $changeManager;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(ClaimRequest $claimRequest, $reason = null, $changeManager = false)
+    public function __construct(ClaimRequest $claimRequest, $reason = null)
     {
         $this->claimRequest = $claimRequest;
         $this->reason = $reason;
-        $this->changeManager = $changeManager;
     }
 
     /**
@@ -36,24 +34,23 @@ class ClaimRequestMail extends Mailable implements ShouldQueue
     public function build()
     {
         $subject = null;
-        if($this->changeManager){
-            $subject = "Claim Request Approval Manager Delegate";
+        switch($this->claimRequest->claimStatus){
+            case 0:
+                $subject = "Claim Request Waiting Approval";
+                break;
+            case 1:
+                $subject = "Claim Request Rejected";
+                break;
+            case 2:
+                $subject = "Claim Request Approved";
+                break;
+            case 3:
+                $subject = "Claim Request Cancelled";
+                break;
         }
-        else{
-            switch($this->claimRequest->claimStatus){
-                case 0:
-                    $subject = "Claim Request Waiting Approval";
-                    break;
-                case 1:
-                    $subject = "Claim Request Rejected";
-                    break;
-                case 2:
-                    $subject = "Claim Request Approved";
-                    break;
-            }
-        }
+
         return $this->subject($subject)
-                    ->markdown('email.claimRequest', ['claimRequest' => $this->claimRequest, 'reason' => $this->reason, 'changeManager' => $this->changeManager]);
+                    ->markdown('email.claimRequest', ['claimRequest' => $this->claimRequest, 'reason' => $this->reason]);
     }
 
     public function failed($e)

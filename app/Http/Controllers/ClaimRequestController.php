@@ -15,7 +15,6 @@ class ClaimRequestController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        //$this->middleware('employeeAndManager');
     }
 
     public function applyBenefitClaimForm()
@@ -46,21 +45,33 @@ class ClaimRequestController extends Controller
         $claimRequest->claimAttachment = file_get_contents($request->claimAttachment);
         $claimRequest->claimStatus = 0;
         $claimRequest->claimManager = Auth::user()->reportingManager;
+        if(Auth::user()->delegateManager != null){
+            $claimRequest->claimDelegateManager = Auth::user()->delegateManager;
+        }
         $claimRequest->claimEmployee = Auth::user()->id;
         $claimRequest->save();
         
-        Mail::to($claimRequest->getManager->email)->send(new ClaimRequestMail($claimRequest));
+        if($claimRequest->claimDelegateManager == null){
+            Mail::to($claimRequest->getManager->email)->send(new ClaimRequestMail($claimRequest));
+        }
+        else{
+            Mail::to($claimRequest->getDelegateManager->email)->send(new ClaimRequestMail($claimRequest));
+        }
 
         return redirect()->route('applyBenefitClaim')->with('message', 'Benefit claim applied successfully!');
     }
 
     public function manageClaimRequest()
     {
-        if(Auth::user()->isAdmin()){
+        if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
             $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->get();
         }
-        elseif(Auth::user()->isHrManager() || Auth::user()->isManager()){
-            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimEmployee', Auth::user()->id)->orWhere('claimManager', Auth::user()->id)->get();
+        elseif(Auth::user()->isManager()){
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')
+                                          ->where('claimEmployee', Auth::user()->id)
+                                          ->orWhere('claimManager', Auth::user()->id)
+                                          ->orWhere('claimDelegateManager', Auth::user()->id)
+                                          ->get();
         }
         else{
             $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimEmployee', Auth::user()->id)->get();
@@ -81,13 +92,12 @@ class ClaimRequestController extends Controller
     {
         $claimRequest = ClaimRequest::findOrFail($id);
 
-        if((Auth::user()->isEmployee() && $claimRequest->claimEmployee != Auth::id()) || (Auth::user()->isManager() && $claimRequest->claimManager != Auth::id()) || (Auth::user()->isHrManager() && $claimRequest->claimManager != Auth::id())){
+        if(Auth::user()->isAccess('admin', 'hrmanager') || Auth::id() == $claimRequest->claimEmployee || Auth::id() == $claimRequest->claimManager || Auth::id() == $claimRequest->claimDelegateManager){
+            return view('viewClaimRequest', ['claimRequest' => $claimRequest]);
+        }
+        else{
             return redirect()->route('manageClaimRequest');
         }
-
-        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [1,2])->get();
-
-        return view('viewClaimRequest', ['claimRequest' => $claimRequest, 'managers' => $managers]);
     }
 
     public function approveClaimRequest($id)
@@ -113,18 +123,19 @@ class ClaimRequestController extends Controller
         return redirect()->route('viewClaimRequest', ['id' =>$id]);
     }
 
-    public function changeClaimRequestManager(Request $request, $id)
+    public function cancelClaimRequest($id)
     {
         $claimRequest = ClaimRequest::find($id);
-        $claimRequest->claimManager = $request->manager;
+        $claimRequest->claimStatus = 3;
         $claimRequest->save();
 
-        $emails = array();
-        array_push($emails, $claimRequest->getManager->email);
-        array_push($emails, $claimRequest->getEmployee->email);
+        if($claimRequest->claimDelegateManager == null){
+            Mail::to($claimRequest->getManager->email)->send(new ClaimRequestMail($claimRequest));
+        }
+        else{
+            Mail::to($claimRequest->getDelegateManager->email)->send(new ClaimRequestMail($claimRequest));
+        }
 
-        Mail::to($emails)->send(new ClaimRequestMail($claimRequest, null, true));
-
-        return redirect()->route('manageClaimRequest')->with('message', 'Claim request approval manager delegate successfully!');
+        return redirect()->route('viewClaimRequest', ['id' => $id]);
     }
 }

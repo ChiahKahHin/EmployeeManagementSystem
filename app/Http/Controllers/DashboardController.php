@@ -90,9 +90,27 @@ class DashboardController extends Controller
             $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->orderBy('leaveStartDate', 'ASC')->take(5)->get();
             $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->orderBy('claimDate', 'ASC')->take(5)->get();
         } else {
-            $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
-            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
-            $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimManager', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
+            $tasks = Task::with('getPersonInCharge')
+                           ->where(function ($query){
+                               $query->where('managerID', Auth::id())
+                               ->orWhere('delegateManagerID', Auth::id());
+                           })
+                           ->where('status', 1)
+                           ->orderBy('dueDate', 'ASC')->take(5)->get();
+            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')
+                                    ->where(function ($query){
+                                        $query->where('managerID', Auth::id())
+                                        ->orWhere('delegateManagerID', Auth::id());
+                                    })
+                                    ->where('leaveStatus', 0)
+                                    ->orderBy('leaveStartDate', 'ASC')->take(5)->get();
+            $claims = ClaimRequest::with('getClaimType', 'getEmployee')
+                                    ->where(function ($query){
+                                        $query->where('claimManager', Auth::id())
+                                        ->orWhere('claimDelegateManager', Auth::id());
+                                    })
+                                    ->where('claimStatus', 0)
+                                    ->orderBy('claimDate', 'ASC')->take(5)->get();
         }
 
         $quotes = Arr::random($this->quotes);
@@ -103,9 +121,27 @@ class DashboardController extends Controller
     public function dashboard2()
     {
         if(Auth::user()->isManager()){
-            $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
-            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
-            $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimManager', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
+            $tasks = Task::with('getPersonInCharge')
+                           ->where(function ($query){
+                               $query->where('managerID', Auth::id())
+                               ->orWhere('delegateManagerID', Auth::id());
+                           })
+                           ->where('status', 1)
+                           ->orderBy('dueDate', 'ASC')->take(5)->get();
+            $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')
+                                    ->where(function ($query){
+                                        $query->where('managerID', Auth::id())
+                                        ->orWhere('delegateManagerID', Auth::id());
+                                    })
+                                    ->where('leaveStatus', 0)
+                                    ->orderBy('leaveStartDate', 'ASC')->take(5)->get();
+            $claims = ClaimRequest::with('getClaimType', 'getEmployee')
+                                    ->where(function ($query) {
+                                        $query->where('claimManager', Auth::id())
+                                        ->orWhere('claimDelegateManager', Auth::id());
+                                    })
+                                    ->where('claimStatus', 0)
+                                    ->orderBy('claimDate', 'ASC')->take(5)->get();
         }
         else{
             $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('personInCharge', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
