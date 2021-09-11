@@ -38,7 +38,7 @@ A task is waiting for approval. <br>
 @component('mail::table')
 | Title | Priority | Due Date | Status |
 |:-----:|:--------:|:--------:|:------:|
-| {{ $task->title }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} {!! ($task->delegateManagerID && $task->status == 1) ? "<i>(Delegated)</i>" : null !!} |
+| {{ $task->title }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} {!! ($task->delegateManagerID != null && $task->status == 1) ? "<i>(Delegated)</i>" : null !!} |
 @endcomponent
 
 <u>Task Description</u>

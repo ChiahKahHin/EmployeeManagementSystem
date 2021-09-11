@@ -40,7 +40,7 @@ This leave request is cancelled after approval.
 @component('mail::table')
 | Leave Type | Leave Start Date | Leave End Date | Leave Status |
 |:-----:|:--------:|:--------:|:------:|
-| {{ $leaveRequest->getLeaveType->leaveType }} | {{  date("d F Y", strtotime($leaveRequest->leaveStartDate)) }}| {{  date("d F Y", strtotime($leaveRequest->leaveEndDate)) }} | {{ $leaveRequest->getStatus() }} |
+| {{ $leaveRequest->getLeaveType->leaveType }} | {{  date("d F Y", strtotime($leaveRequest->leaveStartDate)) }}| {{  date("d F Y", strtotime($leaveRequest->leaveEndDate)) }} | {{ $leaveRequest->getStatus() }} {!! ($leaveRequest->delegateManagerID != null && $leaveRequest->leaveStatus == 0) ? "<i>(Delegated)</i>" : null !!}|
 @endcomponent
 
 @component('mail::button', ['url' => url(Redirect::intended("/viewLeave/$leaveRequest->id")->getTargetUrl())])
