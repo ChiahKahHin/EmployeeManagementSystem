@@ -47,7 +47,7 @@
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="{{ route('viewLeave', ['id' => $leaveRequest->id]) }}"><i class="dw dw-eye"></i> View</a>
 									{{-- <a class="dropdown-item" href="{{ route('editEmployee', ['id' => $leaveRequest->id]) }}"><i class="dw dw-edit2"></i> Edit</a> --}}
-									@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+									@if (Auth::user()->isAdmin())
 										<a class="dropdown-item deleteLeave" id="{{ $leaveRequest->id }}" value="{{ $leaveRequest->getEmployee->getFullName() }}" data-leaveType="{{ $leaveRequest->getLeaveType->leaveType }}"><i class="dw dw-delete-3"></i> Delete</a>
 									@endif
 								</div>
