@@ -109,6 +109,25 @@ class DelegationController extends Controller
                                                      ->with('error1', 'Please select another delegate manager');
         }
 
+        
+        //Check whether the selected delegate manager is on another approval delegation
+        $checkDelegationDateConflict = Delegation::where('managerID', $request->delegateManagerID)
+                                                   ->whereIn('status', [0,1])
+                                                   ->where(function ($query) use ($request){
+                                                       $query->where('startDate', '<=', $request->startDate)
+                                                             ->where('endDate', '>=', $request->startDate)
+                                                             ->orWhere('startDate', '<=', $request->endDate)
+                                                             ->where('endDate', '>=', $request->endDate)
+                                                             ->orWhere('startDate', '>=', $request->startDate)
+                                                             ->where('endDate', '<=', $request->endDate);
+                                                   })
+                                                   ->count();
+
+        if($checkDelegationDateConflict > 0){
+            return redirect()->route('addDelegation')->with('error', 'Conflict approval delegation is found!')
+                                                     ->with('error1', 'Please select another delegate manager');
+        }
+
         $delegation = new Delegation();
         $delegation->managerID = Auth::id();
         $delegation->delegateManagerID = $request->delegateManagerID;
