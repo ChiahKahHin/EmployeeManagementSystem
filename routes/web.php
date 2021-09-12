@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\ClaimTypeController;
@@ -15,6 +14,7 @@ use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MemoController;
+use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\TaskController;
@@ -59,15 +59,6 @@ Route::post('/updateProfile', [ProfileController::class, 'updateProfile']);
 Route::get('/dashboard1', [DashboardController::class, 'dashboard1'])->name('dashboard1');
 Route::get('/dashboard2', [DashboardController::class, 'dashboard2'])->name('dashboard2');
 
-//Manage Admin
-Route::get('/addAdmin', [AdminController::class, 'addAdminForm'])->name('addAdmin');
-Route::post('/addAdmin', [AdminController::class, 'addAdmin']);
-Route::get('/manageAdmin', [AdminController::class, 'manageAdmin'])->name('manageAdmin');
-Route::get('/editAdmin/{id}', [AdminController::class, 'editAdminForm'])->name('editAdmin');
-Route::post('/editAdmin/{id}', [AdminController::class, 'editAdmin']);
-Route::get('/deleteAdmin/{id}', [AdminController::class, 'deleteAdmin'])->name('deleteAdmin');
-Route::get('/viewAdmin/{id}', [AdminController::class, 'viewAdmin'])->name('viewAdmin');
-
 //Manage Department
 Route::get('/addDepartment', [DepartmentController::class, 'addDepartmentForm'])->name('addDepartment');
 Route::post('/addDepartment', [DepartmentController::class, 'addDepartment']);
@@ -75,6 +66,14 @@ Route::get('/manageDepartment', [DepartmentController::class, 'manageDepartment'
 Route::get('/editDepartment/{id}', [DepartmentController::class, 'editDepartmentForm'])->name('editDepartment');
 Route::post('/editDepartment/{id}', [DepartmentController::class, 'editDepartment']);
 Route::get('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment'])->name('deleteDepartment');
+
+//Manage Position
+Route::get('/addPosition', [PositionController::class, 'addPositionForm'])->name('addPosition');
+Route::post('/addPosition', [PositionController::class, 'addPosition']);
+Route::get('/managePosition', [PositionController::class, 'managePosition'])->name('managePosition');
+Route::get('/editPosition/{id}', [PositionController::class, 'editPositionForm'])->name('editPosition');
+Route::post('/editPosition/{id}', [PositionController::class, 'editPosition']);
+Route::get('/deletePosition/{id}', [PositionController::class, 'deletePosition'])->name('deletePosition');
 
 //Manage Employee
 Route::get('/addEmployee', [EmployeeController::class, 'addEmployeeForm'])->name('addEmployee');

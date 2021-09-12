@@ -93,7 +93,7 @@ class User extends Authenticatable
         $roleName = null;
 
         if($this->role == 0){
-            $roleName = "Admin";
+            $roleName = "Super Admin";
         }
         elseif($this->role == 1){
             $roleName = "Human Resource Manager";

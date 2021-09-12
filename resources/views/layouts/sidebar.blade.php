@@ -31,28 +31,7 @@
 						<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
 					</a>
 				</li>
-				@if (Auth::user()->isAccess('admin'))
-					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-id-card1"></span><span class="mtext">Admin</span>
-						</a>
-						<ul class="submenu">
-							<li><a href="{{ route('addAdmin') }}">Add Admin</a></li>
-							<li><a href="{{ route('manageAdmin') }}">Manage Admin</a></li>
-						</ul>
-					</li>
-				@endif
-				@if (Auth::user()->isAccess('admin', 'hrmanager'))
-					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-notepad-2"></span><span class="mtext">Memorandum</span>
-						</a>
-						<ul class="submenu">
-							<li><a href="{{ route('createMemo') }}">Create Memorandum</a></li>
-							<li><a href="{{ route('manageMemo') }}">Manage Memorandum</a></li>
-						</ul>
-					</li>
-				@endif
+
 				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
@@ -68,6 +47,15 @@
 							<span class="micon dw dw-add-user"></span><span class="mtext">Employee</span>
 						</a>
 						<ul class="submenu">
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">Position</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('addPosition') }}">Add Position</a></li>
+									<li><a href="{{ route('managePosition') }}">Manage Position</a></li>
+								</ul>
+							</li>
 							<li><a href="{{ route('addEmployee') }}">Add Employee</a></li>
 							<li><a href="{{ route('manageEmployee') }}">Manage Employee</a></li>
 						</ul>
@@ -90,31 +78,31 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->isAccess('hrmanager', 'manager'))
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
+							<span class="micon dw dw-notepad-2"></span><span class="mtext">Memorandum</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="{{ route('addTask') }}">Add Task</a></li>
-							<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
+							<li><a href="{{ route('createMemo') }}">Create Memorandum</a></li>
+							<li><a href="{{ route('manageMemo') }}">Manage Memorandum</a></li>
 						</ul>
 					</li>
 				@endif
 
-				@if (Auth::user()->isAccess('admin', 'employee'))
-					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
-						</a>
-						<ul class="submenu">
-							<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
-							@if (Auth::user()->isAccess('admin'))
-								<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
-							@endif
-						</ul>
-					</li>
-				@endif
+				<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon dw dw-invoice-1"></span><span class="mtext">Task</span>
+					</a>
+					<ul class="submenu">
+						@if (Auth::user()->isAccess('admin','hrmanager','manager'))
+							<li><a href="{{ route('addTask') }}">Add Task</a></li>
+						@endif
+						<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
+						<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
+					</ul>
+				</li>
+
 
 				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<li class="dropdown">
@@ -142,9 +130,7 @@
 							</li>
 							<li><a href="{{ route('manageWorkingDay') }}">Manage Working Day</a></li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
-							@if (Auth::user()->isAccess('hrmanager'))
-								<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
-							@endif
+							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
 						</ul>
 					</li>
@@ -187,9 +173,7 @@
 									<li><a href="{{ route('manageClaimType') }}">Manage Claim Type</a></li>
 								</ul>
 							</li>
-							@if (Auth::user()->isAccess('hrmanager'))
-								<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
-							@endif
+							<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
 						</ul>
 					</li>
