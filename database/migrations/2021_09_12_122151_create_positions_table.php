@@ -23,10 +23,6 @@ class CreatePositionsTable extends Migration
         Position::create([
             "positionName" => "Chief Executive Officer"
         ]);
-
-        Position::create([
-            "positionName" => "Human Resource Manager"
-        ]);
         
         Position::create([
             "positionName" => "Department Manager"
