@@ -117,7 +117,7 @@
                 <div class="row">
 					<div class="col-md-6">
 						<label>NRIC/Passport No</label>
-						<input class="form-control @error('ic') form-control-danger @enderror" type="text" minlength="12" maxlength="12" name="ic" placeholder="Enter NRIC/Passport No" value="{{ old('ic', $employees->ic) }}" required>
+						<input class="form-control @error('ic') form-control-danger @enderror" type="text" name="ic" placeholder="Enter NRIC/Passport No" value="{{ old('ic', $employees->ic) }}" required>
 
 						@error("ic")
 							<div class="text-danger text-sm">
