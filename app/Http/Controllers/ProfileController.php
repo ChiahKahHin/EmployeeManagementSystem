@@ -50,37 +50,31 @@ class ProfileController extends Controller
     {
         $id = Auth::id();
 
-        if(Auth::user()->isAdmin()){
-            $this->validate($request, [
-                'firstname' => 'required|max:255',
-                'lastname' => 'required|max:255',
-                'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
-                'dateOfBirth' => 'required|before:today',
-                'gender' => 'required',
-                'email' => 'required|email|max:255|unique:users,email,'.$id.'',
-                'username' => 'required|max:255|unique:users,username,'.$id.'',
-            ]);
-        }
-        else{
-            $this->validate($request, [
-                'firstname' => 'required|max:255',
-                'lastname' => 'required|max:255',
-                'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
-                'dateOfBirth' => 'required|before:today',
-                'gender' => 'required',
-                'email' => 'required|email|max:255|unique:users,email,'.$id.'',
-                'username' => 'required|max:255|unique:users,username,'.$id.'',
-                'address' => 'required|max:255',
-                'ic' => 'required|min:12|max:12',
-                'nationality' => 'required',
-                'citizenship' => 'required',
-                'religion' => 'required',
-                'race' => 'required',
-                'emergencyContactName' => 'required|max:255',
-                'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
-                'emergencyAddress' => 'required|max:255',
-            ]);
-        }
+        $this->validate($request, [
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
+            'dateOfBirth' => 'required|before:today',
+            'gender' => 'required',
+            'address' => 'required|max:255',
+            'ic' => 'required|min:12|max:12',
+            'nationality' => 'required',
+            'citizenship' => 'required',
+            'religion' => 'required',
+            'race' => 'required',
+            'maritalStatus' => 'required',
+            'spouseName' => 'max:255|nullable',
+            'spouseDateOfBirth' => 'before:today|nullable',
+            'spouseIC' => 'max:255|nullable',
+            'dateOfMarriage' => 'before:today|nullable',
+            'spouseOccupation' => 'max:255|nullable',
+            'spouseContactNumber' => 'regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14|nullable',
+            'emergencyContactName' => 'required|max:255',
+            'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
+            'emergencyAddress' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,email,'.$id.'',
+            'username' => 'required|max:255|unique:users,username,'.$id.'',
+        ]);
         
         $employee = User::findOrFail($id);
         $employee->firstname = $request->firstname;
@@ -90,17 +84,34 @@ class ProfileController extends Controller
         $employee->gender = $request->gender;
         $employee->email = $request->email;
         $employee->username = $request->username;
-        if(!Auth::user()->isAdmin()){
-            $employee->address = $request->address;
-            $employee->ic = $request->ic;
-            $employee->nationality = $request->nationality;
-            $employee->citizenship = $request->citizenship;
-            $employee->religion = $request->religion;
-            $employee->race = $request->race;
-            $employee->emergencyContactName = $request->emergencyContactName;
-            $employee->emergencyContactNumber = $request->emergencyContactNumber;
-            $employee->emergencyContactAddress = $request->emergencyAddress;
+        $employee->address = $request->address;
+        $employee->ic = $request->ic;
+        $employee->nationality = $request->nationality;
+        $employee->citizenship = $request->citizenship;
+        $employee->religion = $request->religion;
+        $employee->race = $request->race;
+        $employee->maritalStatus = $request->maritalStatus;
+        if($request->maritalStatus == "Married"){
+            $employee->spouseName = $request->spouseName;
+            $employee->spouseDateOfBirth = $request->spouseDateOfBirth;
+            $employee->spouseIC = $request->spouseIC;
+            $employee->dateOfMarriage = $request->dateOfMarriage;
+            $employee->spouseOccupation = $request->spouseOccupation;
+            $employee->spouseContactNumber = $request->spouseContactNumber;
+            $employee->spouseResidentStatus = $request->spouseResidentStatus;
         }
+        else{
+            $employee->spouseName = null;
+            $employee->spouseDateOfBirth = null;
+            $employee->spouseIC = null;
+            $employee->dateOfMarriage = null;
+            $employee->spouseOccupation = null;
+            $employee->spouseContactNumber = null;
+            $employee->spouseResidentStatus = null;
+        }
+        $employee->emergencyContactName = $request->emergencyContactName;
+        $employee->emergencyContactNumber = $request->emergencyContactNumber;
+        $employee->emergencyContactAddress = $request->emergencyAddress;
         $employee->save();
 
        return redirect()->route('viewProfile')->with('message', 'Profile details updated successfully!');
