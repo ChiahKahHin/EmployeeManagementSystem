@@ -10,124 +10,247 @@
 
 @section('content')
     <div class="pd-20 card-box mb-30">
-        <div class="clearfix mb-20">
+        <div class="clearfix mb-5">
             <div class="pull-left">
                 <h4 class="text-blue h4">Employee's Details</h4>
             </div>
         </div>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th scope="col" width="30%">Employee's Details</th>
-                    <th scope="col" width="70%">Employee's Information</th>
-                </tr>
-            </thead>
-            <tbody>
-				<tr>
-					<td class="font-weight-bold">Employee ID</td>
-					<td>{{ $employees->employeeID }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Name</td>
-					<td>{{ $employees->getFullName() }}</td>
-				</tr>
-				@php
-					$year = explode("-", $employees->dateOfBirth);
-					$age = date('Y') - $year[0];
-				@endphp
-				<tr>
-					<td class="font-weight-bold">Age</td>
-					<td>{{ $age }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Date of Birth</td>
-					<td>{{ date("d F Y", strtotime($employees->dateOfBirth)) }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Gender</td>
-					<td>{{ ucwords($employees->gender) }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Address</td>
-					<td>{!! nl2br($employees->address) !!}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">NRIC</td>
-					<td>{{ $employees->ic }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Nationality</td>
-					<td>{{ $employees->nationality }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Citizenship</td>
-					<td>{{ $employees->citizenship }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Religion</td>
-					<td>{{ $employees->religion }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Race</td>
-					<td>{{ $employees->race }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Emergency Contact Name</td>
-					<td>{{ $employees->emergencyContactName }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Emergency Contact Number</td>
-					<td>{{ $employees->emergencyContactNumber }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Emergency Contact Address</td>
-					<td>{!! nl2br($employees->emergencyContactAddress) !!}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Username</td>
-					<td>{{ $employees->username }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Email</td>
-					<td>{{ $employees->email }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Contact Number</td>
-					<td>{{ $employees->contactNumber }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Department</td>
-					<td>{{ $employees->getDepartment->departmentName }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Reporting Manager</td>
-					<td>{{ $employees->getFullName($employees->reportingManager) }}</td>
-				</tr>
-				
-				@if ($employees->role == 1 || $employees->role == 2)
-					@php
-						$manager = "Yes";
-					@endphp
+		<div class="profile-tab height-100-p">
+			<div class="tab height-100-p">
+				@if($employees->maritalStatus == "Married")
+					<ul class="nav nav-tabs customtab" role="tablist">
+						<li class="nav-item" style="width: 25%">
+							<a class="nav-link active" data-toggle="tab" href="#personalInformation" role="tab" style="text-align: center;">Personal Information</a>
+						</li>
+						<li class="nav-item" style="width: 25%">
+							<a class="nav-link" data-toggle="tab" href="#spouseInformation" role="tab" style="text-align: center;">Spouse Information</a>
+						</li>
+						<li class="nav-item" style="width: 25%">
+							<a class="nav-link" data-toggle="tab" href="#emergencyContact" role="tab" style="text-align: center;">Emergency Contact</a>
+						</li>
+						<li class="nav-item" style="width: 25%">
+							<a class="nav-link" data-toggle="tab" href="#accountInformation" role="tab" style="text-align: center;">Account Information</a>
+						</li>
+					</ul>
 				@else
-					@php
-						$manager = "No";
-					@endphp
+				<ul class="nav nav-tabs customtab" role="tablist">
+					<li class="nav-item" style="width: 33.33%">
+						<a class="nav-link active" data-toggle="tab" href="#personalInformation" role="tab" style="text-align: center;">Personal Information</a>
+					</li>
+					<li class="nav-item" style="width: 33.33%">
+						<a class="nav-link" data-toggle="tab" href="#emergencyContact" role="tab" style="text-align: center;">Emergency Contact</a>
+					</li>
+					<li class="nav-item" style="width: 33.33%">
+						<a class="nav-link" data-toggle="tab" href="#accountInformation" role="tab" style="text-align: center;">Account Information</a>
+					</li>
+				</ul>
 				@endif
-				
-				<tr>
-					<td class="font-weight-bold">Department Manager</td>
-					<td>{{ $manager }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Employee's Account Created Date & Time</td>
-					<td>{{ date("d F Y, g:ia", strtotime($employees->created_at)) }}</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Employee's Account Updated Date & Time</td>
-					<td>{{ date("d F Y, g:ia", strtotime($employees->updated_at)) }}</td>
-				</tr>
-				
-            </tbody>
-        </table>
+				<div class="tab-content">
+					<!-- Personal Information Tab start -->
+					<div class="tab-pane fade show active" id="personalInformation" role="tabpanel">
+						<div class="pd-5">
+							<div class="profile-timeline" style="padding: 5px;">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th scope="col" width="30%">Employee's Details</th>
+											<th scope="col" width="70%">Employee's Information</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="font-weight-bold">Name</td>
+											<td>{{ $employees->getFullName() }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Contact Number</td>
+											<td>{{ $employees->contactNumber }}</td>
+										</tr>
+										@php
+											$year = explode("-", $employees->dateOfBirth);
+											$age = date('Y') - $year[0];
+										@endphp
+										<tr>
+											<td class="font-weight-bold">Age</td>
+											<td>{{ $age }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Date of Birth</td>
+											<td>{{ date("d F Y", strtotime($employees->dateOfBirth)) }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Gender</td>
+											<td>{{ ucwords($employees->gender) }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Address</td>
+											<td>{!! nl2br($employees->address) !!}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">NRIC/Passport No</td>
+											<td>{{ $employees->ic }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Nationality</td>
+											<td>{{ $employees->nationality }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Citizenship</td>
+											<td>{{ $employees->citizenship }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Religion</td>
+											<td>{{ $employees->religion }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Race</td>
+											<td>{{ $employees->race }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Marital Status</td>
+											<td>{{ $employees->maritalStatus }}</td>
+										</tr>										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- Personal Information Tab End -->
+
+					<!-- Spouse Information Tab start -->
+					<div class="tab-pane fade" id="spouseInformation" role="tabpanel">
+						<div class="pd-5">
+							<div class="profile-timeline" style="padding: 5px;">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th scope="col" width="30%">Employee's Details</th>
+											<th scope="col" width="70%">Employee's Information</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="font-weight-bold">Spouse Name</td>
+											<td>{{ $employees->spouseName }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Spouse Date of Birth</td>
+											<td>{{ date("d F Y", strtotime($employees->spouseDateOfBirth)) }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Spouse NRIC/Passport No</td>
+											<td>{{ $employees->spouseIC }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Date of Marriage</td>
+											<td>{{ date("d F Y", strtotime($employees->dateOfMarriage)) }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Spouse Occupation</td>
+											<td>{{ $employees->spouseOccupation }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Spouse Contact Number</td>
+											<td>{{ $employees->spouseContactNumber }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Spouse Resident Status</td>
+											<td>{{ $employees->spouseResidentStatus }}</td>
+										</tr>									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- Spouse Information Tab End -->
+					
+					<!-- Emergency Contact Tab start -->
+					<div class="tab-pane fade" id="emergencyContact" role="tabpanel">
+						<div class="pd-5">
+							<div class="profile-timeline" style="padding: 5px;">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th scope="col" width="30%">Employee's Details</th>
+											<th scope="col" width="70%">Employee's Information</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="font-weight-bold">Emergency Contact Name</td>
+											<td>{{ $employees->emergencyContactName }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Emergency Contact Number</td>
+											<td>{{ $employees->emergencyContactNumber }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Emergency Contact Address</td>
+											<td>{!! nl2br($employees->emergencyContactAddress) !!}</td>
+										</tr>										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- Emergency Contact Tab End -->
+
+					<!-- Emergency Contact Tab start -->
+					<div class="tab-pane fade" id="accountInformation" role="tabpanel">
+						<div class="pd-5">
+							<div class="profile-timeline" style="padding: 5px;">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th scope="col" width="30%">Employee's Details</th>
+											<th scope="col" width="70%">Employee's Information</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="font-weight-bold">Username</td>
+											<td>{{ $employees->username }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Email</td>
+											<td>{{ $employees->email }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Employee ID</td>
+											<td>{{ $employees->employeeID }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Department</td>
+											<td>{{ $employees->getDepartment->departmentName }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Position</td>
+											<td>{{ $employees->getPosition->positionName }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Reporting Manager</td>
+											<td>{{ $employees->getFullName($employees->reportingManager) }}</td>
+										</tr>										
+										<tr>
+											<td class="font-weight-bold">System Role</td>
+											<td>{{ $employees->getRoleName() }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Employee's Account Created Date & Time</td>
+											<td>{{ date("d F Y, g:ia", strtotime($employees->created_at)) }}</td>
+										</tr>
+										<tr>
+											<td class="font-weight-bold">Employee's Account Updated Date & Time</td>
+											<td>{{ date("d F Y, g:ia", strtotime($employees->updated_at)) }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- Emergency Contact Tab End -->
+				</div>
+			</div>
+		</div>
     </div>
 @endsection

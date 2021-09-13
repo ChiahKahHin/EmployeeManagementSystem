@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Position;
 use App\Models\User;
 use App\Notifications\EmployeeCreatedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,9 +41,10 @@ class EmployeeController extends Controller
     public function addEmployeeForm()
     {
         $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->get();
-        $departments = Department::all()->where('departmentName', '!=', 'Administration');
+        $departments = Department::all();
+        $positions = Position::all();
 
-        return view('addEmployee', ['departments' => $departments, 'managers' => $managers, 'nationalities' => $this->nationalities]);
+        return view('addEmployee', ['departments' => $departments, 'managers' => $managers, 'nationalities' => $this->nationalities, 'positions' => $positions]);
     }
 
     public function addEmployee(Request $request)
@@ -53,19 +56,28 @@ class EmployeeController extends Controller
             'dateOfBirth' => 'required|before:today',
             'gender' => 'required',
             'address' => 'required|max:255',
-            'ic' => 'required|min:12|max:12',
+            'ic' => 'required|max:255',
             'nationality' => 'required',
             'citizenship' => 'required',
             'religion' => 'required',
             'race' => 'required',
+            'maritalStatus' => 'required',
+            'spouseName' => 'max:255',
+            'spouseDateOfBirth' => 'before:today',
+            'spouseIC' => 'max:255',
+            'dateOfMarriage' => 'before:today',
+            'spouseOccupation' => 'max:255',
+            'spouseContactNumber' => 'regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyContactName' => 'required|max:255',
             'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyAddress' => 'required|max:255',
             'username' => 'required|max:255|unique:users,username',
             'email' => 'required|email|max:255|unique:users,email',
             'employeeID' => 'required|max:255|unique:users,employeeID',
-            'reportingManager' => 'required',
             'department' => 'required',
+            'position' => 'required',
+            'reportingManager' => 'required',
+            'role' => 'required',
         ],
         [
             'employeeID.unique' => 'The employee ID has already been taken'
@@ -84,6 +96,16 @@ class EmployeeController extends Controller
         $employee->citizenship = $request->citizenship;
         $employee->religion = $request->religion;
         $employee->race = $request->race;
+        $employee->maritalStatus = $request->maritalStatus;
+        if($request->maritalStatus == "Married"){
+            $employee->spouseName = $request->spouseName;
+            $employee->spouseDateOfBirth = $request->spouseDateOfBirth;
+            $employee->spouseIC = $request->spouseIC;
+            $employee->dateOfMarriage = $request->dateOfMarriage;
+            $employee->spouseOccupation = $request->spouseOccupation;
+            $employee->spouseContactNumber = $request->spouseContactNumber;
+            $employee->spouseResidentStatus = $request->spouseResidentStatus;
+        }
         $employee->emergencyContactName = $request->emergencyContactName;
         $employee->emergencyContactNumber = $request->emergencyContactNumber;
         $employee->emergencyContactAddress = $request->emergencyAddress;
@@ -91,13 +113,14 @@ class EmployeeController extends Controller
         $employee->email = $request->email;
         $employee->password = Hash::make($password);
         $employee->employeeID = $request->employeeID;
-        $employee->reportingManager = $request->reportingManager;
         $employee->department = $request->department;
-        if($request->manager == null){
-            $employee->role = 3;
+        $employee->position = $request->position;
+        $employee->reportingManager = $request->reportingManager;
+        if($request->role == 2 && $request->department == 1){
+            $employee->role = 1;
         }
         else{
-            $employee->role = $request->manager;
+            $employee->role = $request->role;
         }
         $employee->save();
         
@@ -109,7 +132,7 @@ class EmployeeController extends Controller
 
     public function manageEmployee()
     {
-        $employees  = User::with('getDepartment')->where('role', '!=', '0')->get();
+        $employees  = User::with('getDepartment')->where('id', '!=', Auth::id())->get();
 
         return view('manageEmployee', ['employees' => $employees]);
     }
@@ -117,10 +140,11 @@ class EmployeeController extends Controller
     public function editEmployeeForm($id)
     {
         $employees = User::findOrFail($id);
-        $departments = Department::all()->where('departmentName', '!=', 'Administration');
-        $managers = User::orderBy('role', 'DESC')->whereIn('role', [0,1,2])->get();
+        $departments = Department::all();
+        $positions = Position::all();
+        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->where('id', '!=', $id)->get();
 
-        return view('editEmployee', ['employees' => $employees, 'departments' => $departments, 'managers' => $managers, 'nationalities' => $this->nationalities]);
+        return view('editEmployee', ['employees' => $employees, 'departments' => $departments, 'managers' => $managers, 'nationalities' => $this->nationalities, 'positions' => $positions]);
     }
 
     public function editEmployee(Request $request, $id)
@@ -132,19 +156,28 @@ class EmployeeController extends Controller
             'dateOfBirth' => 'required|before:today',
             'gender' => 'required',
             'address' => 'required|max:255',
-            'ic' => 'required|min:12|max:12',
+            'ic' => 'required|max:255',
             'nationality' => 'required',
             'citizenship' => 'required',
             'religion' => 'required',
             'race' => 'required',
+            'maritalStatus' => 'required',
+            'spouseName' => 'max:255',
+            'spouseDateOfBirth' => 'before:today',
+            'spouseIC' => 'max:255',
+            'dateOfMarriage' => 'before:today',
+            'spouseOccupation' => 'max:255',
+            'spouseContactNumber' => 'regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyContactName' => 'required|max:255',
             'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyAddress' => 'required|max:255',
             'username' => 'required|max:255|unique:users,username,'.$id.'',
             'email' => 'required|email|max:255|unique:users,email,'.$id.'',
             'employeeID' => 'required|max:255|unique:users,employeeID,'.$id.'',
-            'reportingManager' => 'required',
             'department' => 'required',
+            'position' => 'required',
+            'reportingManager' => 'required',
+            'role' => 'required',
         ],
         [
             'employeeID.unique' => 'The employee ID has already been taken'
@@ -163,19 +196,39 @@ class EmployeeController extends Controller
         $employee->citizenship = $request->citizenship;
         $employee->religion = $request->religion;
         $employee->race = $request->race;
+        $employee->maritalStatus = $request->maritalStatus;
+        if($request->maritalStatus == "Married"){
+            $employee->spouseName = $request->spouseName;
+            $employee->spouseDateOfBirth = $request->spouseDateOfBirth;
+            $employee->spouseIC = $request->spouseIC;
+            $employee->dateOfMarriage = $request->dateOfMarriage;
+            $employee->spouseOccupation = $request->spouseOccupation;
+            $employee->spouseContactNumber = $request->spouseContactNumber;
+            $employee->spouseResidentStatus = $request->spouseResidentStatus;
+        }
+        else{
+            $employee->spouseName = null;
+            $employee->spouseDateOfBirth = null;
+            $employee->spouseIC = null;
+            $employee->dateOfMarriage = null;
+            $employee->spouseOccupation = null;
+            $employee->spouseContactNumber = null;
+            $employee->spouseResidentStatus = null;
+        }
         $employee->emergencyContactName = $request->emergencyContactName;
         $employee->emergencyContactNumber = $request->emergencyContactNumber;
         $employee->emergencyContactAddress = $request->emergencyAddress;
         $employee->username = $request->username;
         $employee->email = $request->email;
         $employee->employeeID = $request->employeeID;
-        $employee->reportingManager = $request->reportingManager;
         $employee->department = $request->department;
-        if($request->manager == null){
-            $employee->role = 3;
+        $employee->position = $request->position;
+        $employee->reportingManager = $request->reportingManager;
+        if($request->role == 2 && $request->department == 1){
+            $employee->role = 1;
         }
         else{
-            $employee->role = $request->manager;
+            $employee->role = $request->role;
         }
         $employee->save();
         

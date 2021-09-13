@@ -45,8 +45,17 @@ class User extends Authenticatable
         'emergencyContactName',
         'emergencyContactNumber',
         'emergencyContactAddress',
+        'maritalStatus',
+        'spouseName',
+        'spouseDateOfBirth',
+        'spouseIC',
+        'dateOfMarriage',
+        'spouseOccupation',
+        'spouseContactNumber',
+        'spouseResidentStatus',
         'department',
         'password',
+        'position',
         'role'
     ];
 
@@ -73,6 +82,10 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class, "department");
     }
 
+    public function getPosition() {
+        return $this->belongsTo(Position::class, "position");
+    }
+
     public function isAdmin(){
         return ($this->role == 0) ? true : false; 
     }
@@ -96,11 +109,10 @@ class User extends Authenticatable
             $roleName = "Super Admin";
         }
         elseif($this->role == 1){
-            $roleName = "Human Resource Manager";
+            $roleName = "HR Manager";
         }
         elseif($this->role == 2){
-            $departmentName = $this->getDepartment->departmentName;
-            $roleName = $departmentName . " Manager";
+            $roleName = "Manager";
         }
         else{
             $roleName = "Employee";

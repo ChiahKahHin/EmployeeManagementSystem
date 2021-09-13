@@ -20,62 +20,63 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             //$table->string('email')->unique();
             $table->string('email');
-            $table->string('employeeID')->unique()->nullable();
+            $table->string('employeeID')->unique();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('contactNumber');
             $table->date('dateOfBirth');
             $table->string('gender');
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->integer('department');
+            $table->integer('position');
             $table->integer('role');
-            $table->integer('reportingManager')->nullable();
+            $table->integer('reportingManager');
             $table->integer('delegateManager')->nullable();
-            $table->string('ic')->nullable();
-            $table->string('nationality')->nullable();
-            $table->string('citizenship')->nullable();
-            $table->string('religion')->nullable();
-            $table->string('race')->nullable();
-            $table->string('emergencyContactName')->nullable();
-            $table->string('emergencyContactNumber')->nullable();
-            $table->string('emergencyContactAddress')->nullable();
-            // $table->string('maritalStatus')->nullable();
-            // $table->string('spouseName')->nullable();
-            // $table->date('spouseDateOfBirth')->nullable();
-            // $table->string('spouseIC')->nullable();
-            // $table->date('dateOfMarriage')->nullable();
-            // $table->string('spouseOccupation')->nullable();
-            // $table->string('spouseContactNumber')->nullable();
-            // $table->string('spouseResidentStatus')->nullable();
+            $table->string('ic');
+            $table->string('nationality');
+            $table->string('citizenship');
+            $table->string('religion');
+            $table->string('race');
+            $table->string('emergencyContactName');
+            $table->string('emergencyContactNumber');
+            $table->string('emergencyContactAddress');
+            $table->string('maritalStatus');
+            $table->string('spouseName')->nullable();
+            $table->date('spouseDateOfBirth')->nullable();
+            $table->string('spouseIC')->nullable();
+            $table->date('dateOfMarriage')->nullable();
+            $table->string('spouseOccupation')->nullable();
+            $table->string('spouseContactNumber')->nullable();
+            $table->string('spouseResidentStatus')->nullable();
             // $table->integer('children')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
 
-        //Admin
+        //Super Admin
         User::create([
-            "username" => "admin",
-            "email" => "admin@gmail.com",
-            "firstname" => "admin",
-            "lastname" => "1",
-            "contactNumber" => "012-4783997",
+            "username" => "superadmin",
+            "email" => "superadmin@gmail.com",
+            "employeeID" => "E001",
+            "firstname" => "Super",
+            "lastname" => "Admin",
+            "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
-            "department" => 1,
-            "password" => Hash::make("123"),
-            "role" => 0
-        ]);
-
-        User::create([
-            "username" => "admin2",
-            "email" => "admin2@gmail.com",
-            "firstname" => "admin",
-            "lastname" => "2",
-            "contactNumber" => "012-4783998",
-            "dateOfBirth" => "2000-7-7",
-            "gender" => "Male",
-            "department" => 1,
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 1,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
+            "maritalStatus" => "Single",
+            "department" => 2,
+            "position" => 1,
             "password" => Hash::make("123"),
             "role" => 0
         ]);
@@ -84,7 +85,7 @@ class CreateUsersTable extends Migration
         User::create([
             "username" => "hrmanager",
             "email" => "hrmanager@gmail.com",
-            "employeeID" => "E001",
+            "employeeID" => "E002",
             "firstname" => "HR",
             "lastname" => "Manager",
             "contactNumber" => "012-4783999",
@@ -100,7 +101,9 @@ class CreateUsersTable extends Migration
             "emergencyContactName" => "Peter Tan",
             "emergencyContactNumber" => "012-4567890",
             "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
-            "department" => 2,
+            "maritalStatus" => "Single",
+            "department" => 1,
+            "position" => 2,
             "password" => Hash::make("123"),
             "role" => 1
         ]);
@@ -108,14 +111,14 @@ class CreateUsersTable extends Migration
         User::create([
             "username" => "hrmanager2",
             "email" => "hrmanager2@gmail.com",
-            "employeeID" => "E002",
+            "employeeID" => "E003",
             "firstname" => "HR",
             "lastname" => "Manager2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
-            "reportingManager" => 3,
+            "reportingManager" => 2,
             "ic" => "000707020059",
             "nationality" => "Malaysian",
             "citizenship" => "Malaysian Citizen",
@@ -124,23 +127,25 @@ class CreateUsersTable extends Migration
             "emergencyContactName" => "Peter Tan",
             "emergencyContactNumber" => "012-4567890",
             "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
-            "department" => 2,
+            "maritalStatus" => "Single",
+            "department" => 1,
+            "position" => 2,
             "password" => Hash::make("123"),
             "role" => 1
         ]);
 
-        //manager
+        //IT manager
         User::create([
-            "username" => "manager",
+            "username" => "itmanager",
             "email" => "ITmanager@gmail.com",
-            "employeeID" => "E003",
+            "employeeID" => "E004",
             "firstname" => "IT",
             "lastname" => "Manager",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
-            "reportingManager" => 3,
+            "reportingManager" => 1,
             "ic" => "000707020059",
             "nationality" => "Malaysian",
             "citizenship" => "Malaysian Citizen",
@@ -149,7 +154,35 @@ class CreateUsersTable extends Migration
             "emergencyContactName" => "Peter Tan",
             "emergencyContactNumber" => "012-4567890",
             "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
-            "department" => 3,
+            "maritalStatus" => "Single",
+            "department" => 2,
+            "position" => 3,
+            "password" => Hash::make("123"),
+            "role" => 2
+        ]);
+
+        User::create([
+            "username" => "itmanager2",
+            "email" => "ITmanager2@gmail.com",
+            "employeeID" => "E005",
+            "firstname" => "IT",
+            "lastname" => "Manager2",
+            "contactNumber" => "012-4783999",
+            "dateOfBirth" => "2000-7-7",
+            "gender" => "Male",
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 4,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
+            "maritalStatus" => "Single",
+            "department" => 2,
+            "position" => 3,
             "password" => Hash::make("123"),
             "role" => 2
         ]);
@@ -158,14 +191,14 @@ class CreateUsersTable extends Migration
         User::create([
             "username" => "emp",
             "email" => "emp@gmail.com",
-            "employeeID" => "E004",
+            "employeeID" => "E006",
             "firstname" => "Employee",
             "lastname" => "1",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
-            "reportingManager" => 5,
+            "reportingManager" => 4,
             "ic" => "000707020059",
             "nationality" => "Malaysian",
             "citizenship" => "Malaysian Citizen",
@@ -174,7 +207,16 @@ class CreateUsersTable extends Migration
             "emergencyContactName" => "Peter Tan",
             "emergencyContactNumber" => "012-4567890",
             "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
-            "department" => 3,
+            "maritalStatus" => "Married",
+            "spouseName" => "Veronica",
+            "spouseDateOfBirth" => "2000-6-1",
+            "spouseIC" => "000601020058",
+            "dateOfMarriage" => "2020-6-15",
+            "spouseOccupation" => "Lecturer",
+            "spouseContactNumber" => "012-4783998",
+            "spouseResidentStatus" => "Resident",
+            "department" => 2,
+            "position" => 5,
             "password" => Hash::make("123"),
             "role" => 3
         ]);
@@ -182,14 +224,14 @@ class CreateUsersTable extends Migration
         User::create([
             "username" => "emp2",
             "email" => "emp2@gmail.com",
-            "employeeID" => "E005",
+            "employeeID" => "E007",
             "firstname" => "Employee",
             "lastname" => "2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
             "address" => "1, Penang Road\nGeorgetown, Penang",
-            "reportingManager" => 5,
+            "reportingManager" => 4,
             "ic" => "000707020059",
             "nationality" => "Malaysian",
             "citizenship" => "Malaysian Citizen",
@@ -198,7 +240,42 @@ class CreateUsersTable extends Migration
             "emergencyContactName" => "Peter Tan",
             "emergencyContactNumber" => "012-4567890",
             "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
-            "department" => 3,
+            "maritalStatus" => "Single",
+            "department" => 2,
+            "position" => 5,
+            "password" => Hash::make("123"),
+            "role" => 3
+        ]);
+
+        User::create([
+            "username" => "emp3",
+            "email" => "emp3@gmail.com",
+            "employeeID" => "E008",
+            "firstname" => "Employee",
+            "lastname" => "3",
+            "contactNumber" => "012-4783999",
+            "dateOfBirth" => "2000-7-7",
+            "gender" => "Male",
+            "address" => "1, Penang Road\nGeorgetown, Penang",
+            "reportingManager" => 4,
+            "ic" => "000707020059",
+            "nationality" => "Malaysian",
+            "citizenship" => "Malaysian Citizen",
+            "religion" => "Buddist",
+            "race" => "Chinese",
+            "emergencyContactName" => "Peter Tan",
+            "emergencyContactNumber" => "012-4567890",
+            "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
+            "maritalStatus" => "Married",
+            "spouseName" => "Veronica",
+            "spouseDateOfBirth" => "2000-6-1",
+            "spouseIC" => "000601020058",
+            "dateOfMarriage" => "2020-6-15",
+            "spouseOccupation" => "Lecturer",
+            "spouseContactNumber" => "012-4783998",
+            "spouseResidentStatus" => "Resident",
+            "department" => 2,
+            "position" => 5,
             "password" => Hash::make("123"),
             "role" => 3
         ]);

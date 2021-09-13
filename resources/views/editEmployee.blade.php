@@ -116,8 +116,8 @@
 			<div class="form-group">
                 <div class="row">
 					<div class="col-md-6">
-						<label>NRIC</label>
-						<input class="form-control @error('ic') form-control-danger @enderror" type="text" minlength="12" maxlength="12" name="ic" placeholder="Enter IC Number (without '-')" value="{{ old('ic', $employees->ic) }}" required>
+						<label>NRIC/Passport No</label>
+						<input class="form-control @error('ic') form-control-danger @enderror" type="text" minlength="12" maxlength="12" name="ic" placeholder="Enter NRIC/Passport No" value="{{ old('ic', $employees->ic) }}" required>
 
 						@error("ic")
 							<div class="text-danger text-sm">
@@ -205,8 +205,138 @@
 							</div>
 						@enderror	
                     </div>
+
+					<div class="col-md-6">
+						<label>Marital Status</label>
+						@php
+							$maritalStatuses = array("Single", "Married", "Divorce", "Widowed");
+						@endphp
+						<select class="form-control selectpicker @error('maritalStatus') form-control-danger @enderror" id="maritalStatus" name="maritalStatus" onchange="checkMaritalStatus();" required>
+							<option value="" selected disabled hidden>Select marital status</option>
+							@foreach ($maritalStatuses as $maritalStatus)
+								<option value="{{ $maritalStatus }}" {{ (old('maritalStatus', $employees->maritalStatus) == $maritalStatus ? "selected": null) }}>{{ $maritalStatus }}</option>
+							@endforeach
+						</select>
+						
+						@error("maritalStatus")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
                 </div>
             </div>
+
+			<div id="showSpouseInformation" style="display: none;">
+				<div class="clearfix">
+					<hr>
+						<div class="text-center mb-10">
+							<h4 class="text-blue h5">Spouse Information</h4>
+						</div>
+					<hr>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Spouse Name</label>
+							<input class="form-control @error('spouseName') form-control-danger @enderror" type="text" id="spouseName" name="spouseName" placeholder="Enter spouse name" value="{{ old('spouseName', $employees->spouseName) }}">
+							
+							@error("spouseName")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+	
+						<div class="col-md-6">
+							<label>Spouse Date of Birth</label>
+							<input class="form-control @error('spouseDateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" id="spouseDateOfBirth" name="spouseDateOfBirth" placeholder="Select spouse date of birth" value="{{ old('spouseDateOfBirth', $employees->spouseDateOfBirth) }}">
+							
+							@error("spouseDateOfBirth")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Spouse NRIC/Passport No</label>
+							<input class="form-control @error('spouseIC') form-control-danger @enderror" type="text" id="spouseIC" name="spouseIC" placeholder="Enter spouse NRIC/Passport No" value="{{ old('spouseIC', $employees->spouseIC) }}">
+	
+							@error("spouseIC")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+
+						<div class="col-md-6">
+							<label>Date of Marriage</label>
+							<input class="form-control @error('dateOfMarriage') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" id="dateOfMarriage" name="dateOfMarriage" placeholder="Select spouse date of marriage" value="{{ old('dateOfMarriage', $employees->dateOfMarriage) }}">
+							
+							@error("dateOfMarriage")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Spouse Occupation</label>
+							<input class="form-control @error('spouseOccupation') form-control-danger @enderror" type="text" id="spouseOccupation" name="spouseOccupation" placeholder="Enter spouse occupation" value="{{ old('spouseOccupation', $employees->spouseOccupation) }}">
+	
+							@error("spouseOccupation")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+
+						<div class="col-md-6">
+							<label>Spouse Contact Number</label>
+							<input class="form-control @error('spouseContactNumber') form-control-danger @enderror" type="text" id="spouseContactNumber" name="spouseContactNumber" placeholder="Enter spouse contact number (e.g. 012-3456789)" value="{{ old('spouseContactNumber', $employees->spouseContactNumber) }}">
+	
+							@error("spouseContactNumber")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Spouse Resident Status</label>
+							@php
+								$spouseResidentStatuses = array("Resident", "Non-Resident", "Local Citizen", "Foreigner");
+							@endphp
+							<select class="form-control selectpicker @error('spouseResidentStatus') form-control-danger @enderror" id="spouseResidentStatus" name="spouseResidentStatus">
+								<option value="" selected disabled hidden>Select spouse resident status</option>
+								@foreach ($spouseResidentStatuses as $spouseResidentStatus)
+									<option value="{{ $spouseResidentStatus }}" {{ (old('spouseResidentStatus', $employees->spouseResidentStatus) == $spouseResidentStatus ? "selected": null) }}>{{ $spouseResidentStatus }}</option>
+								@endforeach
+							</select>
+							
+							@error("spouseResidentStatus")
+								<div class="text-danger text-sm">
+									{{ $message }}
+								</div>
+							@enderror	
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<div class="clearfix">
 				<hr>
@@ -301,31 +431,9 @@
                     </div>
 
 					<div class="col-md-6">
-						<label>Reporting Manager</label>
-						
-						<select class="form-control selectpicker @error('reportingManager') form-control-danger @enderror" id="reportingManager" name="reportingManager" required>
-							<option value="" selected disabled hidden>Select reporting manager</option>
-							
-							@foreach ($managers as $manager)
-								<option value="{{ $manager->id }}" {{ (old('reportingManager', $employees->reportingManager) == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }}</option>
-							@endforeach
-						</select>
-						
-						@error("reportingManager")
-							<div class="text-danger text-sm">
-								{{ $message }}
-							</div>
-						@enderror	
-                    </div>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="row">
-					<div class="col-md-6">
 						<label>Department</label>
 						
-						<select class="form-control selectpicker @error('department') form-control-danger @enderror" id="department" name="department" onchange="checkDepartment();" required>
+						<select class="form-control selectpicker @error('department') form-control-danger @enderror" id="department" name="department" required>
 							<option value="" selected disabled hidden>Select department</option>
 							
 							@foreach ($departments as $department)
@@ -339,18 +447,69 @@
 							</div>
 						@enderror	
 					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<label>Position</label>
+						
+						<select class="form-control selectpicker @error('position') form-control-danger @enderror" id="position" name="position" required>
+							<option value="" selected disabled hidden>Select position</option>
+							
+							@foreach ($positions as $position)
+								<option value="{{ $position->id }}" {{ (old('position', $employees->position) == $position->id ? "selected": null) }}> {{ $position->positionName }}</option>
+							@endforeach
+						</select>
+						
+						@error("position")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
 
 					<div class="col-md-6">
-						<label>Manager Role? <i>(Optional)</i></label>
-						<div class="custom-control custom-radio mb-5">
-							<input type="radio" id="manager" name="manager" value="1" class="custom-control-input">
-							<label class="custom-control-label" for="manager">Human Resource Manager</label>
-						</div>
-						<div class="custom-control custom-radio mb-5">
-							<input type="radio" id="manager1" name="manager" value="2" class="custom-control-input">
-							<label class="custom-control-label" for="manager1">Other Department Manager</label>
-						</div>
-					</div>
+						<label>Reporting Manager</label>
+						
+						<select class="form-control selectpicker @error('reportingManager') form-control-danger @enderror" id="reportingManager" name="reportingManager" required>
+							<option value="" selected disabled hidden>Select reporting manager</option>
+							
+							@foreach ($managers as $manager)
+								<option value="{{ $manager->id }}" {{ (old('reportingManager', $employees->reportingManager) == $manager->id ? "selected": null) }}>{{ $manager->getFullName() }} ({{ $manager->getDepartment->departmentName }})</option>
+							@endforeach
+						</select>
+						
+						@error("reportingManager")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<label>System Role</label>
+						@php
+							$roles = array(0 => "Super Admin", 2 => "Manager", 3 => "Employee");
+						@endphp
+						<select class="form-control selectpicker @error('role') form-control-danger @enderror" name="role" required>
+							<option value="" selected disabled hidden>Select system role</option>
+							@foreach ($roles as $key => $role)
+								<option value="{{ $key }}" {{ (((old('role', $employees->role) == $key && !is_null(old('role', $employees->role))) || $employees->role == 1 && $key == 2) ? "selected" : "") }}>{{ $role }}</option>
+							@endforeach
+						</select>
+						
+						@error("role")
+							<div class="text-danger text-sm">
+								{{ $message }}
+							</div>
+						@enderror	
+                    </div>
 				</div>
 			</div>
 
@@ -382,52 +541,41 @@
 			});
 			countWords();
 			countWords2();
-			@if (old('department', $employees->department))
-				checkDepartment();
-			@endif
+			checkMaritalStatus();
 		});
+
+		function checkMaritalStatus(){
+			var maritalStatus = document.getElementById('maritalStatus').value;
+			if(maritalStatus == "Married"){
+				document.getElementById('showSpouseInformation').removeAttribute('style');
+				document.getElementById('spouseName').setAttribute('required', '');
+				document.getElementById('spouseDateOfBirth').setAttribute('required', '');
+				document.getElementById('spouseIC').setAttribute('required', '');
+				document.getElementById('dateOfMarriage').setAttribute('required', '');
+				document.getElementById('spouseOccupation').setAttribute('required', '');
+				document.getElementById('spouseContactNumber').setAttribute('required', '');
+				document.getElementById('spouseResidentStatus').setAttribute('required', '');
+			}
+			else{
+				document.getElementById('showSpouseInformation').setAttribute('style', 'display:none;');
+				document.getElementById('spouseName').removeAttribute('required');
+				document.getElementById('spouseDateOfBirth').removeAttribute('required');
+				document.getElementById('spouseIC').removeAttribute('required');
+				document.getElementById('dateOfMarriage').removeAttribute('required');
+				document.getElementById('spouseOccupation').removeAttribute('required');
+				document.getElementById('spouseContactNumber').removeAttribute('required');
+				document.getElementById('spouseResidentStatus').removeAttribute('required');
+			}
+		}
 
 		function countWords(){
 			var words = document.getElementById('address');
 			$('#address_word_count').text(words.value.length + "/" + words.maxLength);
-		};
+		}
 
 		function countWords2(){
 			var words = document.getElementById('emergencyAddress');
 			$('#emergency_address_word_count').text(words.value.length + "/" + words.maxLength);
-		};
-
-		var check = true;
-		
-		function checkDepartment(){
-			var department = document.getElementById('department');
-			var departmentName = department.options[department.selectedIndex].getAttribute('data-departmentName');
-
-			if(departmentName.toUpperCase() != "human resource".toUpperCase()){
-				document.getElementById('manager').checked = false;
-				document.getElementById('manager').disabled = true;
-				document.getElementById('manager1').checked = false;
-				document.getElementById('manager1').disabled = false;
-			}
-			else{
-				document.getElementById('manager').checked = false;
-				document.getElementById('manager').disabled = false;
-				document.getElementById('manager1').checked = false;
-				document.getElementById('manager1').disabled = true;
-			}
-			if(check){
-				@if (old('manager', $employees->role))
-					@if (old('manager', $employees->role) == 1)
-						document.getElementById('manager').checked = true;
-					@elseif (old('manager', $employees->role) == 2)
-						document.getElementById('manager1').checked = true;	
-					@else
-						document.getElementById('manager').checked = false;
-						document.getElementById('manager1').checked = false;	
-					@endif
-				@endif
-				check = false;
-			}
 		}
 	</script>
 @endsection
