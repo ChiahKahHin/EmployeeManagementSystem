@@ -30,6 +30,12 @@ class LeaveTypeController extends Controller
         $leaveType->leaveType = $request->leaveType;
         $leaveType->leaveLimit = $request->leaveLimit;
         $leaveType->gender = $request->gender;
+        if($request->maritalStatus == null){
+            $leaveType->maritalStatus = 0;
+        }
+        else{
+            $leaveType->maritalStatus = $request->maritalStatus;
+        }
         $leaveType->save();
 
         return redirect()->route('addLeaveType')->with('message', 'Leave type added successfully!');
@@ -61,6 +67,12 @@ class LeaveTypeController extends Controller
         $leaveType->leaveType = $request->leaveType;
         $leaveType->leaveLimit = $request->leaveLimit;
         $leaveType->gender = $request->gender;
+        if($request->maritalStatus == null){
+            $leaveType->maritalStatus = 0;
+        }
+        else{
+            $leaveType->maritalStatus = $request->maritalStatus;
+        }
         $leaveType->save();
 
         return redirect()->route('editLeaveType', ['id' => $id])->with('message', 'Leave type details updated successfully!');

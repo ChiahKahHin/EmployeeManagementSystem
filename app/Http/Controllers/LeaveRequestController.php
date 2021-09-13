@@ -40,8 +40,15 @@ class LeaveRequestController extends Controller
 
     public function applyLeaveForm()
     {
-        $leaveTypes = LeaveType::all()
-                      ->whereIn('gender', ['All', Auth::user()->gender]);
+        if(Auth::user()->maritalStatus == "Married"){
+            $leaveTypes = LeaveType::all()
+                          ->whereIn('gender', ['All', Auth::user()->gender]);
+        }
+        else{
+            $leaveTypes = LeaveType::all()
+                          ->whereIn('gender', ['All', Auth::user()->gender])
+                          ->where('maritalStatus', 0);
+        }
         $approvedLeaves = LeaveRequest::all()
                           ->where('employeeID', Auth::user()->id)
                           ->whereIn('leaveStatus', [0, 2]);

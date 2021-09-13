@@ -14,6 +14,7 @@ class LeaveType extends Model
     protected $fillable = [
         'leaveType',
         'leaveLimit',
-        'gender'
+        'gender',
+        'maritalStatus'
     ];
 }

@@ -19,6 +19,7 @@ class CreateLeaveTypesTable extends Migration
             $table->string('leaveType')->unique();
             $table->integer('leaveLimit')->nullable();
             $table->string('gender');
+            $table->integer('maritalStatus');
             $table->timestamps();
         });
 
@@ -26,29 +27,34 @@ class CreateLeaveTypesTable extends Migration
             'leaveType' => 'Annual Leave',
             'leaveLimit' => 18,
             'gender' => 'All',
+            'maritalStatus' => 0,
         ]);
 
         LeaveType::create([
             'leaveType' => 'Carried Forward Leave',
             'gender' => 'All',
+            'maritalStatus' => 0,
         ]);
 
         LeaveType::create([
             'leaveType' => 'Medical Leave',
             'leaveLimit' => 3,
             'gender' => 'All',
+            'maritalStatus' => 0,
         ]);
 
         LeaveType::create([
             'leaveType' => 'Maternity Leave',
             'leaveLimit' => 30,
             'gender' => 'Female',
+            'maritalStatus' => 1,
         ]);
 
         LeaveType::create([
             'leaveType' => 'Paternity Leave',
             'leaveLimit' => 10,
             'gender' => 'Male',
+            'maritalStatus' => 1,
         ]);
     }
 

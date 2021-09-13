@@ -55,7 +55,7 @@
 						@php
 							$genders = array("Male", "Female");
 						@endphp
-						<select class="form-control selectpicker @error('gender') form-control-danger @enderror" name="gender" required>
+						<select class="form-control selectpicker @error('gender') form-control-danger @enderror" id="gender" name="gender" onchange="checkGender();" required>
 							<option value="" selected disabled hidden>Select gender</option>
 							<option value="All" {{ (old('gender') == "All" ? "selected": null) }}>Both genders</option>
 							@foreach ($genders as $gender)
@@ -71,6 +71,15 @@
                     </div>
                 </div>
             </div>
+
+			<div class="form-group" id="showMarriedOption" style="display: none;">
+				<div class="row">
+					<div class="col-md-6">
+						<label>Only for married employee?</label>
+						<input class="form-control switch-btn" type="checkbox" name="maritalStatus" data-size="small" data-color="#0099ff" value="1" {{ (old('maritalStatus')? "checked": null) }}>
+					</div>
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-md-6">
@@ -89,4 +98,26 @@
 			});
 		</script>
 	@endif
+@endsection
+
+@section('script')
+	<script>
+		$(document).ready(function() {
+			var gender = document.getElementById('gender').value;
+
+			if(gender != ""){
+				checkGender();
+			}
+		});
+
+		function checkGender() {
+			var gender = document.getElementById('gender').value;
+			if(gender != "All"){
+				document.getElementById('showMarriedOption').removeAttribute('style');
+			}
+			else{
+				document.getElementById('showMarriedOption').setAttribute('style', 'display:none;');
+			}
+		}
+	</script>
 @endsection

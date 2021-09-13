@@ -21,6 +21,7 @@
                         <th>Leave Type</th>
                         <th>Leave Limit</th>
                         <th>Gender</th>
+                        <th style="text-align: center;">Married Employee Only?</th>
                         <th class="datatable-nosort">Action</th>
                     </tr>
                 </thead>
@@ -29,8 +30,13 @@
                     <tr>
 						<td>{{ $loop->iteration }}</td>
 						<td class="table-plus">{{ ucwords($leaveType->leaveType) }}</td>
-                        <td>{{ ucwords($leaveType->leaveLimit) }}</td>
+                        @if ($leaveType->leaveType == "Carried Forward Leave")
+                            <td><i>(Each employee will be differ)</i></td>
+                        @else
+                            <td>{{ ucwords($leaveType->leaveLimit) }}</td>
+                        @endif
                         <td>{{ ucwords($leaveType->gender) }}</td>
+                        <td style="text-align: center;">{{ ($leaveType->maritalStatus == 1) ? "Yes" : "No" }}</td>
                         <td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
