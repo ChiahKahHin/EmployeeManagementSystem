@@ -228,9 +228,16 @@ class TaskController extends Controller
 
     public function taskAddedAnalytics($year)
     {
+        //$department = 2;
         $taskAddedArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
 
         $tasks = Task::where('created_at', 'like', ''.$year.'%')->get();
+        // $tasks = Task::where('tasks.created_at', 'like', ''.$year.'%')
+        //                ->join('users', function ($join) use ($department) {
+        //                    $join->on('tasks.personInCharge', 'users.id')
+        //                         ->where('users.department', $department);
+        //                })
+        //                 ->get();
         foreach ($tasks as $task) {
             $month = date('m', strtotime($task->created_at));
             $taskAddedArrays[$month] = $taskAddedArrays[$month] + 1;
