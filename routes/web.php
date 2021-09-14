@@ -98,9 +98,9 @@ Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name(
 
 //Task Analytics
 Route::get('/taskAnalyticsPage', [TaskController::class, 'taskAnalyticsPage'])->name('taskAnalyticsPage');
-Route::get('/taskAddedAnalytics/{year}', [TaskController::class, 'taskAddedAnalytics'])->name('taskAddedAnalytics');
-Route::get('/taskApprovedAndRejectedAnalytics/{year}', [TaskController::class, 'taskApprovedAndRejectedAnalytics'])->name('taskApprovedAndRejectedAnalytics');
-Route::get('/overallTaskAnalytics/{year}', [TaskController::class, 'overallTaskAnalytics'])->name('overallTaskAnalytics');
+Route::get('/overallTaskAnalytics/{year}/{department}', [TaskController::class, 'overallTaskAnalytics'])->name('overallTaskAnalytics');
+Route::get('/taskCompletedAnalytics/{year}/{department}', [TaskController::class, 'taskCompletedAnalytics'])->name('taskCompletedAnalytics');
+Route::get('/taskApprovedAndRejectedAnalytics/{year}/{department}', [TaskController::class, 'taskApprovedAndRejectedAnalytics'])->name('taskApprovedAndRejectedAnalytics');
 
 //Manage Claim Category
 Route::get('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategoryForm'])->name('addClaimCategory');

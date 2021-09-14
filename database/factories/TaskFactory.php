@@ -37,7 +37,7 @@ class TaskFactory extends Factory
         $date = $this->faker->dateTimeBetween($yearString, $randomDate);
 
         $dueDate = new Carbon($date);
-        $created_at = $dueDate->subDays($this->faker->numberBetween(1, 10));
+        $created_at = $dueDate->subDays($this->faker->numberBetween(1, 30));
         $created_at_temp = new Carbon($created_at);
         $updated_at = $created_at_temp->addDays($this->faker->numberBetween(1, 30));
         return [
