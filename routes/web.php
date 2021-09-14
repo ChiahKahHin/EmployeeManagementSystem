@@ -4,6 +4,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\ClaimTypeController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ClaimAnalyticsController;
 use App\Http\Controllers\ClaimCategoryController;
 use App\Http\Controllers\ClaimRequestController;
 use App\Http\Controllers\DashboardController;
@@ -129,6 +130,11 @@ Route::get('/deleteClaimRequest/{id}', [ClaimRequestController::class, 'deleteCl
 Route::get('/approveClaimRequest/{id}', [ClaimRequestController::class, 'approveClaimRequest'])->name('approveClaimRequest');
 Route::get('/rejectClaimRequest/{id}/{reason}', [ClaimRequestController::class, 'rejectClaimRequest'])->name('rejectClaimRequest');
 Route::get('/cancelClaimRequest/{id}', [ClaimRequestController::class, 'cancelClaimRequest'])->name('cancelClaimRequest');
+
+//Benefit Claim Analytics
+Route::get('/claimAnalytics', [ClaimAnalyticsController::class, 'claimAnalytics'])->name('claimAnalytics');
+Route::get('/overallClaimAnalytics/{year}/{department}', [ClaimAnalyticsController::class, 'overallClaimAnalytics'])->name('overallClaimAnalytics');
+Route::get('/claimApprovedAndRejectedAnalytics/{year}/{department}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics'])->name('claimApprovedAndRejectedAnalytics');
 
 //Memorandum
 Route::get('/createMemo', [MemoController::class, 'createMemoForm'])->name('createMemo');

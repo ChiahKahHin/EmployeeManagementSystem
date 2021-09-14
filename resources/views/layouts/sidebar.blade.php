@@ -176,6 +176,7 @@
 							</li>
 							<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
+							<li><a href="{{ route('claimAnalytics') }}">Benefit Claim Analytics</a></li>
 						</ul>
 					</li>
 				@endif
