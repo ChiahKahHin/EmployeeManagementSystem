@@ -21,7 +21,7 @@ class CreateTasksTable extends Migration
             $table->integer('managerID');
             $table->integer('delegateManagerID')->nullable();
             $table->string('priority');
-            $table->string('dueDate');
+            $table->date('dueDate');
             $table->integer('status');
             $table->timestamps();
         });
