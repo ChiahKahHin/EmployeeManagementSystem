@@ -17,6 +17,7 @@ use App\Http\Controllers\MemoController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicHolidayController;
+use App\Http\Controllers\TaskAnalyticsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TrainingProgramController;
 use App\Http\Controllers\WorkingDayController;
@@ -97,10 +98,10 @@ Route::get('/rejectTask/{id}/{reason}', [TaskController::class, 'rejectTask'])->
 Route::get('/completeTask/{id}', [TaskController::class, 'completeTask'])->name('completeTask');
 
 //Task Analytics
-Route::get('/taskAnalyticsPage', [TaskController::class, 'taskAnalyticsPage'])->name('taskAnalyticsPage');
-Route::get('/overallTaskAnalytics/{year}/{department}', [TaskController::class, 'overallTaskAnalytics'])->name('overallTaskAnalytics');
-Route::get('/taskCompletedAnalytics/{year}/{department}', [TaskController::class, 'taskCompletedAnalytics'])->name('taskCompletedAnalytics');
-Route::get('/taskApprovedAndRejectedAnalytics/{year}/{department}', [TaskController::class, 'taskApprovedAndRejectedAnalytics'])->name('taskApprovedAndRejectedAnalytics');
+Route::get('/taskAnalyticsPage', [TaskAnalyticsController::class, 'taskAnalyticsPage'])->name('taskAnalyticsPage');
+Route::get('/overallTaskAnalytics/{year}/{department}', [TaskAnalyticsController::class, 'overallTaskAnalytics'])->name('overallTaskAnalytics');
+Route::get('/taskCompletedAnalytics/{year}/{department}', [TaskAnalyticsController::class, 'taskCompletedAnalytics'])->name('taskCompletedAnalytics');
+Route::get('/taskApprovedAndRejectedAnalytics/{year}/{department}', [TaskAnalyticsController::class, 'taskApprovedAndRejectedAnalytics'])->name('taskApprovedAndRejectedAnalytics');
 
 //Manage Claim Category
 Route::get('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategoryForm'])->name('addClaimCategory');
