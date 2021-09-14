@@ -132,6 +132,7 @@
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
+							<li><a href="{{ route('leaveAnalytics') }}">Leave Analytics</a></li>
 						</ul>
 					</li>
 				@endif

@@ -116,7 +116,6 @@ class TaskAnalyticsController extends Controller
                            ->where('tasks.status', 3)
                            ->join('users', function ($join) use ($department) {
                                $join->on('tasks.personInCharge', 'users.id')
-                                    ->select('users.departmet')
                                     ->where('users.department', $department);
                            })->get();
             foreach ($tasks as $task) {
@@ -157,7 +156,6 @@ class TaskAnalyticsController extends Controller
                                    ->where('tasks.status', 3)
                                    ->join('users', function ($join) use ($department) {
                                         $join->on('tasks.personInCharge', 'users.id')
-                                            ->select('users.departmet')
                                             ->where('users.department', $department);
                                     })->get();
             foreach ($approvedTasks as $approvedTask) {
@@ -171,7 +169,6 @@ class TaskAnalyticsController extends Controller
                                     ->where('tasks.status', 2)
                                     ->join('users', function ($join) use ($department) {
                                         $join->on('tasks.personInCharge', 'users.id')
-                                            ->select('users.departmet')
                                             ->where('users.department', $department);
                                     })->get();
             foreach ($rejectedTasks as $rejectedTask) {

@@ -11,6 +11,7 @@ use App\Http\Controllers\DelegationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\LeaveAnalyticsController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MemoController;
@@ -180,6 +181,11 @@ Route::get('/approveLeaveRequest/{id}', [LeaveRequestController::class, 'approve
 Route::get('/rejectLeaveRequest/{id}/{reason}', [LeaveRequestController::class, 'rejectLeaveRequest'])->name('rejectLeaveRequest');
 Route::get('/deleteLeave/{id}', [LeaveRequestController::class, 'deleteLeave'])->name('deleteLeave');
 Route::get('/cancelLeaveRequest/{id}', [LeaveRequestController::class, 'cancelLeaveRequest'])->name('cancelLeaveRequest');
+
+//Leave Analytics
+Route::get('/leaveAnalytics', [LeaveAnalyticsController::class, 'leaveAnalytics'])->name('leaveAnalytics');
+Route::get('/overallLeaveAnalytics/{year}/{department}', [LeaveAnalyticsController::class, 'overallLeaveAnalytics'])->name('overallLeaveAnalytics');
+Route::get('/leaveApprovedAndRejectedAnalytics/{year}/{department}', [LeaveAnalyticsController::class, 'leaveApprovedAndRejectedAnalytics'])->name('leaveApprovedAndRejectedAnalytics');
 
 //Approval Delegation
 Route::get('/addDelegation', [DelegationController::class, 'addDelegationForm'])->name('addDelegation');
