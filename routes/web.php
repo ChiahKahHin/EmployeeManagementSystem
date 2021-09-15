@@ -149,6 +149,16 @@ Route::get('/claimAnalytics', [ClaimAnalyticsController::class, 'claimAnalytics'
 Route::get('/overallClaimAnalytics/{year}/{department}', [ClaimAnalyticsController::class, 'overallClaimAnalytics'])->name('overallClaimAnalytics');
 Route::get('/claimApprovedAndRejectedAnalytics/{year}/{department}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics'])->name('claimApprovedAndRejectedAnalytics');
 
+//Benefit Claim Analytics (Manager)
+Route::get('/claimAnalytics2', [ClaimAnalyticsController::class, 'claimAnalytics2'])->name('claimAnalytics2');
+Route::get('/overallClaimAnalytics2/{year}/{personInCharge}', [ClaimAnalyticsController::class, 'overallClaimAnalytics2'])->name('overallClaimAnalytics2');
+Route::get('/claimApprovedAndRejectedAnalytics2/{year}/{personInCharge}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics2'])->name('claimApprovedAndRejectedAnalytics2');
+
+//Benefit Claim Analytics (Employee)
+Route::get('/claimAnalytics3', [ClaimAnalyticsController::class, 'claimAnalytics3'])->name('claimAnalytics3');
+Route::get('/overallClaimAnalytics3/{year}', [ClaimAnalyticsController::class, 'overallClaimAnalytics3'])->name('overallClaimAnalytics3');
+Route::get('/claimApprovedAndRejectedAnalytics3/{year}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics3'])->name('claimApprovedAndRejectedAnalytics3');
+
 //Memorandum
 Route::get('/createMemo', [MemoController::class, 'createMemoForm'])->name('createMemo');
 Route::post('/createMemo', [MemoController::class, 'createMemo']);

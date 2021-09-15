@@ -200,6 +200,11 @@
 						<ul class="submenu">
 							<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
+							@if (Auth::user()->isManager())
+								<li><a href="{{ route('claimAnalytics2') }}">Benefit Claim Analytics</a></li>
+							@else
+								<li><a href="{{ route('claimAnalytics3') }}">Benefit Claim Analytics</a></li>
+							@endif
 						</ul>
 					</li>
 				@endif
