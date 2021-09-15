@@ -99,7 +99,13 @@
 							<li><a href="{{ route('addTask') }}">Add Task</a></li>
 						@endif
 						<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
-						<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
+						@if (Auth::user()->isAdmin())
+							<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
+						@elseif(Auth::user()->isAccess('hrmanager', 'manager'))
+							<li><a href="{{ route('taskAnalyticsPage2') }}">Task Analytics</a></li>
+						@else
+							<li><a href="{{ route('taskAnalyticsPage3') }}">Task Analytics</a></li>
+						@endif
 					</ul>
 				</li>
 

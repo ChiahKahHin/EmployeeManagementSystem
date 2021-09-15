@@ -106,6 +106,18 @@ Route::get('/overallTaskAnalytics/{year}/{department}', [TaskAnalyticsController
 Route::get('/taskCompletedAnalytics/{year}/{department}', [TaskAnalyticsController::class, 'taskCompletedAnalytics'])->name('taskCompletedAnalytics');
 Route::get('/taskApprovedAndRejectedAnalytics/{year}/{department}', [TaskAnalyticsController::class, 'taskApprovedAndRejectedAnalytics'])->name('taskApprovedAndRejectedAnalytics');
 
+//Task Analytics (Manager)
+Route::get('/taskAnalyticsPage2', [TaskAnalyticsController::class, 'taskAnalyticsPage2'])->name('taskAnalyticsPage2');
+Route::get('/overallTaskAnalytics2/{year}/{personInCharge}', [TaskAnalyticsController::class, 'overallTaskAnalytics2'])->name('overallTaskAnalytics2');
+Route::get('/taskCompletedAnalytics2/{year}/{personInCharge}', [TaskAnalyticsController::class, 'taskCompletedAnalytics2'])->name('taskCompletedAnalytics2');
+Route::get('/taskApprovedAndRejectedAnalytics2/{year}/{personInCharge}', [TaskAnalyticsController::class, 'taskApprovedAndRejectedAnalytics2'])->name('taskApprovedAndRejectedAnalytics2');
+
+//Task Analytics (Employee)
+Route::get('/taskAnalyticsPage3', [TaskAnalyticsController::class, 'taskAnalyticsPage3'])->name('taskAnalyticsPage3');
+Route::get('/overallTaskAnalytics3/{year}', [TaskAnalyticsController::class, 'overallTaskAnalytics3'])->name('overallTaskAnalytics3');
+Route::get('/taskCompletedAnalytics3/{year}', [TaskAnalyticsController::class, 'taskCompletedAnalytics3'])->name('taskCompletedAnalytics3');
+Route::get('/taskApprovedAndRejectedAnalytics3/{year}', [TaskAnalyticsController::class, 'taskApprovedAndRejectedAnalytics3'])->name('taskApprovedAndRejectedAnalytics3');
+
 //Manage Claim Category
 Route::get('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategoryForm'])->name('addClaimCategory');
 Route::post('/addClaimCategory', [ClaimCategoryController::class, 'addClaimCategory']);
