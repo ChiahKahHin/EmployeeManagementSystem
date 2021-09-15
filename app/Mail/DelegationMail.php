@@ -45,6 +45,10 @@ class DelegationMail extends Mailable implements ShouldQueue
             case 3:
                 $subject = "Approval Delegation Cancellation";
                 break;
+
+            case 4:
+                $subject = "Approval Delegation Cancellation";
+                break;
         }
 
         return $this->subject($subject)

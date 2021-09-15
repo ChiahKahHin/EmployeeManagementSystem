@@ -34,7 +34,9 @@ class Delegation extends Model
         elseif($this->status == 3){
             $status = "Cancelled";
         }
-
+        elseif($this->status == 4){
+            $status = "Cancelled during delegation";
+        }
         return $status;
     }
 }

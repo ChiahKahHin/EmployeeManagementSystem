@@ -9,7 +9,7 @@ Reason of delegation: {{ $delegation->reason }}
 An approval delegation is ongoing. <br>
 Reason of delegation: {{ $delegation->reason }}
 
-@elseif ($delegation->status == 3)
+@elseif ($delegation->status == 3 || $delegation->status == 4)
 Approval delegation was cancelled by the existing manager.
 @endif
 

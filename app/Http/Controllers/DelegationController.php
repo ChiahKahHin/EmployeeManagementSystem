@@ -173,7 +173,7 @@ class DelegationController extends Controller
                 $user->delegateManager = null;
                 $user->save();
             }
-            $delegation->status = 3;
+            $delegation->status = 4;
             $delegation->save();
             Mail::to($delegation->getDelegateManager->email)->send(new DelegationMail($delegation));
         }
