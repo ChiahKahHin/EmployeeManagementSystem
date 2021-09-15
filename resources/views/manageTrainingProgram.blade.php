@@ -56,14 +56,16 @@
 									<i class="dw dw-more"></i>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-									@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+									@if (Auth::user()->isAdmin())
 										<a class="dropdown-item" href="{{ route('viewTrainingProgram', ['id' => $trainingProgram->id]) }}"><i class="dw dw-eye"></i> View</a>
-										@if ($trainingProgram->status == 0)
-										<a class="dropdown-item" href="{{ route('editTrainingProgram', ['id' => $trainingProgram->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
-										@endif
-										<a class="dropdown-item deleteTrainingProgram" id="{{ $trainingProgram->id }}" value="{{ $trainingProgram->name }}"><i class="dw dw-delete-3"></i> Delete</a>
 									@else
 										<a class="dropdown-item" href="{{ route('viewTrainingProgram2', ['id' => $trainingProgram->id]) }}"><i class="dw dw-eye"></i> View</a>
+									@endif
+									@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+										@if ($trainingProgram->status == 0)
+											<a class="dropdown-item" href="{{ route('editTrainingProgram', ['id' => $trainingProgram->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
+										@endif
+										<a class="dropdown-item deleteTrainingProgram" id="{{ $trainingProgram->id }}" value="{{ $trainingProgram->name }}"><i class="dw dw-delete-3"></i> Delete</a>
 									@endif
 								</div>
 							</div>

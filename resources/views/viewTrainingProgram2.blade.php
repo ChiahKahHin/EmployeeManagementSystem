@@ -80,7 +80,7 @@
 						</tr>
 					</tbody>
 				</table>
-				@if (Auth::user()->isAccess('manager', 'employee'))
+				@if (Auth::user()->isAccess('hrmanager', 'manager', 'employee'))
 					@if ($trainingProgram->status == 0)
 						<div class="row">
 							<div class="col-md-12">
