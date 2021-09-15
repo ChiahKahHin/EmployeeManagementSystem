@@ -183,6 +183,8 @@ Route::get('/cancelTrainingProgram/{id}', [TrainingProgramController::class, 'ca
 //Training Analytics
 Route::get('/trainingAnalytics', [TrainingAnalyticsController::class, 'trainingAnalytics'])->name('trainingAnaytics');
 Route::get('/trainingAddedAnalytics/{year}', [TrainingAnalyticsController::class, 'trainingAddedAnalytics'])->name('trainingAddedAnalytics');
+Route::get('/trainingAnalytics2', [TrainingAnalyticsController::class, 'trainingAnalytics2'])->name('trainingAnaytics2');
+Route::get('/trainingRegisteredAnalytics/{year}', [TrainingAnalyticsController::class, 'trainingRegisteredAnalytics'])->name('trainingRegisteredAnalytics');
 
 //Working Day
 Route::get('/manageWorkingDay', [WorkingDayController::class, 'manageWorkingDayForm'])->name('manageWorkingDay');

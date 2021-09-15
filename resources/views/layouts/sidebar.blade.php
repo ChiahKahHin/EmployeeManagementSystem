@@ -217,7 +217,11 @@
 						<ul class="submenu">
 							<li><a href="{{ route('addTrainingProgram') }}">Add Training Program</a></li>
 							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
-							<li><a href="{{ route('trainingAnaytics') }}">Training Program Analytics</a></li>
+							@if (Auth::user()->isAdmin())
+								<li><a href="{{ route('trainingAnaytics') }}">Training Program Analytics</a></li>
+							@else
+								<li><a href="{{ route('trainingAnaytics2') }}">Training Program Analytics</a></li>
+							@endif
 						</ul>
 					</li>
 				@endif
@@ -229,6 +233,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
+							<li><a href="{{ route('trainingAnaytics2') }}">Training Program Analytics</a></li>
 						</ul>
 					</li>
 				@endif
