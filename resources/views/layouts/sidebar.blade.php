@@ -152,6 +152,11 @@
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave</a></li>
+							@if (Auth::user()->isManager())
+								<li><a href="{{ route('leaveAnalytics2') }}">Leave Analytics</a></li>
+							@else
+								<li><a href="{{ route('leaveAnalytics3') }}">Leave Analytics</a></li>
+							@endif
 						</ul>
 					</li>
 				@endif
