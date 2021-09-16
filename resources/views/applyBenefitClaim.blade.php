@@ -43,7 +43,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label id="claimAmountLabel">Claim Amount</label>
-						<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="1" step="1" id="claimAmount" name="claimAmount" placeholder="Enter benefit claim amount" value="{{ old('claimAmount') }}" onkeyup="checkClaimAmount();" required>
+						<input class="form-control @error('claimAmount') form-control-danger @enderror" type="number" min="1" step=".01" id="claimAmount" name="claimAmount" placeholder="Enter benefit claim amount" value="{{ old('claimAmount') }}" onkeyup="checkClaimAmount();" required>
 						
 						@error("claimAmount")
 							<div class="text-danger text-sm">
@@ -182,7 +182,7 @@
 						document.getElementById('claimAmount').setAttribute('class', 'form-control');
 					}
 					else if (remainingAmount >= 0) {
-						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Remaining Amount: RM" + remainingAmount +")";
+						document.getElementById('claimAmountLabel').innerHTML = "Claim Amount (Remaining Amount: RM" + remainingAmount.toFixed(2) +")";
 						document.getElementById('claimAmountLabel').removeAttribute('style');
 						document.getElementById('claimAmount').setAttribute('class', 'form-control');
 					}

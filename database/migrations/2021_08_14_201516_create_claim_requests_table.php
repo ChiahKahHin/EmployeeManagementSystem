@@ -17,7 +17,7 @@ class CreateClaimRequestsTable extends Migration
         Schema::create('claim_requests', function (Blueprint $table) {
             $table->id();
             $table->integer('claimType');
-            $table->string('claimAmount');
+            $table->double('claimAmount');
             $table->date('claimDate');
             $table->text('claimDescription');
             $table->string('claimRejectedReason')->nullable();
