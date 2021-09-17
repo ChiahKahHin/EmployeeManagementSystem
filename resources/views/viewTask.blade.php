@@ -233,7 +233,7 @@
 			</tbody>
 		</table>
 		@if (!Auth::user()->isEmployee())
-			@if ($task->status == 1)
+			@if ($task->status == 1 && (Auth::user()->isAdmin() || $task->managerID == Auth::id() || $task->delegateManagerID == Auth::id()))
 				<div class="row">
 					<div class="col-md-6">
 						<button type="button" id="approveTask" class="btn btn-primary btn-block">Approve Task</button>
@@ -245,7 +245,7 @@
 			@endif
 		@endif
 
-		@if (Auth::user()->isAccess('admin', 'employee'))
+		@if (Auth::user()->isAccess('admin') || $task->personInCharge == Auth::id())
 			@if ($task->status == 0 || $task->status == 2)
 				<div class="row">
 					<div class="col-md-12">

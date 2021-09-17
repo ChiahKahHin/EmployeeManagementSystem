@@ -229,7 +229,7 @@ class LeaveRequestController extends Controller
     {
         $leaveRequest = LeaveRequest::find($id);
 
-        if(Auth::user()->isAdmin() || Auth::id() == $leaveRequest->employeeID || Auth::id() == $leaveRequest->managerID || Auth::id() == $leaveRequest->delegateManagerID){
+        if(Auth::user()->isAccess('admin', 'hrmanager') || Auth::id() == $leaveRequest->employeeID || Auth::id() == $leaveRequest->managerID || Auth::id() == $leaveRequest->delegateManagerID){
             return view('viewLeave', ['leaveRequest' => $leaveRequest]);
         }
         else{

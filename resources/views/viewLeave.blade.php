@@ -322,7 +322,7 @@
 			</tbody>
 		</table>
 		@if (!Auth::user()->isEmployee())
-			@if ($leaveRequest->leaveStatus == 0)
+			@if ($leaveRequest->leaveStatus == 0 && (Auth::user()->isAccess('admin', 'hrmanager') || $leaveRequest->managerID == Auth::id() || $leaveRequest->delegateManagerID == Auth::id()))
 				<div class="row">
 					<div class="col-md-6">
 						<button type="button" id="approveLeaveRequest" class="btn btn-primary btn-block">Approve Leave Request</button>
