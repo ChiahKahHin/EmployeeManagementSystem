@@ -135,6 +135,17 @@
 			});
 		</script>
 	@endif
+	@if (session('error'))
+		<script>
+			swal({
+				title: '{{ session("error") }}',
+				html: '{{ session("error1") }}',
+				type: 'error',
+				confirmButtonClass: 'btn btn-success',
+				//timer:7500
+			});
+		</script>
+	@endif
 @endsection
 
 @section("script")

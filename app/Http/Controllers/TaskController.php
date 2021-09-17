@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\TaskNotificationMail;
+use App\Models\PublicHoliday;
 use App\Models\RejectedTask;
 use App\Models\Task;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Models\WorkingDay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -16,14 +17,20 @@ class TaskController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['employee:hrmanager,manager'])->only(['addTaskForm', 'addTask']);
+        $this->middleware(['employee:admin'])->only(['deleteTask']);
+        $this->middleware(['employee:admin,hrmanager,manager'])->only(['addTaskForm', 'addTask', 'editTaskForm', 'editTask', 'approveTask', 'rejectTask']);
     }
 
     public function addTaskForm()
     {
-        $personInCharges = User::where('reportingManager', Auth::id())
-                                ->where('role', 3)
-                                ->get();
+        if(Auth::user()->isAdmin()){
+            $personInCharges = User::where('id', '!=' , Auth::id())
+                                    ->get();
+        }
+        else{
+            $personInCharges = User::where('reportingManager', Auth::id())
+                                    ->get();
+        }
 
         return view('addTask', ['personInCharges' => $personInCharges]);
     }
@@ -37,6 +44,35 @@ class TaskController extends Controller
             'priority' => 'required',
             'dueDate' => 'required|after:today',
         ]);
+
+        //Check conflict with public holiday
+        $numberOfPublicHolidays = 0;
+        $publicHolidays = PublicHoliday::distinct()->get('date');
+        foreach ($publicHolidays as $publicHoliday) {
+            if($publicHoliday->date == $request->dueDate){
+                $numberOfPublicHolidays++ ;
+                $publicHolidayDate = $publicHoliday->date;
+            }
+        }
+        
+        if ($numberOfPublicHolidays > 0) {
+            return redirect()->route('addTask')->with('error', 'Please do not select public holiday for the task due date ')
+                                                     ->with('error1', "Public Holiday: ". $publicHolidayDate);
+        }
+
+        //Check conflict with non-working day
+        $numberOfNonWorkingDays = 0;
+        $nonWorkingDays = WorkingDay::all()->where('status', 0);
+
+        foreach ($nonWorkingDays as $nonWorkingDay) {
+            if($nonWorkingDay->workingDay == date("l", strtotime($request->dueDate))){
+                $numberOfNonWorkingDays++;
+            }
+        }
+        
+        if ($numberOfNonWorkingDays > 0) {
+            return redirect()->route('addTask')->with('error', 'Please do not select non-working day for the task due date');
+        }
 
         if(is_array($request->personInCharge)){
             for ($i=0; $i < count($request->personInCharge); $i++) { 
@@ -98,11 +134,13 @@ class TaskController extends Controller
     public function editTaskForm($id)
     {
         $task = Task::findOrFail($id);
-        $personInCharges = User::where('reportingManager', Auth::id())
-                                ->where('role', 3)
-                                ->get();
-        
-        return view('editTask', ['task' => $task, 'personInCharges' => $personInCharges]);
+        if(Auth::user()->isAdmin() || Auth::id() == $task->managerID || Auth::id() == $task->delegateManagerID){
+            $personInCharges = User::where('reportingManager', Auth::id())
+                                    ->get();
+            
+            return view('editTask', ['task' => $task, 'personInCharges' => $personInCharges]);
+        }
+        return redirect()->route('manageTask');
     }
 
     public function editTask(Request $request, $id)
@@ -114,6 +152,35 @@ class TaskController extends Controller
             'priority' => 'required',
             'dueDate' => 'required|after:today',
         ]);
+
+        //Check conflict with public holiday
+        $numberOfPublicHolidays = 0;
+        $publicHolidays = PublicHoliday::distinct()->get('date');
+        foreach ($publicHolidays as $publicHoliday) {
+            if($publicHoliday->date == $request->dueDate){
+                $numberOfPublicHolidays++ ;
+                $publicHolidayDate = $publicHoliday->date;
+            }
+        }
+        
+        if ($numberOfPublicHolidays > 0) {
+            return redirect()->route('editTask', ['id' => $id])->with('error', 'Please do not select public holiday for the task due date ')
+                                                     ->with('error1', "Public Holiday: ". $publicHolidayDate);
+        }
+
+        //Check conflict with non-working day
+        $numberOfNonWorkingDays = 0;
+        $nonWorkingDays = WorkingDay::all()->where('status', 0);
+
+        foreach ($nonWorkingDays as $nonWorkingDay) {
+            if($nonWorkingDay->workingDay == date("l", strtotime($request->dueDate))){
+                $numberOfNonWorkingDays++;
+            }
+        }
+        
+        if ($numberOfNonWorkingDays > 0) {
+            return redirect()->route('editTask', ['id' => $id])->with('error', 'Please do not select non-working day for the task due date');
+        }
 
         $task = Task::find($id);
         $task->title = $request->title;
@@ -148,50 +215,62 @@ class TaskController extends Controller
     public function approveTask($id)
     {
         $task = Task::find($id);
-        $task->status = 3;
-        $task->save();
+        if(Auth::user()->isAdmin() || Auth::id() == $task->managerID || Auth::id() == $task->delegateManagerID){
+            $task->status = 3;
+            $task->save();
 
-        $email = $task->getEmail($task->personInCharge);
+            $email = $task->getEmail($task->personInCharge);
 
-        Mail::to($email)->send(new TaskNotificationMail($task));
+            Mail::to($email)->send(new TaskNotificationMail($task));
 
-        return redirect()->route('viewTask', ['id' => $id]);
+            return redirect()->route('viewTask', ['id' => $id]);
+        }
+
+        return redirect()->route('manageTask');
     }
 
     public function rejectTask($id, $reason)
     {
         $task = Task::find($id);
-        $task->status = 2;
-        $task->save();
+        if(Auth::user()->isAdmin() || Auth::id() == $task->managerID || Auth::id() == $task->delegateManagerID){
+            $task->status = 2;
+            $task->save();
 
-        $rejectedTask = new RejectedTask();
-        $rejectedTask->taskID = $id;
-        $rejectedTask->rejectedReason = $reason;
-        $rejectedTask->save();
+            $rejectedTask = new RejectedTask();
+            $rejectedTask->taskID = $id;
+            $rejectedTask->rejectedReason = $reason;
+            $rejectedTask->save();
 
-        $email = $task->getEmail($task->personInCharge);
+            $email = $task->getEmail($task->personInCharge);
 
-        Mail::to($email)->send(new TaskNotificationMail($task, $reason));
+            Mail::to($email)->send(new TaskNotificationMail($task, $reason));
 
-        return redirect()->route('viewTask', ['id' => $id]);
+            return redirect()->route('viewTask', ['id' => $id]);
+        }
+        
+        return redirect()->route('manageTask');
     }
 
     public function completeTask($id)
     {
         $task = Task::find($id);
-        $task->status = 1;
-        $task->save();
-        if($task->getPersonInCharge->delegateManager != null){
-            $task->delegateManagerID = $task->getPersonInCharge->delegateManager;
+        if(Auth::user()->isAdmin() || Auth::id() == $task->personInCharge){
+            $task->status = 1;
             $task->save();
-            $email = $task->getEmail($task->delegateManagerID);
-        }
-        else{
-            $email = $task->getEmail($task->managerID);
-        }
+            if($task->getPersonInCharge->delegateManager != null){
+                $task->delegateManagerID = $task->getPersonInCharge->delegateManager;
+                $task->save();
+                $email = $task->getEmail($task->delegateManagerID);
+            }
+            else{
+                $email = $task->getEmail($task->managerID);
+            }
 
-        Mail::to($email)->send(new TaskNotificationMail($task));
+            Mail::to($email)->send(new TaskNotificationMail($task));
 
-        return redirect()->route('viewTask', ['id' => $id]);
+            return redirect()->route('viewTask', ['id' => $id]);
+        }
+        
+        return redirect()->route('manageTask');
     }
 }

@@ -245,7 +245,7 @@
 			@endif
 		@endif
 
-		@if (Auth::user()->isEmployee())
+		@if (Auth::user()->isAccess('admin', 'employee'))
 			@if ($task->status == 0 || $task->status == 2)
 				<div class="row">
 					<div class="col-md-12">
