@@ -87,7 +87,9 @@
 		'manageClaimRequest', 'manageClaimType', 'manageDelegation', 'manageDepartment', 'manageEmployee',
 		'manageLeave', 'manageLeaveType', 'manageMemo', 'managePosition', 'managePublicHoliday',
 		'manageTask', 'manageTrainingProgram', 'manageWorkingDay', 'vuewClaimRequest', 'viewLeave',
-		'viewProfile', 'viewTask', 'viewTrainingProgram2'
+		'viewProfile', 'viewTask', 'viewTrainingProgram2', 'taskAnalyticsPage', 'taskAnalyticsPage2',
+		'taskAnalyticsPage3', 'leaveAnalytics', 'leaveAnalytics2', 'leaveAnalytics3', 'claimAnalytics',
+		'claimAnalytics2', 'claimAnalytics3', 'trainingAnaytics', 'trainingAnaytics2'
 	]
 @endphp
 @if (in_array($currentRouteName, $sweetAlertRoutes))

@@ -9,37 +9,53 @@
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Training Program Registered</h2>
+	@if (count($trainingRegisteredYears) == 0)
+		<script>
+			swal({
+				title: 'Warning',
+				html: 'There is no training program analytics available at the moment !',
+				type: 'warning',
+				confirmButtonClass: 'btn btn-danger',
+			}).then(function(){
+				window.location.href = "/";
+			});
+		</script>
+	@endif
+	@if (count($trainingRegisteredYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Training Program Registered</h2>
 
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="trainingRegisteredYear" name="trainingRegisteredYear" onchange="trainingRegisteredYearChange();" required>
-								@foreach ($trainingRegisteredYears as $trainingRegisteredYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $trainingRegisteredYear }}" selected>{{ $trainingRegisteredYear }}</option>
-									@else
-										<option value="{{ $trainingRegisteredYear }}">{{ $trainingRegisteredYear }}</option>
-									@endif
-								@endforeach
-							</select>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="trainingRegisteredYear" name="trainingRegisteredYear" onchange="trainingRegisteredYearChange();" required>
+									@foreach ($trainingRegisteredYears as $trainingRegisteredYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $trainingRegisteredYear }}" selected>{{ $trainingRegisteredYear }}</option>
+										@else
+											<option value="{{ $trainingRegisteredYear }}">{{ $trainingRegisteredYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div id="trainingRegistered"></div>
+					<div id="trainingRegistered"></div>
+				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 @endsection
 
 @section('script')
 	<script>
 		$(document).ready(function (){
-			trainingRegisteredYearChange();
+			@if (count($trainingRegisteredYears) > 0)
+				trainingRegisteredYearChange();
+			@endif
     	});
 
 		function trainingRegisteredYearChange() {

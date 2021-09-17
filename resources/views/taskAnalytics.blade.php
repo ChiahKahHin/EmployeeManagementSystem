@@ -9,144 +9,171 @@
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Overall Task</h2>
+	@if (count($overallTaskYears) == 0 && count($taskCompletedYears) == 0 && count($taskApprovedAndRejectedYears) == 0)
+		<script>
+			swal({
+				title: 'Warning',
+				html: 'There is no task analytics available at the moment !',
+				type: 'warning',
+				confirmButtonClass: 'btn btn-danger',
+			}).then(function(){
+				window.location.href = "/";
+			});
+		</script>
+	@endif
+	
+	@if (count($overallTaskYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Overall Task</h2>
 
-				<div class="form-group">
-					<div class="row">
+					<div class="form-group">
+						<div class="row">
+								<div class="col-md-6">
+									<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overallTaskChange();" required>
+										@foreach ($overallTaskYears as $overallTaskYear)
+											@if ($loop->iteration == 1)
+												<option value="{{ $overallTaskYear }}" selected>{{ $overallTaskYear }}</option>
+											@else
+												<option value="{{ $overallTaskYear }}">{{ $overallTaskYear }}</option>
+											@endif
+										@endforeach
+									</select>
+								</div>
+								<div class="col-md-6">
+									<select class="form-control selectpicker" id="overallTaskDepartment" name="overTaskDepartment" onchange="overallTaskChange();" required>
+										<option value="" data-departmentName="All Departments" selected>All Departments</option>
+										@php
+											$departmentArray = [];
+										@endphp
+										@foreach ($departments as $department)
+											@if(!in_array($department->getPersonInCharge->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getPersonInCharge->getDepartment->id }}" data-departmentName="{{ $department->getPersonInCharge->getDepartment->departmentName }}">{{ $department->getPersonInCharge->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getPersonInCharge->getDepartment->id;
+												@endphp
+											@endif
+										@endforeach
+									</select>
+								</div>
+						</div>
+					</div>
+
+					<div style="width: 25%; padding-bottom: 25px;">
+					</div>
+
+					<div id="overallTask" style="display:flex;" class="pt-4 justify-content-center"></div>
+				</div>
+			</div>
+		</div>
+	@endif
+	
+	@if (count($taskCompletedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Task Completed Before & After Due Date</h2>
+					
+					<div class="form-group">
+						<div class="row">
 							<div class="col-md-6">
-								<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overallTaskChange();" required>
-									@foreach ($overallTaskYears as $overallTaskYear)
+								<select class="form-control selectpicker" id="taskCompletedYear" name="taskCompletedYear" onchange="taskCompletedChange();" required>						
+									@foreach ($taskCompletedYears as $taskCompletedYear)
 										@if ($loop->iteration == 1)
-											<option value="{{ $overallTaskYear }}" selected>{{ $overallTaskYear }}</option>
+											<option value="{{ $taskCompletedYear }}" selected>{{ $taskCompletedYear }}</option>
 										@else
-											<option value="{{ $overallTaskYear }}">{{ $overallTaskYear }}</option>
+											<option value="{{ $taskCompletedYear }}">{{ $taskCompletedYear }}</option>
 										@endif
 									@endforeach
 								</select>
 							</div>
 							<div class="col-md-6">
-								<select class="form-control selectpicker" id="overallTaskDepartment" name="overTaskDepartment" onchange="overallTaskChange();" required>
+								<select class="form-control selectpicker" id="taskCompletedDepartment" name="taskCompletedDepartment" onchange="taskCompletedChange();" required>
 									<option value="" data-departmentName="All Departments" selected>All Departments</option>
 									@php
 										$departmentArray = [];
 									@endphp
 									@foreach ($departments as $department)
-										@if(!in_array($department->getPersonInCharge->getDepartment->id, $departmentArray))
-											<option value="{{ $department->getPersonInCharge->getDepartment->id }}" data-departmentName="{{ $department->getPersonInCharge->getDepartment->departmentName }}">{{ $department->getPersonInCharge->getDepartment->departmentName }}</option>
-											@php
-												$departmentArray[] = $department->getPersonInCharge->getDepartment->id;
-											@endphp
+										@if ($department->status == 3)
+											@if(!in_array($department->getPersonInCharge->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getPersonInCharge->getDepartment->id }}" data-departmentName="{{ $department->getPersonInCharge->getDepartment->departmentName }}">{{ $department->getPersonInCharge->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getPersonInCharge->getDepartment->id;
+												@endphp
+											@endif
 										@endif
 									@endforeach
 								</select>
 							</div>
+						</div>
 					</div>
-				</div>
 
-				<div style="width: 25%; padding-bottom: 25px;">
+					<div id="taskCompletedChart"></div>
 				</div>
-
-				<div id="overallTask" style="display:flex;" class="pt-4 justify-content-center"></div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Task Completed Before & After Due Date</h2>
-				
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="taskCompletedYear" name="taskCompletedYear" onchange="taskCompletedChange();" required>						
-								@foreach ($taskCompletedYears as $taskCompletedYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $taskCompletedYear }}" selected>{{ $taskCompletedYear }}</option>
-									@else
-										<option value="{{ $taskCompletedYear }}">{{ $taskCompletedYear }}</option>
-									@endif
-								@endforeach
-							</select>
-						</div>
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="taskCompletedDepartment" name="taskCompletedDepartment" onchange="taskCompletedChange();" required>
-								<option value="" data-departmentName="All Departments" selected>All Departments</option>
-								@php
-									$departmentArray = [];
-								@endphp
-								@foreach ($departments as $department)
-									@if ($department->status == 3)
-										@if(!in_array($department->getPersonInCharge->getDepartment->id, $departmentArray))
-											<option value="{{ $department->getPersonInCharge->getDepartment->id }}" data-departmentName="{{ $department->getPersonInCharge->getDepartment->departmentName }}">{{ $department->getPersonInCharge->getDepartment->departmentName }}</option>
-											@php
-												$departmentArray[] = $department->getPersonInCharge->getDepartment->id;
-											@endphp
+	@endif
+	
+	@if (count($taskApprovedAndRejectedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Task Approved & Rejected</h2>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="taskApprovedAndRejectedYear" name="taskApprovedAndRejectedYear" onchange="taskApprovedAndRejectedChange();" required>
+									@foreach ($taskApprovedAndRejectedYears as $taskApprovedAndRejectedYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $taskApprovedAndRejectedYear }}" selected>{{ $taskApprovedAndRejectedYear }}</option>
+										@else
+											<option value="{{ $taskApprovedAndRejectedYear }}">{{ $taskApprovedAndRejectedYear }}</option>
 										@endif
-									@endif
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<div id="taskCompletedChart"></div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Task Approved & Rejected</h2>
-
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="taskApprovedAndRejectedYear" name="taskApprovedAndRejectedYear" onchange="taskApprovedAndRejectedChange();" required>
-								@foreach ($taskApprovedAndRejectedYears as $taskApprovedAndRejectedYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $taskApprovedAndRejectedYear }}" selected>{{ $taskApprovedAndRejectedYear }}</option>
-									@else
-										<option value="{{ $taskApprovedAndRejectedYear }}">{{ $taskApprovedAndRejectedYear }}</option>
-									@endif
-								@endforeach
-							</select>
-						</div>
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="taskApprovedAndRejectedDepartment" name="taskApprovedAndRejectedDepartment" onchange="taskApprovedAndRejectedChange();" required>
-								<option value="" data-departmentName="All Departments" selected>All Departments</option>
-								@php
-									$departmentArray = [];
-								@endphp
-								@foreach ($departments as $department)
-									@if ($department->status == 2 || $department->status == 3)
-										@if(!in_array($department->getPersonInCharge->getDepartment->id, $departmentArray))
-											<option value="{{ $department->getPersonInCharge->getDepartment->id }}" data-departmentName="{{ $department->getPersonInCharge->getDepartment->departmentName }}">{{ $department->getPersonInCharge->getDepartment->departmentName }}</option>
-											@php
-												$departmentArray[] = $department->getPersonInCharge->getDepartment->id;
-											@endphp
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="taskApprovedAndRejectedDepartment" name="taskApprovedAndRejectedDepartment" onchange="taskApprovedAndRejectedChange();" required>
+									<option value="" data-departmentName="All Departments" selected>All Departments</option>
+									@php
+										$departmentArray = [];
+									@endphp
+									@foreach ($departments as $department)
+										@if ($department->status == 2 || $department->status == 3)
+											@if(!in_array($department->getPersonInCharge->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getPersonInCharge->getDepartment->id }}" data-departmentName="{{ $department->getPersonInCharge->getDepartment->departmentName }}">{{ $department->getPersonInCharge->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getPersonInCharge->getDepartment->id;
+												@endphp
+											@endif
 										@endif
-									@endif
-								@endforeach
-							</select>
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div id="taskApprovedAndRejected"></div>
+					<div id="taskApprovedAndRejected"></div>
+				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 @endsection
 
 @section('script')
 	<script>
 		$(document).ready(function (){
-			overallTaskChange();
-			taskCompletedChange();
-			taskApprovedAndRejectedChange();
+			@if (count($overallTaskYears) > 0)
+				overallTaskChange();
+			@endif
+			@if (count($taskCompletedYears) > 0)
+				taskCompletedChange();
+			@endif
+			@if (count($taskApprovedAndRejectedYears) > 0)
+				taskApprovedAndRejectedChange();
+			@endif
     	});
 
 		function overallTaskChange() {

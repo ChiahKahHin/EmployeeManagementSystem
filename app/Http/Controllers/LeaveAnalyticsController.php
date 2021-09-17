@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class LeaveAnalyticsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['employee:admin'])->only(['leaveAnalytics', 'overallLeaveAnalytics', 'leaveApprovedAndRejectedAnalytics']);
+        $this->middleware(['employee:hrmanager,manager'])->only(['leaveAnalytics2', 'overallLeaveAnalytics2', 'leaveApprovedAndRejectedAnalytics2']);
+        $this->middleware(['employee:employee'])->only(['leaveAnalytics3', 'overallLeaveAnalytics3', 'leaveApprovedAndRejectedAnalytics3']);
+    }
+
     public function leaveAnalytics(){
         $overallLeaveYears = array();
         $leaveRequests = LeaveRequest::select('updated_at')->get();

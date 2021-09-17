@@ -9,17 +9,23 @@
 @endsection
 
 @section('content')
-	<div class="pd-20 card-box mb-30">
-		<div class="clearfix">
-			<div class="pull-left mb-10">
-				<h4 class="text-blue h4">Add Task</h4>
-			</div>
-		</div>
-		@if (count($personInCharges) == 0)
+	@if (count($personInCharges) == 0)
+		@if (Auth::user()->isAccess('manager', 'employee'))
 			<script>
 				swal({
 					title: 'Warning',
-					html: 'There is no employee added at the moment<br> Please inform the Human Resource Department',
+					html: 'There is no person in charge added at the moment<br> Please inform the Human Resource Department',
+					type: 'warning',
+					confirmButtonClass: 'btn btn-danger',
+				}).then(function(){
+					window.location.href = "/";
+				});
+			</script>
+		@else
+			<script>
+				swal({
+					title: 'Warning',
+					html: 'There is no person in charge added at the moment !',
 					type: 'warning',
 					confirmButtonClass: 'btn btn-danger',
 				}).then(function(){
@@ -27,6 +33,13 @@
 				});
 			</script>
 		@endif
+	@endif
+	<div class="pd-20 card-box mb-30">
+		<div class="clearfix">
+			<div class="pull-left mb-10">
+				<h4 class="text-blue h4">Add Task</h4>
+			</div>
+		</div>
 		<form action="{{ route('addTask') }}" method="POST">
 			@csrf
 			<div class="form-group">

@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class TrainingAnalyticsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['employee:admin'])->only(['trainingAnalytics', 'trainingAddedAnalytics']);
+        $this->middleware(['employee:hrmanager,manager,employee'])->only(['trainingAnalytics2', 'trainingRegisteredAnalytics']);
+    }
+
     public function trainingAnalytics()
     {
         $trainingAddedYears = array();

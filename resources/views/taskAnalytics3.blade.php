@@ -9,92 +9,119 @@
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Overall Task</h2>
+	@if (count($overallTaskYears) == 0 && count($taskCompletedYears) == 0 && count($taskApprovedAndRejectedYears) == 0)
+		<script>
+			swal({
+				title: 'Warning',
+				html: 'There is no task analytics available at the moment !',
+				type: 'warning',
+				confirmButtonClass: 'btn btn-danger',
+			}).then(function(){
+				window.location.href = "/";
+			});
+		</script>
+	@endif
 
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overallTaskChange();" required>
-								@foreach ($overallTaskYears as $overallTaskYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $overallTaskYear }}" selected>{{ $overallTaskYear }}</option>
-									@else
-										<option value="{{ $overallTaskYear }}">{{ $overallTaskYear }}</option>
-									@endif
-								@endforeach
-							</select>
+	@if (count($overallTaskYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Overall Task</h2>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="overallTaskYear" name="overTaskYear" onchange="overallTaskChange();" required>
+									@foreach ($overallTaskYears as $overallTaskYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $overallTaskYear }}" selected>{{ $overallTaskYear }}</option>
+										@else
+											<option value="{{ $overallTaskYear }}">{{ $overallTaskYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div style="width: 25%; padding-bottom: 25px;">
-				</div>
+					<div style="width: 25%; padding-bottom: 25px;">
+					</div>
 
-				<div id="overallTask" style="display:flex;" class="pt-4 justify-content-center"></div>
+					<div id="overallTask" style="display:flex;" class="pt-4 justify-content-center"></div>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Task Completed Before & After Due Date</h2>
-				
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="taskCompletedYear" name="taskCompletedYear" onchange="taskCompletedChange();" required>						
-								@foreach ($taskCompletedYears as $taskCompletedYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $taskCompletedYear }}" selected>{{ $taskCompletedYear }}</option>
-									@else
-										<option value="{{ $taskCompletedYear }}">{{ $taskCompletedYear }}</option>
-									@endif
-								@endforeach
-							</select>
+	@endif
+
+	@if (count($taskCompletedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Task Completed Before & After Due Date</h2>
+					
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="taskCompletedYear" name="taskCompletedYear" onchange="taskCompletedChange();" required>						
+									@foreach ($taskCompletedYears as $taskCompletedYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $taskCompletedYear }}" selected>{{ $taskCompletedYear }}</option>
+										@else
+											<option value="{{ $taskCompletedYear }}">{{ $taskCompletedYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div id="taskCompletedChart"></div>
+					<div id="taskCompletedChart"></div>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Task Approved & Rejected</h2>
+	@endif
 
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="taskApprovedAndRejectedYear" name="taskApprovedAndRejectedYear" onchange="taskApprovedAndRejectedChange();" required>
-								@foreach ($taskApprovedAndRejectedYears as $taskApprovedAndRejectedYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $taskApprovedAndRejectedYear }}" selected>{{ $taskApprovedAndRejectedYear }}</option>
-									@else
-										<option value="{{ $taskApprovedAndRejectedYear }}">{{ $taskApprovedAndRejectedYear }}</option>
-									@endif
-								@endforeach
-							</select>
+	@if (count($taskApprovedAndRejectedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Task Approved & Rejected</h2>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="taskApprovedAndRejectedYear" name="taskApprovedAndRejectedYear" onchange="taskApprovedAndRejectedChange();" required>
+									@foreach ($taskApprovedAndRejectedYears as $taskApprovedAndRejectedYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $taskApprovedAndRejectedYear }}" selected>{{ $taskApprovedAndRejectedYear }}</option>
+										@else
+											<option value="{{ $taskApprovedAndRejectedYear }}">{{ $taskApprovedAndRejectedYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div id="taskApprovedAndRejected"></div>
+					<div id="taskApprovedAndRejected"></div>
+				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 @endsection
 
 @section('script')
 	<script>
 		$(document).ready(function (){
-			overallTaskChange();
-			taskCompletedChange();
-			taskApprovedAndRejectedChange();
+			@if (count($overallTaskYears) > 0)
+				overallTaskChange();
+			@endif
+			@if (count($taskCompletedYears) > 0)
+				taskCompletedChange();
+			@endif
+			@if (count($taskApprovedAndRejectedYears) > 0)
+				taskApprovedAndRejectedChange();
+			@endif
     	});
 
 		function overallTaskChange() {

@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ClaimAnalyticsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['employee:admin'])->only(['claimAnalytics', 'overallClaimAnalytics', 'claimApprovedAndRejectedAnalytics']);
+        $this->middleware(['employee:hrmanager,manager'])->only(['claimAnalytics2', 'overallClaimAnalytics2', 'claimApprovedAndRejectedAnalytics2']);
+        $this->middleware(['employee:employee'])->only(['claimAnalytics3', 'overallClaimAnalytics3', 'claimApprovedAndRejectedAnalytics3']);
+    }
+
     public function claimAnalytics()
     {
         $overallClaimYears = array();

@@ -9,100 +9,122 @@
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Overall Benefit Claim</h2>
+	@if (count($overallClaimYears) == 0 && count($claimApprovedAndRejectedYears) == 0)
+		<script>
+			swal({
+				title: 'Warning',
+				html: 'There is no benefit claim analytics available at the moment !',
+				type: 'warning',
+				confirmButtonClass: 'btn btn-danger',
+			}).then(function(){
+				window.location.href = "/";
+			});
+		</script>
+	@endif
 
-				<div class="form-group">
-					<div class="row">
+	@if (count($overallClaimYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Overall Benefit Claim</h2>
+
+					<div class="form-group">
+						<div class="row">
+								<div class="col-md-6">
+									<select class="form-control selectpicker" id="overallClaimYear" name="overallClaimYear" onchange="overallClaimChange();" required>
+										@foreach ($overallClaimYears as $overallClaimYear)
+											@if ($loop->iteration == 1)
+												<option value="{{ $overallClaimYear }}" selected>{{ $overallClaimYear }}</option>
+											@else
+												<option value="{{ $overallClaimYear }}">{{ $overallClaimYear }}</option>
+											@endif
+										@endforeach
+									</select>
+								</div>
+								<div class="col-md-6">
+									<select class="form-control selectpicker" id="overallClaimDepartment" name="overallClaimDepartment" onchange="overallClaimChange();" required>
+										<option value="" data-departmentName="All Departments" selected>All Departments</option>
+										@php
+											$departmentArray = [];
+										@endphp
+										@foreach ($departments as $department)
+											@if(!in_array($department->getEmployee->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getEmployee->getDepartment->id }}" data-departmentName="{{ $department->getEmployee->getDepartment->departmentName }}">{{ $department->getEmployee->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getEmployee->getDepartment->id;
+												@endphp
+											@endif
+										@endforeach
+									</select>
+								</div>
+						</div>
+					</div>
+
+					<div style="width: 25%; padding-bottom: 25px;">
+					</div>
+
+					<div id="overallClaim" style="display:flex;" class="pt-4 justify-content-center"></div>
+				</div>
+			</div>
+		</div>
+	@endif
+
+	@if (count($claimApprovedAndRejectedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Benefit Claim Approved & Rejected</h2>
+
+					<div class="form-group">
+						<div class="row">
 							<div class="col-md-6">
-								<select class="form-control selectpicker" id="overallClaimYear" name="overallClaimYear" onchange="overallClaimChange();" required>
-									@foreach ($overallClaimYears as $overallClaimYear)
+								<select class="form-control selectpicker" id="claimApprovedAndRejectedYear" name="claimApprovedAndRejectedYear" onchange="claimApprovedAndRejectedChange();" required>
+									@foreach ($claimApprovedAndRejectedYears as $claimApprovedAndRejectedYear)
 										@if ($loop->iteration == 1)
-											<option value="{{ $overallClaimYear }}" selected>{{ $overallClaimYear }}</option>
+											<option value="{{ $claimApprovedAndRejectedYear }}" selected>{{ $claimApprovedAndRejectedYear }}</option>
 										@else
-											<option value="{{ $overallClaimYear }}">{{ $overallClaimYear }}</option>
+											<option value="{{ $claimApprovedAndRejectedYear }}">{{ $claimApprovedAndRejectedYear }}</option>
 										@endif
 									@endforeach
 								</select>
 							</div>
 							<div class="col-md-6">
-								<select class="form-control selectpicker" id="overallClaimDepartment" name="overallClaimDepartment" onchange="overallClaimChange();" required>
+								<select class="form-control selectpicker" id="claimApprovedAndRejectedDepartment" name="claimApprovedAndRejectedDepartment" onchange="claimApprovedAndRejectedChange();" required>
 									<option value="" data-departmentName="All Departments" selected>All Departments</option>
 									@php
 										$departmentArray = [];
 									@endphp
 									@foreach ($departments as $department)
-										@if(!in_array($department->getEmployee->getDepartment->id, $departmentArray))
-											<option value="{{ $department->getEmployee->getDepartment->id }}" data-departmentName="{{ $department->getEmployee->getDepartment->departmentName }}">{{ $department->getEmployee->getDepartment->departmentName }}</option>
-											@php
-												$departmentArray[] = $department->getEmployee->getDepartment->id;
-											@endphp
+										@if ($department->claimStatus == 1 || $department->claimStatus == 2)
+											@if(!in_array($department->getEmployee->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getEmployee->getDepartment->id }}" data-departmentName="{{ $department->getEmployee->getDepartment->departmentName }}">{{ $department->getEmployee->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getEmployee->getDepartment->id;
+												@endphp
+											@endif
 										@endif
 									@endforeach
 								</select>
 							</div>
-					</div>
-				</div>
-
-				<div style="width: 25%; padding-bottom: 25px;">
-				</div>
-
-				<div id="overallClaim" style="display:flex;" class="pt-4 justify-content-center"></div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Benefit Claim Approved & Rejected</h2>
-
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="claimApprovedAndRejectedYear" name="claimApprovedAndRejectedYear" onchange="claimApprovedAndRejectedChange();" required>
-								@foreach ($claimApprovedAndRejectedYears as $claimApprovedAndRejectedYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $claimApprovedAndRejectedYear }}" selected>{{ $claimApprovedAndRejectedYear }}</option>
-									@else
-										<option value="{{ $claimApprovedAndRejectedYear }}">{{ $claimApprovedAndRejectedYear }}</option>
-									@endif
-								@endforeach
-							</select>
-						</div>
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="claimApprovedAndRejectedDepartment" name="claimApprovedAndRejectedDepartment" onchange="claimApprovedAndRejectedChange();" required>
-								<option value="" data-departmentName="All Departments" selected>All Departments</option>
-								@php
-									$departmentArray = [];
-								@endphp
-								@foreach ($departments as $department)
-									@if ($department->claimStatus == 1 || $department->claimStatus == 2)
-										@if(!in_array($department->getEmployee->getDepartment->id, $departmentArray))
-											<option value="{{ $department->getEmployee->getDepartment->id }}" data-departmentName="{{ $department->getEmployee->getDepartment->departmentName }}">{{ $department->getEmployee->getDepartment->departmentName }}</option>
-											@php
-												$departmentArray[] = $department->getEmployee->getDepartment->id;
-											@endphp
-										@endif
-									@endif
-								@endforeach
-							</select>
 						</div>
 					</div>
-				</div>
 
-				<div id="claimApprovedAndRejected"></div>
+					<div id="claimApprovedAndRejected"></div>
+				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 @endsection
 
 @section('script')
 	<script>
 		$(document).ready(function (){
-			overallClaimChange();
-			claimApprovedAndRejectedChange();
+			@if (count($overallClaimYears) > 0)
+				overallClaimChange();
+			@endif
+			@if (count($claimApprovedAndRejectedYears) > 0)
+				claimApprovedAndRejectedChange();
+			@endif
     	});
 
 		function overallClaimChange() {

@@ -9,66 +9,88 @@
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Overall Leave</h2>
+	@if (count($overallLeaveYears) == 0 && count($leaveApprovedAndRejectedYears) == 0)
+		<script>
+			swal({
+				title: 'Warning',
+				html: 'There is no leave analytics available at the moment !',
+				type: 'warning',
+				confirmButtonClass: 'btn btn-danger',
+			}).then(function(){
+				window.location.href = "/";
+			});
+		</script>
+	@endif
+	
+	@if (count($overallLeaveYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Overall Leave</h2>
 
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="overallLeaveYear" name="overallLeaveYear" onchange="overallLeaveChange();" required>
-								@foreach ($overallLeaveYears as $overallLeaveYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $overallLeaveYear }}" selected>{{ $overallLeaveYear }}</option>
-									@else
-										<option value="{{ $overallLeaveYear }}">{{ $overallLeaveYear }}</option>
-									@endif
-								@endforeach
-							</select>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="overallLeaveYear" name="overallLeaveYear" onchange="overallLeaveChange();" required>
+									@foreach ($overallLeaveYears as $overallLeaveYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $overallLeaveYear }}" selected>{{ $overallLeaveYear }}</option>
+										@else
+											<option value="{{ $overallLeaveYear }}">{{ $overallLeaveYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div style="width: 25%; padding-bottom: 25px;">
-				</div>
+					<div style="width: 25%; padding-bottom: 25px;">
+					</div>
 
-				<div id="overallLeave" style="display:flex;" class="pt-4 justify-content-center"></div>
+					<div id="overallLeave" style="display:flex;" class="pt-4 justify-content-center"></div>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 mb-30">
-			<div class="card-box height-100-p pd-20">
-				<h2 class="h4 mb-20">Leave Approved & Rejected</h2>
+	@endif
 
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control selectpicker" id="leaveApprovedAndRejectedYear" name="leaveApprovedAndRejectedYear" onchange="leaveApprovedAndRejectedChange();" required>
-								@foreach ($leaveApprovedAndRejectedYears as $leaveApprovedAndRejectedYear)
-									@if ($loop->iteration == 1)
-										<option value="{{ $leaveApprovedAndRejectedYear }}" selected>{{ $leaveApprovedAndRejectedYear }}</option>
-									@else
-										<option value="{{ $leaveApprovedAndRejectedYear }}">{{ $leaveApprovedAndRejectedYear }}</option>
-									@endif
-								@endforeach
-							</select>
+	@if (count($leaveApprovedAndRejectedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Leave Approved & Rejected</h2>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="form-control selectpicker" id="leaveApprovedAndRejectedYear" name="leaveApprovedAndRejectedYear" onchange="leaveApprovedAndRejectedChange();" required>
+									@foreach ($leaveApprovedAndRejectedYears as $leaveApprovedAndRejectedYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $leaveApprovedAndRejectedYear }}" selected>{{ $leaveApprovedAndRejectedYear }}</option>
+										@else
+											<option value="{{ $leaveApprovedAndRejectedYear }}">{{ $leaveApprovedAndRejectedYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div id="leaveApprovedAndRejected"></div>
+					<div id="leaveApprovedAndRejected"></div>
+				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 @endsection
 
 @section('script')
 	<script>
 		$(document).ready(function (){
-			overallLeaveChange();
-			leaveApprovedAndRejectedChange();
+			@if (count($overallLeaveYears) > 0)
+				overallLeaveChange();
+			@endif
+			@if (count($leaveApprovedAndRejectedYears) > 0)
+				leaveApprovedAndRejectedChange();
+			@endif
     	});
 
 		function overallLeaveChange() {
