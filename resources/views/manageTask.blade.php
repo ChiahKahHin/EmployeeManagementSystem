@@ -11,13 +11,19 @@
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Tasks</h4>
+			<h4 class="text-blue h4">All Tasks
+				@if (!Auth::user()->isEmployee())
+					<a href="{{ route('addTask') }}" style="float: right" class="btn btn-outline-primary">
+						<i class="icon-copy dw dw-add"></i> Add Task
+					</a>
+				@endif
+			</h4>
 		</div>
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
 				<thead>
 					<tr>
-						<th>#</th>
+						<th width="5%">#</th>
 						<th>Title</th>
 						@if (Auth::user()->isEmployee())
 							<th>Manager</th>
@@ -51,7 +57,7 @@
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="{{ route('viewTask', ['id' => $task->id]) }}"><i class="dw dw-eye"></i> View</a>
-									@if (Auth::user()->isAccess('admin', 'manager'))
+									@if (Auth::user()->isAccess('admin', 'hrmanager', 'manager'))
 										@if ($task->status == 0)
 										<a class="dropdown-item" href="{{ route('editTask', ['id' => $task->id]) }}"><i class="dw dw-edit2"></i> Edit</a>
 										@endif

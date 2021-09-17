@@ -27,7 +27,7 @@
 <div class="row">
     <div class="col-xl-7 mb-30">
         <div class="card-box height-100-p pd-20">
-            <h2 class="h4 mb-20">New Account Created (By month in {{ date('Y') }})</h2>
+            <h2 class="h4 mb-20">New Account Created in {{ date('Y') }}</h2>
             <div id="chart5"></div>
         </div>
     </div>

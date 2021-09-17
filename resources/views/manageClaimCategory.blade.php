@@ -11,22 +11,26 @@
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Claim Categories</h4>
+			<h4 class="text-blue h4">All Claim Categories
+				<a href="{{ route('addClaimCategory') }}" style="float: right" class="btn btn-outline-primary">
+                    <i class="icon-copy dw dw-add"></i> Add Claim Category
+                </a>
+			</h4>
 		</div>
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
 				<thead>
 					<tr>
-						<th width="15%" style="text-align: center;">#</th>
-						<th style="text-align: center;">Claim Category</th>
-						<th class="datatable-nosort" width="15%">Action</th>
+						<th width="5%">#</th>
+						<th>Claim Category</th>
+						<th class="datatable-nosort" width="25%">Action</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach ($claimCategories as $claimCategory)
 					<tr>
-						<td style="text-align: center;">{{ $loop->iteration }}</td>
-						<td class="table-plus" style="text-align: center;">{{ ucwords($claimCategory->claimCategory) }}</td>
+						<td>{{ $loop->iteration }}</td>
+						<td class="table-plus">{{ ucwords($claimCategory->claimCategory) }}</td>
 						<td>
 							<div class="dropdown">
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

@@ -11,7 +11,13 @@
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Training Program</h4>
+			<h4 class="text-blue h4">All Training Program
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
+					<a href="{{ route('addTrainingProgram') }}" style="float: right" class="btn btn-outline-primary">
+						<i class="icon-copy dw dw-add"></i> Add Training Program
+					</a>
+				@endif
+			</h4>
 		</div>
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
@@ -43,7 +49,7 @@
 						<td>{{ date("d F Y", strtotime($dateTime[0])) }} </td>
 						<td>{{ date("g:ia", strtotime($dateTime[1])) }} </td>
 
-						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+						@if (Auth::user()->isAdmin())
 							<td class="text-center">{{ $trainingProgram->getAttendees->count() }}</td>
 						@else
 							<td>{{ $trainingProgram->getRegistrationStatus() }}</td>

@@ -11,13 +11,17 @@
 @section('content')
     <div class="card-box mb-30">
         <div class="pd-20">
-            <h4 class="text-blue h4">All Public Holidays</h4>
+            <h4 class="text-blue h4">All Public Holidays
+                <a href="{{ route('addPublicHoliday') }}" style="float: right" class="btn btn-outline-primary">
+                    <i class="icon-copy dw dw-add"></i> Add Public Holiday
+                </a>
+            </h4>
         </div>
         <div class="pb-20">
             <table class="data-table table stripe hover nowrap">
                 <thead>
                     <tr>
-						<th>#</th>
+						<th width="5%">#</th>
                         <th>Public Holiday Name</th>
                         <th>Public Holiday Date</th>
                         <th class="datatable-nosort">Action</th>

@@ -11,13 +11,18 @@
 @section('content')
     <div class="card-box mb-30">
         <div class="pd-20">
-            <h4 class="text-blue h4">All Departments</h4>
+            <h4 class="text-blue h4">
+                All Departments
+                <a href="{{ route('addDepartment') }}" style="float: right" class="btn btn-outline-primary">
+                    <i class="icon-copy dw dw-add"></i> Add Department
+                </a>   
+            </h4>
         </div>
         <div class="pb-20">
             <table class="data-table table stripe hover nowrap">
                 <thead>
                     <tr>
-						<th>#</th>
+						<th width="5%">#</th>
                         <th>Department Code</th>
                         <th>Department Name</th>
                         <th class="datatable-nosort">Action</th>

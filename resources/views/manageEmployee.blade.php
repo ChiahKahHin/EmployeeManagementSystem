@@ -11,7 +11,11 @@
 @section('content')
     <div class="card-box mb-30">
         <div class="pd-20">
-            <h4 class="text-blue h4">All Employees</h4>
+            <h4 class="text-blue h4">All Employees
+                <a href="{{ route('addEmployee') }}" style="float: right" class="btn btn-outline-primary">
+                    <i class="icon-copy dw dw-add"></i> Add Employee
+                </a>
+            </h4>
         </div>
         <div class="pb-20">
             <table class="data-table table stripe hover nowrap">
