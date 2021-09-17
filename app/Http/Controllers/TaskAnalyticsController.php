@@ -14,7 +14,7 @@ class TaskAnalyticsController extends Controller
         $this->middleware(['auth']);
         $this->middleware(['employee:admin'])->only(['taskAnalyticsPage', 'overallTaskAnalytics', 'taskCompletedAnalytics', 'taskApprovedAndRejectedAnalytics']);
         $this->middleware(['employee:hrmanager,manager'])->only(['taskAnalyticsPage2', 'overallTaskAnalytics2', 'taskCompletedAnalytics2', 'taskApprovedAndRejectedAnalytics2']);
-        $this->middleware(['employee:employee'])->only(['taskAnalyticsPage3', 'overallTaskAnalytics3', 'taskCompletedAnalytics3', 'taskApprovedAndRejectedAnalytics3']);
+        //$this->middleware(['employee:employee'])->only(['taskAnalyticsPage3', 'overallTaskAnalytics3', 'taskCompletedAnalytics3', 'taskApprovedAndRejectedAnalytics3']);
     }
 
     public function taskAnalyticsPage()

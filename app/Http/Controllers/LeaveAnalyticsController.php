@@ -14,7 +14,7 @@ class LeaveAnalyticsController extends Controller
         $this->middleware(['auth']);
         $this->middleware(['employee:admin'])->only(['leaveAnalytics', 'overallLeaveAnalytics', 'leaveApprovedAndRejectedAnalytics']);
         $this->middleware(['employee:hrmanager,manager'])->only(['leaveAnalytics2', 'overallLeaveAnalytics2', 'leaveApprovedAndRejectedAnalytics2']);
-        $this->middleware(['employee:employee'])->only(['leaveAnalytics3', 'overallLeaveAnalytics3', 'leaveApprovedAndRejectedAnalytics3']);
+        //$this->middleware(['employee:employee'])->only(['leaveAnalytics3', 'overallLeaveAnalytics3', 'leaveApprovedAndRejectedAnalytics3']);
     }
 
     public function leaveAnalytics(){

@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-	Leave Analytics
+	Leave Analytics {{ (Auth::user()->isAccess('hrmanager', 'manager')) ? "(Manager)" : null }}
 @endsection
 
 @section('content')
@@ -25,7 +25,13 @@
 		<div class="row">
 			<div class="col-xl-12 mb-30">
 				<div class="card-box height-100-p pd-20">
-					<h2 class="h4 mb-20">Overall Leave</h2>
+					<h2 class="h4 mb-30">Overall Leave
+						@if (Auth::user()->isAccess('hrmanager', 'manager'))
+							<a href="{{ route('leaveAnalytics3') }}" style="float: right" class="btn btn-outline-primary">
+								<i class="icon-copy dw dw-switch"></i> Switch to Personal Analytics
+							</a>
+						@endif
+					</h2>
 
 					<div class="form-group">
 						<div class="row">
