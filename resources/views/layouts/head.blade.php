@@ -15,24 +15,84 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/core.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/icon-font.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/responsive.bootstrap4.min.css') }}">
+@php
+	$currentRouteName = Route::currentRouteName();
+@endphp
+
+<!-- Datatables -->
+@php
+	$datatablesRoutes = 
+	[
+		'manageDepartment', 'managePosition', 'manageEmployee', 'manageTask', 'manageClaimCategory',
+		'manageClaimType', 'manageClaimRequest', 'manageMemo', 'manageTrainingProgram', 'managePublicHoliday',
+		'manageLeaveType', 'manageLeave', 'manageDelegation', 'viewTrainingProgram'
+	]
+@endphp
+@if (in_array($currentRouteName, $datatablesRoutes))
+	<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datatables/css/responsive.bootstrap4.min.css') }}">
+	
+@endif
+
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/custom.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/fullcalendar/fullcalendar.css') }}">
+@php
+	$customCSSRoutes = 
+	[
+		'viewClaimRequest', 'viewDelegation', 'viewLeave', 'viewTask', 'editTrainingProgram',
+		'viewClaimRequest', 'viewTrainingProgram', 'viewTrainingProgram2'
+	]
+@endphp
+@if (in_array($currentRouteName, $customCSSRoutes))
+	<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/custom.css') }}">
+@endif
+
+@php
+	$fullcalendarRoutes = 
+	[
+		'leaveCalendar',
+	]
+@endphp
+@if (in_array($currentRouteName, $fullcalendarRoutes))
+	<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/fullcalendar/fullcalendar.css') }}">
+@endif
 
 <!-- switchery css -->
-<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/switchery/switchery.min.css') }}">
+@php
+	$switcheryRoutes = 
+	[
+		'addEmployee', 'addLeaveType', 'addTask', 'addTrainingProgram', 'createMemo',
+		'editLeaveType', 'editMemo', 'editTrainingProgram'
+	]
+@endphp
+@if (in_array($currentRouteName, $switcheryRoutes))
+	<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/switchery/switchery.min.css') }}">
+@endif
 
 <!-- bootstrap-tagsinput css -->
-<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+{{-- <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}"> --}}
 
 <!-- bootstrap-touchspin css -->
-<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
+{{-- <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css') }}"> --}}
+{{-- <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}"> --}}
 
 <!-- Sweet Alert -->
-<script src="{{ asset('src/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
+@php
+	$sweetAlertRoutes = 
+	[
+		'addClaimCategory', 'addClaimType', 'addDelegation', 'addDepartment', 'addEmployee',
+		'addLeaveType', 'addPosition', 'addPublicHoliday', 'addTask', 'addTrainingProgram',
+		'applyBenefitClaim', 'applyLeave', 'changePassword', 'createMemo', 'editClaimCategory',
+		'editClaimType', 'editDepartment', 'editEmployee', 'editLeaveType', 'editMemo',
+		'editPosition', 'editPublicHoliday', 'editTask', 'editTrainingProgram', 'manageClaimCategory',
+		'manageClaimRequest', 'manageClaimType', 'manageDelegation', 'manageDepartment', 'manageEmployee',
+		'manageLeave', 'manageLeaveType', 'manageMemo', 'managePosition', 'managePublicHoliday',
+		'manageTask', 'manageTrainingProgram', 'manageWorkingDay', 'vuewClaimRequest', 'viewLeave',
+		'viewProfile', 'viewTask', 'viewTrainingProgram2'
+	]
+@endphp
+@if (in_array($currentRouteName, $sweetAlertRoutes))
+	<script src="{{ asset('src/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
+@endif
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
