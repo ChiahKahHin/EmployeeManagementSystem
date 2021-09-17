@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\DelegationMail;
 use App\Models\Delegation;
-use App\Models\LeaveRequest;
-use App\Models\PublicHoliday;
 use App\Models\User;
-use App\Models\WorkingDay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -36,43 +33,6 @@ class DelegationController extends Controller
             'reason' => 'required|max:255',
         ]);
 
-        $dateDiff = date_diff(date_create($request->endDate), date_create($request->startDate));
-        $delegateDuration = $dateDiff->format("%a") + 1;
-
-        //Check conflict with public holiday
-        $numberOfPublicHolidays = 0;
-        $publicHolidays = PublicHoliday::distinct()->get('date');
-        for ($i=0; $i < $delegateDuration; $i++) {
-            foreach ($publicHolidays as $publicHoliday) {
-                if($publicHoliday->date == date("Y-m-d", strtotime("+$i days", strtotime($request->startDate)))){
-                    $numberOfPublicHolidays++ ;
-                    $publicHolidayDate = $publicHoliday->date;
-                }
-            }
-        }
-        
-        $delegateDurations = $delegateDuration - $numberOfPublicHolidays;
-        if ($delegateDurations <= 0) {
-            return redirect()->route('addDelegation')->with('error', 'Please do not add approval delegation on Public Holiday ')
-                                                     ->with('error1', "Public Holiday: ". $publicHolidayDate);
-        }
-
-        //Check conflict with non-working day
-        $numberOfNonWorkingDays = 0;
-        $nonWorkingDays = WorkingDay::all()->where('status', 0);
-        for ($i=0; $i < $delegateDuration; $i++) {
-            foreach ($nonWorkingDays as $nonWorkingDay) {
-                if($nonWorkingDay->workingDay == date("l", strtotime("+$i days", strtotime($request->startDate)))){
-                    $numberOfNonWorkingDays++;
-                }
-            }
-        }
-
-        $delegateDurations = $delegateDurations - $numberOfNonWorkingDays;
-        if ($delegateDurations <= 0) {
-            return redirect()->route('addDelegation')->with('error', 'Please do not add approval delegation on non-working day');
-        }
-
         //Check whether the start and end date got conflict with another approval delegation
         $checkDelegationDateConflict = Delegation::where('managerID', Auth::id())
                                                    ->whereIn('status', [0,1])
@@ -90,25 +50,6 @@ class DelegationController extends Controller
             return redirect()->route('addDelegation')->with('error', 'Conflict approval delegation is found!')
                                                      ->with('error1', 'Please select another period');
         }
-
-        //Check whether the start and end date got conflict with delegate manager leave request
-        $checkDelegateManagerLeaveConflict = LeaveRequest::where('employeeID', $request->delegateManagerID)
-                                                   ->whereIn('leaveStatus', [0,2])
-                                                   ->where(function ($query) use ($request){
-                                                        $query->where('leaveStartDate', '<=', $request->startDate)
-                                                              ->where('leaveEndDate', '>=', $request->startDate)
-                                                              ->orWhere('leaveStartDate', '<=', $request->endDate)
-                                                              ->where('leaveEndDate', '>=', $request->endDate)
-                                                              ->orWhere('leaveStartDate', '>=', $request->startDate)
-                                                              ->where('leaveEndDate', '<=', $request->endDate);
-                                                   })
-                                                   ->count();
-
-        if($checkDelegateManagerLeaveConflict > 0){
-            return redirect()->route('addDelegation')->with('error', 'Delegate Manager on leave at that period!')
-                                                     ->with('error1', 'Please select another delegate manager');
-        }
-
         
         //Check whether the selected delegate manager is on another approval delegation
         $checkDelegationDateConflict = Delegation::where('managerID', $request->delegateManagerID)

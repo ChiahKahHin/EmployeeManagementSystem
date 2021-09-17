@@ -89,7 +89,7 @@
 		'manageTask', 'manageTrainingProgram', 'manageWorkingDay', 'vuewClaimRequest', 'viewLeave',
 		'viewProfile', 'viewTask', 'viewTrainingProgram2', 'taskAnalyticsPage', 'taskAnalyticsPage2',
 		'taskAnalyticsPage3', 'leaveAnalytics', 'leaveAnalytics2', 'leaveAnalytics3', 'claimAnalytics',
-		'claimAnalytics2', 'claimAnalytics3', 'trainingAnaytics', 'trainingAnaytics2'
+		'claimAnalytics2', 'claimAnalytics3', 'trainingAnaytics', 'trainingAnaytics2', 'viewClaimRequest'
 	]
 @endphp
 @if (in_array($currentRouteName, $sweetAlertRoutes))
