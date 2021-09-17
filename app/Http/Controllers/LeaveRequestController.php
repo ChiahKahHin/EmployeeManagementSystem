@@ -38,6 +38,28 @@ class LeaveRequestController extends Controller
 		return view('leaveCalendar', ['publicHolidays' => $publicHolidays, 'leaveRequests' => $leaveRequests]);
     }
 
+    public function viewLeaveBalance()
+    {
+        if(Auth::user()->maritalStatus == "Married"){
+            $leaveTypes = LeaveType::all()
+                          ->whereIn('gender', ['All', Auth::user()->gender]);
+        }
+        else{
+            $leaveTypes = LeaveType::all()
+                          ->whereIn('gender', ['All', Auth::user()->gender])
+                          ->where('maritalStatus', 0);
+        }
+
+        $approvedLeaves = LeaveRequest::where('employeeID', Auth::user()->id)
+                                        ->where('leaveStatus', 2)
+                                        ->whereYear('leaveStartDate', date('Y'))
+                                        ->get();
+
+        $carriedForwardLeaves = CarriedForwardLeave::where('employeeID', Auth::id())->get();
+
+        return view('viewLeaveBalance', ['leaveTypes' => $leaveTypes, 'approvedLeaves' => $approvedLeaves, 'carriedForwardLeaves' => $carriedForwardLeaves]);
+    }
+
     public function applyLeaveForm()
     {
         if(Auth::user()->maritalStatus == "Married"){

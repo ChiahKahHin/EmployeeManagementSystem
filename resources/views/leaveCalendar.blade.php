@@ -10,10 +10,13 @@
 
 @section('content')
 	<div class="pd-20 card-box mb-30">
-		<div class="clearfix mb-30">
-			<div class="pull-left">
-				<h4 class="text-blue h4">Leave Calendar</h4>
-			</div>
+		<div class="clearfix mb-20">
+				<h3 class="text-blue h3">Leave Calendar
+					<a href="{{ route('applyLeave') }}" style="float: right" class="btn btn-outline-primary">
+						<i class="icon-copy dw dw-add"></i> Apply Leave
+					</a>
+				</h3>
+
 		</div>
 		<div class="calendar-wrap">
 			<div id='calendar'></div>
@@ -52,7 +55,7 @@
 				events: [
 					@foreach ($publicHolidays as $publicHoliday)
 						{
-							title: 'PH - {{ $publicHoliday->name }}',
+							title: 'PH - @php echo addslashes($publicHoliday->name); @endphp',
 							description: 'Office will be closed during the public holiday',
 							start: '{{ $publicHoliday->date }}',
 							end: '{{ $publicHoliday->date }}',

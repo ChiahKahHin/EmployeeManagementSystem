@@ -208,6 +208,7 @@ Route::get('/deleteLeaveType/{id}', [LeaveTypeController::class, 'deleteLeaveTyp
 
 //Leave Request
 Route::get('/leaveCalendar', [LeaveRequestController::class, 'leaveCalendar'])->name('leaveCalendar');
+Route::get('/viewLeaveBalance', [LeaveRequestController::class, 'viewLeaveBalance'])->name('viewLeaveBalance');
 Route::get('/applyLeave', [LeaveRequestController::class, 'applyLeaveForm'])->name('applyLeave');
 Route::post('/applyLeave', [LeaveRequestController::class, 'applyLeave']);
 Route::get('/manageLeave', [LeaveRequestController::class, 'manageLeave'])->name('manageLeave');

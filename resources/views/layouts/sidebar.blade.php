@@ -136,6 +136,7 @@
 							</li>
 							<li><a href="{{ route('manageWorkingDay') }}">Manage Working Day</a></li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							<li><a href="{{ route('viewLeaveBalance') }}">Leave Balance</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
 							<li><a href="{{ route('leaveAnalytics') }}">Leave Analytics</a></li>
@@ -150,6 +151,7 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
+							<li><a href="{{ route('viewLeaveBalance') }}">Leave Balance</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave</a></li>
 							@if (Auth::user()->isManager())
