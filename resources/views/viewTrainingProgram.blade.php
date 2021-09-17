@@ -114,7 +114,8 @@
 					<div class="tab-pane fade" id="attendesList" role="tabpanel">
 						<div class="pd-5">
 							<div class="profile-timeline" style="padding: 5px;">
-								<table class="table table-bordered table-striped">
+								{{-- <table class="table table-bordered table-striped"> --}}
+								<table class="data-table table stripe hover nowrap">
 									<thead>
 										@if (count($trainingAttendees) != 0)
 											<tr>

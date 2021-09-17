@@ -110,6 +110,8 @@ class TrainingProgramController extends Controller
 
     public function deleteTrainingProgram($id)
     {
+        $trainingAttendees = TrainingAttendee::where('trainingProgram', $id)->delete();
+
         $training_program = TrainingProgram::find($id);
         $training_program->delete();
 
