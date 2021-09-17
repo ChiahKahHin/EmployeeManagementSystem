@@ -130,10 +130,10 @@ class User extends Authenticatable
         $emails = array();
 
         if ($department == null) {
-            $empEmails = User::all()->whereIn('role', [1, 2, 3]);
+            $empEmails = User::all();
         }
         else{
-            $empEmails = User::all()->whereIn('role', [1, 2, 3])->whereIn('department', $department);
+            $empEmails = User::all()->whereIn('department', $department);
         }
         foreach ($empEmails as $empEmail) {
             array_push($emails, $empEmail->email);

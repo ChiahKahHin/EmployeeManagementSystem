@@ -331,9 +331,12 @@
 						<button type="button" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-block">Reject Leave Request</button>
 					</div>
 				</div>
+				@if (Auth::user()->isAdmin())
+					<br>
+				@endif
 			@endif
 		@endif
-
+		
 		@if ($leaveRequest->employeeID == Auth::user()->id && ($leaveRequest->leaveStatus == 0 || ($leaveRequest->leaveStatus == 2 && $leaveRequest->leaveStartDate > date("Y-m-d"))))
 			<div class="row">
 				<div class="col-md-12">

@@ -83,7 +83,7 @@ class CarriedForwardLeaveChecking extends Command
         }
         
         //get employee who does not apply for annual leave & update the carried forward leave
-        $employeeNotAppliedAnnualLeaves = User::whereNotIn('id', $employeeID)->whereIn('role', [1,2,3])->get();
+        $employeeNotAppliedAnnualLeaves = User::whereNotIn('id', $employeeID)->get();
         foreach ($employeeNotAppliedAnnualLeaves as $employeeNotAppliedAnnualLeave) {
             $carriedForwardLeave = new CarriedForwardLeave();
             $carriedForwardLeave->employeeID = $employeeNotAppliedAnnualLeave->id;
