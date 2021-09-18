@@ -4,6 +4,9 @@
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('vendors/images/favicon_io/apple-touch-icon.png') }}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('vendors/images/favicon_io/favicon-32x32.png') }}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('vendors/images/favicon_io/favicon-16x16.png') }}">
 	<title>EMS | Reset Password Page</title>
 
 	<!-- Mobile Specific Metas -->
