@@ -27,7 +27,7 @@
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
         <div class="pd-20 card-box height-100-p">
-            <h4 class="mb-20 h4">Task Waiting Approval</h4>
+            <h4 class="mb-20 h4">{{ (Auth::user()->isManager())? "Task Waiting Approval" : "Task Pending" }}</h4>
             <div class="list-group">
                 @forelse ($tasks as $task)
                     <a href="{{ route('viewTask', ['id' => $task->id]) }}" class="list-group-item list-group-item-action">{{ $loop->iteration }}. {{ $task->title }} - {{ $task->getPersonInCharge->getFullName() }} ({{ date("d M", strtotime($task->dueDate)) }})</a>
@@ -54,7 +54,7 @@
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
         <div class="pd-20 card-box height-100-p">
-            <h4 class="mb-20 h4">Claim Waiting Approval</h4>
+            <h4 class="mb-20 h4">Benefit Claim Waiting Approval</h4>
             <div class="list-group">
                 @forelse ($claims as $claim)
                     <a href="{{ route('viewClaimRequest', ['id' => $claim->id]) }}" class="list-group-item list-group-item-action">{{ $loop->iteration }}. {{ $claim->getClaimType->claimType }} - {{ $claim->getEmployee->getFullName() }} (RM {{ number_format($claim->claimAmount, 2, '.', '') }})</a>

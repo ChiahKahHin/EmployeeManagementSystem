@@ -116,8 +116,8 @@ class DelegationController extends Controller
             }
             $delegation->status = 4;
             $delegation->save();
-            Mail::to($delegation->getDelegateManager->email)->send(new DelegationMail($delegation));
         }
+        Mail::to($delegation->getDelegateManager->email)->send(new DelegationMail($delegation));
 
         return redirect()->route('manageDelegation');
     }

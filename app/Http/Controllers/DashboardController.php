@@ -144,7 +144,7 @@ class DashboardController extends Controller
                                     ->orderBy('claimDate', 'ASC')->take(5)->get();
         }
         else{
-            $tasks = Task::with('getPersonInCharge')->where('status', 1)->where('personInCharge', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
+            $tasks = Task::with('getPersonInCharge')->where('status', 0)->where('personInCharge', Auth::id())->orderBy('dueDate', 'ASC')->take(5)->get();
             $leaves = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 0)->where('employeeID', Auth::id())->orderBy('leaveStartDate', 'ASC')->take(5)->get();
             $claims = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimStatus', 0)->where('claimEmployee', Auth::id())->orderBy('claimDate', 'ASC')->take(5)->get();
         }

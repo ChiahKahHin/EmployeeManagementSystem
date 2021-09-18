@@ -22,7 +22,7 @@ class Memo extends Model
             $departmentName .= $department->departmentName;
             $x++;
             if($x != count($departments)){
-                $departmentName .= "/";
+                $departmentName .= ", ";
             }
         }
 
