@@ -38,7 +38,23 @@ class LeaveAnalyticsController extends Controller
         }
         rsort($leaveApprovedAndRejectedYears);
 
-        return view('leaveAnalytics', ['overallLeaveYears' => $overallLeaveYears, 'leaveApprovedAndRejectedYears' => $leaveApprovedAndRejectedYears, 'departments' =>$departments]);
+        $leaveTypeApprovedYears = array();
+        $leaveRequests = LeaveRequest::select('updated_at')->where('leaveStatus', 2)->get();
+        foreach ($leaveRequests as $leaveRequest) {
+            if(!in_array($leaveRequest->updated_at->year, $leaveTypeApprovedYears)){
+                array_push($leaveTypeApprovedYears, $leaveRequest->updated_at->year);
+            }
+        }
+        rsort($leaveTypeApprovedYears);
+
+        $leaveTypes = LeaveRequest::with('getLeaveType')->select('leaveType', 'leaveStatus')->where('leaveStatus', 2)->distinct()->get();
+
+        return view('leaveAnalytics', ['overallLeaveYears' => $overallLeaveYears, 
+                                       'leaveApprovedAndRejectedYears' => $leaveApprovedAndRejectedYears, 
+                                       'departments' => $departments, 
+                                       'leaveTypeApprovedYears' => $leaveTypeApprovedYears,
+                                       'leaveTypes' => $leaveTypes
+                                    ]);
     }
 
     public function overallLeaveAnalytics($year, $department)
@@ -137,6 +153,56 @@ class LeaveAnalyticsController extends Controller
         return [array_values($leaveApprovedArrays), array_values($leaveRejectedArrays)];
     }
 
+    public function leaveTypeApprovedAnalytics($year, $department, $leaveType)
+    {
+        $leaveTypeArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+
+        if($department == "null" && $leaveType == "null"){
+            $leaves = LeaveRequest::whereYear('updated_at', $year)->where('leaveStatus', 2)->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        elseif($leaveType == "null"){
+            $leaves = LeaveRequest::select('leave_requests.leaveDuration', 'leave_requests.updated_at as leaveUpdatedAt')
+                                   ->where('leave_requests.updated_at', 'like', ''.$year.'%')
+                                   ->where('leave_requests.leaveStatus', 2)
+                                   ->join('users', function ($join) use ($department) {
+                                        $join->on('leave_requests.employeeID', 'users.id')
+                                            ->where('users.department', $department);
+                                    })->get();
+            foreach ($leaves as $leave) {
+                $updated_at = new Carbon($leave->leaveUpdatedAt);
+                $month = date('m', strtotime($updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        elseif($department == "null"){
+            $leaves = LeaveRequest::whereYear('updated_at', $year)->where('leaveStatus', 2)->where('leaveType', $leaveType)->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        else{
+            $leaves = LeaveRequest::select('leave_requests.leaveDuration', 'leave_requests.updated_at as leaveUpdatedAt')
+                                   ->where('leave_requests.updated_at', 'like', ''.$year.'%')
+                                   ->where('leave_requests.leaveStatus', 2)
+                                   ->where('leave_requests.leaveType', $leaveType)
+                                   ->join('users', function ($join) use ($department) {
+                                        $join->on('leave_requests.employeeID', 'users.id')
+                                            ->where('users.department', $department);
+                                    })->get();
+            foreach ($leaves as $leave) {
+                $updated_at = new Carbon($leave->leaveUpdatedAt);
+                $month = date('m', strtotime($updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        return array_values($leaveTypeArrays);
+    }
+
     public function leaveAnalytics2(){
         $overallLeaveYears = array();
         $leaveRequests = LeaveRequest::select('updated_at')->where('managerID', Auth::id())->get();
@@ -158,7 +224,23 @@ class LeaveAnalyticsController extends Controller
         }
         rsort($leaveApprovedAndRejectedYears);
 
-        return view('leaveAnalytics2', ['overallLeaveYears' => $overallLeaveYears, 'leaveApprovedAndRejectedYears' => $leaveApprovedAndRejectedYears, 'personInCharges' =>$personInCharges]);
+        $leaveTypeApprovedYears = array();
+        $leaveRequests = LeaveRequest::select('updated_at')->where('leaveStatus', 2)->where('managerID', Auth::id())->get();
+        foreach ($leaveRequests as $leaveRequest) {
+            if(!in_array($leaveRequest->updated_at->year, $leaveTypeApprovedYears)){
+                array_push($leaveTypeApprovedYears, $leaveRequest->updated_at->year);
+            }
+        }
+        rsort($leaveTypeApprovedYears);
+
+        $leaveTypes = LeaveRequest::with('getLeaveType')->select('leaveType', 'leaveStatus')->where('leaveStatus', 2)->where('managerID', Auth::id())->distinct()->get();
+
+        return view('leaveAnalytics2', ['overallLeaveYears' => $overallLeaveYears, 
+                                        'leaveApprovedAndRejectedYears' => $leaveApprovedAndRejectedYears, 
+                                        'personInCharges' => $personInCharges,
+                                        'leaveTypeApprovedYears' => $leaveTypeApprovedYears,
+                                        'leaveTypes' => $leaveTypes
+                                        ]);
     }
 
     public function overallLeaveAnalytics2($year, $personInCharge)
@@ -249,6 +331,52 @@ class LeaveAnalyticsController extends Controller
         return [array_values($leaveApprovedArrays), array_values($leaveRejectedArrays)];
     }
 
+    public function leaveTypeApprovedAnalytics2($year, $personInCharge, $leaveType)
+    {
+        $leaveTypeArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+
+        if($personInCharge == "null" && $leaveType == "null"){
+            $leaves = LeaveRequest::whereYear('updated_at', $year)->where('managerID', Auth::id())->where('leaveStatus', 2)->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        elseif($leaveType == "null"){
+            $leaves = LeaveRequest::select('leaveDuration', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('leaveStatus', 2)
+                                   ->where('managerID', Auth::id())
+                                   ->where('employeeID', $personInCharge)
+                                   ->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        elseif($personInCharge == "null"){
+            $leaves = LeaveRequest::whereYear('updated_at', $year)->where('managerID', Auth::id())->where('leaveStatus', 2)->where('leaveType', $leaveType)->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        else{
+            $leaves = LeaveRequest::select('leaveDuration', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('leaveStatus', 2)
+                                   ->where('managerID', Auth::id())
+                                   ->where('employeeID', $personInCharge)
+                                   ->where('leaveType', $leaveType)
+                                   ->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        return array_values($leaveTypeArrays);
+    }
+
     public function leaveAnalytics3(){
         $overallLeaveYears = array();
         $leaveRequests = LeaveRequest::select('updated_at')->where('employeeID', Auth::id())->get();
@@ -268,7 +396,22 @@ class LeaveAnalyticsController extends Controller
         }
         rsort($leaveApprovedAndRejectedYears);
 
-        return view('leaveAnalytics3', ['overallLeaveYears' => $overallLeaveYears, 'leaveApprovedAndRejectedYears' => $leaveApprovedAndRejectedYears]);
+        $leaveTypeApprovedYears = array();
+        $leaveRequests = LeaveRequest::select('updated_at')->where('leaveStatus', 2)->where('employeeID', Auth::id())->get();
+        foreach ($leaveRequests as $leaveRequest) {
+            if(!in_array($leaveRequest->updated_at->year, $leaveTypeApprovedYears)){
+                array_push($leaveTypeApprovedYears, $leaveRequest->updated_at->year);
+            }
+        }
+        rsort($leaveTypeApprovedYears);
+
+        $leaveTypes = LeaveRequest::with('getLeaveType')->select('leaveType', 'leaveStatus')->where('leaveStatus', 2)->where('employeeID', Auth::id())->distinct()->get();
+
+        return view('leaveAnalytics3', ['overallLeaveYears' => $overallLeaveYears, 
+                                        'leaveApprovedAndRejectedYears' => $leaveApprovedAndRejectedYears,
+                                        'leaveTypeApprovedYears' => $leaveTypeApprovedYears,
+                                        'leaveTypes' => $leaveTypes
+                                        ]);
     }
 
     public function overallLeaveAnalytics3($year)
@@ -309,5 +452,35 @@ class LeaveAnalyticsController extends Controller
         }
 
         return [array_values($leaveApprovedArrays), array_values($leaveRejectedArrays)];
+    }
+
+    public function leaveTypeApprovedAnalytics3($year, $leaveType)
+    {
+        $leaveTypeArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+
+        if($leaveType == "null"){
+            $leaves = LeaveRequest::select('leaveDuration', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('leaveStatus', 2)
+                                   ->where('employeeID', Auth::id())
+                                   ->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        else{
+            $leaves = LeaveRequest::select('leaveDuration', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('leaveStatus', 2)
+                                   ->where('employeeID', Auth::id())
+                                   ->where('leaveType', $leaveType)
+                                   ->get();
+            foreach ($leaves as $leave) {
+                $month = date('m', strtotime($leave->updated_at));
+                $leaveTypeArrays[$month] = $leaveTypeArrays[$month] + $leave->leaveDuration;
+            }
+        }
+        return array_values($leaveTypeArrays);
     }
 }

@@ -222,16 +222,19 @@ Route::get('/cancelLeaveRequest/{id}', [LeaveRequestController::class, 'cancelLe
 Route::get('/leaveAnalytics', [LeaveAnalyticsController::class, 'leaveAnalytics'])->name('leaveAnalytics');
 Route::get('/overallLeaveAnalytics/{year}/{department}', [LeaveAnalyticsController::class, 'overallLeaveAnalytics'])->name('overallLeaveAnalytics');
 Route::get('/leaveApprovedAndRejectedAnalytics/{year}/{department}', [LeaveAnalyticsController::class, 'leaveApprovedAndRejectedAnalytics'])->name('leaveApprovedAndRejectedAnalytics');
+Route::get('/leaveTypeApprovedAnalytics/{year}/{department}/{leaveType}', [LeaveAnalyticsController::class, 'leaveTypeApprovedAnalytics'])->name('leaveTypeApprovedAnalytics');
 
 //Leave Analytics (Manager)
 Route::get('/leaveAnalytics2', [LeaveAnalyticsController::class, 'leaveAnalytics2'])->name('leaveAnalytics2');
 Route::get('/overallLeaveAnalytics2/{year}/{personInCharge}', [LeaveAnalyticsController::class, 'overallLeaveAnalytics2'])->name('overallLeaveAnalytics2');
 Route::get('/leaveApprovedAndRejectedAnalytics2/{year}/{personInCharge}', [LeaveAnalyticsController::class, 'leaveApprovedAndRejectedAnalytics2'])->name('leaveApprovedAndRejectedAnalytics2');
+Route::get('/leaveTypeApprovedAnalytics2/{year}/{personInCharge}/{leaveType}', [LeaveAnalyticsController::class, 'leaveTypeApprovedAnalytics2'])->name('leaveTypeApprovedAnalytics2');
 
 //Leave Analytics (Employee)
 Route::get('/leaveAnalytics3', [LeaveAnalyticsController::class, 'leaveAnalytics3'])->name('leaveAnalytics3');
 Route::get('/overallLeaveAnalytics3/{year}', [LeaveAnalyticsController::class, 'overallLeaveAnalytics3'])->name('overallLeaveAnalytics3');
 Route::get('/leaveApprovedAndRejectedAnalytics3/{year}', [LeaveAnalyticsController::class, 'leaveApprovedAndRejectedAnalytics3'])->name('leaveApprovedAndRejectedAnalytics3');
+Route::get('/leaveTypeApprovedAnalytics3/{year}/{leaveType}', [LeaveAnalyticsController::class, 'leaveTypeApprovedAnalytics3'])->name('leaveTypeApprovedAnalytics3');
 
 //Approval Delegation
 Route::get('/addDelegation', [DelegationController::class, 'addDelegationForm'])->name('addDelegation');

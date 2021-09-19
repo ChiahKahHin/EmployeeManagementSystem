@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-	@if (count($overallLeaveYears) == 0 && count($leaveApprovedAndRejectedYears) == 0)
+	@if (count($overallLeaveYears) == 0 && count($leaveApprovedAndRejectedYears) == 0 && count(leaveTypeApprovedYears) == 0)
 		<script>
 			swal({
 				title: 'Warning',
@@ -114,6 +114,68 @@
 			</div>
 		</div>
 	@endif
+
+	@if (count($leaveTypeApprovedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Leave Approved By Leave Type</h2>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4">
+								<select class="form-control selectpicker" id="leaveTypeApprovedYear" name="leaveTypeApprovedYear" onchange="leaveTypeApprovedChange();" required>
+									@foreach ($leaveTypeApprovedYears as $leaveTypeApprovedYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $leaveTypeApprovedYear }}" selected>{{ $leaveTypeApprovedYear }}</option>
+										@else
+											<option value="{{ $leaveTypeApprovedYear }}">{{ $leaveTypeApprovedYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<select class="form-control selectpicker" id="leaveTypeApprovedDepartment" name="leaveTypeApprovedDepartment" onchange="leaveTypeApprovedChange();" required>
+									<option value="" data-departmentName="All Departments" selected>All Departments</option>
+									@php
+										$departmentArray = [];
+									@endphp
+									@foreach ($departments as $department)
+										@if ($department->leaveStatus == 2)
+											@if(!in_array($department->getEmployee->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getEmployee->getDepartment->id }}" data-departmentName="{{ $department->getEmployee->getDepartment->departmentName }}">{{ $department->getEmployee->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getEmployee->getDepartment->id;
+												@endphp
+											@endif
+										@endif
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<select class="form-control selectpicker" id="leaveType" name="leaveType" onchange="leaveTypeApprovedChange();" required>
+									<option value="" data-leaveType="All Leave Types" selected>All Leave Types</option>
+									@php
+										$leaveTypeArray = [];
+									@endphp
+									@foreach ($leaveTypes as $leaveType)
+										@if(!in_array($leaveType->getLeaveType->leaveType, $leaveTypeArray))
+											<option value="{{ $leaveType->getLeaveType->id }}" data-leaveType="{{ $leaveType->getLeaveType->leaveType }}">{{ $leaveType->getLeaveType->leaveType }}</option>
+											@php
+												$leaveTypeArray[] = $leaveType->getLeaveType->id;
+											@endphp
+										@endif
+									@endforeach
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div id="leaveApprovedLeaveType"></div>
+				</div>
+			</div>
+		</div>
+	@endif
 @endsection
 
 @section('script')
@@ -124,6 +186,9 @@
 			@endif
 			@if (count($leaveApprovedAndRejectedYears) > 0)
 				leaveApprovedAndRejectedChange();
+			@endif
+			@if (count($leaveTypeApprovedYears) > 0)
+				leaveTypeApprovedChange();
 			@endif
     	});
 
@@ -139,8 +204,6 @@
 			var url = DATA_URL.replace(":year", year);
 			url = url.replace(":departmentID", departmentID);
 
-			console.log(url);
-			console.log(departmentName);
 			
 			$.get(url, function(response) {
 				overallLeaveChart.updateOptions({
@@ -177,6 +240,41 @@
 				},{
 					name: 'Rejected',
 					data: response[1]
+				}])
+			});
+		}
+
+		function leaveTypeApprovedChange(){
+			var year = document.getElementById('leaveTypeApprovedYear').value;
+			var department = document.getElementById('leaveTypeApprovedDepartment');
+			var departmentID = department.value;
+			var departmentName = department.options[department.selectedIndex].getAttribute('data-departmentName');
+			var leaveType = document.getElementById('leaveType');
+			var leaveTypeID = leaveType.value;
+			var leaveTypeName = leaveType.options[leaveType.selectedIndex].getAttribute('data-leaveType');
+
+			if(departmentID == ""){
+				departmentID = null;
+			}
+			if(leaveTypeID == ""){
+				leaveTypeID = null;
+			}
+
+			const DATA_URL = "{{ route('leaveTypeApprovedAnalytics', [':year', ':departmentID', ':leaveTypeID']) }}";
+			var url = DATA_URL.replace(":year", year);
+			url = url.replace(":departmentID", departmentID);
+			url = url.replace(":leaveTypeID", leaveTypeID);
+			
+			leaveApprovedLeaveTypeChart.updateOptions({
+				title:{
+					text: leaveTypeName + ' Approved in ' + year + ' (' + departmentName + ')'
+				}
+			})
+			
+			$.get(url, function(response) {
+				leaveApprovedLeaveTypeChart.updateSeries([{
+					name: 'Number of days',
+					data: response
 				}])
 			});
 		}
@@ -312,7 +410,7 @@
 			},
 			yaxis: {
 				title: {
-					text: 'Number of leaves'
+					text: 'Number of leaves request'
 				},
 			},
 			legend: {
@@ -324,10 +422,55 @@
 			}
 		}
 
+		var leaveApprovedLeaveTypeOptions = {
+			series:[],
+			noData:{
+				text: 'Loading....'
+			},
+			chart: {
+				height: 350,
+				type: 'line',
+				zoom: {
+					enabled: false
+				}
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'straight'
+			},
+			title: {
+				text: '',
+				align: 'left'
+			},
+			grid: {
+				row: {
+					colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+					opacity: 0.5
+				},
+			},
+			xaxis: {
+				type: 'category',
+				categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				title: {
+					text: 'Month'
+				}
+			},
+			yaxis: {
+				title: {
+					text: 'Number of days'
+				}
+			}
+		}
+
 		var overallLeaveChart = new ApexCharts(document.querySelector("#overallLeave"), overallLeaveOptions);
         overallLeaveChart.render();
 
 		var leaveApprovedAndRejectedChart = new ApexCharts(document.querySelector("#leaveApprovedAndRejected"), leaveApprovedAndRejectedOptions);
 		leaveApprovedAndRejectedChart.render();
+
+		var leaveApprovedLeaveTypeChart = new ApexCharts(document.querySelector("#leaveApprovedLeaveType"), leaveApprovedLeaveTypeOptions);
+		leaveApprovedLeaveTypeChart.render();
 	</script>
 @endsection
