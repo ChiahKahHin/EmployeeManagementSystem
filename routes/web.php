@@ -148,16 +148,19 @@ Route::get('/cancelClaimRequest/{id}', [ClaimRequestController::class, 'cancelCl
 Route::get('/claimAnalytics', [ClaimAnalyticsController::class, 'claimAnalytics'])->name('claimAnalytics');
 Route::get('/overallClaimAnalytics/{year}/{department}', [ClaimAnalyticsController::class, 'overallClaimAnalytics'])->name('overallClaimAnalytics');
 Route::get('/claimApprovedAndRejectedAnalytics/{year}/{department}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics'])->name('claimApprovedAndRejectedAnalytics');
+Route::get('/claimTypeApprovedAnalytics/{year}/{department}/{claimType}', [ClaimAnalyticsController::class, 'claimTypeApprovedAnalytics'])->name('claimTypeApprovedAnalytics');
 
 //Benefit Claim Analytics (Manager)
 Route::get('/claimAnalytics2', [ClaimAnalyticsController::class, 'claimAnalytics2'])->name('claimAnalytics2');
 Route::get('/overallClaimAnalytics2/{year}/{personInCharge}', [ClaimAnalyticsController::class, 'overallClaimAnalytics2'])->name('overallClaimAnalytics2');
 Route::get('/claimApprovedAndRejectedAnalytics2/{year}/{personInCharge}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics2'])->name('claimApprovedAndRejectedAnalytics2');
+Route::get('/claimTypeApprovedAnalytics2/{year}/{personInCharge}/{claimType}', [ClaimAnalyticsController::class, 'claimTypeApprovedAnalytics2'])->name('claimTypeApprovedAnalytics2');
 
 //Benefit Claim Analytics (Employee)
 Route::get('/claimAnalytics3', [ClaimAnalyticsController::class, 'claimAnalytics3'])->name('claimAnalytics3');
 Route::get('/overallClaimAnalytics3/{year}', [ClaimAnalyticsController::class, 'overallClaimAnalytics3'])->name('overallClaimAnalytics3');
 Route::get('/claimApprovedAndRejectedAnalytics3/{year}', [ClaimAnalyticsController::class, 'claimApprovedAndRejectedAnalytics3'])->name('claimApprovedAndRejectedAnalytics3');
+Route::get('/claimTypeApprovedAnalytics3/{year}/{claimType}', [ClaimAnalyticsController::class, 'claimTypeApprovedAnalytics3'])->name('claimTypeApprovedAnalytics3');
 
 //Memorandum
 Route::get('/createMemo', [MemoController::class, 'createMemoForm'])->name('createMemo');

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-	@if (count($overallClaimYears) == 0 && count($claimApprovedAndRejectedYears) == 0)
+	@if (count($overallClaimYears) == 0 && count($claimApprovedAndRejectedYears) == 0 && count($claimTypeApprovedYears) == 0)
 		<script>
 			swal({
 				title: 'Warning',
@@ -114,6 +114,70 @@
 			</div>
 		</div>
 	@endif
+
+	@if (count($claimTypeApprovedYears) > 0)
+		<div class="row">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20">Benefit Claim Approved By Claim Type</h2>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4">
+								<select class="form-control selectpicker" id="claimTypeApprovedYear" name="claimTypeApprovedYear" onchange="claimTypeApprovedChange();" required>
+									@foreach ($claimTypeApprovedYears as $claimTypeApprovedYear)
+										@if ($loop->iteration == 1)
+											<option value="{{ $claimTypeApprovedYear }}" selected>{{ $claimTypeApprovedYear }}</option>
+										@else
+											<option value="{{ $claimTypeApprovedYear }}">{{ $claimTypeApprovedYear }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<select class="form-control selectpicker" id="claimTypeApprovedDepartment" name="claimTypeApprovedDepartment" onchange="claimTypeApprovedChange();" required>
+									<option value="" data-departmentName="All Departments" selected>All Departments</option>
+									@php
+										$departmentArray = [];
+									@endphp
+									@foreach ($departments as $department)
+										@if ($department->claimStatus == 2)
+											@if(!in_array($department->getEmployee->getDepartment->id, $departmentArray))
+												<option value="{{ $department->getEmployee->getDepartment->id }}" data-departmentName="{{ $department->getEmployee->getDepartment->departmentName }}">{{ $department->getEmployee->getDepartment->departmentName }}</option>
+												@php
+													$departmentArray[] = $department->getEmployee->getDepartment->id;
+												@endphp
+											@endif
+										@endif
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<select class="form-control selectpicker" id="claimType" name="claimType" onchange="claimTypeApprovedChange();" required>
+									<option value="" data-claimType="All Claim Types" selected>All Claim Types</option>
+									@php
+										$claimTypesArray = [];
+									@endphp
+									@foreach ($claimTypes as $claimType)
+										@if ($claimType->claimStatus == 2)
+											@if(!in_array($claimType->getClaimType->id, $claimTypesArray))
+												<option value="{{ $claimType->getClaimType->id }}" data-claimType="{{ $claimType->getClaimType->claimType }}">{{ $claimType->getClaimType->claimType }}</option>
+												@php
+													$claimTypesArray[] = $claimType->getClaimType->id;
+												@endphp
+											@endif
+										@endif
+									@endforeach
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div id="claimApprovedLeaveType"></div>
+				</div>
+			</div>
+		</div>
+	@endif
 @endsection
 
 @section('script')
@@ -124,6 +188,9 @@
 			@endif
 			@if (count($claimApprovedAndRejectedYears) > 0)
 				claimApprovedAndRejectedChange();
+			@endif
+			@if (count($claimTypeApprovedYears) > 0)
+				claimTypeApprovedChange();
 			@endif
     	});
 
@@ -177,6 +244,40 @@
 				},{
 					name: 'Rejected',
 					data: response[1]
+				}])
+			});
+		}
+
+		function claimTypeApprovedChange() {
+			var year = document.getElementById('claimTypeApprovedYear').value;
+			var department = document.getElementById('claimTypeApprovedDepartment');
+			var departmentID = department.value;
+			var departmentName = department.options[department.selectedIndex].getAttribute('data-departmentName');
+			var claimType = document.getElementById('claimType');
+			var claimTypeID = claimType.value;
+			var claimTypeName = claimType.options[claimType.selectedIndex].getAttribute('data-claimType');
+
+			if(departmentID == ""){
+				departmentID = null;
+			}
+			if(claimTypeID == ""){
+				claimTypeID = null;
+			}
+			const DATA_URL = "{{ route('claimTypeApprovedAnalytics', [':year', ':departmentID', ':claimTypeID']) }}";
+			var url = DATA_URL.replace(":year", year);
+			url = url.replace(":departmentID", departmentID);
+			url = url.replace(":claimTypeID", claimTypeID);
+
+			claimApprovedLeaveTypeChart.updateOptions({
+				title:{
+					text: claimTypeName + ' Approved in ' + year + ' (' + departmentName + ')'
+				}
+			})
+			
+			$.get(url, function(response) {
+				claimApprovedLeaveTypeChart.updateSeries([{
+					name: 'Claim Amount (RM)',
+					data: response
 				}])
 			});
 		}
@@ -312,7 +413,7 @@
 			},
 			yaxis: {
 				title: {
-					text: 'Number of claims'
+					text: 'Number of claim request'
 				},
 			},
 			legend: {
@@ -324,10 +425,55 @@
 			}
 		}
 
+		var claimApprovedLeaveTypeOptions = {
+			series:[],
+			noData:{
+				text: 'Loading....'
+			},
+			chart: {
+				height: 350,
+				type: 'line',
+				zoom: {
+					enabled: false
+				}
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'straight'
+			},
+			title: {
+				text: '',
+				align: 'left'
+			},
+			grid: {
+				row: {
+					colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+					opacity: 0.5
+				},
+			},
+			xaxis: {
+				type: 'category',
+				categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				title: {
+					text: 'Month'
+				}
+			},
+			yaxis: {
+				title: {
+					text: 'Claim Amount (RM)'
+				}
+			}
+		}
+
 		var overallClaimChart = new ApexCharts(document.querySelector("#overallClaim"), overallClaimOptions);
         overallClaimChart.render();
 
 		var claimApprovedAndRejectedChart = new ApexCharts(document.querySelector("#claimApprovedAndRejected"), claimApprovedAndRejectedOptions);
 		claimApprovedAndRejectedChart.render();
+
+		var claimApprovedLeaveTypeChart = new ApexCharts(document.querySelector("#claimApprovedLeaveType"), claimApprovedLeaveTypeOptions);
+		claimApprovedLeaveTypeChart.render();
 	</script>
 @endsection

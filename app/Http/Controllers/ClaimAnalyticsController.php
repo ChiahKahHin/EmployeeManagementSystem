@@ -39,7 +39,23 @@ class ClaimAnalyticsController extends Controller
         }
         rsort($claimApprovedAndRejectedYears);
 
-        return view('claimAnalytics', ['overallClaimYears' => $overallClaimYears, 'claimApprovedAndRejectedYears' => $claimApprovedAndRejectedYears, 'departments' =>$departments]);
+        $claimTypeApprovedYears = array();
+        $claimRequests = ClaimRequest::select('updated_at')->where('claimStatus', 2)->get();
+        foreach ($claimRequests as $claimRequest) {
+            if(!in_array($claimRequest->updated_at->year, $claimTypeApprovedYears)){
+                array_push($claimTypeApprovedYears, $claimRequest->updated_at->year);
+            }
+        }
+        rsort($claimTypeApprovedYears);
+
+        $claimTypes = ClaimRequest::with('getClaimType')->select('claimType', 'claimStatus')->where('claimStatus', 2)->distinct()->get();
+
+        return view('claimAnalytics', ['overallClaimYears' => $overallClaimYears, 
+                                       'claimApprovedAndRejectedYears' => $claimApprovedAndRejectedYears, 
+                                       'departments' => $departments,
+                                       'claimTypeApprovedYears' => $claimTypeApprovedYears,
+                                       'claimTypes' => $claimTypes
+                                      ]);
     }
 
     public function overallClaimAnalytics($year, $department)
@@ -138,6 +154,57 @@ class ClaimAnalyticsController extends Controller
         return [array_values($claimApprovedArrays), array_values($claimRejectedArrays)];
     }
 
+    public function claimTypeApprovedAnalytics($year, $department, $claimType)
+    {
+        $claimTypeArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+        
+        if($department == "null" && $claimType == "null"){
+            $claims = ClaimRequest::where('updated_at', 'like', ''.$year.'%')->where('claimStatus', 2)->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        elseif($claimType == "null"){
+            $claims = ClaimRequest::select('claim_requests.claimAmount', 'claim_requests.updated_at as claimUpdatedAt')
+                                   ->where('claim_requests.updated_at', 'like', ''.$year.'%')
+                                   ->where('claim_requests.claimStatus', 2)
+                                   ->join('users', function ($join) use ($department) {
+                                        $join->on('claim_requests.claimEmployee', 'users.id')
+                                            ->where('users.department', $department);
+                                    })->get();
+            foreach ($claims as $claim) {
+                $updated_at = new Carbon($claim->claimUpdatedAt);
+                $month = date('m', strtotime($updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        elseif($department == "null"){
+            $claims = ClaimRequest::where('updated_at', 'like', ''.$year.'%')->where('claimType', $claimType)->where('claimStatus', 2)->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        else{
+            $claims = ClaimRequest::select('claim_requests.claimAmount', 'claim_requests.updated_at as claimUpdatedAt')
+                                   ->where('claim_requests.updated_at', 'like', ''.$year.'%')
+                                   ->where('claim_requests.claimStatus', 2)
+                                   ->where('claim_requests.claimType', $claimType)
+                                   ->join('users', function ($join) use ($department) {
+                                        $join->on('claim_requests.claimEmployee', 'users.id')
+                                            ->where('users.department', $department);
+                                    })->get();
+            foreach ($claims as $claim) {
+                $updated_at = new Carbon($claim->claimUpdatedAt);
+                $month = date('m', strtotime($updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+
+        return array_values($claimTypeArrays);
+    }
+
     public function claimAnalytics2()
     {
         $overallClaimYears = array();
@@ -160,7 +227,23 @@ class ClaimAnalyticsController extends Controller
         }
         rsort($claimApprovedAndRejectedYears);
 
-        return view('claimAnalytics2', ['overallClaimYears' => $overallClaimYears, 'claimApprovedAndRejectedYears' => $claimApprovedAndRejectedYears, 'personInCharges' =>$personInCharges]);
+        $claimTypeApprovedYears = array();
+        $claimRequests = ClaimRequest::select('updated_at')->where('claimStatus', 2)->where('claimManager', Auth::id())->get();
+        foreach ($claimRequests as $claimRequest) {
+            if(!in_array($claimRequest->updated_at->year, $claimTypeApprovedYears)){
+                array_push($claimTypeApprovedYears, $claimRequest->updated_at->year);
+            }
+        }
+        rsort($claimTypeApprovedYears);
+
+        $claimTypes = ClaimRequest::with('getClaimType')->select('claimType', 'claimStatus')->where('claimManager', Auth::id())->where('claimStatus', 2)->distinct()->get();
+
+        return view('claimAnalytics2', ['overallClaimYears' => $overallClaimYears, 
+                                        'claimApprovedAndRejectedYears' => $claimApprovedAndRejectedYears, 
+                                        'personInCharges' => $personInCharges,
+                                        'claimTypeApprovedYears' => $claimTypeApprovedYears,
+                                        'claimTypes' => $claimTypes
+                                        ]);
     }
 
     public function overallClaimAnalytics2($year, $personInCharge)
@@ -250,6 +333,58 @@ class ClaimAnalyticsController extends Controller
         return [array_values($claimApprovedArrays), array_values($claimRejectedArrays)];
     }
 
+    public function claimTypeApprovedAnalytics2($year, $personInCharge, $claimType)
+    {
+        $claimTypeArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+        
+        if($personInCharge == "null" && $claimType == "null"){
+            $claims = ClaimRequest::where('updated_at', 'like', ''.$year.'%')->where('claimStatus', 2)->where('claimManager', Auth::id())->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        elseif($claimType == "null"){
+            $claims = ClaimRequest::select('claimAmount', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('claimStatus', 2)
+                                   ->where('claimManager', Auth::id())
+                                   ->where('claimEmployee', $personInCharge)
+                                   ->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        elseif($personInCharge == "null"){
+            $claims = ClaimRequest::select('claimAmount', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('claimStatus', 2)
+                                   ->where('claimManager', Auth::id())
+                                   ->where('claimType', $claimType)
+                                   ->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        else{
+            $claims = ClaimRequest::select('claimAmount', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('claimStatus', 2)
+                                   ->where('claimManager', Auth::id())
+                                   ->where('claimType', $claimType)
+                                   ->where('claimEmployee', $personInCharge)
+                                   ->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+
+        return array_values($claimTypeArrays);
+    }
+
     public function claimAnalytics3()
     {
         $overallClaimYears = array();
@@ -270,7 +405,22 @@ class ClaimAnalyticsController extends Controller
         }
         rsort($claimApprovedAndRejectedYears);
 
-        return view('claimAnalytics3', ['overallClaimYears' => $overallClaimYears, 'claimApprovedAndRejectedYears' => $claimApprovedAndRejectedYears]);
+        $claimTypeApprovedYears = array();
+        $claimRequests = ClaimRequest::select('updated_at')->where('claimStatus', 2)->where('claimEmployee', Auth::id())->get();
+        foreach ($claimRequests as $claimRequest) {
+            if(!in_array($claimRequest->updated_at->year, $claimTypeApprovedYears)){
+                array_push($claimTypeApprovedYears, $claimRequest->updated_at->year);
+            }
+        }
+        rsort($claimTypeApprovedYears);
+
+        $claimTypes = ClaimRequest::with('getClaimType')->select('claimType', 'claimStatus')->where('claimEmployee', Auth::id())->where('claimStatus', 2)->distinct()->get();
+
+        return view('claimAnalytics3', ['overallClaimYears' => $overallClaimYears, 
+                                        'claimApprovedAndRejectedYears' => $claimApprovedAndRejectedYears,
+                                        'claimTypeApprovedYears' => $claimTypeApprovedYears,
+                                        'claimTypes' => $claimTypes
+                                        ]);
     }
 
     public function overallClaimAnalytics3($year)
@@ -311,5 +461,36 @@ class ClaimAnalyticsController extends Controller
         }
 
         return [array_values($claimApprovedArrays), array_values($claimRejectedArrays)];
+    }
+
+    public function claimTypeApprovedAnalytics3($year, $claimType)
+    {
+        $claimTypeArrays = array('01' => 0, '02' => 0, '03' => 0, '04' => 0, '05' => 0, '06' => 0, '07' => 0, '08' => 0, '09' => 0, '10' => 0, '11' => 0, '12' => 0);
+        
+        if($claimType == "null"){
+            $claims = ClaimRequest::select('claimAmount', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('claimStatus', 2)
+                                   ->where('claimEmployee', Auth::id())
+                                   ->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }
+        else{
+            $claims = ClaimRequest::select('claimAmount', 'updated_at')
+                                   ->where('updated_at', 'like', ''.$year.'%')
+                                   ->where('claimStatus', 2)
+                                   ->where('claimEmployee', Auth::id())
+                                   ->where('claimType', $claimType)
+                                   ->get();
+            foreach ($claims as $claim) {
+                $month = date('m', strtotime($claim->updated_at));
+                $claimTypeArrays[$month] = $claimTypeArrays[$month] + $claim->claimAmount;
+            }
+        }        
+
+        return array_values($claimTypeArrays);
     }
 }
