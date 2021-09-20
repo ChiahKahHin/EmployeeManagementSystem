@@ -123,7 +123,8 @@ class TaskController extends Controller
             $tasks = Task::with('getPersonInCharge')
                           ->orderBy('status', 'ASC')
                           ->orderBy('dueDate', 'ASC')
-                          ->where('managerID', Auth::user()->id)
+                          ->orWhere('personInCharge', Auth::user()->id)
+                          ->orWhere('managerID', Auth::user()->id)
                           ->orWhere('delegateManagerID', Auth::user()->id)
                           ->get();
         }
