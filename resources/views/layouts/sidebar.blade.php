@@ -64,7 +64,7 @@
 				@endif
 				
 				@php
-					$count = DB::select('select count(reportingManager) as count from users where reportingManager = '.Auth::id().'');
+					$count = DB::select('select count(reportingManager) as count from employees where reportingManager = '.Auth::id().'');
 				@endphp
 				@if ($count[0]->count > 0)
 					<li class="dropdown">

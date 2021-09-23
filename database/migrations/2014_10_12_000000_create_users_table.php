@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
             //$table->string('email')->unique();
@@ -59,8 +59,8 @@ class CreateUsersTable extends Migration
             "username" => "superadmin",
             "email" => "superadmin@gmail.com",
             "employeeID" => "E001",
-            "firstname" => "Super",
-            "lastname" => "Admin",
+            "firstname" => "Hugo",
+            "lastname" => "1",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
@@ -86,8 +86,8 @@ class CreateUsersTable extends Migration
             "username" => "hrmanager",
             "email" => "hrmanager@gmail.com",
             "employeeID" => "E002",
-            "firstname" => "HR",
-            "lastname" => "Manager",
+            "firstname" => "Jeremy",
+            "lastname" => "1",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
@@ -112,8 +112,8 @@ class CreateUsersTable extends Migration
             "username" => "hrmanager2",
             "email" => "hrmanager2@gmail.com",
             "employeeID" => "E003",
-            "firstname" => "HR",
-            "lastname" => "Manager2",
+            "firstname" => "Jeremy",
+            "lastname" => "2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
@@ -139,8 +139,8 @@ class CreateUsersTable extends Migration
             "username" => "itmanager",
             "email" => "ITmanager@gmail.com",
             "employeeID" => "E004",
-            "firstname" => "IT",
-            "lastname" => "Manager",
+            "firstname" => "Calvin",
+            "lastname" => "1",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
@@ -165,8 +165,8 @@ class CreateUsersTable extends Migration
             "username" => "itmanager2",
             "email" => "ITmanager2@gmail.com",
             "employeeID" => "E005",
-            "firstname" => "IT",
-            "lastname" => "Manager2",
+            "firstname" => "Calvin",
+            "lastname" => "2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
             "gender" => "Male",
@@ -192,7 +192,7 @@ class CreateUsersTable extends Migration
             "username" => "emp",
             "email" => "emp@gmail.com",
             "employeeID" => "E006",
-            "firstname" => "Employee",
+            "firstname" => "Anderson",
             "lastname" => "1",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
@@ -225,7 +225,7 @@ class CreateUsersTable extends Migration
             "username" => "emp2",
             "email" => "emp2@gmail.com",
             "employeeID" => "E007",
-            "firstname" => "Employee",
+            "firstname" => "Anderson",
             "lastname" => "2",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
@@ -251,11 +251,11 @@ class CreateUsersTable extends Migration
             "username" => "emp3",
             "email" => "emp3@gmail.com",
             "employeeID" => "E008",
-            "firstname" => "Employee",
-            "lastname" => "3",
+            "firstname" => "Veronica",
+            "lastname" => "1",
             "contactNumber" => "012-4783999",
             "dateOfBirth" => "2000-7-7",
-            "gender" => "Male",
+            "gender" => "Female",
             "address" => "1, Penang Road\nGeorgetown, Penang",
             "reportingManager" => 4,
             "ic" => "000707020059",
@@ -267,7 +267,7 @@ class CreateUsersTable extends Migration
             "emergencyContactNumber" => "012-4567890",
             "emergencyContactAddress" => "1, Penang Road\nGeorgetown, Penang",
             "maritalStatus" => "Married",
-            "spouseName" => "Veronica",
+            "spouseName" => "Donald",
             "spouseDateOfBirth" => "2000-6-1",
             "spouseIC" => "000601020058",
             "dateOfMarriage" => "2020-6-15",
@@ -288,6 +288,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('employees');
     }
 }

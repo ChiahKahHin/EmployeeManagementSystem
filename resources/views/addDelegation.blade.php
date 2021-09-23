@@ -25,7 +25,7 @@
 						<select class="form-control selectpicker @error('delegateManagerID') form-control-danger @enderror" id="delegateManagerID" name="delegateManagerID" required>
 							<option value="" selected disabled hidden>Select Delegate Manager</option>
 							@foreach ($managers as $manager)
-								<option value="{{ $manager->id }}" {{ (old('delegateManagerID') == $manager->id ? "selected": null) }}>{{ ucfirst($manager->getFullName()) }}</option>
+								<option value="{{ $manager->id }}" {{ (old('delegateManagerID') == $manager->id ? "selected": null) }}>{{ ucfirst($manager->getFullName()) }} ({{ $manager->getDepartment->departmentName }})</option>
 							@endforeach
 						</select>
 

@@ -19,7 +19,7 @@ class DelegationController extends Controller
 
     public function addDelegationForm()
     {
-        $managers = User::where('role', '!=', 3)->where('id', '!=', Auth::id())->orderBy('role', 'DESC')->get();
+        $managers = User::with('getDepartment')->where('role', '!=', 3)->where('id', '!=', Auth::id())->orderBy('role', 'DESC')->get();
 
         return view('addDelegation', ['managers' => $managers]);
     }
