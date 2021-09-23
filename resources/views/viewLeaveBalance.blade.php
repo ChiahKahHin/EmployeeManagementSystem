@@ -75,9 +75,9 @@
 											}
 										}									
 									@endphp
-									<td>{{ intval($leaveLimit) }} </td>
+									<td>{{ $leaveLimit }} </td>
 									<td>{{ $totalApprovedLeave }}</td>
-									<td>{{ intval($leaveLimit)-$totalApprovedLeave }}</td>
+									<td>{{ $leaveLimit-$totalApprovedLeave }}</td>
 								</tr>
 								@php
 									$iteration++;

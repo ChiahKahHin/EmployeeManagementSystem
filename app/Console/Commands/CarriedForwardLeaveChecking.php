@@ -73,9 +73,20 @@ class CarriedForwardLeaveChecking extends Command
                 }
             }
             if($totalAppliedAnnualLeave < $originalAnnualLeaveLimit){
+                $user = User::find($employeeID[$i]);
+                $averageAnnualLeaveLimit = 0;
+                if($user->created_at->year == date('Y')){
+                    $remainingMonthForThisYear = (12 - $user->created_at->month) + 1;
+                    $averageAnnualLeaveLimit = ($originalAnnualLeaveLimit / 12) * $remainingMonthForThisYear;
+                }
                 $carriedForwardLeave = new CarriedForwardLeave();
                 $carriedForwardLeave->employeeID = $employeeID[$i];
-                $carriedForwardLeave->leaveLimit = $originalAnnualLeaveLimit - $totalAppliedAnnualLeave;
+                if($averageAnnualLeaveLimit == 0){
+                    $carriedForwardLeave->leaveLimit = $originalAnnualLeaveLimit - $totalAppliedAnnualLeave;
+                }
+                else{
+                    $carriedForwardLeave->leaveLimit = intval($averageAnnualLeaveLimit) - $totalAppliedAnnualLeave;
+                }
                 $carriedForwardLeave->save();
 
                 Mail::to($carriedForwardLeave->getEmployee->email)->send(new CarriedForwardLeaveMail($carriedForwardLeave));
@@ -85,9 +96,20 @@ class CarriedForwardLeaveChecking extends Command
         //get employee who does not apply for annual leave & update the carried forward leave
         $employeeNotAppliedAnnualLeaves = User::whereNotIn('id', $employeeID)->get();
         foreach ($employeeNotAppliedAnnualLeaves as $employeeNotAppliedAnnualLeave) {
+            $user = User::find($employeeNotAppliedAnnualLeave->id);
+            $averageAnnualLeaveLimit = 0;
+            if($user->created_at->year == date('Y')){
+                $remainingMonthForThisYear = (12 - $user->created_at->month) + 1;
+                $averageAnnualLeaveLimit = ($originalAnnualLeaveLimit / 12) * $remainingMonthForThisYear;
+            }
             $carriedForwardLeave = new CarriedForwardLeave();
             $carriedForwardLeave->employeeID = $employeeNotAppliedAnnualLeave->id;
-            $carriedForwardLeave->leaveLimit = $originalAnnualLeaveLimit;
+            if($averageAnnualLeaveLimit == 0){
+                $carriedForwardLeave->leaveLimit = $originalAnnualLeaveLimit;
+            }
+            else{
+                $carriedForwardLeave->leaveLimit = intval($averageAnnualLeaveLimit); 
+            }
             $carriedForwardLeave->save();
 
             Mail::to($carriedForwardLeave->getEmployee->email)->send(new CarriedForwardLeaveMail($carriedForwardLeave));
