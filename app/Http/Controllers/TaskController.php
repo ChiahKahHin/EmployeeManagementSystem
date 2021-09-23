@@ -46,7 +46,7 @@ class TaskController extends Controller
         ]);
 
         //Check conflict with public holiday
-        $numberOfPublicHolidays = 0;
+        /*$numberOfPublicHolidays = 0;
         $publicHolidays = PublicHoliday::distinct()->get('date');
         foreach ($publicHolidays as $publicHoliday) {
             if($publicHoliday->date == $request->dueDate){
@@ -72,7 +72,7 @@ class TaskController extends Controller
         
         if ($numberOfNonWorkingDays > 0) {
             return redirect()->route('addTask')->with('error', 'Please do not select non-working day for the task due date');
-        }
+        }*/
 
         if(is_array($request->personInCharge)){
             for ($i=0; $i < count($request->personInCharge); $i++) { 
