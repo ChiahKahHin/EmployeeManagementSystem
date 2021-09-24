@@ -32,7 +32,7 @@ class ClaimRequestController extends Controller
         $this->validate($request, [
             'claimType' => 'required',
             'claimAmount' => 'required',
-            'claimDate' => 'required|before:today-1',
+            'claimDate' => 'required|before:tomorrow',
             'claimDescription' => 'required|max:65535',
             'claimAttachment' => 'required|file',
         ]);
