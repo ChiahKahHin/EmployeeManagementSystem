@@ -17,7 +17,7 @@
 		</div>
 		<div class="profile-tab height-100-p">
 			<div class="tab height-100-p">
-				@if($employees->maritalStatus == "Married")
+				@if($employees->getEmployeeInfo->maritalStatus == "Married")
 					<ul class="nav nav-tabs customtab" role="tablist">
 						<li class="nav-item" style="width: 25%">
 							<a class="nav-link active" data-toggle="tab" href="#personalInformation" role="tab" style="text-align: center;">Personal Information</a>
@@ -64,10 +64,10 @@
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Contact Number</td>
-											<td>{{ $employees->contactNumber }}</td>
+											<td>{{ $employees->getEmployeeInfo->contactNumber }}</td>
 										</tr>
 										@php
-											$year = explode("-", $employees->dateOfBirth);
+											$year = explode("-", $employees->getEmployeeInfo->dateOfBirth);
 											$age = date('Y') - $year[0];
 										@endphp
 										<tr>
@@ -76,39 +76,39 @@
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Date of Birth</td>
-											<td>{{ date("d F Y", strtotime($employees->dateOfBirth)) }}</td>
+											<td>{{ date("d F Y", strtotime($employees->getEmployeeInfo->dateOfBirth)) }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Gender</td>
-											<td>{{ ucwords($employees->gender) }}</td>
+											<td>{{ ucwords($employees->getEmployeeInfo->gender) }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Address</td>
-											<td>{!! nl2br($employees->address) !!}</td>
+											<td>{!! nl2br($employees->getEmployeeInfo->address) !!}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">NRIC/Passport No</td>
-											<td>{{ $employees->ic }}</td>
+											<td>{{ $employees->getEmployeeInfo->ic }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Nationality</td>
-											<td>{{ $employees->nationality }}</td>
+											<td>{{ $employees->getEmployeeInfo->nationality }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Citizenship</td>
-											<td>{{ $employees->citizenship }}</td>
+											<td>{{ $employees->getEmployeeInfo->citizenship }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Religion</td>
-											<td>{{ $employees->religion }}</td>
+											<td>{{ $employees->getEmployeeInfo->religion }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Race</td>
-											<td>{{ $employees->race }}</td>
+											<td>{{ $employees->getEmployeeInfo->race }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Marital Status</td>
-											<td>{{ $employees->maritalStatus }}</td>
+											<td>{{ $employees->getEmployeeInfo->maritalStatus }}</td>
 										</tr>										
 									</tbody>
 								</table>
@@ -131,31 +131,31 @@
 									<tbody>
 										<tr>
 											<td class="font-weight-bold">Spouse Name</td>
-											<td>{{ $employees->spouseName }}</td>
+											<td>{{ $employees->getEmployeeInfo->spouseName }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Spouse Date of Birth</td>
-											<td>{{ date("d F Y", strtotime($employees->spouseDateOfBirth)) }}</td>
+											<td>{{ date("d F Y", strtotime($employees->getEmployeeInfo->spouseDateOfBirth)) }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Spouse NRIC/Passport No</td>
-											<td>{{ $employees->spouseIC }}</td>
+											<td>{{ $employees->getEmployeeInfo->spouseIC }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Date of Marriage</td>
-											<td>{{ date("d F Y", strtotime($employees->dateOfMarriage)) }}</td>
+											<td>{{ date("d F Y", strtotime($employees->getEmployeeInfo->dateOfMarriage)) }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Spouse Occupation</td>
-											<td>{{ $employees->spouseOccupation }}</td>
+											<td>{{ $employees->getEmployeeInfo->spouseOccupation }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Spouse Contact Number</td>
-											<td>{{ $employees->spouseContactNumber }}</td>
+											<td>{{ $employees->getEmployeeInfo->spouseContactNumber }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Spouse Resident Status</td>
-											<td>{{ $employees->spouseResidentStatus }}</td>
+											<td>{{ $employees->getEmployeeInfo->spouseResidentStatus }}</td>
 										</tr>									
 									</tbody>
 								</table>
@@ -178,15 +178,15 @@
 									<tbody>
 										<tr>
 											<td class="font-weight-bold">Emergency Contact Name</td>
-											<td>{{ $employees->emergencyContactName }}</td>
+											<td>{{ $employees->getEmployeeInfo->emergencyContactName }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Emergency Contact Number</td>
-											<td>{{ $employees->emergencyContactNumber }}</td>
+											<td>{{ $employees->getEmployeeInfo->emergencyContactNumber }}</td>
 										</tr>
 										<tr>
 											<td class="font-weight-bold">Emergency Contact Address</td>
-											<td>{!! nl2br($employees->emergencyContactAddress) !!}</td>
+											<td>{!! nl2br($employees->getEmployeeInfo->emergencyContactAddress) !!}</td>
 										</tr>										
 									</tbody>
 								</table>

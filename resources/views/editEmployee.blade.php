@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>First Name</label>
-                        <input class="form-control @error('firstname') form-control-danger @enderror" type="text" name="firstname" placeholder="Enter first name" value="{{ old('firstname', $employees->firstname) }}" required>
+                        <input class="form-control @error('firstname') form-control-danger @enderror" type="text" name="firstname" placeholder="Enter first name" value="{{ old('firstname', $employees->getEmployeeInfo->firstname) }}" required>
 						
 						@error("firstname")
 							<div class="text-danger text-sm">
@@ -40,7 +40,7 @@
 
 					<div class="col-md-6">
                         <label>Last Name</label>
-                        <input class="form-control @error('lastname') form-control-danger @enderror" type="text" name="lastname" placeholder="Enter last name" value="{{ old('lastname', $employees->lastname) }}" required>
+                        <input class="form-control @error('lastname') form-control-danger @enderror" type="text" name="lastname" placeholder="Enter last name" value="{{ old('lastname', $employees->getEmployeeInfo->lastname) }}" required>
 						
 						@error("lastname")
 							<div class="text-danger text-sm">
@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Contact Number</label>
-                        <input class="form-control @error('contactNumber') form-control-danger @enderror" type="text" name="contactNumber" placeholder="Enter contact number (e.g. 012-3456789)" value="{{ old('contactNumber', $employees->contactNumber) }}" required>
+                        <input class="form-control @error('contactNumber') form-control-danger @enderror" type="text" name="contactNumber" placeholder="Enter contact number (e.g. 012-3456789)" value="{{ old('contactNumber', $employees->getEmployeeInfo->contactNumber) }}" required>
 
 						@error("contactNumber")
 							<div class="text-danger text-sm">
@@ -66,7 +66,7 @@
 
 					<div class="col-md-6">
                         <label>Date of Birth</label>
-                        <input class="form-control @error('dateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', $employees->dateOfBirth) }}" required>
+                        <input class="form-control @error('dateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" name="dateOfBirth" placeholder="Select date of birth" value="{{ old('dateOfBirth', $employees->getEmployeeInfo->dateOfBirth) }}" required>
 						
 						@error("dateOfBirth")
 							<div class="text-danger text-sm">
@@ -87,7 +87,7 @@
 						<select class="form-control selectpicker @error('gender') form-control-danger @enderror" name="gender" required>
 							<option value="" selected disabled hidden>Select gender</option>
 							@foreach ($genders as $gender)
-								<option value="{{ $gender }}" {{ (old('gender', $employees->gender) == $gender ? "selected": null) }}>{{ ucfirst($gender) }}</option>
+								<option value="{{ $gender }}" {{ (old('gender', $employees->getEmployeeInfo->gender) == $gender ? "selected": null) }}>{{ ucfirst($gender) }}</option>
 							@endforeach
 						</select>
 						
@@ -100,7 +100,7 @@
 
 					<div class="col-md-6">
 						<label>Home Address</label>
-						<textarea class="form-control @error('address') form-control-danger @enderror" id="address" name="address" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter home address" maxlength="255" onkeyup="countWords()" data-gramm_editor="false" required>{{ old('address', $employees->address) }}</textarea>
+						<textarea class="form-control @error('address') form-control-danger @enderror" id="address" name="address" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter home address" maxlength="255" onkeyup="countWords()" data-gramm_editor="false" required>{{ old('address', $employees->getEmployeeInfo->address) }}</textarea>
 						
 						<div id="address_word_count" class="text-sm" style="text-align: right"></div>
 						
@@ -117,7 +117,7 @@
                 <div class="row">
 					<div class="col-md-6">
 						<label>NRIC/Passport No</label>
-						<input class="form-control @error('ic') form-control-danger @enderror" type="text" name="ic" placeholder="Enter NRIC/Passport No" value="{{ old('ic', $employees->ic) }}" required>
+						<input class="form-control @error('ic') form-control-danger @enderror" type="text" name="ic" placeholder="Enter NRIC/Passport No" value="{{ old('ic', $employees->getEmployeeInfo->ic) }}" required>
 
 						@error("ic")
 							<div class="text-danger text-sm">
@@ -130,7 +130,7 @@
 						<label>Nationality</label>
 						<select class="form-control custom-select2 nationality @error('nationality') form-control-danger @enderror" name="nationality" required>
 							@foreach ($nationalities as $nationality)
-								<option value="{{ $nationality }}" {{ (old('nationality', $employees->nationality) == $nationality ? "selected": null) }}>{{ $nationality }}</option>
+								<option value="{{ $nationality }}" {{ (old('nationality', $employees->getEmployeeInfo->nationality) == $nationality ? "selected": null) }}>{{ $nationality }}</option>
 							@endforeach
 						</select>
 						
@@ -153,7 +153,7 @@
 						<select class="form-control selectpicker @error('citizenship') form-control-danger @enderror" name="citizenship" required>
 							<option value="" selected disabled hidden>Select citizenship</option>
 							@foreach ($citizenships as $citizenship)
-								<option value="{{ $citizenship }}" {{ (old('citizenship', $employees->citizenship) == $citizenship ? "selected": null) }}>{{ $citizenship }}</option>
+								<option value="{{ $citizenship }}" {{ (old('citizenship', $employees->getEmployeeInfo->citizenship) == $citizenship ? "selected": null) }}>{{ $citizenship }}</option>
 							@endforeach
 						</select>
 						
@@ -172,7 +172,7 @@
 						<select class="form-control selectpicker @error('religion') form-control-danger @enderror" name="religion" required>
 							<option value="" selected disabled hidden>Select religion</option>
 							@foreach ($religions as $religion)
-								<option value="{{ $religion }}" {{ (old('religion', $employees->religion) == $religion ? "selected": null) }}>{{ $religion }}</option>
+								<option value="{{ $religion }}" {{ (old('religion', $employees->getEmployeeInfo->religion) == $religion ? "selected": null) }}>{{ $religion }}</option>
 							@endforeach
 						</select>
 						
@@ -195,7 +195,7 @@
 						<select class="form-control selectpicker @error('race') form-control-danger @enderror" name="race" required>
 							<option value="" selected disabled hidden>Select race</option>
 							@foreach ($races as $race)
-								<option value="{{ $race }}" {{ (old('race', $employees->race) == $race ? "selected": null) }}>{{ $race }}</option>
+								<option value="{{ $race }}" {{ (old('race', $employees->getEmployeeInfo->race) == $race ? "selected": null) }}>{{ $race }}</option>
 							@endforeach
 						</select>
 						
@@ -214,7 +214,7 @@
 						<select class="form-control selectpicker @error('maritalStatus') form-control-danger @enderror" id="maritalStatus" name="maritalStatus" onchange="checkMaritalStatus();" required>
 							<option value="" selected disabled hidden>Select marital status</option>
 							@foreach ($maritalStatuses as $maritalStatus)
-								<option value="{{ $maritalStatus }}" {{ (old('maritalStatus', $employees->maritalStatus) == $maritalStatus ? "selected": null) }}>{{ $maritalStatus }}</option>
+								<option value="{{ $maritalStatus }}" {{ (old('maritalStatus', $employees->getEmployeeInfo->maritalStatus) == $maritalStatus ? "selected": null) }}>{{ $maritalStatus }}</option>
 							@endforeach
 						</select>
 						
@@ -240,7 +240,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<label>Spouse Name</label>
-							<input class="form-control @error('spouseName') form-control-danger @enderror" type="text" id="spouseName" name="spouseName" placeholder="Enter spouse name" value="{{ old('spouseName', $employees->spouseName) }}">
+							<input class="form-control @error('spouseName') form-control-danger @enderror" type="text" id="spouseName" name="spouseName" placeholder="Enter spouse name" value="{{ old('spouseName', $employees->getEmployeeInfo->spouseName) }}">
 							
 							@error("spouseName")
 								<div class="text-danger text-sm">
@@ -251,7 +251,7 @@
 	
 						<div class="col-md-6">
 							<label>Spouse Date of Birth</label>
-							<input class="form-control @error('spouseDateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" id="spouseDateOfBirth" name="spouseDateOfBirth" placeholder="Select spouse date of birth" value="{{ old('spouseDateOfBirth', $employees->spouseDateOfBirth) }}">
+							<input class="form-control @error('spouseDateOfBirth') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" id="spouseDateOfBirth" name="spouseDateOfBirth" placeholder="Select spouse date of birth" value="{{ old('spouseDateOfBirth', $employees->getEmployeeInfo->spouseDateOfBirth) }}">
 							
 							@error("spouseDateOfBirth")
 								<div class="text-danger text-sm">
@@ -266,7 +266,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<label>Spouse NRIC/Passport No</label>
-							<input class="form-control @error('spouseIC') form-control-danger @enderror" type="text" id="spouseIC" name="spouseIC" placeholder="Enter spouse NRIC/Passport No" value="{{ old('spouseIC', $employees->spouseIC) }}">
+							<input class="form-control @error('spouseIC') form-control-danger @enderror" type="text" id="spouseIC" name="spouseIC" placeholder="Enter spouse NRIC/Passport No" value="{{ old('spouseIC', $employees->getEmployeeInfo->spouseIC) }}">
 	
 							@error("spouseIC")
 								<div class="text-danger text-sm">
@@ -277,7 +277,7 @@
 
 						<div class="col-md-6">
 							<label>Date of Marriage</label>
-							<input class="form-control @error('dateOfMarriage') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" id="dateOfMarriage" name="dateOfMarriage" placeholder="Select spouse date of marriage" value="{{ old('dateOfMarriage', $employees->dateOfMarriage) }}">
+							<input class="form-control @error('dateOfMarriage') form-control-danger @enderror" type="date" max="@php echo date("Y-m-d") @endphp" id="dateOfMarriage" name="dateOfMarriage" placeholder="Select spouse date of marriage" value="{{ old('dateOfMarriage', $employees->getEmployeeInfo->dateOfMarriage) }}">
 							
 							@error("dateOfMarriage")
 								<div class="text-danger text-sm">
@@ -292,7 +292,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<label>Spouse Occupation</label>
-							<input class="form-control @error('spouseOccupation') form-control-danger @enderror" type="text" id="spouseOccupation" name="spouseOccupation" placeholder="Enter spouse occupation" value="{{ old('spouseOccupation', $employees->spouseOccupation) }}">
+							<input class="form-control @error('spouseOccupation') form-control-danger @enderror" type="text" id="spouseOccupation" name="spouseOccupation" placeholder="Enter spouse occupation" value="{{ old('spouseOccupation', $employees->getEmployeeInfo->spouseOccupation) }}">
 	
 							@error("spouseOccupation")
 								<div class="text-danger text-sm">
@@ -303,7 +303,7 @@
 
 						<div class="col-md-6">
 							<label>Spouse Contact Number</label>
-							<input class="form-control @error('spouseContactNumber') form-control-danger @enderror" type="text" id="spouseContactNumber" name="spouseContactNumber" placeholder="Enter spouse contact number (e.g. 012-3456789)" value="{{ old('spouseContactNumber', $employees->spouseContactNumber) }}">
+							<input class="form-control @error('spouseContactNumber') form-control-danger @enderror" type="text" id="spouseContactNumber" name="spouseContactNumber" placeholder="Enter spouse contact number (e.g. 012-3456789)" value="{{ old('spouseContactNumber', $employees->getEmployeeInfo->spouseContactNumber) }}">
 	
 							@error("spouseContactNumber")
 								<div class="text-danger text-sm">
@@ -324,7 +324,7 @@
 							<select class="form-control selectpicker @error('spouseResidentStatus') form-control-danger @enderror" id="spouseResidentStatus" name="spouseResidentStatus">
 								<option value="" selected disabled hidden>Select spouse resident status</option>
 								@foreach ($spouseResidentStatuses as $spouseResidentStatus)
-									<option value="{{ $spouseResidentStatus }}" {{ (old('spouseResidentStatus', $employees->spouseResidentStatus) == $spouseResidentStatus ? "selected": null) }}>{{ $spouseResidentStatus }}</option>
+									<option value="{{ $spouseResidentStatus }}" {{ (old('spouseResidentStatus', $employees->getEmployeeInfo->spouseResidentStatus) == $spouseResidentStatus ? "selected": null) }}>{{ $spouseResidentStatus }}</option>
 								@endforeach
 							</select>
 							
@@ -350,7 +350,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Emergency Contact Name</label>
-                        <input class="form-control @error('emergencyContactName') form-control-danger @enderror" type="text" name="emergencyContactName" placeholder="Enter emergency contact name" value="{{ old('emergencyContactName', $employees->emergencyContactName) }}" required>
+                        <input class="form-control @error('emergencyContactName') form-control-danger @enderror" type="text" name="emergencyContactName" placeholder="Enter emergency contact name" value="{{ old('emergencyContactName', $employees->getEmployeeInfo->emergencyContactName) }}" required>
 
 						@error("emergencyContactName")
 							<div class="text-danger text-sm">
@@ -361,7 +361,7 @@
 
 					<div class="col-md-6">
                         <label>Emergency Contact Number</label>
-                        <input class="form-control @error('emergencyContactNumber') form-control-danger @enderror" type="text" name="emergencyContactNumber" placeholder="Enter emergency contact number (e.g. 012-3456789)" value="{{ old('emergencyContactNumber', $employees->emergencyContactNumber) }}" required>
+                        <input class="form-control @error('emergencyContactNumber') form-control-danger @enderror" type="text" name="emergencyContactNumber" placeholder="Enter emergency contact number (e.g. 012-3456789)" value="{{ old('emergencyContactNumber', $employees->getEmployeeInfo->emergencyContactNumber) }}" required>
 
 						@error("emergencyContactNumber")
 							<div class="text-danger text-sm">
@@ -376,7 +376,7 @@
                 <div class="row">
 					<div class="col-md-6">
                         <label>Emergency Address</label>
-                        <textarea class="form-control @error('emergencyAddress') form-control-danger @enderror" id="emergencyAddress" name="emergencyAddress" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter emergency address" maxlength="255" onkeyup="countWords1()" data-gramm_editor="false" required>{{ old('emergencyAddress', $employees->emergencyContactAddress) }}</textarea>
+                        <textarea class="form-control @error('emergencyAddress') form-control-danger @enderror" id="emergencyAddress" name="emergencyAddress" style="min-height:50px; max-height:150px; height:45px; resize: vertical;" placeholder="Enter emergency address" maxlength="255" onkeyup="countWords1()" data-gramm_editor="false" required>{{ old('emergencyAddress', $employees->getEmployeeInfo->emergencyContactAddress) }}</textarea>
 						
 						<div id="emergency_address_word_count" class="text-sm" style="text-align: right"></div>
                     </div>

@@ -40,13 +40,13 @@ class LeaveRequestController extends Controller
 
     public function viewLeaveBalance()
     {
-        if(Auth::user()->maritalStatus == "Married"){
+        if(Auth::user()->getEmployeeInfo->maritalStatus == "Married"){
             $leaveTypes = LeaveType::all()
-                          ->whereIn('gender', ['All', Auth::user()->gender]);
+                          ->whereIn('gender', ['All', Auth::user()->getEmployeeInfo->gender]);
         }
         else{
             $leaveTypes = LeaveType::all()
-                          ->whereIn('gender', ['All', Auth::user()->gender])
+                          ->whereIn('gender', ['All', Auth::user()->getEmployeeInfo->gender])
                           ->where('maritalStatus', 0);
         }
 
@@ -62,13 +62,13 @@ class LeaveRequestController extends Controller
 
     public function applyLeaveForm()
     {
-        if(Auth::user()->maritalStatus == "Married"){
+        if(Auth::user()->getEmployeeInfo->maritalStatus == "Married"){
             $leaveTypes = LeaveType::all()
-                          ->whereIn('gender', ['All', Auth::user()->gender]);
+                          ->whereIn('gender', ['All', Auth::user()->getEmployeeInfo->gender]);
         }
         else{
             $leaveTypes = LeaveType::all()
-                          ->whereIn('gender', ['All', Auth::user()->gender])
+                          ->whereIn('gender', ['All', Auth::user()->getEmployeeInfo->gender])
                           ->where('maritalStatus', 0);
         }
         $approvedLeaves = LeaveRequest::all()

@@ -35,7 +35,7 @@
                 <tbody>
 					@foreach ($employees as $employee)
 						@php
-							$year = explode("-", $employee->dateOfBirth);
+							$year = explode("-", $employee->getEmployeeInfo->dateOfBirth);
 							$age = date('Y') - $year[0];
 						@endphp
                     <tr>
@@ -44,7 +44,7 @@
 						<td class="table-plus">{{ $employee->getFullName() }}</td>
                         <td>{{ $age }}</td>
                         <td>{{ $employee->email }}</td>
-                        <td>{{ $employee->contactNumber }} </td>
+                        <td>{{ $employee->getEmployeeInfo->contactNumber }} </td>
                         <td>{{ ucwords($employee->getDepartment->departmentName) }}</td>
                         <td>
 							<div class="dropdown">
@@ -74,7 +74,7 @@
             var employeeUsername = $(this).attr('value');
             swal({
                 title: 'Delete this employee?',
-                text: 'Username: ' + employeeUsername,
+                text: 'Name: ' + employeeUsername,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonClass: "btn btn-danger",

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmployeeInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,7 @@ class ProfileController extends Controller
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
             'contactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
-            'dateOfBirth' => 'required|before:today',
+            'dateOfBirth' => 'required|before:tomorrow',
             'gender' => 'required',
             'address' => 'required|max:255',
             'ic' => 'required|min:12|max:12',
@@ -64,9 +65,9 @@ class ProfileController extends Controller
             'race' => 'required',
             'maritalStatus' => 'required',
             'spouseName' => 'max:255|nullable',
-            'spouseDateOfBirth' => 'before:today|nullable',
+            'spouseDateOfBirth' => 'before:tomorrow|nullable',
             'spouseIC' => 'max:255|nullable',
-            'dateOfMarriage' => 'before:today|nullable',
+            'dateOfMarriage' => 'before:tomorrow|nullable',
             'spouseOccupation' => 'max:255|nullable',
             'spouseContactNumber' => 'regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14|nullable',
             'emergencyContactName' => 'required|max:255',
@@ -77,42 +78,45 @@ class ProfileController extends Controller
         ]);
         
         $employee = User::findOrFail($id);
-        $employee->firstname = $request->firstname;
-        $employee->lastname = $request->lastname;
-        $employee->contactNumber = $request->contactNumber;
-        $employee->dateOfBirth = $request->dateOfBirth;
-        $employee->gender = $request->gender;
         $employee->email = $request->email;
         $employee->username = $request->username;
-        $employee->address = $request->address;
-        $employee->ic = $request->ic;
-        $employee->nationality = $request->nationality;
-        $employee->citizenship = $request->citizenship;
-        $employee->religion = $request->religion;
-        $employee->race = $request->race;
-        $employee->maritalStatus = $request->maritalStatus;
+        $employee->save();
+
+        $employeeInfo = EmployeeInfo::where('userID', $employee->id)->get()->first();
+        $employeeInfo->firstname = $request->firstname;
+        $employeeInfo->lastname = $request->lastname;
+        $employeeInfo->contactNumber = $request->contactNumber;
+        $employeeInfo->dateOfBirth = $request->dateOfBirth;
+        $employeeInfo->gender = $request->gender;
+        $employeeInfo->address = $request->address;
+        $employeeInfo->ic = $request->ic;
+        $employeeInfo->nationality = $request->nationality;
+        $employeeInfo->citizenship = $request->citizenship;
+        $employeeInfo->religion = $request->religion;
+        $employeeInfo->race = $request->race;
+        $employeeInfo->maritalStatus = $request->maritalStatus;
         if($request->maritalStatus == "Married"){
-            $employee->spouseName = $request->spouseName;
-            $employee->spouseDateOfBirth = $request->spouseDateOfBirth;
-            $employee->spouseIC = $request->spouseIC;
-            $employee->dateOfMarriage = $request->dateOfMarriage;
-            $employee->spouseOccupation = $request->spouseOccupation;
-            $employee->spouseContactNumber = $request->spouseContactNumber;
-            $employee->spouseResidentStatus = $request->spouseResidentStatus;
+            $employeeInfo->spouseName = $request->spouseName;
+            $employeeInfo->spouseDateOfBirth = $request->spouseDateOfBirth;
+            $employeeInfo->spouseIC = $request->spouseIC;
+            $employeeInfo->dateOfMarriage = $request->dateOfMarriage;
+            $employeeInfo->spouseOccupation = $request->spouseOccupation;
+            $employeeInfo->spouseContactNumber = $request->spouseContactNumber;
+            $employeeInfo->spouseResidentStatus = $request->spouseResidentStatus;
         }
         else{
-            $employee->spouseName = null;
-            $employee->spouseDateOfBirth = null;
-            $employee->spouseIC = null;
-            $employee->dateOfMarriage = null;
-            $employee->spouseOccupation = null;
-            $employee->spouseContactNumber = null;
-            $employee->spouseResidentStatus = null;
+            $employeeInfo->spouseName = null;
+            $employeeInfo->spouseDateOfBirth = null;
+            $employeeInfo->spouseIC = null;
+            $employeeInfo->dateOfMarriage = null;
+            $employeeInfo->spouseOccupation = null;
+            $employeeInfo->spouseContactNumber = null;
+            $employeeInfo->spouseResidentStatus = null;
         }
-        $employee->emergencyContactName = $request->emergencyContactName;
-        $employee->emergencyContactNumber = $request->emergencyContactNumber;
-        $employee->emergencyContactAddress = $request->emergencyAddress;
-        $employee->save();
+        $employeeInfo->emergencyContactName = $request->emergencyContactName;
+        $employeeInfo->emergencyContactNumber = $request->emergencyContactNumber;
+        $employeeInfo->emergencyContactAddress = $request->emergencyAddress;
+        $employeeInfo->save();
 
        return redirect()->route('viewProfile')->with('message', 'Profile details updated successfully!');
     }
