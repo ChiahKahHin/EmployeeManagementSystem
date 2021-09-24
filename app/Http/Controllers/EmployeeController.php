@@ -204,7 +204,7 @@ class EmployeeController extends Controller
         }
         $employee->save();
 
-        $employeeInfo = EmployeeInfo::where('userID', $employee->id)->get()->first();
+        $employeeInfo = EmployeeInfo::findOrFail($employee->id);
         $employeeInfo->firstname = $request->firstname;
         $employeeInfo->lastname = $request->lastname;
         $employeeInfo->contactNumber = $request->contactNumber;
@@ -246,8 +246,10 @@ class EmployeeController extends Controller
     public function deleteEmployee($id)
     {
         $employee = User::findOrFail($id);
-        EmployeeInfo::where('userID', $employee->id)->delete();
         $employee->delete();
+        
+        $employeeInfo = EmployeeInfo::findOrFail($id);
+        $employeeInfo->delete();
 
         return redirect()->route('manageEmployee');
     }

@@ -10,6 +10,8 @@ class EmployeeInfo extends Model
     use HasFactory;
 
     protected $table = "employee_info";
+
+    protected $primaryKey = "userID";
  
     public $timestamps = false;
 

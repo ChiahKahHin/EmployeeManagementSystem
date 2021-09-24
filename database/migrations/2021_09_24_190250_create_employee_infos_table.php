@@ -15,8 +15,7 @@ class CreateEmployeeInfosTable extends Migration
     public function up()
     {
         Schema::create('employee_info', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('userID');
+            $table->bigInteger('userID')->primary();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('contactNumber');

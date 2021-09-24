@@ -82,7 +82,7 @@ class ProfileController extends Controller
         $employee->username = $request->username;
         $employee->save();
 
-        $employeeInfo = EmployeeInfo::where('userID', $employee->id)->get()->first();
+        $employeeInfo = EmployeeInfo::findOrFail($employee->id);
         $employeeInfo->firstname = $request->firstname;
         $employeeInfo->lastname = $request->lastname;
         $employeeInfo->contactNumber = $request->contactNumber;
