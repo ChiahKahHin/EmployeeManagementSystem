@@ -246,8 +246,8 @@ class EmployeeController extends Controller
     public function deleteEmployee($id)
     {
         $employee = User::findOrFail($id);
+        EmployeeInfo::where('userID', $employee->id)->delete();
         $employee->delete();
-        EmployeeInfo::where('userID', $id)->delete();
 
         return redirect()->route('manageEmployee');
     }
