@@ -19,7 +19,7 @@ class User extends Authenticatable
         3 => 'employee',
     ];
 
-    protected $table = "employees";
+    protected $table = "users";
 
     /**
      * The attributes that are mass assignable.
@@ -30,33 +30,11 @@ class User extends Authenticatable
         'username',
         'email',
         'employeeID',
-        'firstname',
-        'lastname',
-        'contactNumber',
-        'dateOfBirth',
-        'gender',
-        'address',
-        'reportingManager',
-        'ic',
-        'nationality',
-        'citizenship',
-        'religion',
-        'race',
-        'emergencyContactName',
-        'emergencyContactNumber',
-        'emergencyContactAddress',
-        'maritalStatus',
-        'spouseName',
-        'spouseDateOfBirth',
-        'spouseIC',
-        'dateOfMarriage',
-        'spouseOccupation',
-        'spouseContactNumber',
-        'spouseResidentStatus',
         'department',
-        'password',
         'position',
-        'role'
+        'role',
+        'reportingManager',
+        'password',
     ];
 
     /**
@@ -84,6 +62,10 @@ class User extends Authenticatable
 
     public function getPosition() {
         return $this->belongsTo(Position::class, "position");
+    }
+
+    public function getEmployeeInfo(){
+        return $this->hasOne(EmployeeInfo::class, "userID");
     }
 
     public function isAdmin(){
@@ -145,15 +127,15 @@ class User extends Authenticatable
     public function getFullName($id = null)
     {
         if($id == null){
-            $fullName = $this->firstname;
+            $fullName = $this->getEmployeeInfo->firstname;
             $fullName .= " ";
-            $fullName .= $this->lastname;
+            $fullName .= $this->getEmployeeInfo->lastname;
         }
         else{
             $user = User::find($id);
-            $fullName = $user->firstname;
+            $fullName = $user->getEmployeeInfo->firstname;
             $fullName .= " ";
-            $fullName .= $user->lastname;
+            $fullName .= $user->getEmployeeInfo->lastname;
         }
 
         return ucwords($fullName);
