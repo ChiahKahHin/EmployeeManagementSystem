@@ -99,13 +99,6 @@
 							<li><a href="{{ route('addTask') }}">Add Task</a></li>
 						@endif
 						<li><a href="{{ route('manageTask') }}">Manage Task</a></li>
-						@if (Auth::user()->isAdmin())
-							<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
-						@elseif(Auth::user()->isAccess('hrmanager', 'manager'))
-							<li><a href="{{ route('taskAnalyticsPage2') }}">Task Analytics</a></li>
-						@else
-							<li><a href="{{ route('taskAnalyticsPage3') }}">Task Analytics</a></li>
-						@endif
 					</ul>
 				</li>
 
@@ -139,7 +132,6 @@
 							<li><a href="{{ route('viewLeaveBalance') }}">Leave Balance</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave Requests</a></li>
-							<li><a href="{{ route('leaveAnalytics') }}">Leave Analytics</a></li>
 						</ul>
 					</li>
 				@endif
@@ -154,11 +146,6 @@
 							<li><a href="{{ route('viewLeaveBalance') }}">Leave Balance</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>
 							<li><a href="{{ route('manageLeave') }}">Manage Leave</a></li>
-							@if (Auth::user()->isManager())
-								<li><a href="{{ route('leaveAnalytics2') }}">Leave Analytics</a></li>
-							@else
-								<li><a href="{{ route('leaveAnalytics3') }}">Leave Analytics</a></li>
-							@endif
 						</ul>
 					</li>
 				@endif
@@ -189,7 +176,6 @@
 							</li>
 							<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
-							<li><a href="{{ route('claimAnalytics') }}">Benefit Claim Analytics</a></li>
 						</ul>
 					</li>
 				@endif
@@ -202,11 +188,6 @@
 						<ul class="submenu">
 							<li><a href="{{ route('applyBenefitClaim') }}">Apply Benefit Claim</a></li>
 							<li><a href="{{ route('manageClaimRequest') }}">Manage Claim Request</a></li>
-							@if (Auth::user()->isManager())
-								<li><a href="{{ route('claimAnalytics2') }}">Benefit Claim Analytics</a></li>
-							@else
-								<li><a href="{{ route('claimAnalytics3') }}">Benefit Claim Analytics</a></li>
-							@endif
 						</ul>
 					</li>
 				@endif
@@ -219,11 +200,6 @@
 						<ul class="submenu">
 							<li><a href="{{ route('addTrainingProgram') }}">Add Training Program</a></li>
 							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
-							@if (Auth::user()->isAdmin())
-								<li><a href="{{ route('trainingAnaytics') }}">Training Program Analytics</a></li>
-							@else
-								<li><a href="{{ route('trainingAnaytics2') }}">Training Program Analytics</a></li>
-							@endif
 						</ul>
 					</li>
 				@endif
@@ -235,10 +211,46 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{{ route('manageTrainingProgram') }}">Manage Training Program</a></li>
-							<li><a href="{{ route('trainingAnaytics2') }}">Training Program Analytics</a></li>
 						</ul>
 					</li>
 				@endif
+
+				<li class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle">
+						<span class="micon dw dw-analytics1"></span><span class="mtext">Analytics</span>
+					</a>
+					<ul class="submenu">
+						@if (Auth::user()->isAdmin())
+							<li><a href="{{ route('taskAnalyticsPage') }}">Task Analytics</a></li>
+						@elseif(Auth::user()->isAccess('hrmanager', 'manager'))
+							<li><a href="{{ route('taskAnalyticsPage2') }}">Task Analytics</a></li>
+						@else
+							<li><a href="{{ route('taskAnalyticsPage3') }}">Task Analytics</a></li>
+						@endif
+
+						@if(Auth::user()->isAdmin())
+							<li><a href="{{ route('leaveAnalytics') }}">Leave Analytics</a></li>
+						@elseif (Auth::user()->isAccess('hrmanager', 'manager'))
+							<li><a href="{{ route('leaveAnalytics2') }}">Leave Analytics</a></li>
+						@else
+							<li><a href="{{ route('leaveAnalytics3') }}">Leave Analytics</a></li>
+						@endif
+						
+						@if(Auth::user()->isAdmin())
+							<li><a href="{{ route('claimAnalytics') }}">Benefit Claim Analytics</a></li>
+						@elseif (Auth::user()->isAccess('hrmanager', 'manager'))
+							<li><a href="{{ route('claimAnalytics2') }}">Benefit Claim Analytics</a></li>
+						@else
+							<li><a href="{{ route('claimAnalytics3') }}">Benefit Claim Analytics</a></li>
+						@endif
+
+						@if (Auth::user()->isAdmin())
+							<li><a href="{{ route('trainingAnaytics') }}">Training Program Analytics</a></li>
+						@else
+							<li><a href="{{ route('trainingAnaytics2') }}">Training Program Analytics</a></li>
+						@endif
+					</ul>
+				</li>
 
 				<li>
 					<div class="dropdown-divider"></div>
