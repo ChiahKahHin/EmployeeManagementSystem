@@ -224,6 +224,10 @@
             </thead>
             <tbody>
 				<tr>
+					<td class="font-weight-bold">Manager</td>
+					<td>{{ $delegation->getManager->getFullName() }}</td>
+				</tr>
+				<tr>
 					<td class="font-weight-bold">Delegate Manager</td>
 					<td>{{ $delegation->getDelegateManager->getFullName() }}</td>
 				</tr>

@@ -22,6 +22,7 @@
 				<thead>
 					<tr>
 						<th>#</th>
+						<th>Manager</th>
 						<th>Delegate Manager</th>
 						<th>Start Date</th>
 						<th>End Date</th>
@@ -34,6 +35,7 @@
 						
 					<tr>
 						<td>{{ $loop->iteration }}</td>
+						<td class="table-plus">{{ $delegation->getManager->getFullName() }}</td>
 						<td class="table-plus">{{ $delegation->getDelegateManager->getFullName() }}</td>
 						<td>{{ date("d F Y", strtotime($delegation->startDate)) }} </td>
 						<td>{{ date("d F Y", strtotime($delegation->endDate)) }} </td>

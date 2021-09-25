@@ -96,7 +96,12 @@ class DelegationController extends Controller
 
     public function manageDelegation()
     {
-        $delegations = Delegation::with('getDelegateManager')->where('managerID', Auth::id())->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
+        if(Auth::user()->isAdmin()){
+            $delegations = Delegation::with('getDelegateManager')->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
+        }
+        else{
+            $delegations = Delegation::with('getDelegateManager')->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
+        }
 
         return view('manageDelegation', ['delegations' => $delegations]);
     }

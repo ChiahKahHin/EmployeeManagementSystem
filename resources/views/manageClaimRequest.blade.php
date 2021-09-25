@@ -25,7 +25,7 @@
 						<th>Claim Type</th>
 						<th>Claim Amount</th>
 						<th>Claim Date</th>
-						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+						@if (!Auth::user()->isEmployee())
 							<th>Claim Employee</th>
 						@endif
 						<th>Claim Status</th>
@@ -39,7 +39,7 @@
 						<td class="table-plus">{{ ucwords($claimRequest->getClaimType->claimType) }}</td>
 						<td>RM {{ $claimRequest->claimAmount }}</td>
 						<td>{{ date("d F Y", strtotime($claimRequest->claimDate)) }} </td>
-						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+						@if (!Auth::user()->isEmployee())
 							<td>{{ $claimRequest->getEmployee->getFullName() }} </td>
 						@endif
 						<td>{!! $claimRequest->getStatus() !!}</td>

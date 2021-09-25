@@ -28,7 +28,7 @@
 							@endif" 
 					
 						class="dropdown-toggle no-arrow">
-						<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
+						<span class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
 					</a>
 				</li>
 
@@ -63,10 +63,7 @@
 					
 				@endif
 				
-				@php
-					$count = DB::select('select count(reportingManager) as count from employee where reportingManager = '.Auth::id().'');
-				@endphp
-				@if ($count[0]->count > 0)
+				@if (Auth::user()->isAccess('admin', 'hrmanager', 'manager'))
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-user3"></span><span class="mtext">Approval Delegation</span>

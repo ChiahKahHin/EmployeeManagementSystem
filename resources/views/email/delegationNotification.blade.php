@@ -19,6 +19,10 @@ Approval delegation was cancelled by the existing manager.
 | {{ $delegation->getManager->getFullName() }} | {{  date("d F Y", strtotime($delegation->startDate)) }} | {{  date("d F Y", strtotime($delegation->endDate)) }} | {{ $delegation->getStatus() }} |
 @endcomponent
 
+@component('mail::button', ['url' => url(Redirect::intended("/viewDelegation/$delegation->id")->getTargetUrl())])
+View Delegation Details
+@endcomponent
+
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent
