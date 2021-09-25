@@ -58,7 +58,7 @@ class ProfileController extends Controller
             'dateOfBirth' => 'required|before:tomorrow',
             'gender' => 'required',
             'address' => 'required|max:255',
-            'ic' => 'required|min:12|max:12',
+            'ic' => 'required|max:255',
             'nationality' => 'required',
             'citizenship' => 'required',
             'religion' => 'required',
@@ -73,8 +73,8 @@ class ProfileController extends Controller
             'emergencyContactName' => 'required|max:255',
             'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyAddress' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users,email,'.$id.'',
-            'username' => 'required|max:255|unique:users,username,'.$id.'',
+            'email' => 'required|email|max:255|unique:employee,email,'.$id.'',
+            'username' => 'required|max:255|unique:employee,username,'.$id.'',
         ]);
         
         $employee = User::findOrFail($id);

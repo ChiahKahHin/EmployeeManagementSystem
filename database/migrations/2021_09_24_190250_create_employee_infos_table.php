@@ -15,7 +15,7 @@ class CreateEmployeeInfosTable extends Migration
     public function up()
     {
         Schema::create('employee_info', function (Blueprint $table) {
-            $table->bigInteger('userID')->primary();
+            $table->bigInteger('employeeID')->primary();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('contactNumber');
@@ -42,7 +42,7 @@ class CreateEmployeeInfosTable extends Migration
 
         //Super Admin
         EmployeeInfo::create([
-            "userID" => 1,
+            "employeeID" => 1,
             "firstname" => "Hugo",
             "lastname" => "1",
             "contactNumber" => "012-4783999",
@@ -62,7 +62,7 @@ class CreateEmployeeInfosTable extends Migration
         
         //HR Manager
         EmployeeInfo::create([
-            "userID" => 2,
+            "employeeID" => 2,
             "firstname" => "Jeremy",
             "lastname" => "1",
             "contactNumber" => "012-4783999",
@@ -81,7 +81,7 @@ class CreateEmployeeInfosTable extends Migration
         ]);
 
         EmployeeInfo::create([
-            "userID" => 3,
+            "employeeID" => 3,
             "firstname" => "Jeremy",
             "lastname" => "2",
             "contactNumber" => "012-4783999",
@@ -101,7 +101,7 @@ class CreateEmployeeInfosTable extends Migration
 
         //IT manager
         EmployeeInfo::create([
-            "userID" => 4,
+            "employeeID" => 4,
             "firstname" => "Calvin",
             "lastname" => "1",
             "contactNumber" => "012-4783999",
@@ -120,10 +120,7 @@ class CreateEmployeeInfosTable extends Migration
         ]);
 
         EmployeeInfo::create([
-            "userID" => 5,
-            "username" => "itmanager2",
-            "email" => "ITmanager2@gmail.com",
-            "employeeID" => "E005",
+            "employeeID" => 5,
             "firstname" => "Calvin",
             "lastname" => "2",
             "contactNumber" => "012-4783999",
@@ -143,10 +140,7 @@ class CreateEmployeeInfosTable extends Migration
 
         //employee
         EmployeeInfo::create([
-            "userID" => 6,
-            "username" => "emp",
-            "email" => "emp@gmail.com",
-            "employeeID" => "E006",
+            "employeeID" => 6,
             "firstname" => "Anderson",
             "lastname" => "1",
             "contactNumber" => "012-4783999",
@@ -172,10 +166,7 @@ class CreateEmployeeInfosTable extends Migration
         ]);
 
         EmployeeInfo::create([
-            "userID" => 7,
-            "username" => "emp2",
-            "email" => "emp2@gmail.com",
-            "employeeID" => "E007",
+            "employeeID" => 7,
             "firstname" => "Anderson",
             "lastname" => "2",
             "contactNumber" => "012-4783999",
@@ -194,10 +185,7 @@ class CreateEmployeeInfosTable extends Migration
         ]);
 
         EmployeeInfo::create([
-            "userID" => 8,
-            "username" => "emp3",
-            "email" => "emp3@gmail.com",
-            "employeeID" => "E008",
+            "employeeID" => 8,
             "firstname" => "Veronica",
             "lastname" => "1",
             "contactNumber" => "012-4783999",

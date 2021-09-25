@@ -72,9 +72,9 @@ class EmployeeController extends Controller
             'emergencyContactName' => 'required|max:255',
             'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyAddress' => 'required|max:255',
-            'username' => 'required|max:255|unique:users,username',
-            'email' => 'required|email|max:255|unique:users,email',
-            'employeeID' => 'required|max:255|unique:users,employeeID',
+            'username' => 'required|max:255|unique:employee,username',
+            'email' => 'required|email|max:255|unique:employee,email',
+            'employeeID' => 'required|max:255|unique:employee,employeeID',
             'department' => 'required',
             'position' => 'required',
             'reportingManager' => 'required',
@@ -102,7 +102,7 @@ class EmployeeController extends Controller
         $employee->save();
 
         $employeeInfo = new EmployeeInfo();
-        $employeeInfo->userID = $employee->id;
+        $employeeInfo->employeeID = $employee->id;
         $employeeInfo->firstname = $request->firstname;
         $employeeInfo->lastname = $request->lastname;
         $employeeInfo->contactNumber = $request->contactNumber;
@@ -176,9 +176,9 @@ class EmployeeController extends Controller
             'emergencyContactName' => 'required|max:255',
             'emergencyContactNumber' => 'required|regex:/^(\+6)?01[0-46-9]-[0-9]{7,8}$/|max:14',
             'emergencyAddress' => 'required|max:255',
-            'username' => 'required|max:255|unique:users,username,'.$id.'',
-            'email' => 'required|email|max:255|unique:users,email,'.$id.'',
-            'employeeID' => 'required|max:255|unique:users,employeeID,'.$id.'',
+            'username' => 'required|max:255|unique:employee,username,'.$id.'',
+            'email' => 'required|email|max:255|unique:employee,email,'.$id.'',
+            'employeeID' => 'required|max:255|unique:employee,employeeID,'.$id.'',
             'department' => 'required',
             'position' => 'required',
             'reportingManager' => 'required',

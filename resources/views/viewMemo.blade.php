@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Description</td>
-					<td>{{ ucfirst($memo->memoDescription) }}</td>
+					<td>{!! nl2br($memo->memoDescription) !!}</td>
 				</tr>
 				<tr>
 					<td class="font-weight-bold">Date</td>

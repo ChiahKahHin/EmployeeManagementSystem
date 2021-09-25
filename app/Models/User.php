@@ -19,7 +19,7 @@ class User extends Authenticatable
         3 => 'employee',
     ];
 
-    protected $table = "users";
+    protected $table = "employee";
 
     /**
      * The attributes that are mass assignable.
@@ -65,7 +65,7 @@ class User extends Authenticatable
     }
 
     public function getEmployeeInfo(){
-        return $this->hasOne(EmployeeInfo::class, "userID");
+        return $this->hasOne(EmployeeInfo::class, "employeeID");
     }
 
     public function isAdmin(){

@@ -11,7 +11,7 @@ class EmployeeInfo extends Model
 
     protected $table = "employee_info";
 
-    protected $primaryKey = "userID";
+    protected $primaryKey = "employeeID";
  
     public $timestamps = false;
 
@@ -21,7 +21,7 @@ class EmployeeInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'userID',
+        'employeeID',
         'firstname',
         'lastname',
         'contactNumber',
