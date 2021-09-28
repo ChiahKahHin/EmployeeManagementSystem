@@ -79,9 +79,9 @@ class ClaimAnalyticsController extends Controller
         else{
             $statuses = ClaimRequest::select('claim_requests.claimStatus')->distinct()
                              ->where('claim_requests.updated_at', 'like', ''.$year.'%')
-                             ->join('users', function ($join) use ($department){
-                                $join->on('claim_requests.claimEmployee', 'users.id')
-                                     ->where('users.department', $department);
+                             ->join('employee', function ($join) use ($department){
+                                $join->on('claim_requests.claimEmployee', 'employee.id')
+                                     ->where('employee.department', $department);
                              })
                              ->orderBy('claim_requests.claimStatus', 'ASC')->get();
             foreach ($statuses as $status) {
@@ -92,9 +92,9 @@ class ClaimAnalyticsController extends Controller
             for ($i=0; $i < count($claimStatus); $i++) { 
                 $claims = ClaimRequest::where('claim_requests.claimStatus', $claimStatus[$i])
                               ->where('claim_requests.updated_at', 'like', ''.$year.'%')
-                              ->join('users', function ($join) use ($department){
-                                $join->on('claim_requests.claimEmployee', 'users.id')
-                                     ->where('users.department', $department);
+                              ->join('employee', function ($join) use ($department){
+                                $join->on('claim_requests.claimEmployee', 'employee.id')
+                                     ->where('employee.department', $department);
                              })
                               ->count();
                 array_push($claimNumber, $claims);
@@ -126,9 +126,9 @@ class ClaimAnalyticsController extends Controller
             $approvedClaims = ClaimRequest::select('claim_requests.updated_at as claimUpdatedAt')
                                    ->where('claim_requests.updated_at', 'like', ''.$year.'%')
                                    ->where('claim_requests.claimStatus', 2)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('claim_requests.claimEmployee', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('claim_requests.claimEmployee', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($approvedClaims as $approvedClaim) {
                 $updated_at = new Carbon($approvedClaim->claimUpdatedAt);
@@ -139,10 +139,10 @@ class ClaimAnalyticsController extends Controller
             $rejectedClaims = ClaimRequest::select('claim_requests.updated_at as claimUpdatedAt')
                                     ->where('claim_requests.updated_at', 'like', ''.$year.'%')
                                     ->where('claim_requests.claimStatus', 1)
-                                    ->join('users', function ($join) use ($department) {
-                                        $join->on('claim_requests.claimEmployee', 'users.id')
-                                            ->select('users.departmet')
-                                            ->where('users.department', $department);
+                                    ->join('employee', function ($join) use ($department) {
+                                        $join->on('claim_requests.claimEmployee', 'employee.id')
+                                            ->select('employee.departmet')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($rejectedClaims as $rejectedClaim) {
                 $updated_at = new Carbon($rejectedClaim->claimUpdatedAt);
@@ -169,9 +169,9 @@ class ClaimAnalyticsController extends Controller
             $claims = ClaimRequest::select('claim_requests.claimAmount', 'claim_requests.updated_at as claimUpdatedAt')
                                    ->where('claim_requests.updated_at', 'like', ''.$year.'%')
                                    ->where('claim_requests.claimStatus', 2)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('claim_requests.claimEmployee', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('claim_requests.claimEmployee', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($claims as $claim) {
                 $updated_at = new Carbon($claim->claimUpdatedAt);
@@ -191,9 +191,9 @@ class ClaimAnalyticsController extends Controller
                                    ->where('claim_requests.updated_at', 'like', ''.$year.'%')
                                    ->where('claim_requests.claimStatus', 2)
                                    ->where('claim_requests.claimType', $claimType)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('claim_requests.claimEmployee', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('claim_requests.claimEmployee', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($claims as $claim) {
                 $updated_at = new Carbon($claim->claimUpdatedAt);

@@ -77,9 +77,9 @@ class TaskAnalyticsController extends Controller
         else{
             $statuses = Task::select('tasks.status')->distinct()
                              ->where('tasks.updated_at', 'like', ''.$year.'%')
-                             ->join('users', function ($join) use ($department){
-                                $join->on('tasks.personInCharge', 'users.id')
-                                     ->where('users.department', $department);
+                             ->join('employee', function ($join) use ($department){
+                                $join->on('tasks.personInCharge', 'employee.id')
+                                     ->where('employee.department', $department);
                              })
                              ->orderBy('tasks.status', 'ASC')->get();
             foreach ($statuses as $status) {
@@ -90,9 +90,9 @@ class TaskAnalyticsController extends Controller
             for ($i=0; $i < count($taskStatus); $i++) { 
                 $tasks = Task::where('tasks.status', $taskStatus[$i])
                               ->where('tasks.updated_at', 'like', ''.$year.'%')
-                              ->join('users', function ($join) use ($department){
-                                $join->on('tasks.personInCharge', 'users.id')
-                                     ->where('users.department', $department);
+                              ->join('employee', function ($join) use ($department){
+                                $join->on('tasks.personInCharge', 'employee.id')
+                                     ->where('employee.department', $department);
                              })
                               ->count();
                 array_push($taskNumber, $tasks);
@@ -123,9 +123,9 @@ class TaskAnalyticsController extends Controller
             $tasks = Task::select('tasks.updated_at as taskUpdatedAt', 'tasks.dueDate')
                            ->where('tasks.updated_at', 'like', ''.$year.'%')
                            ->where('tasks.status', 3)
-                           ->join('users', function ($join) use ($department) {
-                               $join->on('tasks.personInCharge', 'users.id')
-                                    ->where('users.department', $department);
+                           ->join('employee', function ($join) use ($department) {
+                               $join->on('tasks.personInCharge', 'employee.id')
+                                    ->where('employee.department', $department);
                            })->get();
             foreach ($tasks as $task) {
                 $updated_at = new Carbon($task->taskUpdatedAt);
@@ -163,9 +163,9 @@ class TaskAnalyticsController extends Controller
             $approvedTasks = Task::select('tasks.updated_at as taskUpdatedAt')
                                    ->where('tasks.updated_at', 'like', ''.$year.'%')
                                    ->where('tasks.status', 3)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('tasks.personInCharge', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('tasks.personInCharge', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($approvedTasks as $approvedTask) {
                 $updated_at = new Carbon($approvedTask->taskUpdatedAt);
@@ -176,9 +176,9 @@ class TaskAnalyticsController extends Controller
             $rejectedTasks = Task::select('tasks.updated_at as taskUpdatedAt')
                                     ->where('tasks.updated_at', 'like', ''.$year.'%')
                                     ->where('tasks.status', 2)
-                                    ->join('users', function ($join) use ($department) {
-                                        $join->on('tasks.personInCharge', 'users.id')
-                                            ->where('users.department', $department);
+                                    ->join('employee', function ($join) use ($department) {
+                                        $join->on('tasks.personInCharge', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($rejectedTasks as $rejectedTask) {
                 $updated_at = new Carbon($rejectedTask->taskUpdatedAt);

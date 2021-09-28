@@ -78,9 +78,9 @@ class LeaveAnalyticsController extends Controller
         else{
             $statuses = LeaveRequest::select('leave_requests.leaveStatus')->distinct()
                              ->where('leave_requests.updated_at', 'like', ''.$year.'%')
-                             ->join('users', function ($join) use ($department){
-                                $join->on('leave_requests.employeeID', 'users.id')
-                                     ->where('users.department', $department);
+                             ->join('employee', function ($join) use ($department){
+                                $join->on('leave_requests.employeeID', 'employee.id')
+                                     ->where('employee.department', $department);
                              })
                              ->orderBy('leave_requests.leaveStatus', 'ASC')->get();
             foreach ($statuses as $status) {
@@ -91,9 +91,9 @@ class LeaveAnalyticsController extends Controller
             for ($i=0; $i < count($leaveStatus); $i++) { 
                 $leaves = LeaveRequest::where('leave_requests.leaveStatus', $leaveStatus[$i])
                               ->where('leave_requests.updated_at', 'like', ''.$year.'%')
-                              ->join('users', function ($join) use ($department){
-                                $join->on('leave_requests.employeeID', 'users.id')
-                                     ->where('users.department', $department);
+                              ->join('employee', function ($join) use ($department){
+                                $join->on('leave_requests.employeeID', 'employee.id')
+                                     ->where('employee.department', $department);
                              })
                               ->count();
                 array_push($leaveNumber, $leaves);
@@ -125,9 +125,9 @@ class LeaveAnalyticsController extends Controller
             $approvedLeaves = LeaveRequest::select('leave_requests.updated_at as leaveUpdatedAt')
                                    ->where('leave_requests.updated_at', 'like', ''.$year.'%')
                                    ->where('leave_requests.leaveStatus', 2)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('leave_requests.employeeID', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('leave_requests.employeeID', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($approvedLeaves as $approvedLeave) {
                 $updated_at = new Carbon($approvedLeave->leaveUpdatedAt);
@@ -138,10 +138,10 @@ class LeaveAnalyticsController extends Controller
             $rejectedLeaves = LeaveRequest::select('leave_requests.updated_at as leaveUpdatedAt')
                                     ->where('leave_requests.updated_at', 'like', ''.$year.'%')
                                     ->where('leave_requests.leaveStatus', 1)
-                                    ->join('users', function ($join) use ($department) {
-                                        $join->on('leave_requests.employeeID', 'users.id')
-                                            ->select('users.departmet')
-                                            ->where('users.department', $department);
+                                    ->join('employee', function ($join) use ($department) {
+                                        $join->on('leave_requests.employeeID', 'employee.id')
+                                            ->select('employee.departmet')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($rejectedLeaves as $rejectedLeave) {
                 $updated_at = new Carbon($rejectedLeave->leaveUpdatedAt);
@@ -168,9 +168,9 @@ class LeaveAnalyticsController extends Controller
             $leaves = LeaveRequest::select('leave_requests.leaveDuration', 'leave_requests.updated_at as leaveUpdatedAt')
                                    ->where('leave_requests.updated_at', 'like', ''.$year.'%')
                                    ->where('leave_requests.leaveStatus', 2)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('leave_requests.employeeID', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('leave_requests.employeeID', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($leaves as $leave) {
                 $updated_at = new Carbon($leave->leaveUpdatedAt);
@@ -190,9 +190,9 @@ class LeaveAnalyticsController extends Controller
                                    ->where('leave_requests.updated_at', 'like', ''.$year.'%')
                                    ->where('leave_requests.leaveStatus', 2)
                                    ->where('leave_requests.leaveType', $leaveType)
-                                   ->join('users', function ($join) use ($department) {
-                                        $join->on('leave_requests.employeeID', 'users.id')
-                                            ->where('users.department', $department);
+                                   ->join('employee', function ($join) use ($department) {
+                                        $join->on('leave_requests.employeeID', 'employee.id')
+                                            ->where('employee.department', $department);
                                     })->get();
             foreach ($leaves as $leave) {
                 $updated_at = new Carbon($leave->leaveUpdatedAt);
