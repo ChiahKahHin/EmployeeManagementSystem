@@ -16,7 +16,7 @@ class CreateCarriedForwardLeaveRulesTable extends Migration
     {
         Schema::create('carried_forward_leave_rule', function (Blueprint $table) {
             $table->id();
-            $table->integer('leaveLimit');
+            $table->double('leaveLimit');
             $table->date('useBefore');
             $table->integer('approval');
             $table->date('startDate');
