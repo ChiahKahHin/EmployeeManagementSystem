@@ -17,19 +17,30 @@ class CreateCarriedForwardLeavesTable extends Migration
         Schema::create('carried_forward_leaves', function (Blueprint $table) {
             $table->id();
             $table->integer('employeeID');
+            $table->integer('managerID')->nullable();
+            $table->integer('delegateManagerID')->nullable();
+            $table->string('rejectedReason')->nullable();
             $table->double('leaveLimit');
+            $table->date('useBefore');
+            $table->integer('status');
             $table->timestamps();
         });
 
-        CarriedForwardLeave::create([
-            'employeeID' => 6,
-            'leaveLimit' => 5
-        ]);
+        // CarriedForwardLeave::create([
+        //     'employeeID' => 6,
+        //     'managerID' => 4,
+        //     'leaveLimit' => 5,
+        //     'useBefore' => '2022-3-31',
+        //     'status' => 1
+        // ]);
 
-        CarriedForwardLeave::create([
-            'employeeID' => 7,
-            'leaveLimit' => 3
-        ]);
+        // CarriedForwardLeave::create([
+        //     'employeeID' => 7,
+        //     'managerID' => 4,
+        //     'leaveLimit' => 3,
+        //     'useBefore' => '2022-3-31',
+        //     'status' => 1
+        // ]);
     }
 
     /**

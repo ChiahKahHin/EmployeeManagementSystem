@@ -4,9 +4,11 @@ namespace App\Console\Commands;
 
 use App\Mail\CarriedForwardLeaveMail;
 use App\Models\CarriedForwardLeave;
+use App\Models\CarriedForwardLeaveRule;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -44,7 +46,7 @@ class CarriedForwardLeaveChecking extends Command
     public function handle()
     {
         //clear all existing carried forward leave
-        CarriedForwardLeave::truncate();
+        /*CarriedForwardLeave::truncate();
 
         //get original annual leave limit
         $oriAnnualLeaveLimit = LeaveType::where('leaveType', 'Annual Leave')->first();
@@ -113,7 +115,22 @@ class CarriedForwardLeaveChecking extends Command
             $carriedForwardLeave->save();
 
             Mail::to($carriedForwardLeave->getEmployee->email)->send(new CarriedForwardLeaveMail($carriedForwardLeave));
-        }
-        echo "Carried Forward Leave Checking done";
+        }*/
+
+        $rule = CarriedForwardLeaveRule::get()->first();
+        $useBefore = new Carbon($rule->useBefore);
+        $startDate = new Carbon($rule->startDate);
+        $endDate = new Carbon($rule->endDate);
+        echo $useBefore->addYear(1);
+        echo "\n";
+        echo $startDate->addYear(1);
+        echo "\n";
+        echo $endDate->addYear(1);
+        echo "\n";
+        $rule->useBefore = $useBefore;
+        $rule->startDate = $startDate;
+        $rule->endDate = $endDate;
+        $rule->save();
+        echo "Carried Forward Leave Configuration Updated Successfully";
     }
 }

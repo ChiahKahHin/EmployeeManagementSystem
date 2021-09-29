@@ -124,6 +124,27 @@
 									<li><a href="{{ route('manageLeaveType') }}">Manage Leave Type</a></li>
 								</ul>
 							</li>
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon dw dw-list pl-2"></span><span class="mtext">C/F Leave</span>
+								</a>
+								<ul class="submenu child">
+									<li><a href="{{ route('manageCarriedForwardLeave') }}">C/F Configuration</a></li>
+									@php
+										$check = false;
+										$rules = DB::select('select startDate, endDate from carried_forward_leave_rule where id = 1');
+										foreach ($rules as $rule) {
+											if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
+												$check = true;
+											}
+										}
+									@endphp
+									@if ($check)
+										<li><a href="{{ route('applyCarriedForwardLeave') }}">C/F Application</a></li>
+									@endif
+									<li><a href="{{ route('manageCarriedForwardLeaveRequest') }}">Manage C/F Requests</a></li>
+								</ul>
+							</li>
 							<li><a href="{{ route('manageWorkingDay') }}">Manage Working Day</a></li>
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
 							<li><a href="{{ route('viewLeaveBalance') }}">Leave Balance</a></li>
@@ -139,6 +160,42 @@
 							<span class="micon dw dw-calendar1"></span><span class="mtext">Leave</span>
 						</a>
 						<ul class="submenu">
+							@if (Auth::user()->isManager())
+								<li class="dropdown">
+									<a href="javascript:;" class="dropdown-toggle">
+										<span class="micon dw dw-list pl-2"></span><span class="mtext">C/F Leave</span>
+									</a>
+									<ul class="submenu child">
+										@php
+											$check = false;
+											$rules = DB::select('select startDate, endDate from carried_forward_leave_rule where id = 1');
+											foreach ($rules as $rule) {
+												if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
+													$check = true;
+												}
+											}
+										@endphp
+										@if ($check)
+											<li><a href="{{ route('applyCarriedForwardLeave') }}">C/F Application</a></li>
+										@endif
+										<li><a href="{{ route('manageCarriedForwardLeaveRequest') }}">Manage C/F Requests</a></li>
+									</ul>
+								</li>
+								
+							@else
+								@php
+								$check = false;
+								$rules = DB::select('select startDate, endDate from carried_forward_leave_rule where id = 1');
+								foreach ($rules as $rule) {
+									if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
+										$check = true;
+									}
+								}
+								@endphp
+								@if ($check)
+									<li><a href="{{ route('applyCarriedForwardLeave') }}">C/F Leave Application</a></li>
+								@endif
+							@endif
 							<li><a href="{{ route('leaveCalendar') }}">Leave Calendar</a></li>
 							<li><a href="{{ route('viewLeaveBalance') }}">Leave Balance</a></li>
 							<li><a href="{{ route('applyLeave') }}">Apply Leave</a></li>

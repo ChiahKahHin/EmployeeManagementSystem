@@ -14,7 +14,7 @@
 	[
 		'manageDepartment', 'managePosition', 'manageEmployee', 'manageTask', 'manageClaimCategory',
 		'manageClaimType', 'manageClaimRequest', 'manageMemo', 'manageTrainingProgram', 'managePublicHoliday',
-		'manageLeaveType', 'manageLeave', 'manageDelegation', 'viewTrainingProgram'
+		'manageLeaveType', 'manageLeave', 'manageDelegation', 'viewTrainingProgram', 'manageCarriedForwardLeaveRequest'
 	]
 @endphp
 @if (in_array($currentRouteName, $datatableRoutes))
@@ -32,7 +32,7 @@
 	$switcheryRoutes = 
 	[
 		'addEmployee', 'addLeaveType', 'addTask', 'addTrainingProgram', 'createMemo',
-		'editLeaveType', 'editMemo', 'editTrainingProgram'
+		'editLeaveType', 'editMemo', 'editTrainingProgram', 'manageCarriedForwardLeave'
 	]
 @endphp
 @if (in_array($currentRouteName, $switcheryRoutes))

@@ -25,7 +25,7 @@ class CreateLeaveTypesTable extends Migration
 
         LeaveType::create([
             'leaveType' => 'Annual Leave',
-            'leaveLimit' => 18,
+            'leaveLimit' => 12,
             'gender' => 'All',
             'maritalStatus' => 0,
         ]);

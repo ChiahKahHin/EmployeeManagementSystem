@@ -13,15 +13,17 @@ class CarriedForwardLeaveMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     private CarriedForwardLeave $carriedForwardLeave;
+    private $reason;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(CarriedForwardLeave $carriedForwardLeave)
+    public function __construct(CarriedForwardLeave $carriedForwardLeave, $reason = null)
     {
         $this->carriedForwardLeave = $carriedForwardLeave;
+        $this->reason = $reason;
     }
 
     /**
@@ -32,7 +34,20 @@ class CarriedForwardLeaveMail extends Mailable implements ShouldQueue
     public function build()
     {
         $subject = "Carried Forward Leave (".date('Y').")";
+        $subject = null;
+
+        switch ($this->carriedForwardLeave->status) {
+            case 0:
+                $subject = "Carried Forward Leave Waiting Approval";
+                break;
+            case 1:
+                $subject = "Carried Forward Leave Rejected";
+                break;
+            case 2:
+                $subject = "Carried Forward Leave Approved";
+                break;
+        }
         return $this->subject($subject)
-                    ->markdown('email.carriedForwardLeave', ['carriedForwardLeave' => $this->carriedForwardLeave]);
+                    ->markdown('email.carriedForwardLeave', ['carriedForwardLeave' => $this->carriedForwardLeave, 'reason' => $this->reason]);
     }
 }

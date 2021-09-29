@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
+use App\Http\Controllers\CarriedForwardLeaveRuleController;
 use App\Http\Controllers\ClaimTypeController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ClaimAnalyticsController;
@@ -200,6 +201,17 @@ Route::get('/managePublicHoliday', [PublicHolidayController::class, 'managePubli
 Route::get('/editPublicHoliday/{id}', [PublicHolidayController::class, 'editPublicHolidayForm'])->name('editPublicHoliday');
 Route::post('/editPublicHoliday/{id}', [PublicHolidayController::class, 'editPublicHoliday']);
 Route::get('/deletePublicHoliday/{id}', [PublicHolidayController::class, 'deletePublicHoliday'])->name('deletePublicHoliday');
+
+//Carried Forward Leave Configuration
+Route::get('/manageCarriedForwardLeave', [CarriedForwardLeaveRuleController::class, 'manageCarriedForwardLeaveForm'])->name('manageCarriedForwardLeave');
+Route::post('/manageCarriedForwardLeave', [CarriedForwardLeaveRuleController::class, 'manageCarriedForwardLeave']);
+Route::get('/applyCarriedForwardLeave', [CarriedForwardLeaveRuleController::class, 'applyCarriedForwardLeaveForm'])->name('applyCarriedForwardLeave');
+Route::post('/applyCarriedForwardLeave', [CarriedForwardLeaveRuleController::class, 'applyCarriedForwardLeave']);
+Route::get('/viewCarriedForwardLeave/{id}', [CarriedForwardLeaveRuleController::class, 'viewCarriedForwardLeave'])->name('viewCarriedForwardLeave');
+Route::get('/approveCFRequest/{id}', [CarriedForwardLeaveRuleController::class, 'approveCFRequest'])->name('approveCFRequest');
+Route::get('/rejectCFRequest/{id}/{reason}', [CarriedForwardLeaveRuleController::class, 'rejectCFRequest'])->name('rejectCFRequest');
+Route::get('/manageCarriedForwardLeaveRequest', [CarriedForwardLeaveRuleController::class, 'manageCarriedForwardLeaveRequest'])->name('manageCarriedForwardLeaveRequest');
+Route::get('/deleteCFRequest/{id}', [CarriedForwardLeaveRuleController::class, 'deleteCFRequest'])->name('deleteCFRequest');
 
 //Leave Type
 Route::get('/addLeaveType', [LeaveTypeController::class, 'addLeaveTypeForm'])->name('addLeaveType');

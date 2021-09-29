@@ -28,7 +28,7 @@
 	[
 		'manageDepartment', 'managePosition', 'manageEmployee', 'manageTask', 'manageClaimCategory',
 		'manageClaimType', 'manageClaimRequest', 'manageMemo', 'manageTrainingProgram', 'managePublicHoliday',
-		'manageLeaveType', 'manageLeave', 'manageDelegation', 'viewTrainingProgram'
+		'manageLeaveType', 'manageLeave', 'manageDelegation', 'viewTrainingProgram', 'manageCarriedForwardLeaveRequest'
 	]
 @endphp
 @if (in_array($currentRouteName, $datatablesRoutes))
@@ -37,12 +37,12 @@
 	
 @endif
 
-<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
+
 @php
 	$customCSSRoutes = 
 	[
 		'viewClaimRequest', 'viewDelegation', 'viewLeave', 'viewTask', 'editTrainingProgram',
-		'viewClaimRequest', 'viewTrainingProgram', 'viewTrainingProgram2'
+		'viewClaimRequest', 'viewTrainingProgram', 'viewTrainingProgram2', 'viewCarriedForwardLeave'
 	]
 @endphp
 @if (in_array($currentRouteName, $customCSSRoutes))
@@ -64,13 +64,13 @@
 	$switcheryRoutes = 
 	[
 		'addEmployee', 'addLeaveType', 'addTask', 'addTrainingProgram', 'createMemo',
-		'editLeaveType', 'editMemo', 'editTrainingProgram'
+		'editLeaveType', 'editMemo', 'editTrainingProgram', 'manageCarriedForwardLeave'
 	]
 @endphp
 @if (in_array($currentRouteName, $switcheryRoutes))
 	<link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/switchery/switchery.min.css') }}">
 @endif
-
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
 <!-- bootstrap-tagsinput css -->
 {{-- <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}"> --}}
 
@@ -92,7 +92,8 @@
 		'manageTask', 'manageTrainingProgram', 'manageWorkingDay', 'vuewClaimRequest', 'viewLeave',
 		'viewProfile', 'viewTask', 'viewTrainingProgram2', 'taskAnalyticsPage', 'taskAnalyticsPage2',
 		'taskAnalyticsPage3', 'leaveAnalytics', 'leaveAnalytics2', 'leaveAnalytics3', 'claimAnalytics',
-		'claimAnalytics2', 'claimAnalytics3', 'trainingAnaytics', 'trainingAnaytics2', 'viewClaimRequest'
+		'claimAnalytics2', 'claimAnalytics3', 'trainingAnaytics', 'trainingAnaytics2', 'viewClaimRequest',
+		'manageCarriedForwardLeave', 'viewCarriedForwardLeave', 'manageCarriedForwardLeaveRequest'
 	]
 @endphp
 @if (in_array($currentRouteName, $sweetAlertRoutes))
