@@ -376,7 +376,7 @@
 							showCancelButton: false,
 							//timer:3000
 						}).then(function(){
-							window.location.href = "/rejectClaimRequest/" + {{ $claimRequest->id }} + '/' + reason.value;
+							window.location.href = "/rejectClaimRequest/" + {{ $claimRequest->id }} + '/' + escape(reason.value);
 						});
 					}
 					else{

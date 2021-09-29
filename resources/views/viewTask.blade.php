@@ -339,7 +339,7 @@
 							showCancelButton: false,
 							//timer:3000
 						}).then(function(){
-							window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + reason.value;
+							window.location.href = "/rejectTask/" + {{ $task->id }} + '/' + escape(reason.value);
 						});
 					}
 					else{

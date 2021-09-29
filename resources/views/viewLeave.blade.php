@@ -331,7 +331,7 @@
 						<button type="button" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-block">Reject Leave Request</button>
 					</div>
 				</div>
-				@if (Auth::user()->isAdmin())
+				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<br>
 				@endif
 			@endif
@@ -454,7 +454,7 @@
 							showCancelButton: false,
 							//timer:3000
 						}).then(function(){
-							window.location.href = "/rejectLeaveRequest/" + {{ $leaveRequest->id }} + '/' + reason.value;
+							window.location.href = "/rejectLeaveRequest/" + {{ $leaveRequest->id }} + '/' + escape(reason.value);
 						});
 					}
 					else{
