@@ -41,7 +41,7 @@ class EmployeeController extends Controller
 
     public function addEmployeeForm()
     {
-        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->get();
+        $managers = User::with('getDepartment', 'getEmployeeInfo')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->get();
         $departments = Department::all();
         $positions = Position::all();
 
@@ -137,7 +137,7 @@ class EmployeeController extends Controller
 
     public function manageEmployee()
     {
-        $employees  = User::with('getDepartment')->where('id', '!=', Auth::id())->get();
+        $employees  = User::with('getDepartment', 'getEmployeeInfo')->where('id', '!=', Auth::id())->get();
 
         return view('manageEmployee', ['employees' => $employees]);
     }
@@ -147,7 +147,7 @@ class EmployeeController extends Controller
         $employees = User::findOrFail($id);
         $departments = Department::all();
         $positions = Position::all();
-        $managers = User::with('getDepartment')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->where('id', '!=', $id)->get();
+        $managers = User::with('getDepartment', 'getEmployeeInfo')->orderBy('role', 'DESC')->whereIn('role', [0,1,2])->where('id', '!=', $id)->get();
 
         return view('editEmployee', ['employees' => $employees, 'departments' => $departments, 'managers' => $managers, 'nationalities' => $this->nationalities, 'positions' => $positions]);
     }
