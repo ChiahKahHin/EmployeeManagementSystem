@@ -19,7 +19,7 @@ class DelegationController extends Controller
 
     public function addDelegationForm()
     {
-        $managers = User::with('getDepartment')->where('role', '!=', 3)->where('id', '!=', Auth::id())->orderBy('role', 'DESC')->get();
+        $managers = User::with('getDepartment', 'getEmployeeInfo')->where('role', '!=', 3)->where('id', '!=', Auth::id())->orderBy('role', 'DESC')->get();
 
         return view('addDelegation', ['managers' => $managers]);
     }
@@ -97,10 +97,10 @@ class DelegationController extends Controller
     public function manageDelegation()
     {
         if(Auth::user()->isAdmin()){
-            $delegations = Delegation::with('getDelegateManager')->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
+            $delegations = Delegation::with('getManager.getEmployeeInfo', 'getDelegateManager.getEmployeeInfo')->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
         }
         else{
-            $delegations = Delegation::with('getDelegateManager')->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
+            $delegations = Delegation::with('getManager.getEmployeeInfo', 'getDelegateManager.getEmployeeInfo')->where('managerID', Auth::id())->orWhere('delegateManagerID', Auth::id())->orderBy('status', 'ASC')->orderBy('startDate', 'ASC')->get();
         }
 
         return view('manageDelegation', ['delegations' => $delegations]);
@@ -114,7 +114,7 @@ class DelegationController extends Controller
             $delegation->save();
         }
         else{
-            $users = User::where('reportingManager', Auth::id())->get();
+            $users = User::where('reportingManager', $delegation->managerID)->get();
             foreach ($users as $user) {
                 $user->delegateManager = null;
                 $user->save();

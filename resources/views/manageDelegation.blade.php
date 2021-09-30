@@ -48,11 +48,14 @@
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="{{ route('viewDelegation', ['id' => $delegation->id]) }}"><i class="dw dw-eye"></i> View</a>
-									@if ($delegation->status == 0 || $delegation->status == 1)
-										<a class="dropdown-item cancelDelegation" id="{{ $delegation->id }}" value="{{ $delegation->getDelegateManager->getFullName() }}"><i class="dw dw-cancel"></i> Cancel</a>
-									@else
-										<a class="dropdown-item deleteDelegation" id="{{ $delegation->id }}" value="{{ $delegation->getDelegateManager->getFullName() }}"><i class="dw dw-delete-3"></i> Delete</a>
-									@endif
+									@if (Auth::user()->isAdmin() || Auth::id() == $delegation->managerID)
+                                        @if ($delegation->status == 0 || $delegation->status == 1)
+                                            <a class="dropdown-item cancelDelegation" id="{{ $delegation->id }}" value="{{ $delegation->getDelegateManager->getFullName() }}"><i class="dw dw-cancel"></i> Cancel</a>
+                                        @endif
+                                    @endif
+                                    @if (Auth::user()->isAdmin() && $delegation->status > 1)
+                                        <a class="dropdown-item deleteDelegation" id="{{ $delegation->id }}" value="{{ $delegation->getDelegateManager->getFullName() }}"><i class="dw dw-delete-3"></i> Delete</a>
+                                    @endif
 								</div>
 							</div>
 						</td>
