@@ -64,17 +64,17 @@ class ClaimRequestController extends Controller
     public function manageClaimRequest()
     {
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
-            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->get();
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee.getEmployeeInfo')->get();
         }
         elseif(Auth::user()->isManager()){
-            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee.getEmployeeInfo')
                                           ->where('claimEmployee', Auth::user()->id)
                                           ->orWhere('claimManager', Auth::user()->id)
                                           ->orWhere('claimDelegateManager', Auth::user()->id)
                                           ->get();
         }
         else{
-            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee')->where('claimEmployee', Auth::user()->id)->get();
+            $claimRequests = ClaimRequest::with('getClaimType', 'getEmployee.getEmployeeInfo')->where('claimEmployee', Auth::user()->id)->get();
         }
 
         return view('manageClaimRequest',['claimRequests' => $claimRequests]);

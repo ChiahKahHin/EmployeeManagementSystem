@@ -216,7 +216,7 @@ class ClaimAnalyticsController extends Controller
         }
         rsort($overallClaimYears);
 
-        $personInCharges = ClaimRequest::with('getEmployee')->select('claimEmployee', 'claimStatus')->where('claimManager', Auth::id())->distinct()->get();
+        $personInCharges = ClaimRequest::with('getEmployee.getEmployeeInfo')->select('claimEmployee', 'claimStatus')->where('claimManager', Auth::id())->distinct()->get();
 
         $claimApprovedAndRejectedYears = array();
         $claimRequests = ClaimRequest::select('updated_at')->whereIn('claimStatus', [1, 2])->where('claimManager', Auth::id())->get();

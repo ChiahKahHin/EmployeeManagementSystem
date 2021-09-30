@@ -35,7 +35,7 @@ class ProfileController extends Controller
 
     public function viewProfile()
     {
-        $employees = User::find(Auth::id());
+        $employees = User::with('getEmployeeInfo', 'getDepartment')->where('id', Auth::id())->get()->first();
 
         return view('viewProfile', ['employees' => $employees]);
     }

@@ -213,7 +213,7 @@ class LeaveAnalyticsController extends Controller
         }
         rsort($overallLeaveYears);
 
-        $personInCharges = LeaveRequest::with('getEmployee')->select('employeeID', 'leaveStatus')->where('managerID', Auth::id())->distinct()->get();
+        $personInCharges = LeaveRequest::with('getEmployee.getEmployeeInfo')->select('employeeID', 'leaveStatus')->where('managerID', Auth::id())->distinct()->get();
 
         $leaveApprovedAndRejectedYears = array();
         $leaveRequests = LeaveRequest::select('updated_at')->whereIn('leaveStatus', [1, 2])->where('managerID', Auth::id())->get();

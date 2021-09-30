@@ -201,7 +201,7 @@ class TaskAnalyticsController extends Controller
         }
         rsort($overallTaskYears);
 
-        $personInCharges = Task::with('getPersonInCharge')->select('personInCharge', 'status')->where('managerID', Auth::id())->distinct()->get();
+        $personInCharges = Task::with('getPersonInCharge.getEmployeeInfo')->select('personInCharge', 'status')->where('managerID', Auth::id())->distinct()->get();
 
         $taskCompletedYears = array();
         $tasks = Task::select('updated_at')->where('status', 3)->where('managerID', Auth::id())->get();

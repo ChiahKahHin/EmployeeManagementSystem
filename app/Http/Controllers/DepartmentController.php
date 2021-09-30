@@ -51,7 +51,7 @@ class DepartmentController extends Controller
     {
         $this->validate($request, [
             'departmentCode' => 'required|max:255|unique:departments,departmentCode,'.$id.'',
-            'departmentName' => 'required|max:255|unique:departments,departmentName'.$id.''
+            'departmentName' => 'required|max:255|unique:departments,departmentName,'.$id.''
         ]);
         
         $department = Department::findOrFail($id);

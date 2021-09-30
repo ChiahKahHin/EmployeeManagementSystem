@@ -66,7 +66,7 @@ class TrainingProgramController extends Controller
     public function viewTrainingProgram($id)
     {
         $training_program = TrainingProgram::find($id);
-        $trainingAttendees = TrainingAttendee::with('getEmployee')->where('trainingProgram', $id)->get();
+        $trainingAttendees = TrainingAttendee::with('getEmployee.getEmployeeInfo')->where('trainingProgram', $id)->get();
 
         return view('viewTrainingProgram', ['trainingProgram' => $training_program, 'trainingAttendees' => $trainingAttendees]);
     }

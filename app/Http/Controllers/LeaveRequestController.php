@@ -26,13 +26,13 @@ class LeaveRequestController extends Controller
         $publicHolidays = PublicHoliday::all();
 
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->get();
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee.getEmployeeInfo')->where('leaveStatus', 2)->get();
         }
         elseif(Auth::user()->isManager()){
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('employeeID', Auth::id())->orWhere('managerID', Auth::id())->where('leaveStatus', 2)->get();
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee.getEmployeeInfo')->where('employeeID', Auth::id())->orWhere('managerID', Auth::id())->where('leaveStatus', 2)->get();
         }
         else{
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')->where('leaveStatus', 2)->where('employeeID', Auth::id())->get();
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee.getEmployeeInfo')->where('leaveStatus', 2)->where('employeeID', Auth::id())->get();
         }
 
 		return view('leaveCalendar', ['publicHolidays' => $publicHolidays, 'leaveRequests' => $leaveRequests]);
@@ -201,13 +201,13 @@ class LeaveRequestController extends Controller
     public function manageLeave()
     {
         if(Auth::user()->isAdmin() || Auth::user()->isHrManager()){
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee.getEmployeeInfo')
                                            ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->get();
         }
         elseif(Auth::user()->isManager()){
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee.getEmployeeInfo')
                                            ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->where('employeeID', Auth::id())
@@ -216,7 +216,7 @@ class LeaveRequestController extends Controller
                                            ->get();
         }
         else{
-            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee')
+            $leaveRequests = LeaveRequest::with('getLeaveType', 'getEmployee.getEmployeeInfo')
                                            ->orderBy('leaveStatus', 'ASC')
                                            ->orderBy('leaveStartDate', 'ASC')
                                            ->where('employeeID', Auth::user()->id)
