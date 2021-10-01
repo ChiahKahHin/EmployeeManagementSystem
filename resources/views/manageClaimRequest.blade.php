@@ -11,11 +11,26 @@
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Claim Requests
+			<h4 class="text-blue h4 pb-2">All Claim Requests
 				<a href="{{ route('applyBenefitClaim') }}" style="float: right" class="btn btn-outline-primary">
                     <i class="icon-copy dw dw-add"></i> Apply Benefit Claim
                 </a>
 			</h4>
+			<h6 class="text-blue h6">Claim Requests Status</h6>
+			@php
+				if(Auth::user()->isAccess('admin', 'hrmanager', 'manager')){
+					$statuses = array("To be approve", "Waiting Approval", "Rejected", "Approved", "Cancelled");
+				}
+				else{
+					$statuses = array("Waiting Approval", "Rejected", "Approved", "Cancelled");
+				}
+			@endphp
+			<select class="w-25 selectpicker" id="status" onchange="changeStatus();">
+				<option value="">All Claim Status</option>
+				@foreach ($statuses as $status)
+					<option value="{{ $status }}">{{ $status }}</option>
+				@endforeach
+			</select>
 		</div>
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
@@ -78,6 +93,16 @@
 
 @section('script')
 <script>
+	function changeStatus(){
+		table = $(".table").dataTable();
+		let value = document.getElementById('status').value;
+		@if (!Auth::user()->isEmployee())
+			table.fnFilter(value, 5, false, true, true, true);
+		@else
+			table.fnFilter(value, 4, false, true, true, true);
+		@endif
+	}
+
 	$(document).on('click', '.deleteClaimRequest', function() {
 		var claimId = $(this).attr('id');
 		var claimType = $(this).attr('value');

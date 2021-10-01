@@ -11,14 +11,30 @@
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Tasks
+			<h4 class="text-blue h4 pb-2">All Tasks
 				@if (!Auth::user()->isEmployee())
 					<a href="{{ route('addTask') }}" style="float: right" class="btn btn-outline-primary">
 						<i class="icon-copy dw dw-add"></i> Add Task
 					</a>
 				@endif
 			</h4>
+			<h6 class="text-blue h6">Task Status</h6>
+			@php
+				if(Auth::user()->isAccess('admin', 'hrmanager', 'manager')){
+					$statuses = array("Pending", "To be approve", "Waiting Approval", "Rejected", "Completed");
+				}
+				else{
+					$statuses = array("Pending", "Waiting Approval", "Rejected", "Completed");
+				}
+			@endphp
+			<select class="w-25 selectpicker" id="status" onchange="changeStatus();">
+				<option value="">All Task Status</option>
+				@foreach ($statuses as $status)
+					<option value="{{ $status }}">{{ $status }}</option>
+				@endforeach
+			</select>
 		</div>
+
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
 				<thead>
@@ -89,6 +105,12 @@
 
 @section('script')
     <script>
+		function changeStatus(){
+			table = $(".table").dataTable();
+			let value = document.getElementById('status').value;
+			table.fnFilter(value, 5, false, true, true, true);
+		}
+
         $(document).on('click', '.deleteTask', function() {
             var taskID = $(this).attr('id');
             var taskTitle = $(this).attr('value');

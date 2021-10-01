@@ -11,13 +11,23 @@
 @section('content')
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<h4 class="text-blue h4">All Training Program
+			<h4 class="text-blue h4 pb-2">All Training Program
 				@if (Auth::user()->isAccess('admin', 'hrmanager'))
 					<a href="{{ route('addTrainingProgram') }}" style="float: right" class="btn btn-outline-primary">
 						<i class="icon-copy dw dw-add"></i> Add Training Program
 					</a>
 				@endif
 			</h4>
+			<h6 class="text-blue h6">Training Program Status</h6>
+			@php
+				$statuses = array("Ongoing", "Completed");
+			@endphp
+			<select class="w-25 selectpicker" id="status" onchange="changeStatus();">
+				<option value="">All Training Program Status</option>
+				@foreach ($statuses as $status)
+					<option value="{{ $status }}">{{ $status }}</option>
+				@endforeach
+			</select>
 		</div>
 		<div class="pb-20">
 			<table class="data-table table stripe hover nowrap">
@@ -87,6 +97,12 @@
 
 @section('script')
     <script>
+		function changeStatus(){
+			table = $(".table").dataTable();
+			let value = document.getElementById('status').value;
+			table.fnFilter(value, 6, false, true, true, true);
+		}
+		
         $(document).on('click', '.deleteTrainingProgram', function() {
             var trainingProgramID = $(this).attr('id');
             var trainingProgramName = $(this).attr('value');
