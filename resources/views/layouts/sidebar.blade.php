@@ -132,10 +132,12 @@
 									<li><a href="{{ route('manageCarriedForwardLeave') }}">C/F Configuration</a></li>
 									@php
 										$check = false;
-										$rules = DB::select('select startDate, endDate from carried_forward_leave_rule where id = 1');
+										$rules = DB::select('select ableCF, approval, startDate, endDate from carried_forward_leave_rule where id = 1');
 										foreach ($rules as $rule) {
-											if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
-												$check = true;
+											if($rule->ableCF == 1 && $rule->approval == 1){
+												if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
+													$check = true;
+												}
 											}
 										}
 									@endphp
@@ -168,10 +170,12 @@
 									<ul class="submenu child">
 										@php
 											$check = false;
-											$rules = DB::select('select startDate, endDate from carried_forward_leave_rule where id = 1');
+											$rules = DB::select('select ableCF, approval, startDate, endDate from carried_forward_leave_rule where id = 1');
 											foreach ($rules as $rule) {
-												if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
-													$check = true;
+												if($rule->ableCF == 1 && $rule->approval == 1){
+													if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
+														$check = true;
+													}
 												}
 											}
 										@endphp
@@ -184,13 +188,15 @@
 								
 							@else
 								@php
-								$check = false;
-								$rules = DB::select('select startDate, endDate from carried_forward_leave_rule where id = 1');
-								foreach ($rules as $rule) {
-									if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
-										$check = true;
+									$check = false;
+									$rules = DB::select('select ableCF, approval, startDate, endDate from carried_forward_leave_rule where id = 1');
+									foreach ($rules as $rule) {
+										if($rule->ableCF == 1 && $rule->approval == 1){
+											if(date('Y-m-d') <= $rule->endDate && date('Y-m-d') >= $rule->startDate){
+												$check = true;
+											}
+										}
 									}
-								}
 								@endphp
 								@if ($check)
 									<li><a href="{{ route('applyCarriedForwardLeave') }}">C/F Leave Application</a></li>

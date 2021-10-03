@@ -16,17 +16,21 @@ class CreateCarriedForwardLeaveRulesTable extends Migration
     {
         Schema::create('carried_forward_leave_rule', function (Blueprint $table) {
             $table->id();
-            $table->double('leaveLimit');
-            $table->date('useBefore');
-            $table->integer('approval');
-            $table->date('startDate');
-            $table->date('endDate');
+            $table->integer('ableCF');
+            $table->integer('recurring');
+            $table->double('leaveLimit')->nullable();
+            $table->date('useBefore')->nullable();
+            $table->integer('approval')->nullable();
+            $table->date('startDate')->nullable();
+            $table->date('endDate')->nullable();
             $table->timestamps();
         });
 
         CarriedForwardLeaveRule::create([
             "id" => 1,
-            "leaveLimit" => 12,
+            "ableCF" => 1,
+            "recurring" => 1,
+            "leaveLimit" => 5,
             "useBefore" => "2022-3-31",
             "approval" => 1,
             "startDate" => "2021-11-1",

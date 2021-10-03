@@ -1,14 +1,3 @@
-{{-- @component('mail::message')
-Dear {{ $carriedForwardLeave->getEmployee->getFullName() }},
-
-Your carried forward leave for {{ date('Y') }} are <<b>{{ $carriedForwardLeave->leaveLimit }} days</b>>.
-
-Please use it before the end of {{ date('Y', strtotime('+1 year')) }}.
-
-Thanks,<br>
-{{ config('app.name') }}
-@endcomponent --}}
-
 @component('mail::message')
 @php
 	if($carriedForwardLeave->delegateManagerID == null){
@@ -34,6 +23,8 @@ Reason of carried forward leave request rejected: {{ $reason }}
 Dear {{ $carriedForwardLeave->getEmployee->getFullName() }},
 
 Your carried forward leave request is approved.
+
+Actual carried forward leave may differ, based on your actual annual leave approved.
 @endif
 
 <u><b>Leave Request Details</b></u>

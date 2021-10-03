@@ -55,7 +55,12 @@ class LeaveRequestController extends Controller
                                         ->whereYear('leaveStartDate', date('Y'))
                                         ->get();
 
-        $carriedForwardLeaves = CarriedForwardLeave::where('employeeID', Auth::id())->where('status', 2)->whereYear('useBefore', date('Y'))->where('useBefore', '>=', date('Y-m-d'))->get();
+        $carriedForwardLeaves = CarriedForwardLeave::where('employeeID', Auth::id())
+                                                    ->where('status', 2)
+                                                    ->whereYear('useBefore', date('Y'))
+                                                    ->where('useBefore', '>=', date('Y-m-d'))
+                                                    ->where('leaveLimit', '>', 0)
+                                                    ->get();
 
         return view('viewLeaveBalance', ['leaveTypes' => $leaveTypes, 'approvedLeaves' => $approvedLeaves, 'carriedForwardLeaves' => $carriedForwardLeaves]);
     }
@@ -74,7 +79,12 @@ class LeaveRequestController extends Controller
         $approvedLeaves = LeaveRequest::all()
                           ->where('employeeID', Auth::user()->id)
                           ->whereIn('leaveStatus', [0, 2]);
-        $carriedForwardLeaves = CarriedForwardLeave::where('employeeID', Auth::id())->where('status', 2)->whereYear('useBefore', date('Y'))->where('useBefore', '>=', date('Y-m-d'))->get();
+        $carriedForwardLeaves = CarriedForwardLeave::where('employeeID', Auth::id())
+                                                    ->where('status', 2)
+                                                    ->whereYear('useBefore', date('Y'))
+                                                    ->where('useBefore', '>=', date('Y-m-d'))
+                                                    ->where('leaveLimit', '>', 0)
+                                                    ->get();
         
         return view('applyLeave', ['leaveTypes' => $leaveTypes, 'approvedLeaves' => $approvedLeaves, 'carriedForwardLeaves' => $carriedForwardLeaves]);
     }

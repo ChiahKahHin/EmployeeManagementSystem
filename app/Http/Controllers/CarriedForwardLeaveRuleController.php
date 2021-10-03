@@ -28,14 +28,26 @@ class CarriedForwardLeaveRuleController extends Controller
     }
 
     public function manageCarriedForwardLeave(Request $request){
-        $this->validate($request, [
-            'leaveLimit' => 'required',
-            'useBefore' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'leaveLimit' => 'required',
+        //     'useBefore' => 'required',
+        //     'startDate' => 'required',
+        //     'endDate' => 'required',
+        // ]);
 
         $rule = CarriedForwardLeaveRule::find(1);
+        if($request->ableCF == 1){
+            $rule->ableCF = 1;
+        }
+        else{
+            $rule->ableCF = 0;
+        }
+        if($request->recurring == 1){
+            $rule->recurring = 1;
+        }
+        else{
+            $rule->recurring = 0;
+        }
         $rule->leaveLimit = $request->leaveLimit;
         $rule->useBefore = $request->useBefore;
         $rule->startDate = $request->startDate;

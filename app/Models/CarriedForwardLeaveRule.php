@@ -13,6 +13,8 @@ class CarriedForwardLeaveRule extends Model
 
     protected $fillable = [
         'id',
+        'ableCF',
+        'recurring',
         'leaveLimit',
         'useBefore',
         'approval',
