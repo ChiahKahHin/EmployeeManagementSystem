@@ -24,7 +24,7 @@ Dear {{ $carriedForwardLeave->getEmployee->getFullName() }},
 
 Your carried forward leave request is approved.
 
-Actual carried forward leave may differ, based on your actual annual leave approved.
+Actual carried forward leave may differ, based on your annual leave balance.
 @endif
 
 <u><b>Leave Request Details</b></u>
