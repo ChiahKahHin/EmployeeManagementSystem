@@ -37,7 +37,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label>New Password</label>
-						<input class="form-control @error('password') form-control-danger @enderror" type="password" name="password" placeholder="Enter new password" value="{{ old('password') }}" required>
+						<input class="form-control @error('password') form-control-danger @enderror" type="password" name="password" minlength="8" placeholder="Enter new password" value="{{ old('password') }}" required>
 						
 						@error("password")
 							<div class="text-danger text-sm">
@@ -52,7 +52,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label>Confirm New Password</label>
-						<input class="form-control @error('password_confirmation') form-control-danger @enderror" type="password" name="password_confirmation" placeholder="Enter confirm new password" value="{{ old('password_confirmation') }}" required>
+						<input class="form-control @error('password_confirmation') form-control-danger @enderror" type="password" name="password_confirmation" minlength="8" placeholder="Enter confirm new password" value="{{ old('password_confirmation') }}" required>
 						
 						@error("password_confirmation")
 							<div class="text-danger text-sm">
