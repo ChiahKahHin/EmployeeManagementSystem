@@ -135,7 +135,7 @@
 
 			<div class="row">
 				<div class="col-md-6">
-					<button type="submit" class="btn btn-primary btn-block">Apply Leave</button>
+					<button type="submit" id="applyLeaveBtn" class="btn btn-primary btn-block">Apply Leave</button>
 				</div>
 			</div>
 		</form>
@@ -235,10 +235,18 @@
 							var day = (leaveStartDate.getDate() - 1);
 						}
 						var maxLeaveEndDate = leaveStartDate.getFullYear() + "-" + month + "-" + day;
+						document.getElementById('leaveStartDate').disabled = false;
+						document.getElementById('leaveEndDate').disabled = false;
+						document.getElementById('applyLeaveBtn').disabled = false;
 						document.getElementById('leaveEndDate').value = null;
 						document.getElementById('leaveEndDate').setAttribute('min', document.getElementById('leaveStartDate').value);
 						document.getElementById('leaveEndDate').setAttribute('max', maxLeaveEndDate);
 					}
+				}
+				else{
+					document.getElementById('leaveStartDate').disabled = true;
+					document.getElementById('leaveEndDate').disabled = true;
+					document.getElementById('applyLeaveBtn').disabled = true;
 				}
 				//document.getElementById('leaveDuration').setAttribute('max', remainingLeave);
 
