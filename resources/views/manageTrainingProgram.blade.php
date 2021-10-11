@@ -38,7 +38,7 @@
 						<th>Venue</th>
 						<th>Date</th>
 						<th>Time</th>
-						@if (Auth::user()->isAdmin() || Auth::user()->isHrManager())
+						@if (Auth::user()->isAdmin())
 							<th class="text-center">Number of Attendees</th>
 						@else
 							<th>Registration Status</th>	
