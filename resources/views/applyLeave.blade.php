@@ -248,32 +248,6 @@
 					document.getElementById('leaveEndDate').disabled = true;
 					document.getElementById('applyLeaveBtn').disabled = true;
 				}
-				//document.getElementById('leaveDuration').setAttribute('max', remainingLeave);
-
-				/*var leaveDurationInput = document.getElementById('leaveDuration').value;
-
-				if(leaveDurationInput != ""){
-					remainingLeave = remainingLeave - leaveDurationInput;
-				}
-
-				if(leaveDurationInput != "" && leaveDurationInput < 1){
-					document.getElementById('leaveDurationLabel').innerHTML = "Leave Duration (Minimum is 1 day)";
-					document.getElementById('leaveDurationLabel').removeAttribute('style');
-				}
-				else{
-					if(leaveDurationInput == leaveBalance){
-						document.getElementById('leaveDurationLabel').innerHTML = "Leave Duration (Maximum leave duration is reached)";
-						document.getElementById('leaveDurationLabel').removeAttribute('style');
-					}
-					else if(remainingLeave >= 0){
-						document.getElementById('leaveDurationLabel').innerHTML = "Leave Duration (Remaining Leave Duration: " + remainingLeave + " days)";
-						document.getElementById('leaveDurationLabel').removeAttribute('style');
-					}
-					else{
-						document.getElementById('leaveDurationLabel').innerHTML = "Leave Duration (Exceed the leave duration)";
-						document.getElementById('leaveDurationLabel').setAttribute('style', 'color:red;');
-					}
-				}*/
 			}
 		}
 		function checkLeaveLimit2() 
