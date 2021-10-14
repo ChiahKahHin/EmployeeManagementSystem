@@ -10,10 +10,14 @@ Your task is overdue, please complete it as soon as possible.
 <u><b>Task Details</b></u>
 
 @component('mail::table')
-| Title | Description | Priority | Due Date | Status |
-|:-----:|:-----------:|:--------:|:--------:|:------:|
-| {{ $task->title }} | {{ $task->description }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} |
+| Title | Priority | Due Date | Status |
+|:-----:|:--------:|:--------:|:------:|
+| {{ $task->title }} | {{ $task->priority }} | {{  date("d F Y", strtotime($task->dueDate)) }} | {{ $task->getStatus() }} |
 @endcomponent
+
+<u>Task Description</u>
+
+{{ $task->description }}
 
 @component('mail::button', ['url' => url(Redirect::intended("/viewTask/$task->id")->getTargetUrl())])
 View Task
